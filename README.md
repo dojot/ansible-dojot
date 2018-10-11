@@ -9,6 +9,13 @@ Deploy dojot on Kubernetes using Ansible
 [//]: # "TODO: Inventory configuration"
 [//]: # "TODO: Deployment steps"
 
+## Inventory Variables
+
+A reference of the variables that have to be set on the inventory
+is found on the document:
+
+[Inventory Variables](docs/vars.md)
+
 ## License
 
 GPLv3

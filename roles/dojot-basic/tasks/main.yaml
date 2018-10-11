@@ -1,2 +1,10 @@
 
 # Create the dojot namespace that will be used for deployment
+
+- name: dojot - Create dojot namespace
+  k8s:
+    name: "{{ dojot_namespace }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    api_version: v1
+    kind: Namespace
+    state: present

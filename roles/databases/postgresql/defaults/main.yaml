@@ -1,0 +1,13 @@
+---
+# Set the version of the postgres container to be used
+dojot_psql_version: 9.6.10
+
+# Define credentials for the postgres super user
+dojot_psql_super_user: postgres
+dojot_psql_super_passwd: postgres
+
+# Name of the default db created by postgres
+dojot_psql_default_db: postgres
+
+# Port to be used with the postgreSQL DB
+dojot_psql_port: 5432
