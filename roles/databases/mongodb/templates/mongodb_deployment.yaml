@@ -1,0 +1,37 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: mongodb
+    app: dojot
+  name: mongodb
+  namespace: "{{ dojot_namespace }}"
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: mongodb
+        app: dojot
+    spec:
+      containers:
+      - image: "mongo:{{ dojot_mongodb_version }}"
+        name: mongodb
+#        command: TODO: Check if a command is necessary e.g. smallfilles, replicaset, prealloc
+
+        env:
+          - name: 'MONGO_INITDB_ROOT_USERNAME'
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: user
+          - name: 'MONGO_INITDB_ROOT_PASSWORD'
+            valueFrom:
+              secretKeyRef:
+                name: mongodb-secret
+                key: password
+      restartPolicy: Always
+      # TODO: Default mountpoint for the mongo data: /data/db
+      # TODO: Mount mongodb db init file
+      # TODO: View deploy strategies and restart policy

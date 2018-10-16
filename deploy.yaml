@@ -4,10 +4,9 @@
 
 # The group k8s-endpoint refer to the nodes that have access to the kubernetes api
 # Its is possible to run from localhost accessing a remote node by defining a kubeconfig file
-- hosts: k8s-endpoint[0]
+- hosts: dojot-k8s[0]
   gather_facts: true
   any_errors_fatal: true
-  when: dojot_bootstrap
   roles:
     - role: k8s-api-bootstrap
     - role: dojot-basic # Create the base for deploying dojot
@@ -15,7 +14,15 @@
 # Deploy postgreSQL to the environment
 # TODO: Add possibility of using an external postgres by setting DB config variables
 # TODO: Support both a simple postgreSQL and a HA cluster
-- hosts: k8s-endpoint[0]
+- hosts: dojot-k8s[0]
   any_errors_fatal: true
   roles:
     - role: databases/postgresql
+
+# Deploy mongoDB to the environment
+# TODO: Add possibility of using an external mongodb by setting DB config variables
+# TODO: Support both a simple mongoDB and a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: databases/mongodb

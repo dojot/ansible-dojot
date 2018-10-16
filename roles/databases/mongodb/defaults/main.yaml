@@ -1,0 +1,11 @@
+---
+
+# Define credentials for the postgres super user
+dojot_mongodb_super_user: mongodb
+dojot_mongodb_super_passwd: mongodb
+
+# Version of the mongo DB container foir dojot
+dojot_mongodb_version: 4
+
+# Port to be used with the postgreSQL DB
+dojot_mongodb_port: 27017
