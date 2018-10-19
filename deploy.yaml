@@ -11,6 +11,14 @@
     - role: k8s-api-bootstrap
     - role: dojot-basic # Create the base for deploying dojot
 
+# Deploy ZK to the environment
+# TODO: Add possibility of using an external zk by setting config variables
+# TODO: Support both a simple ZK and a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: zookeeper
+
 # Deploy postgreSQL to the environment
 # TODO: Add possibility of using an external postgres by setting DB config variables
 # TODO: Support both a simple postgreSQL and a HA cluster

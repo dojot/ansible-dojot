@@ -19,7 +19,6 @@ spec:
       - image: "mongo:{{ dojot_mongodb_version }}"
         name: mongodb
 #        command: TODO: Check if a command is necessary e.g. smallfilles, replicaset, prealloc
-
         env:
           - name: 'MONGO_INITDB_ROOT_USERNAME'
             valueFrom:
@@ -34,4 +33,4 @@ spec:
       restartPolicy: Always
       # TODO: Default mountpoint for the mongo data: /data/db
       # TODO: Mount mongodb db init file
-      # TODO: View deploy strategies and restart policy
+      # TODO: View deploy strategies

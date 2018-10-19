@@ -34,4 +34,4 @@ spec:
       restartPolicy: Always
       # TODO: Default mountpoint set by PGDATA: /var/lib/postgresql/data
       # TODO: Mount postgres db init file
-      # TODO: View deploy strategies and restart policy
+      # TODO: View deploy strategies
