@@ -6,14 +6,14 @@ metadata:
     name: zookeeper
     app: dojot
   name: zookeeper
-  namespace: "{{ dojot_namespace }}"
+  namespace: {{ dojot_namespace }}
 spec:
   selector:
     matchLabels:
       app: dojot
       name: zookeeper
   serviceName: zookeeper-cluster
-  replicas: 1
+  replicas: {{ dojot_zk_cluster_size }}
   updateStrategy:
     type: OnDelete
   podManagementPolicy: Parallel
@@ -45,13 +45,12 @@ spec:
             - /bin/bash
             - -xec
             - zkGenConfig.sh && exec zkServer.sh start-foreground
-          # TODO: Configure this ports
           ports:
-            - containerPort: 2181
+            - containerPort: {{ dojot_zk_client_port }}
               name: client
-            - containerPort: 2888
+            - containerPort: {{ dojot_zk_server_port }}
               name: server
-            - containerPort: 3888
+            - containerPort: {{ dojot_zk_election_port }}
               name: leader-election
           livenessProbe:
             exec:
@@ -72,16 +71,14 @@ spec:
             failureThreshold: 6
             successThreshold: 1
           env:
-            # TODO: Configure ports and other parameters
-            # TODO: ZK replicas mustbe matched with replicas of the statefulset up there /\
             - name: ZK_REPLICAS
-              value: "1"
+              value: "{{ dojot_zk_cluster_size | string }}"
             - name: ZK_CLIENT_PORT
-              value: "2181"
+              value: "{{ dojot_zk_client_port }}"
             - name: ZK_ELECTION_PORT
-              value: "3888"
+              value: "{{ dojot_zk_election_port }}"
             - name: ZK_SERVER_PORT
-              value: "2888"
+              value: "{{ dojot_zk_server_port }}"
             - name: ZK_HEAP_SIZE
               value: "2G"
             - name: ZK_INIT_LIMIT
@@ -102,7 +99,19 @@ spec:
               value: "10"
             - name: ZK_TICK_TIME
               value: "2000"
+{% if dojot_zk_persistent_volumes %}
+          volumeMounts:
+            - name: zk-volume
+              mountPath: /var/lib/zookeeper 
 
-      # TODO: Default mountpoint set: /var/lib/zookeeper
-      # TODO: Add persistent volumes
-      # TODO: Check if secrets are required, kafka secret, zk secret
+  volumeClaimTemplates:
+  - metadata:
+      name: zk-volume
+      namespace: {{ dojot_namespace }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_zk_volume_size }}
+{% endif %}         

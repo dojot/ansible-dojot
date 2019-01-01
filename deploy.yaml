@@ -13,7 +13,6 @@
 
 # Deploy ZK to the environment
 # TODO: Add possibility of using an external zk by setting config variables
-# TODO: Support both a simple ZK and a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   roles:
@@ -21,7 +20,7 @@
 
 # Deploy postgreSQL to the environment
 # TODO: Add possibility of using an external postgres by setting DB config variables
-# TODO: Support both a simple postgreSQL and a HA cluster
+# TODO: Support an a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   roles:
@@ -30,7 +29,23 @@
 # Deploy mongoDB to the environment
 # TODO: Add possibility of using an external mongodb by setting DB config variables
 # TODO: Support both a simple mongoDB and a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  roles:
-    - role: databases/mongodb
+# - hosts: dojot-k8s[0]
+#   any_errors_fatal: true
+#   roles:
+#     - role: databases/mongodb
+
+
+
+# TODO: Configure NGinx for https gui
+# TODO: Add history service
+# TODO: Add persister service
+# TODO: Add mongoDB database
+# TODO: Add iotagent-mosca with its redis
+# TODO: Add GUI service
+# TODO: Add the data-broker service with redis
+# TODO: Add device-manager with redis
+# TODO: Add auth service with redis
+# TODO: Add kong as apigw, run kong-migrations and configure routes
+# TODO: Add flowbroker service with redis and context-manager
+# TODO: Adds rabbitmq
+# TODO: Adds kafka

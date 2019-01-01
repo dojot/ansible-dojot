@@ -3,14 +3,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: zookeeper-client
-  namespace: dojot
+  namespace: {{ dojot_namespace }}
   labels:
     app: dojot
     name: zookeeper-client
 spec:
-  # TODO: Check if this ports should be configurable
   ports:
-  - port: 2181
+  - port: {{ dojot_zk_client_port }}
     name: client
     targetPort: client
   selector:

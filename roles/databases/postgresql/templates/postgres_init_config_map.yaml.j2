@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: postgres-init
+    namespace: {{ dojot_namespace }}
+data:
+    init-db.sh: |
+        #!/usr/bin/env bash
+
+        set -e
+
+        if ! psql -d postgres -U ${POSTGRES_USER} -t -c '\du' | cut -d \| -f 1 | grep -qw kong; then
+            echo 'creating user kong'
+            createuser kong -d -U ${POSTGRES_USER}
+        else
+            echo 'user kong exists'
+        fi
+        if ! psql -d postgres -U ${POSTGRES_USER} -lqt | cut -d \| -f 1 | grep -qw kong; then
+            echo 'creating database kong'
+            createdb kong -U kong
+        else
+            echo 'database kong exists'
+        fi
+
