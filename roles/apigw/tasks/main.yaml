@@ -1,0 +1,44 @@
+## This role is responsible for deploying Kong for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - API Gateway Internal service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'apigw_internal_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - API Gateway Secrets
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'apigw_secrets.yaml.j2') | from_yaml }}"
+
+- name: dojot - API Gateway Deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'apigw_deployment.yaml.j2') | from_yaml }}"
+
+- name: dojot - API Gateway Migration Job
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'apigw_migration_job.yaml.j2') | from_yaml }}"
+
+# - name: dojot - API Gateway Routes Config Map
+#   k8s:
+#     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+#     state: present
+#     definition: "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"
+
+# - name: dojot - API Gateway Routes Config Job
+#   k8s:
+#     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+#     state: present
+#     definition: "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
+
+# - name: dojot - API Gateway External service
+#   k8s:
+#     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+#     state: present
+#     definition: "{{ lookup('template', 'apigw_external_service.yaml.j2') | from_yaml }}"

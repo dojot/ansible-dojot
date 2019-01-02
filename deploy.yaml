@@ -34,7 +34,20 @@
   roles:
     - role: databases/mongodb
 
+# Deploy Kafka to the environment
+# TODO: Add possibility of using an external kafka by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: kafka
 
+# Deploy Kong as the API Gateway to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: apigw
+    
 
 # TODO: Configure NGinx for https gui
 # TODO: Add history service

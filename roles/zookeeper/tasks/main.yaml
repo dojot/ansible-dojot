@@ -1,5 +1,6 @@
 ## This role is responsible for deploying ZK for dojot
 # TODO: Aggregate where necessary and add retries
+# TODO: Add a disruption budget
 
 - name: dojot - ZK cluster service
   k8s:

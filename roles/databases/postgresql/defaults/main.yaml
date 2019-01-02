@@ -6,6 +6,10 @@ dojot_psql_version: 9.6.11-alpine
 dojot_psql_super_user: postgres
 dojot_psql_super_passwd: postgres
 
+dojot_psql_kong_user: kong
+dojot_psql_kong_passwd: kong
+dojot_psql_kong_db: kong
+
 # Name of the default db created by postgres
 dojot_psql_default_db: postgres
 

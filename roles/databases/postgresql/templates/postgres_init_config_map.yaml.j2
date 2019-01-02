@@ -9,16 +9,8 @@ data:
 
         set -e
 
-        if ! psql -d postgres -U ${POSTGRES_USER} -t -c '\du' | cut -d \| -f 1 | grep -qw kong; then
-            echo 'creating user kong'
-            createuser kong -d -U ${POSTGRES_USER}
-        else
-            echo 'user kong exists'
-        fi
-        if ! psql -d postgres -U ${POSTGRES_USER} -lqt | cut -d \| -f 1 | grep -qw kong; then
-            echo 'creating database kong'
-            createdb kong -U kong
-        else
-            echo 'database kong exists'
-        fi
-
+        psql -v ON_ERROR_STOP=1 -d ${POSTGRES_DB} -U ${POSTGRES_USER}  <<-EOSQL
+            CREATE database {{ dojot_psql_kong_db }};
+            CREATE USER {{ dojot_psql_kong_user }} WITH ENCRYPTED PASSWORD '{{ dojot_psql_kong_passwd}}';
+            GRANT ALL PRIVILEGES ON DATABASE {{ dojot_psql_kong_db }} TO {{ dojot_psql_kong_user }};
+        EOSQL
