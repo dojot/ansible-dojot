@@ -4,9 +4,8 @@ metadata:
   labels:
     name: mongodb
   name: mongodb
-  namespace: "{{ dojot_namespace }}"
+  namespace: {{ dojot_namespace }}
 spec:
-  # TODO: View the type of service that is adequate for mongoDB
   type: ClusterIP
   ports:
   - port: {{ dojot_mongodb_port }}

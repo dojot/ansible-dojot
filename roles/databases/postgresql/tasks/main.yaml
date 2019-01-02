@@ -14,6 +14,7 @@
     definition: "{{ lookup('template', 'postgres_service.yaml.j2') | from_yaml }}"
 
 - name: dojot - PostgreSQL Persistent Volume Claim
+  when: dojot_psql_persistent_volumes
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
     state: present

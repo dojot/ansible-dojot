@@ -5,16 +5,23 @@
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
     state: present
-    definition: "{{ lookup('template', 'mongodb_secret.yaml') | from_yaml }}"
+    definition: "{{ lookup('template', 'mongodb_secret.yaml.j2') | from_yaml }}"
 
-- name: dojot - MongoDB deployment
+- name: dojot - MongoDB PVC
+  when: dojot_mongodb_persistent_volumes
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
     state: present
-    definition: "{{ lookup('template', 'mongodb_deployment.yaml') | from_yaml }}"
+    definition: "{{ lookup('template', 'mongodb_pvc.yaml.j2') | from_yaml }}"
 
 - name: dojot - MongoDB service
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
     state: present
-    definition: "{{ lookup('template', 'mongodb_service.yaml') | from_yaml }}"
+    definition: "{{ lookup('template', 'mongodb_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - MongoDB deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'mongodb_deployment.yaml.j2') | from_yaml }}"

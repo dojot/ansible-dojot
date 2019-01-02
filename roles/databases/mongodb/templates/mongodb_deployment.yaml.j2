@@ -6,7 +6,7 @@ metadata:
     name: mongodb
     app: dojot
   name: mongodb
-  namespace: "{{ dojot_namespace }}"
+  namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
   template:
@@ -15,8 +15,9 @@ spec:
         name: mongodb
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
-      - image: "mongo:{{ dojot_mongodb_version }}"
+      - image: mongo:{{ dojot_mongodb_version }}
         name: mongodb
 #        command: TODO: Check if a command is necessary e.g. smallfilles, replicaset, prealloc
         env:
@@ -30,7 +31,14 @@ spec:
               secretKeyRef:
                 name: mongodb-secret
                 key: password
-      restartPolicy: Always
-      # TODO: Default mountpoint for the mongo data: /data/db
-      # TODO: Mount mongodb db init file
-      # TODO: View deploy strategies
+{% if dojot_mongodb_persistent_volumes %}
+        volumeMounts:
+          - name: mongodb-volume
+            mountPath: /data/db
+      volumes:
+      - name: mongodb-volume
+        persistentVolumeClaim:
+          claimName: mongodb-volume-claim
+{% endif %} 
+
+# TODO: View deploy strategies
