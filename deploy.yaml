@@ -43,10 +43,17 @@
     - role: kafka
 
 # Deploy Kong as the API Gateway to the environment
+# Deploy the dojot services
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   roles:
+# TODO: Kong external service
     - role: apigw
+    - role: auth
+# TODO: Add the data-broker service with redis
+    # - role: data-broker
+# TODO: Add device-manager with redis
+    # - role: device-manager
     
 
 # TODO: Configure NGinx for https gui
@@ -54,10 +61,5 @@
 # TODO: Add persister service
 # TODO: Add iotagent-mosca with its redis
 # TODO: Add GUI service
-# TODO: Add the data-broker service with redis
-# TODO: Add device-manager with redis
-# TODO: Add auth service with redis
-# TODO: Add kong as apigw, run kong-migrations and configure routes
 # TODO: Add flowbroker service with redis and context-manager
 # TODO: Adds rabbitmq
-# TODO: Adds kafka

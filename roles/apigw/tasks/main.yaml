@@ -25,17 +25,17 @@
     state: present
     definition: "{{ lookup('template', 'apigw_migration_job.yaml.j2') | from_yaml }}"
 
-# - name: dojot - API Gateway Routes Config Map
-#   k8s:
-#     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-#     state: present
-#     definition: "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"
+- name: dojot - API Gateway Routes Config Map
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"
 
-# - name: dojot - API Gateway Routes Config Job
-#   k8s:
-#     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-#     state: present
-#     definition: "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
+- name: dojot - API Gateway Routes Config Job
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
 
 # - name: dojot - API Gateway External service
 #   k8s:

@@ -6,6 +6,8 @@ before deploying dojot
 ## Mandatory Variables
 
 * *dojot_namespace*: Defines the namespace where dojot will be deployed
+* *dojot_version*: Sets the dojot version that will be used for all the modules
+* *dojot_domain_name*: Defines the domain name for the dojot infrastructure
 * *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes
 
 ## Optional Variables

@@ -13,4 +13,7 @@ data:
             CREATE database {{ dojot_psql_kong_db }};
             CREATE USER {{ dojot_psql_kong_user }} WITH ENCRYPTED PASSWORD '{{ dojot_psql_kong_passwd}}';
             GRANT ALL PRIVILEGES ON DATABASE {{ dojot_psql_kong_db }} TO {{ dojot_psql_kong_user }};
+            CREATE DATABASE {{ dojot_psql_auth_user }};
+            CREATE USER {{ dojot_psql_auth_user }} WITH ENCRYPTED PASSWORD '{{ dojot_psql_auth_passwd}}';
+            ALTER ROLE {{ dojot_psql_auth_user }} WITH CREATEDB;
         EOSQL
