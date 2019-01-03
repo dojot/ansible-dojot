@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    name: data-broker
+    app: dojot
+  name: data-broker
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: data-broker
+        app: dojot
+    spec:
+      containers:
+      - image: dojot/data-broker:{{ dojot_version }}
+        name: data-broker
+        env:
+        - name: DATABROKER_KAFKA_HOST
+          value: kafka-server:{{ dojot_kafka_port }}
+        - name: DATABROKER_ZOOKEEPER_HOST
+          value: zk-client:{{ dojot_zk_client_port }}
+      restartPolicy: Always
