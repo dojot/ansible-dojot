@@ -55,7 +55,7 @@ spec:
               key: email_passwd
         - name: AUTH_RESET_PWD_VIEW
           value: https://{{ dojot_domain_name }}/#/setPassword/
-      - image: redis
+      - image: redis:alpine
         name: redis
         ports:
         - containerPort: 6379

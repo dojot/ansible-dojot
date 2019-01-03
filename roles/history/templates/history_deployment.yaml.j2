@@ -2,31 +2,33 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    name: data-broker
+    name: history
     app: dojot
-  name: data-broker
+  name: history
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        name: data-broker
+        name: history
         app: dojot
     spec:
       containers:
-      - image: dojot/data-broker:{{ dojot_version }}
-        name: data-broker
+      - image: dojot/history:{{ dojot_version }}
+        name: history
         env:
+        - name: FALCON_SETTINGS_MODULE
+          value: history.settings.docker
+        - name: DOJOT_MANAGEMENT_USER
+          value: 'history'
+        - name: DOJOT_MANAGEMENT_TENANT
+          value: 'internal'
+        - name: KAFKA_ADDRESS
+          value: kafka-server
+        - name: KAFKA_PORT
+          value: "{{ dojot_kafka_port }}"
         # TODO: Get rid of this variable once the bug is fixed
         - name: KAFKA_HOSTS
           value: "kafka-server-0.kafka-server:9092,kafka-server-1.kafka-server:9092,kafka-server-2.kafka-server:9092"
-        - name: DATABROKER_KAFKA_ADDRESS
-          value: kafka-server
-        - name: DATABROKER_KAFKA_PORT
-          value: "{{ dojot_kafka_port }}"
-        - name: DATABROKER_ZOOKEEPER_HOST
-          value: zk-client:{{ dojot_zk_client_port }}
-        - name: DOJOT_SERVICE_MANAGEMENT
-          value: internal
       restartPolicy: Always

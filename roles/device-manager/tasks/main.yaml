@@ -1,0 +1,32 @@
+## This role is responsible for deploying the Auth Service for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - Device Manager service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'device_manager_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - Device Manager secrets
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'device_manager_secrets.yaml.j2') | from_yaml }}"
+
+- name: dojot - Device Manager Redis service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'device_manager_redis_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - Device Manager Redis Deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'device_manager_redis_deployment.yaml.j2') | from_yaml }}"
+
+- name: dojot - Device Manager Deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'device_manager_deployment.yaml.j2') | from_yaml }}"

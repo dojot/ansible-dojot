@@ -50,15 +50,12 @@
 # TODO: Kong external service
     - role: apigw
     - role: auth
-# TODO: Add the data-broker service with redis
-    # - role: data-broker
-# TODO: Add device-manager with redis
-    # - role: device-manager
-    
+    - role: data-broker
+    - role: device-manager
+    - role: history
+    - role: persister
 
 # TODO: Configure NGinx for https gui
-# TODO: Add history service
-# TODO: Add persister service
 # TODO: Add iotagent-mosca with its redis
 # TODO: Add GUI service
 # TODO: Add flowbroker service with redis and context-manager

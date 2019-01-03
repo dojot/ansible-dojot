@@ -1,0 +1,3 @@
+# Default variable values for the persister service
+
+dojot_kafka_port: 9092

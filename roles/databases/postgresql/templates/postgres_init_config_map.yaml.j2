@@ -16,4 +16,7 @@ data:
             CREATE DATABASE {{ dojot_psql_auth_user }};
             CREATE USER {{ dojot_psql_auth_user }} WITH ENCRYPTED PASSWORD '{{ dojot_psql_auth_passwd}}';
             ALTER ROLE {{ dojot_psql_auth_user }} WITH CREATEDB;
+            CREATE DATABASE {{ dojot_psql_devm_user }};
+            CREATE USER {{ dojot_psql_devm_user }} WITH ENCRYPTED PASSWORD '{{ dojot_psql_devm_passwd}}';
+            ALTER ROLE {{ dojot_psql_devm_user }} WITH CREATEDB;
         EOSQL
