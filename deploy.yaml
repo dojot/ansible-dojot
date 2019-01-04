@@ -54,9 +54,10 @@
     - role: device-manager
     - role: history
     - role: persister
+    - role: gui
+    - role: iotagent-mosca
 
 # TODO: Configure NGinx for https gui
-# TODO: Add iotagent-mosca with its redis
-# TODO: Add GUI service
+
 # TODO: Add flowbroker service with redis and context-manager
 # TODO: Adds rabbitmq

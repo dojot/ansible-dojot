@@ -39,6 +39,5 @@ spec:
               key: db
         ports:
         - containerPort: {{ dojot_internal_http_port }}
-        - containerPort: {{ dojot_internal_https_port }}
         - containerPort: {{ dojot_internal_api_config_port }}
       restartPolicy: Always

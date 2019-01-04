@@ -37,8 +37,4 @@
     state: present
     definition: "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
 
-# - name: dojot - API Gateway External service
-#   k8s:
-#     kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-#     state: present
-#     definition: "{{ lookup('template', 'apigw_external_service.yaml.j2') | from_yaml }}"
+# TODO: If the external is a LB, dont create a node port

@@ -7,17 +7,29 @@ data:
     kong-config.sh: |
         #!/bin/sh -ex
 
-        # ---  0.10.x
+        echo "Waiting for kong to be up"
+
+        # ---  0.11.x
         kong="http://kong:8001"
 
+        # Wait for kong to be up
+        until $(curl --output /dev/null --silent --head --fail ${kong}); do
+            printf '.'
+            sleep 2
+        done
+
+        echo
+
+        echo "Kong is up, configuring routes"
+
         authConfig() {
-        curl -o /dev/null -sS -X POST ${kong}/apis/${1}/plugins -d "name=jwt" # -d "config.claims_to_verify=exp"
-        curl -o /dev/null -sS -X POST ${kong}/apis/${1}/plugins -d "name=pepkong" -d "config.pdpUrl=http://auth:5000/pdp"
+            curl -o /dev/null -sS -X POST ${kong}/apis/${1}/plugins -d "name=jwt" # -d "config.claims_to_verify=exp"
+            curl -o /dev/null -sS -X POST ${kong}/apis/${1}/plugins -d "name=pepkong" -d "config.pdpUrl=http://auth:5000/pdp"
         }
 
         # remove all previously configured apis from gateway
         for i in $(curl -sS ${kong}/apis  | grep -o -E '"id":"([a-f0-9-]+)"' | cut -f4 -d'"'); do
-        curl -o /dev/null -sS -X DELETE ${kong}/apis/${i}
+            curl -o /dev/null -sS -X DELETE ${kong}/apis/${i}
         done
 
         (curl -o /dev/null ${kong}/apis -sS -X PUT \
@@ -218,3 +230,5 @@ data:
         }
         PAYLOAD
         authConfig "data-manager"
+
+        echo "API Gateway Paths configured"
