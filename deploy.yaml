@@ -35,19 +35,26 @@
     - role: databases/mongodb
 
 # Deploy Kafka to the environment
-# TODO: Add possibility of using an external kafka by setting DB config variables
+# TODO: Add possibility of using an external kafka by setting config variables
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   roles:
     - role: kafka
 
+# Deploy RabbitMQ to the environment
+# TODO: Add possibility of using an external rabbit by setting config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: rabbitmq
+
 # Deploy Kong as the API Gateway to the environment
 # Deploy the dojot services
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   roles:
-# TODO: Kong external service
     - role: apigw
     - role: auth
     - role: data-broker
@@ -56,8 +63,6 @@
     - role: persister
     - role: gui
     - role: iotagent-mosca
+    - role: flowbroker
 
 # TODO: Configure NGinx for https gui
-
-# TODO: Add flowbroker service with redis and context-manager
-# TODO: Adds rabbitmq

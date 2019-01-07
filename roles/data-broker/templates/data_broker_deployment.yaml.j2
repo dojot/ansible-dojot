@@ -26,7 +26,7 @@ spec:
         - name: DATABROKER_KAFKA_PORT
           value: "{{ dojot_kafka_port }}"
         - name: DATABROKER_ZOOKEEPER_HOST
-          value: zk-client:{{ dojot_zk_client_port }}
+          value: zookeeper-client:{{ dojot_zk_client_port }}
         - name: DOJOT_SERVICE_MANAGEMENT
           value: internal
       restartPolicy: Always

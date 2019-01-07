@@ -1,0 +1,14 @@
+## This role is responsible for deploying the FlowBroker Service for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - Flowbroker service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'flowbroker_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - Flowbroker deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'flowbroker_deployment.yaml.j2') | from_yaml }}"
