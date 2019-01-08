@@ -37,4 +37,19 @@
     state: present
     definition: "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
 
+- name: dojot - Gather the number of the node port for the ApiGW
+  register: api_gw_node_port
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    api_version: v1
+    kind: Service
+    namespace: "{{ dojot_namespace }}"
+    name: kong
+
+# Save this node ports data for later use
+- name: dojot - Save HTTP nodePort data
+  set_fact:
+    api_gw_http_node_port: "{{ api_gw_node_port.result.spec.ports  | selectattr('name', 'equalto', 'apigw-http') | map(attribute='nodePort') | join(' ') }}"
+
 # TODO: If the external is a LB, dont create a node port

@@ -64,5 +64,3 @@
     - role: gui
     - role: iotagent-mosca
     - role: flowbroker
-
-# TODO: Configure NGinx for https gui
