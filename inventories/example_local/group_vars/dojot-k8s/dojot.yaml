@@ -1,0 +1,50 @@
+# Set the dojot deployment namesapce
+dojot_namespace: dojot
+
+dojot_version: 0.3.0-nightly20181227
+
+dojot_domain_name: "{{ hostvars[groups['load-balancer'][0]].external_fqdn }}"
+
+dojot_storage_class_name: dojot
+
+# Define the kubeconfig file to be used, empty means no file
+# TODO: Think of a better way of not defining it. eg. Set a fact to another variable at the dojot-basic
+dojot_kubeconfig_file_path:
+
+# Set kubernetes RBAC
+dojot_kubernetes_rbac: true
+
+# Set dojot configurations for Zookeeper
+dojot_zk_cluster_size: 3
+
+# Set dojot configuration for postgreSQL
+dojot_psql_super_user: "{{ vault_dojot_psql_super_user }}"
+dojot_psql_super_passwd: "{{ vault_dojot_psql_super_passwd }}"
+
+# Set API Gateway configuration
+dojot_psql_kong_db: "{{ vault_dojot_psql_kong_db }}"
+dojot_psql_kong_user: "{{ vault_dojot_psql_kong_user }}"
+dojot_psql_kong_passwd: "{{ vault_dojot_psql_kong_passwd }}"
+
+# Set dojot configuration for mongoDB
+dojot_mongodb_super_user: "{{ vault_dojot_mongodb_super_user }}"
+dojot_mongodb_super_passwd: "{{ vault_dojot_mongodb_super_passwd }}"
+
+# Set Kafka configuration for dojot
+dojot_kafka_cluster_size: 3
+
+# Set auth configuration
+dojot_psql_auth_user: "{{ vault_dojot_psql_auth_user }}"
+dojot_psql_auth_passwd: "{{ vault_dojot_psql_auth_passwd }}"
+dojot_auth_email_host: "{{ vault_dojot_auth_email_host }}"
+dojot_auth_email_user: "{{ vault_dojot_auth_email_user }}"
+dojot_auth_email_passwd: "{{ vault_dojot_auth_email_passwd }}"
+
+# Set devm configuration
+
+dojot_psql_devm_user: "{{ vault_dojot_psql_devm_user }}"
+dojot_psql_devm_passwd: "{{ vault_dojot_psql_devm_passwd }}"
+
+dojot_devm_crypto_pass: "{{ vault_dojot_devm_crypto_pass }}"
+dojot_devm_crypto_iv: "{{ vault_dojot_devm_crypto_iv }}"
+dojot_devm_crypto_salt: "{{ vault_dojot_devm_crypto_salt }}"
