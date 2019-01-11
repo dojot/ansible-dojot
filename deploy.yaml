@@ -64,3 +64,4 @@
     - role: gui
     - role: iotagent-mosca
     - role: flowbroker
+    - role: data-manager
