@@ -14,6 +14,7 @@ spec:
         name: flowbroker
         app: dojot
     spec:
+      serviceAccountName: flowbroker
       containers:
       - image: dojot/flowbroker:{{ dojot_version }}
         name: flowbroker
