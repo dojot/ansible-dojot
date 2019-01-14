@@ -13,6 +13,9 @@ dojot_psql_kong_db: kong
 dojot_psql_auth_user: auth
 dojot_psql_auth_passwd: auth
 
+dojot_psql_devm_user: devm
+dojot_psql_devm_passwd: devm
+
 # Name of the default db created by postgres
 dojot_psql_default_db: postgres
 

@@ -48,12 +48,39 @@ Variables definition and default values are explained further down on this docum
 
 The steps required for executing the deployment playbook are defined below:
 
-1. bla
-2. bleh
-3. bli
-4. bló
-5. bluh
-6. blão
+* Install the requirements:
+
+```bash
+pip install -r requirements.txt
+```
+
+* Create an inventory folder for your setup or copy an example inventory
+
+```bash
+mkdir -p inventories/SETUP_NAME
+```
+
+or
+
+```bash
+cp -r inventories/example_local inventories/SETUP_NAME
+```
+
+* Fill up the hosts.yaml file with the nodes that compose the environment, the kubernetes nodes should be added to the groups dojot-k8s
+
+* Set the variables with proper values for the deployment, default values and the meaning of each variable is defined on the variables file
+
+* Run the ansible-playbook to proceed with the deployment
+
+```bash
+ansible-playbook -K -i inventories/SETUP_NAME deploy.yaml
+```
+
+* The dojot services are acessible on the Node Ports that were set by Kubernetes, to verify what ports are configured, execute:
+
+```bash
+kubectl get service -n dojot kong iotagent-mosca
+```
 
 ## Inventory Variables
 
@@ -70,4 +97,4 @@ GPLv3
 
 Author: Eric Baum
 
-Copyright 2018, CPqD
+Copyright 2019, CPqD

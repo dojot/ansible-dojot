@@ -3,3 +3,6 @@
 
 # Pipenv files
 Pipfile*
+
+# Ansible retry files
+*.retry

@@ -4,3 +4,7 @@ dojot_internal_http_port: 8000
 dojot_internal_api_config_port: 8001
 
 dojot_apigw_version: v0.2.1-static
+
+dojot_psql_kong_user: kong
+dojot_psql_kong_passwd: kong
+dojot_psql_kong_db: kong
