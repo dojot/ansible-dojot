@@ -1,0 +1,67 @@
+---
+# TODO: Set tags
+# TODO: Check what variables should be defined on inventory
+
+# The group k8s-endpoint refer to the nodes that have access to the kubernetes api
+# Its is possible to run from localhost accessing a remote node by defining a kubeconfig file
+- hosts: dojot-k8s[0]
+  gather_facts: true
+  any_errors_fatal: true
+  roles:
+    - role: k8s-api-bootstrap
+    - role: dojot-basic # Create the base for deploying dojot
+
+# Deploy ZK to the environment
+# TODO: Add possibility of using an external zk by setting config variables
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: zookeeper
+
+# Deploy postgreSQL to the environment
+# TODO: Add possibility of using an external postgres by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: databases/postgresql
+
+# Deploy mongoDB to the environment
+# TODO: Add possibility of using an external mongodb by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: databases/mongodb
+
+# Deploy Kafka to the environment
+# TODO: Add possibility of using an external kafka by setting config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: kafka
+
+# Deploy RabbitMQ to the environment
+# TODO: Add possibility of using an external rabbit by setting config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: rabbitmq
+
+# Deploy Kong as the API Gateway to the environment
+# Deploy the dojot services
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: apigw
+    - role: auth
+    - role: data-broker
+    - role: device-manager
+    - role: history
+    - role: persister
+    - role: gui
+    - role: iotagent-mosca
+    - role: flowbroker
+    - role: data-manager

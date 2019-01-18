@@ -1,0 +1,4 @@
+# Define default variable values for the kafka service
+
+dojot_kafka_port: 9092
+dojot_zk_client_port: 2181

@@ -1,0 +1,4 @@
+# Default variables value for the flowbroker service
+
+dojot_kafka_port: 9092
+dojot_zk_client_port: 2181

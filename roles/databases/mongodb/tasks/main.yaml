@@ -1,0 +1,27 @@
+## This role is responsible for deploying MongoDB for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - MongoDB secrets
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'mongodb_secret.yaml.j2') | from_yaml }}"
+
+- name: dojot - MongoDB PVC
+  when: dojot_mongodb_persistent_volumes
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'mongodb_pvc.yaml.j2') | from_yaml }}"
+
+- name: dojot - MongoDB service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'mongodb_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - MongoDB deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'mongodb_deployment.yaml.j2') | from_yaml }}"

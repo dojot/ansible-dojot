@@ -1,0 +1,26 @@
+## This role is responsible for deploying the Auth Service for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - Data Broker service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'data_broker_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - Data Broker Redis service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'data_broker_redis_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - Data Broker Redis Deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'data_broker_redis_deployment.yaml.j2') | from_yaml }}"
+
+- name: dojot - Data Broker Deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'data_broker_deployment.yaml.j2') | from_yaml }}"

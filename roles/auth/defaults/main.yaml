@@ -1,0 +1,14 @@
+# TODO: Treat a default version
+#dojot_auth_version: XXXXX
+
+dojot_psql_auth_user: auth
+dojot_psql_auth_passwd: auth
+
+# TODO: Disable user register email if this variables are not set
+dojot_auth_email_enabled: false
+dojot_auth_email_host: smtp.email.com
+dojot_auth_email_user: user@email.com
+dojot_auth_email_passwd: user_passwd
+
+dojot_kafka_port: 9092
+dojot_internal_api_config_port: 8001

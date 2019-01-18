@@ -1,0 +1,29 @@
+## This role is responsible for deploying the IoT Agent Mosca Service for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - IoT Agent Mosca service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'iotagent_mosca_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - IoT Agent Mosca deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'iotagent_mosca_deployment.yaml.j2') | from_yaml }}"
+
+- name: dojot - Gather the number of the node port for the MQTT
+  register: mqtt_node_port
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    api_version: v1
+    kind: Service
+    namespace: "{{ dojot_namespace }}"
+    name: iotagent-mosca
+
+# Save this node ports data for later use
+- name: dojot - Save MQTT nodePort data
+  set_fact:
+    mqtt_node_port: "{{ mqtt_node_port.result.spec.ports  | selectattr('name', 'equalto', 'mqtt-insecure') | map(attribute='nodePort') | join(' ') }}"

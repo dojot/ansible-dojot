@@ -1,0 +1,14 @@
+## This role is responsible for deploying the RabbitMQ Service for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - RabbitMQ service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'rabbitmq_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - RabbitMQ deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'rabbitmq_deployment.yaml.j2') | from_yaml }}"

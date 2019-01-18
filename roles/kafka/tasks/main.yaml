@@ -1,0 +1,20 @@
+## This role is responsible for deploying Kafka for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - Kafka service
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'kafka_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - Kafka PodDisruptionBudget
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'kafka_pdb.yaml.j2') | from_yaml }}"
+
+- name: dojot - Kafka StatefulSet
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'kafka_statefulset.yaml.j2') | from_yaml }}"

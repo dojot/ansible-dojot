@@ -1,0 +1,8 @@
+## This role is responsible for deploying the Persister Service for dojot
+# TODO: Aggregate where necessary and add retries
+
+- name: dojot - Persister deployment
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    state: present
+    definition: "{{ lookup('template', 'persister_deployment.yaml.j2') | from_yaml }}"
