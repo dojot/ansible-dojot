@@ -38,6 +38,7 @@ spec:
           value: redis
         - name: AUTH_CACHE_HOST
           value: localhost
+{% if dojot_auth_email_enabled %}
         - name: AUTH_EMAIL_HOST
           valueFrom:
             secretKeyRef:
@@ -53,6 +54,10 @@ spec:
             secretKeyRef:
               name: auth-secret
               key: email_passwd
+{% else %}
+        - name: AUTH_EMAIL_HOST
+          value: NOEMAIL
+{% endif %}
         - name: AUTH_RESET_PWD_VIEW
           value: https://{{ dojot_domain_name }}/#/setPassword/
       - image: redis:alpine

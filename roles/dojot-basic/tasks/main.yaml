@@ -3,8 +3,10 @@
 
 - name: dojot - Create dojot namespace
   k8s:
-    name: "{{ dojot_namespace }}"
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    api_version: v1
-    kind: Namespace
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
+    definition: "{{ lookup('template', 'namespace.yaml.j2') | from_yaml }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10

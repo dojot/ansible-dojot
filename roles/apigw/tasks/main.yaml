@@ -1,46 +1,26 @@
 ## This role is responsible for deploying Kong for dojot
-# TODO: Aggregate where necessary and add retries
 
-- name: dojot - API Gateway Internal service
+- name: dojot - API Gateway Objects
   k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
-    definition: "{{ lookup('template', 'apigw_internal_service.yaml.j2') | from_yaml }}"
-
-- name: dojot - API Gateway Secrets
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'apigw_secrets.yaml.j2') | from_yaml }}"
-
-- name: dojot - API Gateway Deployment
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'apigw_deployment.yaml.j2') | from_yaml }}"
-
-- name: dojot - API Gateway Migration Job
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'apigw_migration_job.yaml.j2') | from_yaml }}"
-
-- name: dojot - API Gateway Routes Config Map
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"
-
-- name: dojot - API Gateway Routes Config Job
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'apigw_internal_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_secrets.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_migration_job.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
 
 - name: dojot - Gather the number of the node port for the ApiGW
   register: api_gw_node_port
   k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
     api_version: v1
     kind: Service

@@ -5,10 +5,6 @@ dojot_version: 0.3.0-nightly20181227
 
 dojot_domain_name: dojot.example.com
 
-# Define the kubeconfig file to be used, empty means no file
-# TODO: Think of a better way of not defining it. eg. Set a fact to another variable at the dojot-basic
-dojot_kubeconfig_file_path:
-
 # Set kubernetes RBAC
 dojot_kubernetes_rbac: true
 
@@ -25,7 +21,4 @@ dojot_mongodb_persistent_volumes: false
 dojot_kafka_persistent_volumes: false
 
 # Set auth configuration
-dojot_auth_email_enabled: true
-dojot_auth_email_host: example.smtp.com
-dojot_auth_email_user: register@example.com
-dojot_auth_email_passwd: password
+dojot_auth_email_enabled: false

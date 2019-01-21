@@ -1,6 +1,4 @@
 ---
-# tasks file for ansible-dojot
-
 # This tasks files is responsible for bootstraping the node where k8s api calls will be executed
 
 - name: dojot - Bootstrap - Install pip if necessary
