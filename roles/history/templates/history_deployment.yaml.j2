@@ -15,7 +15,7 @@ spec:
         app: dojot
     spec:
       containers:
-      - image: dojot/history:{{ dojot_version }}
+      - image: dojot/history:{{ dojot_history_version }}
         name: history
         env:
         - name: FALCON_SETTINGS_MODULE

@@ -15,7 +15,7 @@ spec:
         app: dojot
     spec:
       containers:
-      - image: dojot/data-broker:{{ dojot_version }}
+      - image: dojot/data-broker:{{ dojot_data_broker_version }}
         name: data-broker
         env:
         # TODO: Get rid of this variable once the bug is fixed

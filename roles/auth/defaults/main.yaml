@@ -1,5 +1,7 @@
-# TODO: Treat a default version
-#dojot_auth_version: XXXXX
+---
+# Define default values for the auth role variables
+
+dojot_auth_version: "{{ dojot_version }}"
 
 dojot_psql_auth_user: auth
 dojot_psql_auth_passwd: auth

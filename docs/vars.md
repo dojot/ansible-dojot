@@ -65,12 +65,14 @@ before deploying dojot
 * *dojot_auth_email_host*: SMTP email server associated with the account that sends the registration e-mail.
 * *dojot_auth_email_user*: E-Mail account used as sender of the registration e-mail for new users.
 * *dojot_auth_email_passwd*: Access password for the e-mail account.
+* *dojot_auth_version*: Version of the auth container. Defaults to *dojot_version*
 
 ### - Device Manager
 
 * *dojot_devm_crypto_pass*: Cryptography Password configuration for the device manager. Defaults to **dojotdojot**
 * *dojot_devm_crypto_iv*: Cryptography IV configurations for the device manager. Defaults to **"1234567890123456"**
 * *dojot_devm_crypto_salt*: Cryptography salt for the device manager. Defaults to **dojot**
+* *dojot_devm_version*: Version of the device manager container. Defaults to *dojot_version*
 
 ### - Kafka
 
@@ -82,3 +84,24 @@ before deploying dojot
 ### - RabbitMQ
 
 * *dojot_rabbitmq_version*: Version of the RabbitMQ container used on this deployment. Defaults to **3.7-alpine**
+
+### - Flowbroker
+
+* *dojot_flowbroker_version*: Version of the flowbroker container. Defaults to *dojot_version*
+* *dojot_flowbroker_context_manager_version*: Version of the context manager container. Defaults to *dojot_version*
+
+### - GUI
+
+* *dojot_gui_version*: Version of the GUI container. Defaults to *dojot_version*
+
+### - History
+
+* *dojot_history_version*: Version of the history container. Defaults to *dojot_version*
+
+### - IoTAgent Mosca
+
+* *dojot_iotagent_mosca_version*: Version of the IoT Agent Mosca container. Defaults to *dojot_version*
+
+### - Persister
+
+* *dojot_persister_version*: Version of the persister container. Defaults to *dojot_version*
