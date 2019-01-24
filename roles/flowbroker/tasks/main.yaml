@@ -1,35 +1,38 @@
 ## This role is responsible for deploying the FlowBroker Service for dojot
-# TODO: Aggregate where necessary and add retries
 
-- name: dojot - Flowbroker service
+- name: dojot - Flowbroker Objects
   k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
-    definition: "{{ lookup('template', 'flowbroker_service.yaml.j2') | from_yaml }}"
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'flowbroker_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'flowbroker_service_account.yaml.j2') | from_yaml }}"
 
-- name: dojot - Flowbroker Service Account
+- name: dojot - Flowbroker RBAC Objects
   k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
-    definition: "{{ lookup('template', 'flowbroker_service_account.yaml.j2') | from_yaml }}"
+    definition: "{{ item }}"
+  when: dojot_kubernetes_rbac 
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'flowbroker_role.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'flowbroker_role_binding.yaml.j2') | from_yaml }}"
 
-- name: dojot - Flowbroker Role
-  when: dojot_kubernetes_rbac
+- name: dojot - Flowbroker Deployment
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
   k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'flowbroker_role.yaml.j2') | from_yaml }}"
-
-- name: dojot - Flowbroker Role Binding
-  when: dojot_kubernetes_rbac
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'flowbroker_role_binding.yaml.j2') | from_yaml }}"
-
-- name: dojot - Flowbroker deployment
-  when: dojot_kubernetes_rbac
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
     definition: "{{ lookup('template', 'flowbroker_deployment.yaml.j2') | from_yaml }}"

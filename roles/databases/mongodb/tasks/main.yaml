@@ -1,27 +1,27 @@
 ## This role is responsible for deploying MongoDB for dojot
-# TODO: Aggregate where necessary and add retries
-
-- name: dojot - MongoDB secrets
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'mongodb_secret.yaml.j2') | from_yaml }}"
+# TODO: Support a HA cluster
 
 - name: dojot - MongoDB PVC
   when: dojot_mongodb_persistent_volumes
   k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
     definition: "{{ lookup('template', 'mongodb_pvc.yaml.j2') | from_yaml }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
 
-- name: dojot - MongoDB service
+- name: dojot - MongoDB Objects
   k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
-    definition: "{{ lookup('template', 'mongodb_service.yaml.j2') | from_yaml }}"
-
-- name: dojot - MongoDB deployment
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path }}"
-    state: present
-    definition: "{{ lookup('template', 'mongodb_deployment.yaml.j2') | from_yaml }}"
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'mongodb_secret.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'mongodb_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'mongodb_deployment.yaml.j2') | from_yaml }}"

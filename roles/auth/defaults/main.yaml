@@ -4,7 +4,6 @@
 dojot_psql_auth_user: auth
 dojot_psql_auth_passwd: auth
 
-# TODO: Disable user register email if this variables are not set
 dojot_auth_email_enabled: false
 dojot_auth_email_host: smtp.email.com
 dojot_auth_email_user: user@email.com

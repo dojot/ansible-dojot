@@ -10,7 +10,6 @@ before deploying dojot
 * *dojot_domain_name*: Defines the domain name for the dojot infrastructure
 * *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes
 
-
 ## Optional Variables
 
 ### - Dojot
