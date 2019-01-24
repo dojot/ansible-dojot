@@ -1,5 +1,7 @@
 # Default variable values for the device-manager service
 
+dojot_devm_version: "{{ dojot_version }}"
+
 dojot_kafka_port: 9092
 
 dojot_psql_devm_user: devm

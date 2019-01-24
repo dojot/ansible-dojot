@@ -15,7 +15,7 @@ spec:
         app: dojot
     spec:
       containers:
-      - image: dojot/persister:{{ dojot_version }}
+      - image: dojot/persister:{{ dojot_persister_version }}
         name: persister
         env:
         - name: FALCON_SETTINGS_MODULE

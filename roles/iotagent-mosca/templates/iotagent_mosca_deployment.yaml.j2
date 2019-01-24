@@ -15,7 +15,7 @@ spec:
         app: dojot
     spec:
       containers:
-      - image: dojot/iotagent-mosca:{{ dojot_version }}
+      - image: dojot/iotagent-mosca:{{ dojot_iotagent_mosca_version }}
         name: iotagent-mosca
         env:
         - name: BACKEND_HOST

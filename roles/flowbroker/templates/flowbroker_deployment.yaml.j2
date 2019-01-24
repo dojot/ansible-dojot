@@ -16,7 +16,7 @@ spec:
     spec:
       serviceAccountName: flowbroker
       containers:
-      - image: dojot/flowbroker:{{ dojot_version }}
+      - image: dojot/flowbroker:{{ dojot_flowbroker_version }}
         name: flowbroker
         env:
         - name: FLOWBROKER_CACHE_HOST
@@ -30,7 +30,7 @@ spec:
       - name: flowbroker-redis
         image: redis:alpine
       - name: flowbroker-context-manager
-        image: dojot/flowbroker-context-manager:{{ dojot_version }}
+        image: dojot/flowbroker-context-manager:{{ dojot_flowbroker_context_manager_version }}
         env:
         - name: ZOOKEEPER_HOST
           value: zookeeper
