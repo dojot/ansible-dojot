@@ -1,9 +1,9 @@
 # Set the dojot deployment namesapce
 dojot_namespace: dojot
 
-dojot_version: 0.3.0-nightly20181227
+dojot_version: 0.3.0-nightly20190207
 
-dojot_domain_name: dojot.example.com
+dojot_domain_name: localhost
 
 # Set kubernetes RBAC
 dojot_kubernetes_rbac: true
