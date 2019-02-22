@@ -22,13 +22,8 @@ spec:
           value: history.settings.docker
         - name: DOJOT_MANAGEMENT_USER
           value: 'persister'
-        - name: DOJOT_MANAGEMENT_TENANT
-          value: 'internal'
-        - name: KAFKA_ADDRESS
-          value: kafka-server
-        - name: KAFKA_PORT
-          value: "{{ dojot_kafka_port }}"
-        # TODO: Get rid of this variable once the bug is fixed
+        - name: KAFKA_GROUP_ID
+          value: 'persister-group'
         - name: KAFKA_HOSTS
-          value: "kafka-server-0.kafka-server:9092,kafka-server-1.kafka-server:9092,kafka-server-2.kafka-server:9092"
+          value: "kafka-server:{{ dojot_kafka_port }}"
       restartPolicy: Always

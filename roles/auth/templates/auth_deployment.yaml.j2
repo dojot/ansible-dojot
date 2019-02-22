@@ -20,6 +20,8 @@ spec:
         env:
         - name: KAFKA_HOST
           value: kafka-server:{{ dojot_kafka_port }}
+        - name: KAFKA_GROUP_ID
+          value: auth-group
         - name: AUTH_DB_HOST
           value: postgres
         - name: AUTH_DB_USER

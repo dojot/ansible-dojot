@@ -101,7 +101,14 @@ before deploying dojot
 ### - IoTAgent Mosca
 
 * *dojot_iotagent_mosca_version*: Version of the IoT Agent Mosca container. Defaults to *dojot_version*
+* *dojot_insecure_mqtt*: Defines wheter or not the agent accepts insecure mqtt connections. Defaults to *false*
 
 ### - Persister
 
 * *dojot_persister_version*: Version of the persister container. Defaults to *dojot_version*
+
+### - EJBCA
+
+* *dojot_ejbca_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **false**
+* *dojot_ejbca_volume_size*: Size of the EJBCA volumes that are created. Defaults to **1Gi**
+* *dojot_ejbca_version*: Version of the ejbca-rest container. Defaults to *dojot_version*

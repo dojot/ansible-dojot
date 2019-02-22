@@ -20,13 +20,12 @@ spec:
         env:
         - name: BACKEND_HOST
           value: localhost
-        - name: KAFKA_ADDRESS
-          value: kafka-server
-        - name: KAFKA_PORT
-          value: "{{ dojot_kafka_port }}"
-        # TODO: Get rid of this variable once the bug is fixed
+        - name: KAFKA_GROUP_ID
+          value: iotagent-mqtt-group
+        - name: ALLOW_UNSECURED_MODE
+          value: "{{ dojot_insecure_mqtt }}"
         - name: KAFKA_HOSTS
-          value: "kafka-server-0.kafka-server:9092,kafka-server-1.kafka-server:9092,kafka-server-2.kafka-server:9092"
+          value: kafka-server:{{ dojot_kafka_port }}
       - image: redis:alpine
         name: redis
         ports:

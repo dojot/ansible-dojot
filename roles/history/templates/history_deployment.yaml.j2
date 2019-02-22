@@ -22,13 +22,4 @@ spec:
           value: history.settings.docker
         - name: DOJOT_MANAGEMENT_USER
           value: 'history'
-        - name: DOJOT_MANAGEMENT_TENANT
-          value: 'internal'
-        - name: KAFKA_ADDRESS
-          value: kafka-server
-        - name: KAFKA_PORT
-          value: "{{ dojot_kafka_port }}"
-        # TODO: Get rid of this variable once the bug is fixed
-        - name: KAFKA_HOSTS
-          value: "kafka-server-0.kafka-server:9092,kafka-server-1.kafka-server:9092,kafka-server-2.kafka-server:9092"
       restartPolicy: Always
