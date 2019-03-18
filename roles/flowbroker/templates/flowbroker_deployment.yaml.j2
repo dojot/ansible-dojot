@@ -25,8 +25,8 @@ spec:
           value: kafka-server:{{ dojot_kafka_port }}
         - name: CONTEXT_MANAGER_ADDRESS
           value: localhost
-        - name: DOJOT_SERVICE_MANAGEMENT
-          value: internal
+        - name: KAFKA_GROUP_ID
+          value: flowbroker-group
       - name: flowbroker-redis
         image: redis:alpine
       - name: flowbroker-context-manager

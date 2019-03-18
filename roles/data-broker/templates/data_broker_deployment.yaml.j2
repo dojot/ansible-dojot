@@ -18,15 +18,14 @@ spec:
       - image: dojot/data-broker:{{ dojot_data_broker_version }}
         name: data-broker
         env:
-        # TODO: Get rid of this variable once the bug is fixed
         - name: KAFKA_HOSTS
-          value: "kafka-server-0.kafka-server:9092,kafka-server-1.kafka-server:9092,kafka-server-2.kafka-server:9092"
+          value: kafka-server:{{ dojot_kafka_port }}
+        - name: KAFKA_GROUP_ID
+          value: data-broker-group
+        - name: DATABROKER_ZOOKEEPER_HOST
+          value: zookeeper-client:{{ dojot_zk_client_port }}
         - name: DATABROKER_KAFKA_ADDRESS
           value: kafka-server
         - name: DATABROKER_KAFKA_PORT
           value: "{{ dojot_kafka_port }}"
-        - name: DATABROKER_ZOOKEEPER_HOST
-          value: zookeeper-client:{{ dojot_zk_client_port }}
-        - name: DOJOT_SERVICE_MANAGEMENT
-          value: internal
       restartPolicy: Always

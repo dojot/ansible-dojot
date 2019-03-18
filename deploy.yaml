@@ -69,9 +69,12 @@
     - role: auth
     - role: data-broker
     - role: device-manager
+    - role: ejbca-rest
     - role: history
     - role: persister
     - role: gui
     - role: iotagent-mosca
     - role: flowbroker
     - role: data-manager
+
+# TODO: Dojot users?
