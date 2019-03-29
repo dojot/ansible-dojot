@@ -1,5 +1,16 @@
 ## This role is responsible for deploying the EJBCA REST Service for dojot
 
+- name: dojot - EJBCA Persistent Volume Claim
+  when: dojot_ejbca_persistent_volumes
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ lookup('template', 'ejbca_pvc.yaml.j2') | from_yaml }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+
 - name: dojot - EJBCA Objects
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
@@ -11,5 +22,5 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'ejbca_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'ejbca_pvc.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'ejbca_deployment.yaml.j2') | from_yaml }}"
+
