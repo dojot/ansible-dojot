@@ -23,7 +23,7 @@ spec:
         - name: KAFKA_GROUP_ID
           value: iotagent-mqtt-group
         - name: ALLOW_UNSECURED_MODE
-          value: "{{ dojot_insecure_mqtt }}"
+          value: 'true'
         - name: KAFKA_HOSTS
           value: kafka-server:{{ dojot_kafka_port }}
       - image: redis:alpine
