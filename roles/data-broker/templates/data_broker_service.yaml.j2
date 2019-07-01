@@ -6,9 +6,11 @@ metadata:
   name: data-broker
   namespace: {{ dojot_namespace }}
 spec:
+  type: NodePort
   ports:
   - port: 80
     targetPort: 80
+    nodePort: 30004
   selector:
     name: data-broker
     app: dojot
