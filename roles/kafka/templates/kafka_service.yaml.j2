@@ -6,12 +6,10 @@ metadata:
   name: kafka-server
   namespace: {{ dojot_namespace }}
 spec:
-  type: NodePort
   ports:
   - name: kafka-server
     port: {{ dojot_kafka_port }}
     targetPort: server
-    nodePort: 30003
   clusterIP: None
   selector:
     name: kafka-server
