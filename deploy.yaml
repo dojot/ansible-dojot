@@ -76,5 +76,7 @@
     - role: iotagent-mosca
     - role: flowbroker
     - role: data-manager
+    - role: backstage
+    - role: cron
 
 # TODO: Dojot users?

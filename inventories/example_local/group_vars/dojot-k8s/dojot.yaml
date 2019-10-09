@@ -1,7 +1,7 @@
 # Set the dojot deployment namesapce
 dojot_namespace: dojot
 
-dojot_version: 0.3.0-nightly20190207
+dojot_version: v0.4.0
 
 dojot_domain_name: localhost
 
