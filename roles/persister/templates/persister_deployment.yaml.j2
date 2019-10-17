@@ -26,4 +26,6 @@ spec:
           value: 'persister-group'
         - name: KAFKA_HOSTS
           value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: KAFKA_ADDRESS
+          value: "kafka-server"  
       restartPolicy: Always

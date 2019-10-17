@@ -18,7 +18,7 @@ spec:
       - image: dojot/auth:{{ dojot_auth_version }}
         name: auth
         env:
-        - name: KAFKA_HOST
+        - name: KAFKA_HOSTS
           value: kafka-server:{{ dojot_kafka_port }}
         - name: KAFKA_GROUP_ID
           value: auth-group
