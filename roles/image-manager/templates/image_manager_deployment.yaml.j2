@@ -22,4 +22,16 @@ spec:
           value: {{ s3_access_key }}
         - name: S3SECRETKEY
           value: {{ s3_secret_key }}
+        - name: DBHOST
+          value: postgres
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: image-manager-secret
+              key: user
+        - name: DBPASS
+          valueFrom:
+            secretKeyRef:
+              name: image-manager-secret
+              key: password      
       restartPolicy: Always

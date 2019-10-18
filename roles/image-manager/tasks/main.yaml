@@ -11,4 +11,5 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'image_manager_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'image_manager_secrets.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'image_manager_deployment.yaml.j2') | from_yaml }}"
