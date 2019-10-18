@@ -83,6 +83,7 @@
     - role: persister
     - role: gui
     - role: iotagent-mosca
+    - role: iotagent-lwm2m
     - role: flowbroker
     - role: data-manager
     - role: backstage

@@ -1,0 +1,6 @@
+---
+# Define the default value for the variables of the iot agent lwm2m service
+
+dojot_iotagent_lwm2m_version: "{{ dojot_version }}"
+
+dojot_kafka_port: 9092
