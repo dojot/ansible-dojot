@@ -26,7 +26,7 @@ spec:
         image: minio/minio
         args:
         - server
-        - http://minio-{0...3}.minio.dojot.svc.cluster.local/data
+        - /data
         ports:
         - containerPort: {{ dojot_minio_port }}
 {% if dojot_minio_persistent_volumes %}        
