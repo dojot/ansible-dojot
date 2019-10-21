@@ -18,8 +18,10 @@ spec:
       - image: dojot/image-manager:{{ dojot_image_manager_version }}
         name: image-manager
         env:
+        - name: S3URL
+          value: {{ s3_url }}
         - name: S3ACCESSKEY
-          value: {{ s3_access_key }}
+          value: {{ s3_access_key }}  
         - name: S3SECRETKEY
           value: {{ s3_secret_key }}
         - name: DBHOST
