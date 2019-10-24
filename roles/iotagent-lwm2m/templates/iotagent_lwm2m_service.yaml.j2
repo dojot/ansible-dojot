@@ -27,7 +27,17 @@ spec:
     protocol: UDP
     port: 5694
     targetPort: 5694
-    nodePort: 30014    
+    nodePort: 30014
+  - name: lwm2m-http
+    protocol: TCP
+    port: 5896
+    targetPort: 5896
+    nodePort: 30015
+  - name: lwm2m-https
+    protocol: TCP
+    port: 5897
+    targetPort: 5897
+    nodePort: 30016        
   selector:
     name: iotagent-lwm2m
     app: dojot

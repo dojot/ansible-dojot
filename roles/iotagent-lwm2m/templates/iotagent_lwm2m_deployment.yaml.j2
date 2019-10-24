@@ -18,8 +18,12 @@ spec:
       - image: dojot/iotagent-leshan:{{ dojot_iotagent_lwm2m_version }}
         name: iotagent-lwm2m
         env:
-        - name: BACKEND_HOST
-          value: localhost
+        - name: FILE_SERVER_ADDRESS
+          value: "{{ dojot_file_server_address }}"
+        - name: FILE_SERVER_HTTP_PORT
+          value: "{{ file_server_http_port }}"
+        - name: FILE_SERVER_HTTPS_PORT
+          value: "{{ file_server_https_port }}"
         - name: DOJOT_MANAGEMENT_USER
           value: iotagent-lwm2m  
         - name: KAFKA_GROUP_ID
