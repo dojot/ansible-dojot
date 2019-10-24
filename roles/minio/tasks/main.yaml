@@ -10,6 +10,5 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'minio_headless_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'minio_statefulset.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'minio_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'minio_statefulset.yaml.j2') | from_yaml }}"

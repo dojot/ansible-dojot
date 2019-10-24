@@ -47,7 +47,8 @@ spec:
     spec:
       accessModes:
         - ReadWriteOnce
+      storageClassName: {{ dojot_storage_class_name }}
       resources:
         requests:
-          storage: 1Gi
+          storage: {{ dojot_minio_volume_size }}
 {% endif %} 

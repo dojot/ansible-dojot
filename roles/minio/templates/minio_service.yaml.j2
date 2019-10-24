@@ -2,16 +2,15 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: minio-service
-  name: minio-service
+    name: minio
+  name: minio
   namespace: {{ dojot_namespace }}  
 spec:
   ports:
-    - port: {{ dojot_minio_port }}
+    - name: minio
+      port: {{ dojot_minio_port }}
       targetPort: {{ dojot_minio_port }}
-      nodePort: 30009
-      protocol: TCP
-  type: NodePort
+  clusterIP: None
   selector:
     name: minio
     app: dojot

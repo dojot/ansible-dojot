@@ -3,7 +3,7 @@
 
 dojot_image_manager_version: "{{ dojot_version }}"
 
-s3_url: "minio-service:9000"
+s3_url: "minio:9000"
 
 s3_access_key: "9HEODSF6WQN5EZ39DM7Z"
 
