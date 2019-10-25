@@ -6,11 +6,9 @@ metadata:
   name: device-manager
   namespace: {{ dojot_namespace }}
 spec:
-  type: NodePort
   ports:
   - port: 5000
     targetPort: 5000
-    nodePort: 30006
   selector:
     name: device-manager
     app: dojot

@@ -6,11 +6,9 @@ metadata:
   name: auth
   namespace: {{ dojot_namespace }}
 spec:
-  type: NodePort
   ports:
   - port: 5000
     targetPort: 5000
-    nodePort: 30005
   selector:
     name: auth
     app: dojot
