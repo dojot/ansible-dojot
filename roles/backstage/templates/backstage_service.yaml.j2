@@ -7,8 +7,8 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   ports:
-  - port: {{ backstage_port }}
-    targetPort: {{ backstage_port }}
+  - port: 3005
+    targetPort: 3005
   selector:
     name: backstage
     app: dojot
