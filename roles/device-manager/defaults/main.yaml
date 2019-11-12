@@ -7,6 +7,6 @@ dojot_kafka_port: 9092
 dojot_psql_devm_user: devm
 dojot_psql_devm_passwd: devm
 
-dojot_devm_crypto_pass: dojotdojot
+dojot_devm_crypto_pass: kamehameHA
 dojot_devm_crypto_iv: "1234567890123456"
-dojot_devm_crypto_salt: dojot
+dojot_devm_crypto_salt: shuriken

@@ -1,6 +1,6 @@
 ---
 # Set the version of the postgres container to be used
-dojot_psql_version: 9.6.11-alpine
+dojot_psql_version: 9.4-alpine
 
 # Define credentials for the postgres super user
 dojot_psql_super_user: postgres

@@ -3,6 +3,4 @@
 
 dojot_iotagent_mosca_version: "{{ dojot_version }}"
 
-dojot_insecure_mqtt: false
-
 dojot_kafka_port: 9092

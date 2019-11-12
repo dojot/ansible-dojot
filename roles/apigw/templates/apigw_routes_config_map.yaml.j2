@@ -170,15 +170,23 @@ data:
             --header "Content-Type: application/json" \
             -d @- ) <<PAYLOAD
         {
-            "name": "mashup",
-            "uris": ["/mashup"],
+            "name": "flowsIcons",
+            "uris": ["/flows/icons"],
             "strip_uri": true,
-            "upstream_url": "http://flowbroker:80"
+            "upstream_url": "http://flowbroker:80/icons"
         }
         PAYLOAD
-        # authConfig "flows"
 
-        # -- end mashup/flows --
+        (curl -o /dev/null ${kong}/apis -s -S -X POST \
+            --header "Content-Type: application/json" \
+            -d @- ) <<PAYLOAD
+        {
+            "name": "flowsRedImages",
+            "uris": ["/flows/red/images"],
+            "strip_uri": true,
+            "upstream_url": "http://flowbroker:80/red/images"
+        }
+        PAYLOAD
 
         (curl -o /dev/null ${kong}/apis -s -S -X POST \
             --header "Content-Type: application/json" \
@@ -217,5 +225,42 @@ data:
         }
         PAYLOAD
         authConfig "data-manager"
+
+        # Configure a Backstage service
+        (curl -o /dev/null ${kong}/apis -sS -X POST \
+            --header "Content-Type: application/json" \
+            -d @- ) <<PAYLOAD
+        {
+            "name": "backstage",
+            "uris": [ "/checkconflicts"],
+            "strip_uri": false,
+            "upstream_url": "http://backstage:3005/"
+        }
+        PAYLOAD
+        authConfig "backstage"
+
+        (curl -o /dev/null ${kong}/apis -sS -X POST \
+            --header "Content-Type: application/json" \
+            -d @- ) <<PAYLOAD
+        {
+            "name": "backstage_graphql",
+            "uris": [ "/graphql(.*)"],
+            "strip_uri": false,
+            "upstream_url": "http://backstage:3005/"
+        }
+        PAYLOAD
+
+        # cron
+        (curl -o /dev/null ${kong}/apis -s -S -X POST \
+            --header "Content-Type: application/json" \
+            -d @- ) <<PAYLOAD
+        {
+            "name": "cron",
+            "uris": ["/cron"],
+            "strip_uri": false,
+            "upstream_url": "http://cron:5000/"
+        }
+        PAYLOAD
+        authConfig "cron"
 
         echo "API Gateway Paths configured"
