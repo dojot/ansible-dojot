@@ -24,6 +24,8 @@ spec:
           value: iotagent-mqtt  
         - name: KAFKA_GROUP_ID
           value: iotagent-mqtt-group
+        - name: MOSCA_TLS_DNS_LIST
+          value: localhost
         - name: ALLOW_UNSECURED_MODE
           value: "{{ dojot_insecure_mqtt }}"
         - name: KAFKA_HOSTS
