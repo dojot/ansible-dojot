@@ -6,7 +6,7 @@ metadata:
 rules:
 - apiGroups: ["extensions"]
   resources: ["deployments"]
-  verbs: ["get", "list", "create"]
+  verbs: ["get", "list", "create", "patch", "delete"]
 - apiGroups: [""]
   resources: ["services"]
-  verbs: ["get", "list", "create"]
+  verbs: ["get", "list", "create", "patch", "delete"]
