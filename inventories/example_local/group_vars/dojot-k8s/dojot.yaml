@@ -1,9 +1,11 @@
 # Set the dojot deployment namesapce
 dojot_namespace: dojot
 
-dojot_version: 0.3.0-nightly20190207
+dojot_version: v0.4.1
 
 dojot_domain_name: localhost
+
+dojot_storage_class_name: ""
 
 # Set kubernetes RBAC
 dojot_kubernetes_rbac: true
@@ -17,6 +19,9 @@ dojot_psql_persistent_volumes: false
 # Set dojot configuration for mongoDB
 dojot_mongodb_persistent_volumes: false
 
+# Set Minio configuration for dojot
+dojot_minio_persistent_volumes: false
+
 # Set Kafka configuration for dojot
 dojot_kafka_persistent_volumes: false
 
@@ -24,7 +29,7 @@ dojot_kafka_persistent_volumes: false
 dojot_auth_email_enabled: false
 
 # Allow the usage of insecure mqtt
-dojot_insecure_mqtt: true
+dojot_insecure_mqtt: 'false'
 
 # Set dojot docnfiguration for EJBCA
 dojot_ejbca_persistent_volumes: false

@@ -25,15 +25,21 @@ spec:
           value: kafka-server:{{ dojot_kafka_port }}
         - name: CONTEXT_MANAGER_ADDRESS
           value: localhost
+        - name: DEPLOY_ENGINE
+          value: kubernetes
         - name: KAFKA_GROUP_ID
           value: flowbroker-group
+        - name: DOJOT_MANAGEMENT_USER
+          value: flowbroker
       - name: flowbroker-redis
         image: redis:alpine
       - name: flowbroker-context-manager
         image: dojot/flowbroker-context-manager:{{ dojot_flowbroker_context_manager_version }}
         env:
+        - name: SERVICE_PORT
+          value: "8080"
         - name: ZOOKEEPER_HOST
-          value: zookeeper
+          value: zookeeper-client
         - name: ZOOKEEPER_PORT
           value: "{{ dojot_zk_client_port }}"
         - name: ZEROMQ_PORT
