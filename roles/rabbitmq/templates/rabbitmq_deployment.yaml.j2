@@ -15,6 +15,6 @@ spec:
         app: dojot
     spec:
       containers:
-      - image: dojot/rabbitmq::{{ dojot_rabbitmq_version }}
+      - image: dojot/rabbitmq:{{ dojot_rabbitmq_version }}
         name: rabbitmq
       restartPolicy: Always
