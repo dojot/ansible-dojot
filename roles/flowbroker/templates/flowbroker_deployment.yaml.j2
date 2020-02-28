@@ -32,7 +32,7 @@ spec:
         - name: DOJOT_MANAGEMENT_USER
           value: flowbroker
       - name: flowbroker-redis
-        image: redis:alpine
+        image: dojot/redis:5.0.5-alpine3.10
       - name: flowbroker-context-manager
         image: dojot/flowbroker-context-manager:{{ dojot_flowbroker_context_manager_version }}
         env:

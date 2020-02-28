@@ -17,7 +17,7 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - image: mongo:{{ dojot_mongodb_version }}
+      - image: dojot/mongo:{{ dojot_mongodb_version }}
         name: mongodb
 #        command: TODO: Check if a command is necessary e.g. smallfilles, replicaset, prealloc
 # TODO: Support different values for user and password
