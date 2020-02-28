@@ -23,7 +23,7 @@ spec:
         - name: KAFKA_GROUP_ID
           value: auth-group
         - name: DOJOT_MANAGEMENT_USER
-          value: auth  
+          value: auth
         - name: AUTH_DB_HOST
           value: postgres
         - name: AUTH_DB_USER
@@ -64,7 +64,7 @@ spec:
 {% endif %}
         - name: AUTH_RESET_PWD_VIEW
           value: https://{{ dojot_domain_name }}/#/setPassword/
-      - image: redis:alpine
+      - image: dojot/redis:5.0.5-alpine3.10
         name: redis
         ports:
         - containerPort: 6379
