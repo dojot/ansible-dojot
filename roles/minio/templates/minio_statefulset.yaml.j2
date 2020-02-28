@@ -23,17 +23,17 @@ spec:
           value: {{ dojot_minio_access_key }}
         - name: MINIO_SECRET_KEY
           value: {{ dojot_minio_secret_key }}
-        image: minio/minio
+        image: dojot/minio:2019.09.20
         args:
         - server
         - /data
         ports:
         - containerPort: {{ dojot_minio_port }}
-{% if dojot_minio_persistent_volumes %}        
+{% if dojot_minio_persistent_volumes %}
         volumeMounts:
         - name: minio-volume
           mountPath: /data
-{% endif %}           
+{% endif %}
         livenessProbe:
           httpGet:
             path: /minio/health/live
