@@ -19,7 +19,7 @@ spec:
                 matchExpressions:
                   - key: "name"
                     operator: In
-                    values: 
+                    values:
                     - kafka-server
               topologyKey: "kubernetes.io/hostname"
         podAffinity:
@@ -30,14 +30,14 @@ spec:
                     matchExpressions:
                       - key: "name"
                         operator: In
-                        values: 
+                        values:
                         - zookeeper
                  topologyKey: "kubernetes.io/hostname"
       terminationGracePeriodSeconds: 300
       containers:
       - name: kafka
         imagePullPolicy: Always
-        image: gcr.io/google_samples/k8skafka:v1
+        image: dojot/k8skafka:v1
         ports:
         - containerPort: {{ dojot_kafka_port }}
           name: server

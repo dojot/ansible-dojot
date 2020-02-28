@@ -21,14 +21,14 @@ spec:
         - name: BACKEND_HOST
           value: localhost
         - name: DOJOT_MANAGEMENT_USER
-          value: iotagent-mqtt  
+          value: iotagent-mqtt
         - name: KAFKA_GROUP_ID
           value: iotagent-mqtt-group
         - name: ALLOW_UNSECURED_MODE
           value: "{{ dojot_insecure_mqtt }}"
         - name: KAFKA_HOSTS
           value: kafka-server:{{ dojot_kafka_port }}
-      - image: redis:alpine
+      - image: dojot/redis:5.0.5-alpine3.10
         name: redis
         ports:
         - containerPort: 6379

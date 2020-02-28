@@ -16,6 +16,6 @@ spec:
         app: dojot
     spec:
       containers:
-      - image: redis:alpine
+      - image: dojot/redis:5.0.5-alpine3.10
         name: data-broker-redis
       restartPolicy: Always
