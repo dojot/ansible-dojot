@@ -101,7 +101,7 @@ before deploying dojot
 ### - IoTAgent Mosca
 
 * *dojot_iotagent_mosca_version*: Version of the IoT Agent Mosca container. Defaults to *dojot_version*
-* *dojot_insecure_mqtt*: Defines wheter or not the agent accepts insecure mqtt connections. Defaults to *false*
+* *dojot_insecure_mqtt*: Defines wheter or not the agent accepts insecure mqtt connections. Defaults to *true*
 
 ### - Persister
 
