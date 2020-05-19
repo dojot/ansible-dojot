@@ -1,0 +1,19 @@
+
+kind: StatefulSet
+metadata:
+  name: kafka-loopback
+  namespace: {{ dojot_namespace }}
+spec:
+  serviceName: "kafka-loopback"
+  selector:
+    matchLabels:
+      app: kafka-loopback
+  replicas: {{ dojot_vernemq_mqtt_replicas_to_scale }}
+  template:
+    metadata:
+      labels:
+        app: kafka-loopback
+    spec:
+      containers:
+      - name: kafka-loopback
+        image: dojot/kafka-loopback:{{ dojot_v2k_version}}

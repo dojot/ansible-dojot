@@ -18,6 +18,12 @@ spec:
       - image: dojot/iotagent-mosca:{{ dojot_iotagent_mosca_version }}
         name: iotagent-mosca
         env:
+        - name: MOSCA_TLS_DNS_LIST
+          value: {{ dojot_domain_name }}
+        - name: LOG_LEVEL
+          value: info
+        - name: MQTTREST_EJBCA_URL
+          value: http://ejbca-wrapper:5583
         - name: BACKEND_HOST
           value: localhost
         - name: DOJOT_MANAGEMENT_USER

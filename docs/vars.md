@@ -18,6 +18,8 @@ before deploying dojot
 * *dojot_kubernetes_rbac*: This variable controls the creation of RBAC rules for dojot. Default value is **true**
 * *dojot_booststrap*: Defines if packages required for the deployment should be installed. Defaults to **true**
 
+* *dojot_vernemq_mqtt_replicas_to_scale*: Set number of replicas for vernemq-dojot, k2v-vernemq-dojot,v2k-vernemq-dojot, data-broker (Kafka Partitions, not replicas),latency-pub-test-prometheus. Defaults to **4**
+
 ### - Zookeeper
 
 * *dojot_zk_client_port*: Port exposed by Zookeeper for client access. Defaults to **2181**.
@@ -43,6 +45,7 @@ before deploying dojot
 * *dojot_psql_port*: PostgreSQL port configured for acessing the database by the dojot services. Defaults to **5432**
 * *dojot_psql_persistent_volumes*: If persistent volumes are not supported by your environment this variable should be set to false. Defaults to **true**
 * *dojot_psql_volume_size*: Size of the persistent volume that will be created for the PostgreSQL volume. Defaults to **10G**
+
 
 ### - MongoDB
 
@@ -109,6 +112,6 @@ before deploying dojot
 
 ### - EJBCA
 
-* *dojot_ejbca_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **false**
-* *dojot_ejbca_volume_size*: Size of the EJBCA volumes that are created. Defaults to **1Gi**
+* *dojot_ejbca_psql_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **true**
+* *dojot_ejbca_psql_volume_size*: Size of the EJBCA volumes that are created. Defaults to **4Gi**
 * *dojot_ejbca_version*: Version of the ejbca-rest container. Defaults to *dojot_version*

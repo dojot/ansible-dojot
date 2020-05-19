@@ -29,6 +29,14 @@ spec:
         runAsUser: 1000
         fsGroup: 1000
       affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#           - matchExpressions:
+#              - key: kubernetes.io/hostname
+#                operator: In
+#                values:
+#                - verne-kafka
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
            - topologyKey: "kubernetes.io/hostname"
@@ -114,4 +122,4 @@ spec:
       resources:
         requests:
           storage: {{ dojot_zk_volume_size }}
-{% endif %}         
+{% endif %}

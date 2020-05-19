@@ -6,15 +6,14 @@ metadata:
   name: kong
   namespace: {{ dojot_namespace }}
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
-  - name: "apigw-http"
-    port: {{ dojot_internal_http_port }}
-    targetPort: {{ dojot_internal_http_port }}
-    nodePort: 30001
   - name: "apigw-config"
     port: {{ dojot_internal_api_config_port }}
     targetPort: {{ dojot_internal_api_config_port }}
+  - name: "apigw-http-internal"
+    port: {{ dojot_internal_http_port }}
+    targetPort: {{ dojot_internal_http_port }}
   selector:
     name: kong
     app: dojot

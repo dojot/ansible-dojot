@@ -1,6 +1,0 @@
-# Default variable values for the ejbca-rest service
-
-dojot_ejbca_version: "{{ dojot_version }}"
-
-dojot_ejbca_persistent_volumes: true
-dojot_ejbca_volume_size: 1G

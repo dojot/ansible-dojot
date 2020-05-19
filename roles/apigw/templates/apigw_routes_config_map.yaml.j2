@@ -18,7 +18,6 @@ data:
             sleep 2
         done
 
-        echo
 
         echo "Kong is up, configuring routes"
 
@@ -103,6 +102,7 @@ data:
         authConfig "image"
 
         # auth-permissions-service
+
         (curl -o /dev/null ${kong}/apis -sS -X POST \
             --header "Content-Type: application/json" \
             -d @- ) <<PAYLOAD
@@ -223,7 +223,7 @@ data:
             "name": "ejbca-paths",
             "uris": [ "/sign", "/ca", "/user"],
             "strip_uri": false,
-            "upstream_url": "http://ejbca:5583/"
+            "upstream_url": "http://ejbca-wrapper:5583/"
         }
         PAYLOAD
         authConfig "ejbca-paths"
@@ -277,18 +277,5 @@ data:
         }
         PAYLOAD
         authConfig "cron"
-
-        # iotagent-mqtt-metrics
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "iotagent-mqtt",
-            "uris": ["/iotagent-mqtt/metrics"],
-            "strip_uri": false,
-            "upstream_url": "http://iotagent-mqtt:10001/"
-        }
-        PAYLOAD
-        authConfig "iotagent-mqtt"
-
+        
         echo "API Gateway Paths configured"
