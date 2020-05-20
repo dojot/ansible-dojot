@@ -2,18 +2,16 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: kong
-  name: kong
+    name: kong-external
+  name: kong-external
   namespace: {{ dojot_namespace }}
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
-  - name: "apigw-config"
-    port: {{ dojot_internal_api_config_port }}
-    targetPort: {{ dojot_internal_api_config_port }}
-  - name: "apigw-http-internal"
+  - name: "apigw-http"
     port: {{ dojot_internal_http_port }}
     targetPort: {{ dojot_internal_http_port }}
+    nodePort: 30001
   selector:
     name: kong
     app: dojot
