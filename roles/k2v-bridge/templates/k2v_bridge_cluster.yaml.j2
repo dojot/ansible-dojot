@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: k2v-bridge
+  namespace: {{ dojot_namespace }}
+spec:
+  serviceName: "k2v-bridge"
+  selector:
+    matchLabels:
+      app: k2v-bridge
+  replicas: {{ dojot_vernemq_mqtt_replicas_to_scale }}
+  template:
+    metadata:
+      labels:
+        app: k2v-bridge
+    spec:
+      containers:
+      - name: k2v-bridge
+        image: dojot/k2v-bridge:{{ dojot_k2v_version}}
+        env:
+        - name: KAFKA_HOSTS
+          value: kafka-server:9092
+        - name: KAFKA_GROUP_ID
+          value: "k2v-bridge-group-id"

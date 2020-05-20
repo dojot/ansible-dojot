@@ -13,6 +13,14 @@ spec:
         name: kafka-server
     spec:
       affinity:
+#        nodeAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+#            - matchExpressions:
+#              - key: kubernetes.io/hostname
+#                operator: In
+#                values:
+#                - verne-kafka
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:

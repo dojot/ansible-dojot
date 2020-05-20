@@ -1,0 +1,13 @@
+## This role is responsible for deploying loopback script for 100k epic
+
+- name: dojot - 100k-loopback Objects
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'kafka_loopback_cluster.yaml.j2') | from_yaml }}"

@@ -23,6 +23,13 @@
   roles:
     - role: minio
 
+#Metrics
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags: dojot-metrics-prometheus-grafana
+  roles:
+    - role: metrics
+
 # Deploy ZK to the environment
 # TODO: Add possibility of using an external zk by setting config variables
 - hosts: dojot-k8s[0]
@@ -32,6 +39,7 @@
     - role: zookeeper
       when: not dojot_zk_use_external
 
+
 # Deploy postgreSQL to the environment
 # TODO: Add possibility of using an external postgres by setting DB config variables
 # TODO: Support a HA cluster
@@ -40,6 +48,15 @@
   tags: dojot-psql
   roles:
     - role: databases/postgresql
+
+# Deploy postgreSQL to the environment
+# TODO: Add possibility of using an external postgres by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags: dojot-psql-ejbca
+  roles:
+    - role: databases/postgres-ejbca
 
 # Deploy mongoDB to the environment
 # TODO: Add possibility of using an external mongodb by setting DB config variables
@@ -59,6 +76,15 @@
   roles:
     - role: kafka
 
+# Deploy verneMq to the environment
+# TODO: Add possibility of using an external verneMQ by setting config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags: dojot-vernemq
+  roles:
+    - role: vernemq
+
 # Deploy RabbitMQ to the environment
 # TODO: Add possibility of using an external rabbit by setting config variables
 - hosts: dojot-k8s[0]
@@ -76,9 +102,10 @@
     - role: image-manager
     - role: apigw
     - role: auth
+    - role: backstage
     - role: data-broker
+    - role: ejbca-node
     - role: device-manager
-    - role: ejbca-rest
     - role: history
     - role: persister
     - role: gui
@@ -86,7 +113,9 @@
     - role: iotagent-lwm2m
     - role: flowbroker
     - role: data-manager
-    - role: backstage
     - role: cron
+    - role: v2k-bridge
+    - role: k2v-bridge
+    - role: latency-pub-test-prometheus
 
-# TODO: Dojot users?
+
