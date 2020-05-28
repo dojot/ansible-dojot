@@ -39,4 +39,4 @@ dojot_insecure_mqtt: 'true'
 # Set number of replicas for vernemq-dojot, k2v-vernemq-dojot,
 # v2k-vernemq-dojot, data-broker {kafka - Partitions, not replicas},
 # latency-pub-test-prometheus
-dojot_vernemq_mqtt_replicas_to_scale: "4"
+dojot_vernemq_mqtt_replicas_to_scale: "1"
