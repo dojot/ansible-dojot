@@ -27,9 +27,7 @@ spec:
       - name: v2k-bridge
         image: dojot/v2k-bridge:{{ dojot_v2k_version}}
         env:
-        - name: EJBCA_ADDRESS
+        - name: V2K_APP_EJBCA_ADDRESS
           value: ejbca-wrapper:5583
-        - name: KAFKA_HOSTS
-          value: kafka-server:9092
 
 
