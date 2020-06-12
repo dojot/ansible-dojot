@@ -277,5 +277,18 @@ data:
         }
         PAYLOAD
         authConfig "cron"
-        
+
+        # Configure a kafka-ws service
+        (curl -o /dev/null ${kong}/apis -sS -X POST \
+            --header "Content-Type: application/json" \
+            -d @- ) <<PAYLOAD
+        {
+            "name": "kafka-ws",
+            "uris": "/kafka-ws",
+            "strip_uri": true,
+            "upstream_url": "http://kafkaws:5000/"
+        }
+        PAYLOAD
+        authConfig "kafka-ws"
+
         echo "API Gateway Paths configured"

@@ -118,5 +118,6 @@
     - role: k2v-bridge
     - role: latency-pub-test-prometheus
     - role: kafka2ftp
+    - role: kafka-ws
 
 
