@@ -277,5 +277,18 @@ data:
         }
         PAYLOAD
         authConfig "cron"
+
+        # x509-identity-mgmt
+        (curl -o /dev/null ${kong}/apis -s -S -X POST \
+            --header "Content-Type: application/json" \
+            -d @- ) <<PAYLOAD
+        {
+            "name": "x509-identity-mgmt",
+            "uris": [ "/x509"],
+            "strip_uri": true,
+            "upstream_url": "http://x509-identity-mgmt:3000/api"
+        }
+        PAYLOAD
+        authConfig "x509-identity-mgmt"
         
         echo "API Gateway Paths configured"

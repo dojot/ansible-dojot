@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: x509-identity-mgmt
+  namespace: {{ dojot_namespace }}
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/hostname
+            operator: NotIn
+            values:
+            - verne-kafka
+  selector:
+    matchLabels:
+      app: x509-identity-mgmt
+  replicas: 1
+  template: #templates for the pods
+    metadata:
+      labels:
+        app: x509-identity-mgmt
+    spec:
+      hostname: "x509-identity-mgmt"
+      #subdomain: "dojot.iot"
+      containers:
+      - name: x509-identity-mgmt
+        image: thiagodpf/x509-identity-mgmt:1.2
+        #image: jonaphael/x509-identity-mgmt:development
+        #image: dojot/x509-identity-mgmt:{{ dojot_version  }}
+        env:
+        - name: DATABASE_JDBC_URL
+          value: "jdbc:postgresql://postgres:5432/ejbca?characterEncoding=UTF-8"
+        - name: DATABASE_USER
+          value: "ejbca"
+        - name: DATABASE_PASSWORD
+          value: "ejbca"
+        - name: EJBCA_PERFORM_DOJOT_SETUP
+          value: "true"
+        - name: NODE_ENV
+          value: "production"
+        - name: MONGO_URI
+          value: "mongodb://mongodb:27017/x509-identity-mgmt"
+      volumeMounts:
+      - mountPath: /mnt/persistent
+        name: x509-idenity-data
+      restartPolicy: Always
+      volumes:
+      - name: x509-idenity-data
+        persistentVolumeClaim:
+          claimName: x509-identity-pvc

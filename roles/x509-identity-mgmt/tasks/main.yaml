@@ -1,6 +1,6 @@
 ## This role is responsible for deploying verneMq for dojot
 
-- name: dojot - ejbca-node Objects
+- name: dojot - x509 Identity Management Objects
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
@@ -10,5 +10,5 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'ejbca_cluster.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'ejbca_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'x509_identity_mgmt_cluster.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'x509_identity_mgmt_service.yaml.j2') | from_yaml }}"

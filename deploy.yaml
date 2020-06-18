@@ -104,7 +104,7 @@
     - role: auth
     - role: backstage
     - role: data-broker
-    - role: ejbca-node
+    - role: x509-identity-mgmt
     - role: device-manager
     - role: history
     - role: persister

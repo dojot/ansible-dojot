@@ -3,11 +3,11 @@
 # Its is possible to run from localhost accessing a remote node by defining a kubeconfig file
 
 ## Metrics
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags: dojot-metrics-prometheus-grafana
-  roles:
-    - role: metrics
+#- hosts: dojot-k8s[0]
+#  any_errors_fatal: true
+#  tags: dojot-metrics-prometheus-grafana
+#  roles:
+#    - role: metrics
 
 ## Deploy ZK to the environment
 ## TODO: Add possibility of using an external zk by setting config variables
@@ -36,6 +36,15 @@
   roles:
     - role: databases/postgres-ejbca
 
+# Deploy mongoDB to the environment
+# TODO: Add possibility of using an external mongodb by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags: dojot-mongodb
+  roles:
+    - role: databases/mongodb
+
 ## Deploy Kafka to the environment
 ## TODO: Add possibility of using an external kafka by setting config variables
 ## TODO: Support a HA cluster
@@ -63,8 +72,8 @@
     - role: apigw
     - role: auth
     - role: data-broker
-    - role: ejbca-node
+    - role: x509-identity-mgmt
     - role: v2k-bridge
     - role: k2v-bridge
-    - role: latency-pub-test-prometheus
+            # - role: latency-pub-test-prometheus
     - role: kafka-loopback

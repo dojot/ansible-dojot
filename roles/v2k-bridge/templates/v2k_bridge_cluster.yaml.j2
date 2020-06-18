@@ -25,10 +25,11 @@ spec:
                 - verne-kafka
       containers:
       - name: v2k-bridge
-        image: dojot/v2k-bridge:{{ dojot_v2k_version}}
+        #image: dojot/v2k-bridge:{{ dojot_v2k_version}}
+        image: jonaphael/v2k-x509-identity-mgmt:development
         env:
         - name: EJBCA_ADDRESS
-          value: ejbca-wrapper:5583
+          value: x509-identity-mgmt:3000
         - name: KAFKA_HOSTS
           value: kafka-server:9092
 

@@ -6,7 +6,8 @@ metadata:
   name: k8s
   namespace: {{ dojot_namespace }}
 spec:
-  baseImage: dojot/vernemq-dojot
+  # baseImage: dojot/vernemq-dojot
+  baseImage: jonaphael/verne-x509-identity-mgmt
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -20,7 +21,7 @@ spec:
     - name: USE_VMQ_OPERATOR
       value: "y"
     - name: EJBCA_ADDRESS
-      value: "ejbca-wrapper:5583"
+      value: "x509-identity-mgmt:3000"
     - name: CRL_UPDATE_TIME
       value: "*/10 * * * *" #every 30 min
     - name: CHECK_EXPIRATION_TIME
@@ -32,7 +33,7 @@ spec:
     - name: EXTERNAL_SERVER_HOSTNAME
       value: "{{ dojot_domain_name }}"
     - name: EXTERNAL_SERVER_IP
-      value: "127.0.0.1"
+      value: "10.50.11.149"
     - name: INTERNAL_DNS
       value: "vernemq-k8s"
       ## BASE-64 config
@@ -57,5 +58,6 @@ spec:
     plugins: []
   serviceAccountName: vernemq-k8s
   size: {{ dojot_vernemq_mqtt_replicas_to_scale }}
-  tag: {{ dojot_verne_version }}
+  #tag: {{ dojot_verne_version }}
+  tag: development
 

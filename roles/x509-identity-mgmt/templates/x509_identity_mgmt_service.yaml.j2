@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: ejbca-wrapper
+  name: x509-identity-mgmt
   namespace: {{ dojot_namespace }}
 spec:
   type: ClusterIP
   selector:
-    app: ejbca-wrapper
+    app: x509-identity-mgmt
   ports:
-  - name: ejbca-wrapper
-    port: 5583
+  - name: x509-identity-mgmt
+    port: 3000
+  
