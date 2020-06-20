@@ -6,8 +6,7 @@ metadata:
   name: k8s
   namespace: {{ dojot_namespace }}
 spec:
-  # baseImage: dojot/vernemq-dojot
-  baseImage: jonaphael/verne-x509-identity-mgmt
+  baseImage: dojot/vernemq-dojot
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -58,6 +57,5 @@ spec:
     plugins: []
   serviceAccountName: vernemq-k8s
   size: {{ dojot_vernemq_mqtt_replicas_to_scale }}
-  #tag: {{ dojot_verne_version }}
-  tag: development
+  tag: {{ dojot_verne_version }}
 

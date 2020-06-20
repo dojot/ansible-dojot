@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
       - name: k2v-bridge
-       # image: dojot/k2v-bridge:{{ dojot_k2v_version}}
-        image: jonaphael/k2v-x509-identity-mgmt:development
+        image: dojot/k2v-bridge:{{ dojot_k2v_version}}
         env:
         - name: KAFKA_HOSTS
           value: kafka-server:9092

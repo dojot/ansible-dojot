@@ -15,8 +15,7 @@ spec:
         app: dojot
     spec:
       containers:
-      #- image: dojot/auth:{{ dojot_auth_version }}
-      - image: thiagodpf/auth:1.0
+      - image: dojot/auth:{{ dojot_auth_version }}
         name: auth
         env:
         - name: KAFKA_HOSTS

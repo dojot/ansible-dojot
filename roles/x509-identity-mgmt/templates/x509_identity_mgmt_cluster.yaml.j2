@@ -21,15 +21,14 @@ spec:
   template: #templates for the pods
     metadata:
       labels:
-        app: x509-identity-mgmt
+        app: dojot
+        name: x509-identity-mgmt
     spec:
       hostname: "x509-identity-mgmt"
       #subdomain: "dojot.iot"
       containers:
       - name: x509-identity-mgmt
-        image: thiagodpf/x509-identity-mgmt:1.2
-        #image: jonaphael/x509-identity-mgmt:development
-        #image: dojot/x509-identity-mgmt:{{ dojot_version  }}
+        image: dojot/x509-identity-mgmt:{{ dojot_version  }}
         env:
         - name: DATABASE_JDBC_URL
           value: "jdbc:postgresql://postgres:5432/ejbca?characterEncoding=UTF-8"
