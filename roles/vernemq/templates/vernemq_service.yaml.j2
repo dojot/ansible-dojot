@@ -22,4 +22,6 @@ spec:
   selector:
     app: vernemq
     vernemq: k8s
+  topologyKeys:
+    - "kubernetes.io/hostname"
   sessionAffinity: ClientIP
