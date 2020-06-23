@@ -4,9 +4,7 @@ metadata:
   name: vernemq-k8s-external-service
   namespace: {{ dojot_namespace }}
 spec:
-  # This defines which pods are going to be represented by this Service
-  # The service becomes a network endpoint for either other services
-  # or maybe external users to connect to (eg browser)
+  externalTrafficPolicy: Local
   selector:
     vernemq: k8s
   ports:
