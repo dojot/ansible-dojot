@@ -18,7 +18,8 @@ before deploying dojot
 * *dojot_kubernetes_rbac*: This variable controls the creation of RBAC rules for dojot. Default value is **true**
 * *dojot_booststrap*: Defines if packages required for the deployment should be installed. Defaults to **true**
 
-* *dojot_vernemq_mqtt_replicas_to_scale*: Set number of replicas for vernemq-dojot, k2v-vernemq-dojot,v2k-vernemq-dojot, data-broker (Kafka Partitions, not replicas),latency-pub-test-prometheus. Defaults to **4**
+* *dojot_vernemq_mqtt_replicas_to_scale*: Set number of replicas for vernemq-dojot. Defaults to **1**
+* *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**
 
 ### - Zookeeper
 

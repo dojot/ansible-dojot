@@ -66,5 +66,4 @@
     - role: ejbca-node
     - role: v2k-bridge
     - role: k2v-bridge
-    - role: latency-pub-test-prometheus
     - role: kafka-loopback

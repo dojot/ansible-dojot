@@ -7,18 +7,25 @@ spec:
   serviceName: "k2v-bridge"
   selector:
     matchLabels:
-      app: k2v-bridge
-  replicas: {{ dojot_vernemq_mqtt_replicas_to_scale }}
+      name: k2v-bridge
+  replicas: {{ dojot_bridges_replicas }}
   template:
     metadata:
       labels:
-        app: k2v-bridge
+        app: dojot
+        name: k2v-bridge
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: vernemq
+                operator: In
+                values:
+                - k8s
+            topologyKey: "kubernetes.io/hostname"
       containers:
       - name: k2v-bridge
-        image: dojot/k2v-bridge:{{ dojot_k2v_version}}
-        env:
-        - name: KAFKA_HOSTS
-          value: kafka-server:9092
-        - name: KAFKA_GROUP_ID
-          value: "k2v-bridge-group-id"
+        # image: dojot/k2v-bridge:{{ dojot_k2v_version}}
+        image: dojot/k2v-bridge:epic-100kMqttDevices

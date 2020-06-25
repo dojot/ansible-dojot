@@ -1,4 +1,4 @@
-- name: Metrics 
+- name: Metrics
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
