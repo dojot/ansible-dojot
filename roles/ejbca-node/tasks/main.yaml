@@ -10,5 +10,6 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'ejbca_cluster.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'ejbca_secrets.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'ejbca_deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'ejbca_service.yaml.j2') | from_yaml }}"

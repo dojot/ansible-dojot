@@ -24,4 +24,4 @@ dojot_psql_port: 5432
 
 # Define if persistent volumes will be used
 dojot_psql_persistent_volumes: true
-dojot_psql_volume_size: 10G
+dojot_psql_volume_size: 2Gi
