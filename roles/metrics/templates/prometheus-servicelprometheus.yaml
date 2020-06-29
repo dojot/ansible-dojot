@@ -4,12 +4,12 @@ metadata:
   labels:
     prometheus: k8s
   name: k8s
-  namespace: monitoring
+  namespace: dojot-monitoring
 spec:
   alerting:
     alertmanagers:
     - name: alertmanager-main
-      namespace: monitoring
+      namespace: dojot-monitoring
       port: web
   baseImage: quay.io/prometheus/prometheus
   nodeSelector:
