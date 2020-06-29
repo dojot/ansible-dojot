@@ -61,11 +61,32 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/kafka/data
               name: kafka-volume
-      volumes:
-        - name: kafka-volume
-          persistentVolumeClaim:
-            claimName: kafka-pv-claim
 {% endif %}
+          readinessProbe:
+            exec:
+              command: 
+                - sh 
+                - -c 
+                - "/usr/bin/kafka-broker-api-versions --bootstrap-server=localhost:{{ dojot_kafka_port }}"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
+{% if dojot_kafka_persistent_volumes %}
+  volumeClaimTemplates:
+  - metadata:
+      name: kafka-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_kafka_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          name: kafka-server
+{% endif %}
+
