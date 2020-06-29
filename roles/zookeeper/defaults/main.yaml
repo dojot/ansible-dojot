@@ -8,6 +8,6 @@ dojot_zk_election_port: 3888
 
 dojot_zk_cluster_size: 1
 
-dojot_zk_volume_size: 3G
+dojot_zk_volume_size: 1Gi
 
 dojot_zk_persistent_volumes: true

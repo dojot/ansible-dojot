@@ -27,7 +27,6 @@ spec:
   ports:
     - name: web
       port: 9090
-      nodePort: 30017
 
   type: NodePort
 #

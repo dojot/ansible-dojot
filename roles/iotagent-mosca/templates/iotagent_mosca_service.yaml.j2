@@ -11,11 +11,9 @@ spec:
   - name: mqtt-insecure
     port: 1883
     targetPort: 1883
-    nodePort: 30002
   - name: mqtt-secure
     port: 8883
     targetPort: 8883
-    nodePort: 30003
   selector:
     name: iotagent-mosca
     app: dojot
