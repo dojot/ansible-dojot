@@ -11,5 +11,3 @@ dojot_mongodb_version: 3.2
 dojot_mongodb_port: 27017
 
 dojot_mongodb_volume_size: 2Gi
-
-dojot_mongodb_persistent_volumes: true

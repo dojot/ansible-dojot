@@ -12,7 +12,6 @@ dojot_psql_ejbca_default_db: ejbca_db
 dojot_psql_ejbca_user: ejbca
 dojot_psql_ejbca_passwd: ejbca
 
-dojot_psql_ejbca_persistent_volumes: false
 dojot_psql_ejbca_volume_size: 2Gi
 
 

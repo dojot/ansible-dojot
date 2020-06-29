@@ -8,6 +8,4 @@ dojot_minio_port: 9000
 
 dojot_minio_cluster_size: 1
 
-dojot_minio_persistent_volumes: true
-
 dojot_minio_volume_size: 2Gi

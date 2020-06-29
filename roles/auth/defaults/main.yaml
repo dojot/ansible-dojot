@@ -6,7 +6,6 @@ dojot_auth_version: "{{ dojot_version }}"
 dojot_psql_auth_user: auth
 dojot_psql_auth_passwd: auth
 
-dojot_auth_email_enabled: false
 dojot_auth_email_host: smtp.email.com
 dojot_auth_email_user: user@email.com
 dojot_auth_email_passwd: user_passwd
