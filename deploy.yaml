@@ -26,7 +26,7 @@
 #Metrics
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-metrics-prometheus-grafana, 100k]
+  tags: [metrics, 100k]
   roles:
     - role: metrics
 
@@ -115,6 +115,7 @@
     - role: persister
     - role: gui
     - role: iotagent-mosca
+      tags: never
     - role: iotagent-lwm2m
     - role: flowbroker
     - role: data-manager

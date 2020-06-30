@@ -18,7 +18,7 @@ before deploying dojot
 * *dojot_kubernetes_rbac*: This variable controls the creation of RBAC rules for dojot. Default value is **true**
 * *dojot_booststrap*: Defines if packages required for the deployment should be installed. Defaults to **true**
 
-* *dojot_vernemq_mqtt_replicas_to_scale*: Set number of replicas for vernemq-dojot. Defaults to **1**
+* *dojot_vernemq_replicas*: Set number of replicas for vernemq-dojot. Defaults to **1**
 * *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**
 
 ### - Zookeeper
@@ -27,8 +27,8 @@ before deploying dojot
 * *dojot_zk_server_port*: Port exposed by Zookeeper for server access. Defaults to **2888**
 * *dojot_zk_election_port*: Port exposed by zookeeper for cluster election. Defaults to **3888**
 * *dojot_zk_cluster_size*: Inital cluster size for deploying zookeeper. Defaults to **1**.
-* *dojot_zk_persistent_volumes*: Defines whether ot not the zookeeper services will use persistent volumes, this should be supported by the kubernetes setup. Defaults to **true**
-* *dojot_zk_volume_size*: Size of the persistent volume created for the zookeeper service. Defaults to **3G**
+* *dojot_zk_persistent_volumes*: Defines whether ot not the zookeeper services will use persistent volumes, this should be supported by the kubernetes setup. Defaults to **false**
+* *dojot_zk_volume_size*: Size of the persistent volume created for the zookeeper service. Defaults to **1G**
 
 ### - PostgreSQL
 
@@ -44,8 +44,8 @@ before deploying dojot
 * *dojot_psql_devm_user*: Username for accessing the devm database. Defaults to **devm**
 * *dojot_psql_devm_passwd*: Password for accessing the devm database. Defaults to **devm**
 * *dojot_psql_port*: PostgreSQL port configured for acessing the database by the dojot services. Defaults to **5432**
-* *dojot_psql_persistent_volumes*: If persistent volumes are not supported by your environment this variable should be set to false. Defaults to **true**
-* *dojot_psql_volume_size*: Size of the persistent volume that will be created for the PostgreSQL volume. Defaults to **10G**
+* *dojot_psql_persistent_volumes*: If persistent volumes are supported by your environment this variable should be set to true. Defaults to **false**
+* *dojot_psql_volume_size*: Size of the persistent volume that will be created for the PostgreSQL volume. Defaults to **2G**
 
 
 ### - MongoDB
@@ -54,8 +54,8 @@ before deploying dojot
 * *dojot_mongodb_super_passwd*: Super user password for accessing MongoDB. Defaults to **mongodb**
 * *dojot_mongodb_version*: Container version for the mongodb container. Defaults to **3.4**
 * *dojot_mongodb_port*: MongoDB access port. Defaults to **27017**
-* *dojot_mongodb_persistent_volumes*: If persistent volumes are not supported by your environment this variable should be set to false. Defaults to **true**
-* *dojot_mongodb_volume_size*: Size of the persistent volume that will be created for the mongoDB volume. Defaults to **30G**
+* *dojot_mongodb_persistent_volumes*: If persistent volumes are supported by your environment this variable should be set to true. Defaults to **false**
+* *dojot_mongodb_volume_size*: Size of the persistent volume that will be created for the mongoDB volume. Defaults to **2G**
 
 ### - API Gateway
 
@@ -83,7 +83,7 @@ before deploying dojot
 * *dojot_kafka_port*: Kafka port exposed to the services. Defaults to **9092**
 * *dojot_kafka_cluster_size*: Number of nodes inittialy present on the deployment. Defaults to **1**
 * *dojot_kafka_persistent_volumes*: Configures whether kafka should use persistent volumes or not, must be supported by the environment. Defaults to **false**
-* *dojot_kafka_volume_size*: Size of the Kafka volumes that are created. Defaults to **10Gi**
+* *dojot_kafka_volume_size*: Size of the Kafka volumes that are created. Defaults to **2Gi**
 
 ### - RabbitMQ
 
@@ -113,6 +113,6 @@ before deploying dojot
 
 ### - EJBCA
 
-* *dojot_ejbca_psql_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **true**
-* *dojot_ejbca_psql_volume_size*: Size of the EJBCA volumes that are created. Defaults to **4Gi**
+* *dojot_ejbca_psql_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **false**
+* *dojot_psql_ejbca_volume_size*: Size of the EJBCA volumes that are created. Defaults to **2Gi**
 * *dojot_ejbca_version*: Version of the ejbca-rest container. Defaults to *dojot_version*

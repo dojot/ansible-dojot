@@ -27,8 +27,7 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
       - name: v2k-bridge
-        # image: dojot/v2k-bridge:{{ dojot_v2k_version}}
-        image: dojot/v2k-bridge:epic-100kMqttDevices
+        image: dojot/v2k-bridge:{{ dojot_v2k_version}}
         env:
         - name: V2K_APP_EJBCA_ADDRESS
           value: ejbca-wrapper:5583
