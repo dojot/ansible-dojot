@@ -1,6 +1,5 @@
----
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   labels:
     app: dojot
@@ -48,9 +47,17 @@ spec:
         configMap:
           name: postgres-init
 {% if dojot_psql_persistent_volumes %}
-      - name: psql-volume
-        persistentVolumeClaim:
-          claimName: psql-volume-claim
+  volumeClaimTemplates:
+  - metadata:
+      name: psql-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_psql_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          db: postgres     
 {% endif %}
-
-# TODO: View deploy strategies

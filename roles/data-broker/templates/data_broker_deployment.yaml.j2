@@ -33,7 +33,7 @@ spec:
         - name: DATABROKER_KAFKA_PORT
           value: "{{ dojot_kafka_port }}"
         - name: KAFKA_NUM_PARTITIONS
-          value: "{{ dojot_vernemq_mqtt_replicas_to_scale }}"
+          value: "{{ dojot_bridges_replicas }}"
         - name: KAFKA_REPLICATION_FACTOR
           value: "1"
       restartPolicy: Always

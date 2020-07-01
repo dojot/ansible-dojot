@@ -5,20 +5,11 @@ metadata:
   name: ejbca-wrapper
   namespace: {{ dojot_namespace }}
 spec:
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-        - matchExpressions:
-          - key: kubernetes.io/hostname
-            operator: NotIn
-            values:
-            - verne-kafka
   selector:
     matchLabels:
       app: ejbca-wrapper
   replicas: 1
-  template: #templates for the pods
+  template:
     metadata:
       labels:
         app: ejbca-wrapper
@@ -26,14 +17,20 @@ spec:
       hostname: localhost
       containers:
       - name: ejbca-wrapper
-        image: dojot/ejbca-wrapper:{{ dojot_version  }}  ## change to dojot_ejbca_version
+        image: dojot/ejbca-wrapper:{{ dojot_ejbca_version  }}
         env:
         - name: DATABASE_JDBC_URL
-          value: "jdbc:postgresql://postgres-ejbca:5433/ejbca_db"
+          value: "{{ dojot_psql_ejbca_db_url }}"
         - name: DATABASE_USER
-          value: "youruser"
+          valueFrom:
+            secretKeyRef:
+              name: ejbca-secret
+              key: user
         - name: DATABASE_PASSWORD
-          value: "yourpassword"
+          valueFrom:
+            secretKeyRef:
+              name: ejbca-secret
+              key: password  
         - name: LOG_LEVEL_APP
           value: "ERROR"
         - name: LOG_LEVEL_SERVER_SUBSYSTEMS

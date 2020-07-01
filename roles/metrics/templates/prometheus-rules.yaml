@@ -5,7 +5,7 @@ metadata:
     prometheus: k8s
     role: alert-rules
   name: prometheus-k8s-rules
-  namespace: monitoring
+  namespace: dojot-monitoring
 spec:
   groups:
   - name: k8s.rules

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: dojot
+    name: postgres-ejbca
+  name: postgres-ejbca
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: postgres-ejbca
+  template:
+    metadata:
+      labels:
+        app: dojot
+        name: postgres-ejbca
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/postgres:{{ dojot_psql_ejbca_version }}
+        name: postgres
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgres-ejbca-secret
+                key: user
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-ejbca-secret
+                key: password
+          - name: POSTGRES_DB
+            value: {{ dojot_psql_ejbca_default_db }}
+        volumeMounts:
+          - name: postgres-ejbca-init
+            mountPath: /docker-entrypoint-initdb.d/
+{% if dojot_psql_ejbca_persistent_volumes %}
+          - name: psql-ejbca-volume
+            mountPath: /var/lib/postgresql/data
+{% endif %}
+      volumes:
+      - name: postgres-ejbca-init
+        configMap:
+          name: postgres-ejbca-init
+{% if dojot_psql_ejbca_persistent_volumes %}
+  volumeClaimTemplates:
+  - metadata:
+      name: psql-ejbca-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_psql_ejbca_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          db: ejbca    
+{% endif %}

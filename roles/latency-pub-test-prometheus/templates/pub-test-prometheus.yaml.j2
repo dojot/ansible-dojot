@@ -4,7 +4,7 @@ metadata:
   name: pub-laten-kafka-prom
   namespace: {{ dojot_namespace }}
 spec:
-  replicas: {{ dojot_vernemq_mqtt_replicas_to_scale }}
+  replicas: {{ dojot_bridges_replicas }}
   selector:
     matchLabels:
       app: pub-laten-kafka-prom

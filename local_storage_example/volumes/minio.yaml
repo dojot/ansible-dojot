@@ -1,19 +1,20 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-pv-1
+  name: local-pv-minio
   labels:
     type: local
-    db: postgres
+    app: dojot
+    db: minio
 spec:
   capacity:
-    storage: 4Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   local:
-    path: /mnt/data/vol1
+    path: /mnt/data/minio
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -21,4 +22,4 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - verne-worker
+          - k8s17-worker

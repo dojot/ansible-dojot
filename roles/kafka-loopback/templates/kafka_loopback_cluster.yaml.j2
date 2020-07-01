@@ -7,12 +7,13 @@ spec:
   serviceName: "kafka-loopback"
   selector:
     matchLabels:
-      app: kafka-loopback
-  replicas: {{ dojot_vernemq_mqtt_replicas_to_scale }}
+      name: kafka-loopback
+  replicas: {{ dojot_bridges_replicas }}
   template:
     metadata:
       labels:
-        app: kafka-loopback
+        app: dojot
+        name: kafka-loopback
     spec:
       containers:
       - name: kafka-loopback

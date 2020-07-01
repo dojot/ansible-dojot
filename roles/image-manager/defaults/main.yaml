@@ -1,6 +1,10 @@
 ---
 # Define defaults values for image manager role variables
 
+dojot_psql_auth_user: auth
+
+dojot_psql_auth_passwd: auth
+
 dojot_image_manager_version: "{{ dojot_version }}"
 
 s3_url: "minio:9000"

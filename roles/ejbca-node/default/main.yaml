@@ -1,4 +1,0 @@
----
-# This files has the default values 
-
-dojot_ejbca_version: "{{ dojot_version }}"

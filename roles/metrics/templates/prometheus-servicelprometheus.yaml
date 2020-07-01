@@ -4,17 +4,17 @@ metadata:
   labels:
     prometheus: k8s
   name: k8s
-  namespace: monitoring
+  namespace: dojot-monitoring
 spec:
   alerting:
     alertmanagers:
     - name: alertmanager-main
-      namespace: monitoring
+      namespace: dojot-monitoring
       port: web
   baseImage: quay.io/prometheus/prometheus
   nodeSelector:
     beta.kubernetes.io/os: linux
-  replicas: 2
+  replicas: 1
   resources:
     requests:
       memory: 400Mi
@@ -29,4 +29,4 @@ spec:
   serviceAccountName: prometheus-k8s
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
-  version: v2.7.2
+  version: v2.19.1

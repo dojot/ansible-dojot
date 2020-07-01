@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    name: mongodb
+    app: dojot
+  name: mongodb
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: mongodb
+  template:
+    metadata:
+      labels:
+        name: mongodb
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/mongo:{{ dojot_mongodb_version }}
+        name: mongodb
+{% if dojot_mongodb_persistent_volumes %}
+        volumeMounts:
+        - name: mongodb-volume
+          mountPath: /data/db
+  volumeClaimTemplates:
+  - metadata:
+      name: mongodb-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_mongodb_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          db: mongodb    
+{% endif %}
