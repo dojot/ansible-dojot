@@ -23,7 +23,7 @@ spec:
           value: {{ dojot_minio_access_key }}
         - name: MINIO_SECRET_KEY
           value: {{ dojot_minio_secret_key }}
-        image: dojot/minio:2019.09.20
+        image: dojot/minio:{{ dojot_minio_version }}
         args:
         - server
         - /data
