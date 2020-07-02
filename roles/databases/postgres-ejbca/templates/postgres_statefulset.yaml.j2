@@ -38,7 +38,7 @@ spec:
         volumeMounts:
           - name: postgres-ejbca-init
             mountPath: /docker-entrypoint-initdb.d/
-{% if dojot_psql_ejbca_persistent_volumes %}
+{% if dojot_ejbca_psql_persistent_volumes %}
           - name: psql-ejbca-volume
             mountPath: /var/lib/postgresql/data
 {% endif %}
@@ -46,7 +46,7 @@ spec:
       - name: postgres-ejbca-init
         configMap:
           name: postgres-ejbca-init
-{% if dojot_psql_ejbca_persistent_volumes %}
+{% if dojot_ejbca_psql_persistent_volumes %}
   volumeClaimTemplates:
   - metadata:
       name: psql-ejbca-volume
@@ -59,5 +59,5 @@ spec:
       selector:
         matchLabels:
           app: dojot
-          db: ejbca    
+          db: ejbca
 {% endif %}
