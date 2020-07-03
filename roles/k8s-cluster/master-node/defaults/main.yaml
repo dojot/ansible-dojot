@@ -1,0 +1,2 @@
+advertise_address: "{{ ansible_facts.default_ipv4.address }}"
+master_node_name: "{{ ansible_facts.hostname }}"
