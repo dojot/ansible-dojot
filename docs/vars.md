@@ -116,3 +116,15 @@ before deploying dojot
 * *dojot_ejbca_psql_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **false**
 * *dojot_psql_ejbca_volume_size*: Size of the EJBCA volumes that are created. Defaults to **2Gi**
 * *dojot_ejbca_version*: Version of the ejbca-rest container. Defaults to *dojot_version*
+
+
+### - HAProxy
+
+* *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.
+* *haproxy_kong_port*: Kong service port on k8s that the haproxy will balance. Defaults to *30001*. By default kubernetes creates the service on a random port.
+* *haproxy_kong_nodes*: The list of kong nodes in k8s that haproxy will balance.
+* *haproxy_mqtt_port*: MQTT service port on k8s that the haproxy will balance. Defaults to *30310*. By default kubernetes creates the service on a random port.
+* *haproxy_mqtts_port*: MQTTS service port on k8s that the haproxy will balance. Defaults to *30311*. By default kubernetes creates the service on a random port.
+* *haproxy_mqtt_nodes*: The list of MQTT/MQTTS nodes in k8s that haproxy will balance.
+* *haproxy_metrics_port*: Metrics service port on k8s that the haproxy will balance. Defaults to *30033*. By default kubernetes creates the service on a random port.
+* *haproxy_metrics_nodes*: The list of Metrics nodes in k8s that haproxy will balance.

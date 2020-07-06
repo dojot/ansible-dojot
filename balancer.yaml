@@ -1,0 +1,8 @@
+---
+
+- hosts: balancer[0]
+  gather_facts: true
+  any_errors_fatal: true
+  tags: haproxy
+  roles:
+    - role: haproxy
