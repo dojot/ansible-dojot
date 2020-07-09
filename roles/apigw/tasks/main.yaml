@@ -13,10 +13,12 @@
   - "{{ lookup('template', 'apigw_internal_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_external_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_secrets.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'apigw_deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_migration_job.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_migration_up_job.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_deployment.yaml.j2') | from_yaml }}"
+
 
 - name: dojot - Gather the number of the node port for the ApiGW
   register: api_gw_node_port

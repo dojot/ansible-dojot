@@ -15,8 +15,6 @@
   roles:
     - role: dojot-basic
 
-# Deploy ZK to the environment
-# TODO: Add possibility of using an external zk by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags: dojot-minio
