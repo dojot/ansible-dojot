@@ -125,5 +125,6 @@
     - role: k2v-bridge
       tags: 100k
     - role: kafka2ftp
+    - role: kafka-ws
     - role: kafka-loopback
       tags: [ never, 100k ]

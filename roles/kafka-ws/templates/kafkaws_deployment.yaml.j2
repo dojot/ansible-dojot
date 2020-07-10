@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: kafkaws
+    app: dojot
+  name: kafkaws
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: kafkaws
+  template:
+    metadata:
+      labels:
+        name: kafkaws
+        app: dojot
+    spec:
+      containers:
+      - image: dojot/kafka-ws:{{ dojot_kafkaws_version }}
+        name: kafkaws
+        env:
+        - name: KAFKA_HOSTS
+          value: kafka-server:{{ dojot_kafka_port }}
+        - name: KAFKA_GROUP_ID
+          value: kafka-ws-group
+        - name: LOG_LEVEL
+          value: info
+        - name: LOG_VERBOSE
+          value: "false"
+        - name: KAFKA_WS_PORT
+          value: "5000"
+        - name: KAFKA_WS_JWT_EXP_TIME
+          value: "true"
+        - name: REDIS_HOST
+          value:  localhost
+      - name: kafkaws-redis
+        image: dojot/redis:6.0.4-alpine3.11
+      restartPolicy: Always

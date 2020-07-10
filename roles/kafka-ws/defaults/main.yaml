@@ -1,0 +1,5 @@
+# Default variables value for the kafkaws service
+
+dojot_kafkaws_version: "{{ dojot_version }}"
+
+dojot_kafka_port: 9092
