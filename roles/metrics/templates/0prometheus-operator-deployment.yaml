@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -6,7 +6,7 @@ metadata:
     apps.kubernetes.io/name: prometheus-operator
     apps.kubernetes.io/version: v0.30.0
   name: prometheus-operator
-  namespace: monitoring
+  namespace: dojot-monitoring
 spec:
   replicas: 1
   selector:

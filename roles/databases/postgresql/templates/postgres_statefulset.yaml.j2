@@ -1,19 +1,22 @@
----
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   labels:
-    name: postgres
     app: dojot
+    name: postgres
   name: postgres
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: postgres
   template:
     metadata:
       labels:
-        name: postgres
         app: dojot
+        name: postgres
     spec:
       restartPolicy: Always
       containers:
@@ -44,9 +47,17 @@ spec:
         configMap:
           name: postgres-init
 {% if dojot_psql_persistent_volumes %}
-      - name: psql-volume
-        persistentVolumeClaim:
-          claimName: psql-volume-claim
+  volumeClaimTemplates:
+  - metadata:
+      name: psql-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_psql_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          db: postgres     
 {% endif %}
-
-# TODO: View deploy strategies

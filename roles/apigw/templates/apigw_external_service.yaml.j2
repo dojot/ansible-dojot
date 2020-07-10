@@ -11,7 +11,6 @@ spec:
   - name: "apigw-http"
     port: {{ dojot_internal_http_port }}
     targetPort: {{ dojot_internal_http_port }}
-    nodePort: 30001
   selector:
     name: kong
     app: dojot

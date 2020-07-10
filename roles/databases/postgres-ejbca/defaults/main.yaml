@@ -1,4 +1,17 @@
 ---
-# Define if persistent volumes will be used
-dojot_ejbca_psql_persistent_volumes: true
-dojot_ejbca_psql_volume_size: 4Gi
+dojot_psql_ejbca_version: 9.4.24-alpine
+
+dojot_psql_ejbca_port: 5433
+dojot_psql_ejbca_target_port: 5432
+
+dojot_psql_ejbca_super_user: postgres
+dojot_psql_ejbca_super_passwd: postgres
+
+dojot_psql_ejbca_default_db: ejbca_db
+
+dojot_psql_ejbca_user: ejbca
+dojot_psql_ejbca_passwd: ejbca
+
+dojot_psql_ejbca_volume_size: 2Gi
+
+

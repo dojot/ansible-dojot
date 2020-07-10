@@ -4,14 +4,14 @@
 - hosts: dojot-k8s[0]
   gather_facts: true
   any_errors_fatal: true
-  tags: dojot-bootstrap
+  tags: [dojot-bootstrap, 100k]
   roles:
     - role: k8s-api-bootstrap
 
 # Create dojot base for the deployment
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-bootstrap
+  tags: [dojot-bootstrap, 100k]
   roles:
     - role: dojot-basic
 
@@ -26,7 +26,7 @@
 #Metrics
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-metrics-prometheus-grafana
+  tags: [metrics, 100k]
   roles:
     - role: metrics
 
@@ -34,7 +34,7 @@
 # TODO: Add possibility of using an external zk by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-zk
+  tags: [dojot-zk, dojot-kafka, 100k]
   roles:
     - role: zookeeper
       when: not dojot_zk_use_external
@@ -45,7 +45,7 @@
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-psql
+  tags: [dojot-psql, 100k]
   roles:
     - role: databases/postgresql
 
@@ -54,7 +54,7 @@
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-psql-ejbca
+  tags: [dojot-psql-ejbca, 100k]
   roles:
     - role: databases/postgres-ejbca
 
@@ -72,7 +72,7 @@
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-kafka
+  tags: [dojot-kafka, 100k]
   roles:
     - role: kafka
 
@@ -81,7 +81,7 @@
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-vernemq
+  tags: [dojot-vernemq, 100k]
   roles:
     - role: vernemq
 
@@ -89,11 +89,12 @@
 # TODO: Add possibility of using an external rabbit by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-rabbitmq
+  tags: [dojot-rabbitmq]
   roles:
     - role: rabbitmq
 
-# Deploy Kong as the API Gateway to the environment
+
+# Deploy Dojot Components to the Environment
 # Deploy the dojot services
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
@@ -101,23 +102,29 @@
   roles:
     - role: image-manager
     - role: apigw
+      tags: 100k
     - role: auth
+      tags: 100k
     - role: backstage
     - role: data-broker
+      tags: 100k
     - role: ejbca-node
+      tags: 100k
     - role: device-manager
     - role: history
     - role: persister
     - role: gui
     - role: iotagent-mosca
+      tags: never
     - role: iotagent-lwm2m
     - role: flowbroker
     - role: data-manager
     - role: cron
     - role: v2k-bridge
+      tags: 100k
     - role: k2v-bridge
-    - role: latency-pub-test-prometheus
+      tags: 100k
     - role: kafka2ftp
     - role: kafka-ws
-
-
+    - role: kafka-loopback
+      tags: [ never, 100k ]

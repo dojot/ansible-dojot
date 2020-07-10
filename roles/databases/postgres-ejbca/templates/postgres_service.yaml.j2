@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    name: postgres-ejbca
   name: postgres-ejbca
   namespace: {{ dojot_namespace }}
 spec:
   type: ClusterIP
-  selector:
-    app: postgres-ejbca
   ports:
-  - name: postgres-ejbca
-    port: 5433
-    targetPort: 5432
+  - port: {{ dojot_psql_ejbca_port }}
+    targetPort: {{ dojot_psql_ejbca_target_port }}
+  selector:
+    name: postgres-ejbca
+    app: dojot
