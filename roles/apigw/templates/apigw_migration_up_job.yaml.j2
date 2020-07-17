@@ -1,15 +1,15 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: kong-migrate
+  name: kong-migrate-up
   namespace: {{ dojot_namespace }}
 spec:
   template:
     metadata:
-      name: kong-migrate
+      name: kong-migrate-up
     spec:
       containers:
-      - name: kong-migrate
+      - name: kong-migrate-up
         env:
         - name: KONG_DATABASE
           value: postgres
@@ -31,5 +31,5 @@ spec:
               name: kong-secret
               key: db
         image: dojot/kong:{{ dojot_apigw_version }}
-        args: ["kong", "migrations", "bootstrap"]
+        args: ["kong",  "migrations", "up", "&&", "kong",  "migrations", "finish"]
       restartPolicy: OnFailure
