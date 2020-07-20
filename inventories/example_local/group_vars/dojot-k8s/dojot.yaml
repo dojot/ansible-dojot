@@ -3,7 +3,7 @@ dojot_namespace: dojot
 dojot_version: v0.5.0-alpha.3
 dojot_domain_name: localhost
 
-dojot_storage_class_name: "local-storage"
+dojot_storage_class_name: ""
 
 # Set Kubernetes RBAC
 dojot_kubernetes_rbac: true
