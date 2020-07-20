@@ -31,5 +31,5 @@ spec:
               name: kong-secret
               key: db
         image: dojot/kong:{{ dojot_apigw_version }}
-        args: ["kong",  "migrations", "bootstrap"]
+        args: ["kong", "migrations", "bootstrap"]
       restartPolicy: OnFailure
