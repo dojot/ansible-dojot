@@ -20,6 +20,9 @@ before deploying dojot
 
 * *dojot_vernemq_replicas*: Set number of replicas for vernemq-dojot. Defaults to **1**
 * *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**
+* *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**
+* *dojot_nodeports*: Range of fixed ports for dojot services with external access
+
 
 ### - Zookeeper
 
@@ -116,3 +119,5 @@ before deploying dojot
 * *dojot_ejbca_psql_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **false**
 * *dojot_psql_ejbca_volume_size*: Size of the EJBCA volumes that are created. Defaults to **2Gi**
 * *dojot_ejbca_version*: Version of the ejbca-rest container. Defaults to *dojot_version*
+
+
