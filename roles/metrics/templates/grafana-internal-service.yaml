@@ -12,18 +12,3 @@ spec:
     targetPort: http
   selector:
     app: grafana
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: grafana
-  namespace: dojot-monitoring
-spec:
-  selector:
-    app: grafana
-
-  ports:
-    - name: http
-      port: 3000
-
-  type: NodePort

@@ -11,6 +11,9 @@ spec:
   - name: "apigw-http"
     port: {{ dojot_internal_http_port }}
     targetPort: {{ dojot_internal_http_port }}
+{% if dojot_fixed_nodeports_enabled %}
+    nodePort: {{ dojot_nodeports.apigw }}
+{% endif %}
   selector:
     name: kong
     app: dojot

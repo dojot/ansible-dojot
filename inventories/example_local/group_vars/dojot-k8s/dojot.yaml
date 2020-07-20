@@ -39,3 +39,13 @@ dojot_vernemq_replicas: 1
 
 # Number of replicas for K2V, V2K and Loopback, it also modifies the number of partitions in Kafka topics
 dojot_bridges_replicas: 1
+
+# Enables fixed nodeports
+dojot_fixed_nodeports_enabled: false
+
+# Fixed nodeports to use. It's used if dojot_fixed_nodeports_enabled is true
+dojot_nodeports:
+  apigw: 30001
+  mqtt: 30310
+  mqtts: 30311
+  metrics: 30033

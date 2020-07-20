@@ -10,6 +10,12 @@ spec:
   ports:
     - name: mqtt
       port: 1883
+{% if dojot_fixed_nodeports_enabled %}
+      nodePort: {{ dojot_nodeports.mqtt }}
+{% endif %}
     - name: mqtts
       port: 8883
+{% if dojot_fixed_nodeports_enabled %}
+      nodePort: {{ dojot_nodeports.mqtts }}
+{% endif %}     
   type: NodePort
