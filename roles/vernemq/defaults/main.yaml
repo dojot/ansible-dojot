@@ -1,6 +1,3 @@
----
-# Defines defaults values role variables
-
 dojot_verne_version: "{{ dojot_version }}"
 
 dojot_verne_operator_version: 202001230903
