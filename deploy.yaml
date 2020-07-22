@@ -1,4 +1,3 @@
----
 # The group k8s-endpoint refer to the nodes that have access to the kubernetes api
 # Its is possible to run from localhost accessing a remote node by defining a kubeconfig file
 - hosts: dojot-k8s[0]
@@ -15,15 +14,14 @@
   roles:
     - role: dojot-basic
 
-# Deploy ZK to the environment
-# TODO: Add possibility of using an external zk by setting config variables
+# Minio
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags: dojot-minio
   roles:
     - role: minio
 
-#Metrics
+# Metrics (Prometheus, Grafana, Node Exporter)
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags: [metrics, 100k]
@@ -49,21 +47,12 @@
   roles:
     - role: databases/postgresql
 
-# Deploy postgreSQL to the environment
-# TODO: Add possibility of using an external postgres by setting DB config variables
-# TODO: Support a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags: [dojot-psql-ejbca, 100k]
-  roles:
-    - role: databases/postgres-ejbca
-
 # Deploy mongoDB to the environment
 # TODO: Add possibility of using an external mongodb by setting DB config variables
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: dojot-mongodb
+  tags: [dojot-mongodb, 100k]
   roles:
     - role: databases/mongodb
 
@@ -108,8 +97,6 @@
     - role: backstage
     - role: data-broker
       tags: 100k
-    - role: ejbca-node
-      tags: 100k
     - role: device-manager
     - role: history
     - role: persister
@@ -126,4 +113,8 @@
       tags: 100k
     - role: kafka2ftp
     - role: kafka-loopback
-      tags: [ never, 100k ]
+      tags: [never, 100k]
+    - role: kafka-ws
+      tags: [100k]
+    - role: x509-identity-mgmt
+      tags: 100k

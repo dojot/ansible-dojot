@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    name: kafka-ws-redis
+    app: dojot
+  name: kafka-ws-redis
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: kafka-ws-redis
+  template:
+    metadata:
+      labels:
+        name: kafka-ws-redis
+        app: dojot
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+           - topologyKey: "kubernetes.io/hostname"
+             labelSelector:
+               matchLabels:
+                 name: kafka-ws
+                 app: dojot
+      containers:
+      - image: dojot/redis:6.0.4-alpine3.11
+        name: kafka-ws-redis
+      restartPolicy: Always

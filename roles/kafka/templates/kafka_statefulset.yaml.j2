@@ -64,9 +64,9 @@ spec:
 {% endif %}
           readinessProbe:
             exec:
-              command: 
-                - sh 
-                - -c 
+              command:
+                - sh
+                - -c
                 - "/usr/bin/kafka-broker-api-versions --bootstrap-server=localhost:{{ dojot_kafka_port }}"
             initialDelaySeconds: 10
             periodSeconds: 10
@@ -89,4 +89,3 @@ spec:
           app: dojot
           name: kafka-server
 {% endif %}
-
