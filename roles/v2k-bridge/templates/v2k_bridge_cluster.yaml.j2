@@ -30,7 +30,7 @@ spec:
         image: dojot/v2k-bridge:{{ dojot_v2k_version}}
         env:
         - name: V2K_APP_EJBCA_ADDRESS
-          value: ejbca-wrapper:5583
+          value: x509-identity-mgmt:3000
         - name: V2K_MQTT_BACKPRESSURE_QUEUE_LENGTH_MAX
           value: "104857600"
         - name: V2K_KAFKA_COMPRESSION_CODEC

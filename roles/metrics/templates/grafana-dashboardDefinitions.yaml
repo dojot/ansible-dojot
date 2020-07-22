@@ -14096,7 +14096,9 @@ items:
         "refresh": "5s",
         "schemaVersion": 25,
         "style": "dark",
-        "tags": [],
+        "tags": [
+            "dojot"
+        ],
         "templating": {
           "list": [
             {

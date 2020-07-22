@@ -5,277 +5,172 @@ metadata:
     namespace: {{ dojot_namespace }}
 data:
     kong-config.sh: |
-        #!/bin/sh -ex
 
-        echo "Waiting for kong to be up"
+        #!/bin/sh
 
-        # ---  0.11.x
         kong="http://kong:8001"
 
-        # Wait for kong to be up
-        until $(curl --output /dev/null --silent --head --fail ${kong}); do
-            printf '.'
-            sleep 2
-        done
+        # check if kong is started
+        if curl --output /dev/null --silent --head --fail "$kong"; then
+        echo "Kong is started."
+        else
+        echo "Kong isn't started."
+        echo "Terminating in 20s..."
+        sleep 20
+        exit 1
+        fi
 
+        # add authentication to an endpoint
+        addAuthToEndpoint() {
+        # $1 = Service Name
+        echo ""
+        echo ""
+        echo "- addAuthToEndpoint: ServiceName=${1}"
+        curl  -sS  -X POST \
+            --url ${kong}/services/"${1}"/plugins/ \
+            --data "name=pepkong" \
+            --data "config.pdpUrl=http://auth:5000/pdp"
 
-        echo "Kong is up, configuring routes"
-
-        authConfig() {
-            curl -o /dev/null -sS -X POST ${kong}/apis/${1}/plugins -d "name=jwt" # -d "config.claims_to_verify=exp"
-            curl -o /dev/null -sS -X POST ${kong}/apis/${1}/plugins -d "name=pepkong" -d "config.pdpUrl=http://auth:5000/pdp"
+        curl  -sS  -X POST \
+            --url ${kong}/services/"${1}"/plugins/ \
+            --data "name=jwt"
         }
 
-        # remove all previously configured apis from gateway
-        for i in $(curl -sS ${kong}/apis  | grep -o -E '"id":"([a-f0-9-]+)"' | cut -f4 -d'"'); do
-            curl -o /dev/null -sS -X DELETE ${kong}/apis/${i}
-        done
+        # add a Service
+        # that is the name Kong uses to refer to the upstream APIs
+        # and microservices it manages.
+        createService() {
+        # $1 = Service Name
+        # $2 = URL (ex.: http://gui:80)
+        echo ""
+        echo "-- createService: ServiceName=${1} Url=${2}"
+        curl  -sS -X PUT \
+            --url ${kong}/services/"${1}" \
+            --data "name=${1}" \
+            --data "url=${2}"
+        }
 
-        (curl -o /dev/null ${kong}/apis -sS -X PUT \
+        # add a Route
+        # The Route represents the actual request to the Kong proxy
+        # endpoint to reach at Kong service.
+        createRoute() {
+        # $1 = Service Name
+        # $2 = Route Name
+        # $3 = PATHS (ex.: '"/","/x"')
+        # $4 = strip_path (true or false), When matching a Route via one of the paths, strip the matching prefix from the upstream request URL
+        echo ""
+        echo "-- createRoute: ServiceName=${1} Url=${2} PathS=${3} StripPath=${4}"
+        (curl  ${kong}/services/"${1}"/routes/"${2}" -sS -X PUT \
             --header "Content-Type: application/json" \
             -d @- ) <<PAYLOAD
         {
-            "name": "gui",
-            "uris": "/",
-            "strip_uri": false,
-            "upstream_url": "http://gui:80"
+            "paths": [${3}],
+            "strip_path": ${4}
         }
         PAYLOAD
-        # no auth: serves only static front-end content
-
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "data-broker",
-            "uris": ["/device/(.*)/latest", "/subscription"],
-            "strip_uri": false,
-            "upstream_url": "http://data-broker:80"
         }
-        PAYLOAD
-        authConfig "data-broker"
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "data-streams",
-            "uris": ["/stream"],
-            "strip_uri": true,
-            "upstream_url": "http://data-broker:80"
+
+        # Create an endpoint mapping in Kong
+        # ex1: createEndpoint "data-broker" "http://data-broker:80"  '"/device/(.*)/latest", "/subscription"' "false"
+        # ex2: createEndpoint "image" "http://image-manager:5000"  '"/fw-image"' "true"
+        createEndpoint(){
+        # $1 = Service Name
+        # $2 = URL (ex.: "http://gui:80")
+        # $3 = PATHS (ex.: '"/","/x"')
+        # $4 = strip_path ("true" or "false"), When matching a Route via one of the paths, strip the matching prefix from the upstream request URL.
+        echo ""
+        echo ""
+        echo "- createEndpoint: ServiceName=${1} Url=${2} PathS=${3} StripPath=${4}"
+        createService "${1}" "${2}"
+        createRoute "${1}" "${1}_route" "${3}" "${4}"
         }
-        PAYLOAD
-        authConfig "data-streams"
-        (curl -o /dev/null $kong/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "ws-http",
-            "uris": "/socket.io",
-            "strip_uri": false,
-            "upstream_url": "http://data-broker:80"
-        }
-        PAYLOAD
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "device-manager",
-            "uris": ["/device", "/template"],
-            "strip_uri": false,
-            "upstream_url": "http://device-manager:5000"
-        }
-        PAYLOAD
-        authConfig "device-manager"
+        # service: gui
+        createEndpoint "gui" "http://gui:80"  '"/"' "false"
 
+        # service: data-broker
+        createEndpoint  "data-broker" "http://data-broker:80"  '"/device/(.*)/latest", "/subscription"' "false"
+        addAuthToEndpoint "data-broker"
+        createEndpoint "data-streams" "http://data-broker:80"  '"/stream"' "true"
+        addAuthToEndpoint "data-streams"
+        createEndpoint "ws-http" "http://data-broker:80"  '"/socket.io"' "false"
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "image",
-            "uris": "/fw-image",
-            "strip_uri": true,
-            "upstream_url": "http://image-manager:5000"
-        }
-        PAYLOAD
-        authConfig "image"
+        # service: device-manager
+        createEndpoint "device-manager" "http://device-manager:5000"  '"/device", "/template"' "false"
+        addAuthToEndpoint "device-manager"
 
-        # auth-permissions-service
+        # service: image-manager
+        createEndpoint "image" "http://image-manager:5000"  '"/fw-image"' "true"
+        addAuthToEndpoint "image"
 
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "auth-permissions-service",
-            "uris": ["/auth/pap"],
-            "strip_uri": true,
-            "upstream_url": "http://auth:5000/pap"
-        }
-        PAYLOAD
-        authConfig "auth-permissions-service"
+        # service: auth
+        createEndpoint "auth-permissions-service" "http://auth:5000/pap"  '"/auth/pap"' "true"
+        addAuthToEndpoint "auth-permissions-service"
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "auth-service",
-            "uris": "/auth",
-            "strip_uri": true,
-            "upstream_url": "http://auth:5000"
-        }
-        PAYLOAD
-
-
-
-        # no auth: this is actually the endpoint used to get a token
-        # rate plugin limit to avoid brute-force atacks
-        curl -o /dev/null -sS -X POST ${kong}/apis/auth-service/plugins \
+        createEndpoint "auth-service" "http://auth:5000"  '"/auth"' "true"
+        echo ""
+        echo ""
+        echo "- add plugin rate-limiting in auth-service"
+        curl  -s  -sS -X POST \
+            --url ${kong}/services/auth-service/plugins/ \
             --data "name=rate-limiting" \
             --data "config.minute=5" \
             --data "config.hour=40" \
             --data "config.policy=local"
 
-
-        # revoke all tokens: maintence only API
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "auth-revoke",
-            "uris": "/auth/revoke",
-            "strip_uri": false,
-            "upstream_url": "http://auth:5000"
-        }
-        PAYLOAD
-        curl -o /dev/null -sS -X POST  ${kong}/apis/auth-revoke/plugins \
+        createEndpoint "auth-revoke" "http://auth:5000"  '"/auth/revoke"' "false"
+        # rate plugin limit to avoid brute-force atacks
+        echo ""
+        echo ""
+        echo "- add plugin request-termination in auth-revoke"
+        curl  -s  -sS -X POST \
+            --url ${kong}/services/auth-revoke/plugins/ \
             --data "name=request-termination" \
             --data "config.status_code=403" \
             --data "config.message=Not authorized"
 
+        createEndpoint "user-service" "http://auth:5000/user"  '"/auth/user"' "true"
+        addAuthToEndpoint "user-service"
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "user-service",
-            "uris": "/auth/user",
-            "strip_uri": true,
-            "upstream_url": "http://auth:5000/user"
-        }
-        PAYLOAD
-        authConfig "user-service"
+        # service: flowbroker
+        createEndpoint "flows" "http://flowbroker:80"  '"/flows"' "true"
+        addAuthToEndpoint "flows"
+        createEndpoint "flowsIcons" "http://flowbroker:80/icons"  '"/flows/icons"' "true"
+        createEndpoint "flowsRedImages" "http://flowbroker:80/red/images"  '"/flows/red/images"' "true"
 
-        # -- end auth service --
-        # mashup/flows service configuration
+        # service: history
+        createEndpoint "history" "http://history:8000"  '"/history"' "true"
+        addAuthToEndpoint "history"
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "flows",
-            "uris": ["/flows"],
-            "strip_uri": true,
-            "upstream_url": "http://flowbroker:80"
-        }
-        PAYLOAD
-        authConfig "flows"
+        # service: ejbca
+        createEndpoint "ejbca-paths" "http://ejbca:5583/"  '"/sign", "/ca", "/user"' "false"
+        addAuthToEndpoint "ejbca-paths"
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "flowsIcons",
-            "uris": ["/flows/icons"],
-            "strip_uri": true,
-            "upstream_url": "http://flowbroker:80/icons"
-        }
-        PAYLOAD
+        # service: data-manager
+        createEndpoint "data-manager" "http://data-manager:3000/"  '"/export", "/import"' "false"
+        addAuthToEndpoint "data-manager"
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "flowsRedImages",
-            "uris": ["/flows/red/images"],
-            "strip_uri": true,
-            "upstream_url": "http://flowbroker:80/red/images"
-        }
-        PAYLOAD
+        # service: cron
+        createEndpoint "cron" "http://cron:5000/"  '"/cron"' "false"
+        addAuthToEndpoint "cron"
 
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "history",
-            "uris": "/history",
-            "strip_uri": true,
-            "upstream_url": "http://history:8000"
-        }
-        PAYLOAD
-        authConfig "history"
+        # service: x509-identity-mgmt
+        createEndpoint "x509-identity-mgmt" "http://x509-identity-mgmt:3000/api"  '"/x509"' "true"
+        addAuthToEndpoint "x509-identity-mgmt"
 
-        # CA certificate retrievemment and certificate sign requests
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "ejbca-paths",
-            "uris": [ "/sign", "/ca", "/user"],
-            "strip_uri": false,
-            "upstream_url": "http://ejbca-wrapper:5583/"
-        }
-        PAYLOAD
-        authConfig "ejbca-paths"
+        # service: kafka-ws
+        createEndpoint "kafka-ws" "http://kafka-ws:8080/"  '"/kafka-ws"' "false"
+        curl -sS -X PATCH \
+            --url ${kong}/services/kafka-ws \
+            --data "read_timeout=300000" \
+            --data "write_timeout=300000" \
+            --data "connect_timeout=300000"
+        createEndpoint "kafka-ws-ticket" "http://kafka-ws:8080/"  '"/kafka-ws/v[0-9]+/ticket"' "false"
+        addAuthToEndpoint "kafka-ws-ticket"
 
-        # Configure a import and export endpoint
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "data-manager",
-            "uris": [ "/export", "/import"],
-            "strip_uri": false,
-            "upstream_url": "http://data-manager:3000/"
-        }
-        PAYLOAD
-        authConfig "data-manager"
+        # service: backstage
+        createEndpoint "backstage_graphql_auth" "http://backstage:3005/"  '"/graphql-auth"' "false"
+        createEndpoint "backstage_graphql" "http://backstage:3005/"  '"/graphql"' "false"
+        addAuthToEndpoint "backstage_graphql"
 
-        # Configure a Backstage service
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "backstage",
-            "uris": [ "/checkconflicts"],
-            "strip_uri": false,
-            "upstream_url": "http://backstage:3005/"
-        }
-        PAYLOAD
-        authConfig "backstage"
-
-        (curl -o /dev/null ${kong}/apis -sS -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "backstage_graphql",
-            "uris": [ "/graphql(.*)"],
-            "strip_uri": false,
-            "upstream_url": "http://backstage:3005/"
-        }
-        PAYLOAD
-
-        # cron
-        (curl -o /dev/null ${kong}/apis -s -S -X POST \
-            --header "Content-Type: application/json" \
-            -d @- ) <<PAYLOAD
-        {
-            "name": "cron",
-            "uris": ["/cron"],
-            "strip_uri": false,
-            "upstream_url": "http://cron:5000/"
-        }
-        PAYLOAD
-        authConfig "cron"
-        
         echo "API Gateway Paths configured"

@@ -1,41 +1,46 @@
-# Set the dojot deployment namesapce
+# Set the dojot deployment namespace
 dojot_namespace: dojot
-
-dojot_version: v0.5.0-alpha.2
-
+dojot_version: v0.5.0-alpha.3
 dojot_domain_name: localhost
 
 dojot_storage_class_name: ""
 
-# Set kubernetes RBAC
+# Set Kubernetes RBAC
 dojot_kubernetes_rbac: true
 
-# Set dojot configurations for Zookeeper
+## Persistent Volume usage ##
+# Whether it should create a volume for Zookeeper
 dojot_zk_persistent_volumes: false
-
-# Set dojot configuration for postgreSQL
+# Whether it should create a volume for PostgreSQL
 dojot_psql_persistent_volumes: false
-
-# Set dojot configuration for postgreSQL-Ejbca
-dojot_ejbca_psql_persistent_volumes: false
-
-# Set dojot configuration for mongoDB
+# Whether it should create a volume for x509 Identity Management
+dojot_x509_identity_mgmt_persistent_volumes: false
+# Whether it should create a volume for MongoDB
 dojot_mongodb_persistent_volumes: false
-
-# Set Minio configuration for dojot
+# Whether it should create a volume for Minio
 dojot_minio_persistent_volumes: false
-
-# Set Kafka configuration for dojot
+# Whether it should create a volume for Kafka
 dojot_kafka_persistent_volumes: false
 
-# Set auth configuration
+# Enable email in Auth
 dojot_auth_email_enabled: false
 
-# Allow the usage of insecure mqtt
+# Allow the usage of insecure MQTT
 dojot_insecure_mqtt: 'true'
 
-# Set number of replicas for vernemq-dojot
+## Service Replicas ##
+# Number of replicas for VerneMQ
 dojot_vernemq_replicas: 1
-
-# Number of replicas for K2V, V2K and Loopback, it also modifies the number of partitions in Kafka topics
+# Number of replicas for K2V, V2K and Loopback, it also modifies the default number of partitions
+# for Kafka topics
 dojot_bridges_replicas: 1
+
+# Enables fixed nodeports
+dojot_fixed_nodeports_enabled: false
+
+# Fixed nodeports to use. It's used if dojot_fixed_nodeports_enabled is true
+dojot_nodeports:
+  apigw: 30001
+  mqtt: 30310
+  mqtts: 30311
+  metrics: 30033

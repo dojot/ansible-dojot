@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: x509-identity-mgmt
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: dojot
+    name: x509-identity-mgmt
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: {{ dojot_storage_class_name }}
+  resources:
+    requests:
+      storage: {{ dojot_x509_identity_management_volume_size }}
