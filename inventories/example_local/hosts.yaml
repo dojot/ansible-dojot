@@ -4,12 +4,22 @@ all:
     localhost:
         ansible_connection: local
         ansible_python.version.major: 3
+    worker_node:
+      ansible_host: WORKER_NODE_ADDRESS
     haproxy:
       ansible_host: HAPROXY_ADDRESS
   children:
     dojot-k8s:
       hosts:
         localhost:
+    k8s-nodes:
+      children:
+        master_nodes:
+          hosts:
+            localhost:
+        worker_nodes:
+          hosts:
+            worker_node:
     balancer:
       hosts:
         haproxy:

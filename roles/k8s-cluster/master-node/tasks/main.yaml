@@ -1,0 +1,32 @@
+---
+
+- name: create config file
+  template:
+    src: config.yaml.j2
+    dest: "{{ ansible_facts.user_dir  }}/config.yaml"
+
+- name: Initialize the Kubernetes cluster using kubeadm
+  become: yes
+  command: "kubeadm init --config={{ ansible_facts.user_dir  }}/config.yaml"
+
+- name: create .kube directory
+  command: "mkdir -p {{ ansible_facts.user_dir  }}/.kube"
+
+- name: Setup kubeconfig for user
+  become: yes
+  command: "{{ item }}"
+  with_items:
+    - "cp -i /etc/kubernetes/admin.conf {{ ansible_facts.user_dir  }}/.kube/config"
+    - "chown {{ ansible_facts.user_uid }}:{{ ansible_facts.user_gid }} {{ ansible_facts.user_dir }}/.kube/config"
+
+- name: Install flannel pod network
+  become: false
+  command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml
+
+- name: Generate join command
+  command: kubeadm token create --print-join-command
+  register: join_command
+
+- name: Copy join command to local file
+  become: false
+  local_action: copy content="{{ join_command.stdout_lines[0] }}" dest="./join-command"
