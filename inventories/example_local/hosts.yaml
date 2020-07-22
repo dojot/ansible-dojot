@@ -4,7 +4,12 @@ all:
     localhost:
         ansible_connection: local
         ansible_python.version.major: 3
+    haproxy:
+      ansible_host: HAPROXY_ADDRESS
   children:
     dojot-k8s:
       hosts:
         localhost:
+    balancer:
+      hosts:
+        haproxy:
