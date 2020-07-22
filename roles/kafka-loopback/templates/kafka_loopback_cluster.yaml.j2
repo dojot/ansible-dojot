@@ -7,6 +7,7 @@ spec:
   serviceName: "kafka-loopback"
   selector:
     matchLabels:
+      app: dojot
       name: kafka-loopback
   replicas: {{ dojot_bridges_replicas }}
   template:
@@ -17,4 +18,4 @@ spec:
     spec:
       containers:
       - name: kafka-loopback
-        image: dojot/kafka-loopback:{{ dojot_v2k_version}}
+        image: dojot/kafka-loopback:{{ dojot_loopback_version }}
