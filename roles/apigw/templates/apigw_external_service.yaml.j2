@@ -12,8 +12,18 @@ spec:
     port: {{ dojot_internal_http_port }}
     targetPort: {{ dojot_internal_http_port }}
 {% if dojot_fixed_nodeports_enabled %}
-    nodePort: {{ dojot_nodeports.apigw }}
+    nodePort: {{ dojot_nodeports.apigw.http }}
 {% endif %}
+
+{% if dojot_apigw_enable_mutual_tls %}
+  - name: "apigw-https"
+    port: {{ dojot_internal_https_port }}
+    targetPort: {{ dojot_internal_https_port }}
+{% if dojot_fixed_nodeports_enabled %}
+    nodePort: {{ dojot_nodeports.apigw.https }}
+{% endif %}
+{% endif %}
+
   selector:
     name: kong
     app: dojot
