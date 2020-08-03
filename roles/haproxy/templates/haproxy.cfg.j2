@@ -23,7 +23,7 @@ defaults
         timeout client 300000ms
         timeout server 300000ms
         default-server init-addr last,libc,none
-        
+
 listen mqtt
         mode tcp
         option tcplog
@@ -49,17 +49,17 @@ listen kong
         option tcplog
         bind *:80
         balance leastconn
-        
+
 {% for node in haproxy_kong_nodes | default([]) %}
         server dojot-{{ loop.index }} {{ node }}:{{ haproxy_kong_port }} check inter 1000ms fall 3 rise 5
-{% endfor %} 
+{% endfor %}
 
 listen metrics
         mode tcp
         option tcplog
         bind *:8080
         balance leastconn
-        
+
 {% for node in haproxy_metrics_nodes | default([]) %}
         server metrics-{{ loop.index }} {{ node }}:{{ haproxy_metrics_port }} check inter 1000ms fall 3 rise 5
-{% endfor %} 
+{% endfor %}
