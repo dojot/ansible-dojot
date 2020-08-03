@@ -18,7 +18,7 @@ before deploying dojot
 * *dojot_kubernetes_rbac*: This variable controls the creation of RBAC rules for dojot. Default value is **true**.
 * *dojot_booststrap*: Defines if packages required for the deployment should be installed. Defaults to **true**.
 
-* *dojot_vernemq_replicas*: Set number of replicas for vernemq-dojot. Defaults to **1**.
+* *dojot_vernemq_replicas*: Set number of replicas for VerneMQ. Defaults to **1**.
 * *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**.
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
@@ -28,10 +28,10 @@ before deploying dojot
 
 * *dojot_zk_client_port*: Port exposed by Zookeeper for client access. Defaults to **2181**.
 * *dojot_zk_server_port*: Port exposed by Zookeeper for server access. Defaults to **2888**.
-* *dojot_zk_election_port*: Port exposed by zookeeper for cluster election. Defaults to **3888**.
-* *dojot_zk_cluster_size*: Inital cluster size for deploying zookeeper. Defaults to **1**.
-* *dojot_zk_persistent_volumes*: Defines whether ot not the zookeeper services will use persistent volumes, this should be supported by the kubernetes setup. Defaults to **false**.
-* *dojot_zk_volume_size*: Size of the persistent volume created for the zookeeper service. Defaults to **1G**.
+* *dojot_zk_election_port*: Port exposed by Zookeeper for cluster election. Defaults to **3888**.
+* *dojot_zk_cluster_size*: Inital cluster size for deploying Zookeeper. Defaults to **1**.
+* *dojot_zk_persistent_volumes*: Defines whether ot not the Zookeeper services will use persistent volumes, this should be supported by the kubernetes setup. Defaults to **false**.
+* *dojot_zk_volume_size*: Size of the persistent volume created for the Zookeeper service. Defaults to **1G**.
 
 ### - PostgreSQL
 
@@ -39,9 +39,9 @@ before deploying dojot
 * *dojot_psql_super_user*: Name of the postgreSQL super user. Defaults to postgres.
 * *dojot_psql_super_passwd*: Password for the PostgreSQL super user. Defaults to postgres.
 * *dojot_psql_version*: Version of the PostgreSQL container '*postgresql*' used on this deployment. Defaults to **9.6.11-alpine**.
-* *dojot_psql_kong_user*: Username for accessing the kong database. Defaults to **kong**.
-* *dojot_psql_kong_passwd*: Password for accessing the kong database. Defaults to **kong**.
-* *dojot_psql_kong_db*: Name of the database created to be used by the kong service. Defaults to **kong**.
+* *dojot_psql_kong_user*: Username for accessing the Kong database. Defaults to **kong**.
+* *dojot_psql_kong_passwd*: Password for accessing the Kong database. Defaults to **kong**.
+* *dojot_psql_kong_db*: Name of the database created to be used by the Kong service. Defaults to **kong**.
 * *dojot_psql_ejbca_user*: Username for accessing the EJBCA database. Defaults to **ejbca**.
 * *dojot_psql_ejbca_passwd*: Password for accessing the EJBCA database. Defaults to **ejbca**.
 * *dojot_psql_ejbca_db*: Name of the database created to be used by the ejbca service. Defaults to **ejbca**.
@@ -65,9 +65,13 @@ before deploying dojot
 
 ### - API Gateway
 
-* *dojot_internal_http_port*: Defines the internal port that will be exposed for http traffic by the Kong service. Defaults to **8000**.
-* *dojot_internal_api_config_port*: Defines the internal port for kong administration tasks. Defaults to **8001**.
+* *dojot_internal_http_port*: Defines the internal port that will be exposed for HTTP traffic by the Kong service. Defaults to **8000**.
+* *dojot_internal_https_port*: Defines the internal port that will be exposed for HTTPS traffic by the Kong service. Defaults to **8443**.
+* *dojot_internal_api_config_port*: Defines the internal port for Kong administration tasks. Defaults to **8001**.
 * *dojot_apigw_version*: Version of the api gateway container 'dojot/kong' used by this deployment. Default value **v0.2.1-static**.
+* *dojot_mongodb_persistent_volumes*: Enables the volume for Kong certificates directory, you should configure persistent volumes in your environment for this option to work. Defaults to **false**.
+* *dojot_apigw_volume_size*: Size of the persistent volume that will be created for Kong certificates directory. Defaults to **5Mi**.
+* *dojot_apigw_enable_mutual_tls*: Enables mutual TLS communication. You must enable Kong volumes if this is true. Defaults to **false**.
 
 ### - Auth
 
@@ -88,7 +92,7 @@ before deploying dojot
 
 * *dojot_kafka_port*: Kafka port exposed to the services. Defaults to **9092**.
 * *dojot_kafka_cluster_size*: Number of nodes inittialy present on the deployment. Defaults to **1**.
-* *dojot_kafka_persistent_volumes*: Configures whether kafka should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
+* *dojot_kafka_persistent_volumes*: Configures whether Kafka should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_kafka_volume_size*: Size of the Kafka volumes that are created. Defaults to **2Gi**.
 
 ### - RabbitMQ
@@ -131,21 +135,25 @@ before deploying dojot
 
 ### - Kafka WS
 
-* *dojot_ejbca_psql_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **false**
-* *dojot_psql_ejbca_volume_size*: Size of the EJBCA volumes that are created. Defaults to **2Gi**
-* *dojot_ejbca_version*: Version of the ejbca-rest container. Defaults to *dojot_version*
+* *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
+* *dojot_kafka_ws_persistent_volumes*: Configures whether Kafka WS should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
+* *dojot_kafka_ws_volume_size*: Size of the Kafka WS volumes that are created. Defaults to **5Mi**.
+* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
+* *dojot_kafka_ws_port*: Port that will be used by the Kafka WS service. Defaults to **8080**.
+* *dojot_kafka_ws_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
+* *dojot_kafka_ws_enable_tls*: Activates the TLS communication. Defaults to **false**.
 
 ### - HAProxy
 
 * *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.
-* *haproxy_kong_port*: Kong service port on k8s that the haproxy will balance. Defaults to *30001*. By default kubernetes creates the service on a random port.
-* *haproxy_kong_nodes*: The list of kong nodes in k8s that haproxy will balance.
-* *haproxy_mqtt_port*: MQTT service port on k8s that the haproxy will balance. Defaults to *30310*. By default kubernetes creates the service on a random port.
-* *haproxy_mqtts_port*: MQTTS service port on k8s that the haproxy will balance. Defaults to *30311*. By default kubernetes creates the service on a random port.
-* *haproxy_mqtt_nodes*: The list of MQTT/MQTTS nodes in k8s that haproxy will balance.
-* *haproxy_metrics_port*: Metrics service port on k8s that the haproxy will balance. Defaults to *30033*. By default kubernetes creates the service on a random port.
-* *haproxy_metrics_nodes*: The list of Metrics nodes in k8s that haproxy will balance.
+* *haproxy_kong_port*: Kong service port on k8s that the HAProxy will balance. Defaults to *30001*. By default kubernetes creates the service on a random port.
+* *haproxy_kong_nodes*: The list of Kong nodes in k8s that HAProxy will balance.
+* *haproxy_mqtt_port*: MQTT service port on k8s that the HAProxy will balance. Defaults to *30310*. By default kubernetes creates the service on a random port.
+* *haproxy_mqtts_port*: MQTTS service port on k8s that the HAProxy will balance. Defaults to *30311*. By default kubernetes creates the service on a random port.
+* *haproxy_mqtt_nodes*: The list of MQTT/MQTTS nodes in k8s that HAProxy will balance.
+* *haproxy_metrics_port*: Metrics service port on k8s that the HAProxy will balance. Defaults to *30033*. By default kubernetes creates the service on a random port.
+* *haproxy_metrics_nodes*: The list of Metrics nodes in k8s that HAProxy will balance.
 * *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
-* *dojot_kafka_ws_port*: Port used to access Kafka WS sesrvices. Defaults to **8080**.
+* *dojot_kafka_ws_port*: Port used to access Kafka WS services. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Internally exposed Kafka WS Redis port. Defaults to **6379**.
