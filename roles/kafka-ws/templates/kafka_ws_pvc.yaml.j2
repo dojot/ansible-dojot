@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kafka-ws
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: dojot
+    name: kafka-ws
+spec:
+  selector:
+    matchLabels:
+      app: dojot
+      name: kafka-ws
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: {{ dojot_storage_class_name }}
+  resources:
+    requests:
+      storage: {{ dojot_kafka_ws_volume_size }}
