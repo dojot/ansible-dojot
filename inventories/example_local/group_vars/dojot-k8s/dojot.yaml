@@ -39,11 +39,9 @@ dojot_vernemq_replicas: 1
 # for Kafka topics
 dojot_bridges_replicas: 1
 
-# Enable Kafka WS TLS support, the service must have a configured volume with the certificates
-# inside
+# Enable Kafka WS TLS support, the service must have a configured volume with the certificates inside
 dojot_kafka_ws_enable_tls: false
-# Enable Kong (apigw) TLS support, the service must have a configured volume with the certificates
-# inside
+# Enable Kong (apigw) TLS support, the service must have a configured volume with the certificates inside
 dojot_apigw_enable_mutual_tls: false
 
 # Enables fixed nodeports
