@@ -1,6 +1,0 @@
----
-dojot_ejbca_version: "{{ dojot_version }}"
-
-dojot_psql_ejbca_user: ejbca
-dojot_psql_ejbca_passwd: ejbca
-dojot_psql_ejbca_db_url: "jdbc:postgresql://postgres-ejbca:5433/ejbca_db"
