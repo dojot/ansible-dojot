@@ -1,5 +1,3 @@
-## This role is responsible for deploying verneMq for dojot
-
 - name: dojot - x509 Identity Management Objects
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"

@@ -7,6 +7,10 @@ metadata:
     app: dojot
     name: x509-identity-mgmt
 spec:
+  selector:
+    matchLabels:
+      app: dojot
+      name: x509-identity-mgmt
   accessModes:
     - ReadWriteMany
   storageClassName: {{ dojot_storage_class_name }}
