@@ -18,13 +18,21 @@ spec:
         name: kafka-ws
         app: dojot
     spec:
+      securityContext:
+        fsGroup: 0
+      restartPolicy: Always
       containers:
       - name: kafka-ws
         image: dojot/kafka-ws:{{ dojot_kafka_ws_version }}
+        # WARNING: if you are using Mutual TLS, the readiness won't work because it's not supported
+        # by Kubernetes
         readinessProbe:
           httpGet:
             path: /healthcheck
             port: 8080
+{% if dojot_kafka_ws_enable_tls %}
+            scheme: HTTPS
+{% endif %}
           periodSeconds: 20
           timeoutSeconds: 5
         env:
@@ -38,4 +46,23 @@ spec:
           value: "{{ dojot_kafka_ws_port }}"
         - name: REDIS_PORT
           value: "{{ dojot_kafka_ws_redis_port }}"
-      restartPolicy: Always
+        - name: KAFKA_WS_TLS
+          value: "{{ dojot_kafka_ws_enable_tls }}"
+          # NOTE: you must create the volume and pass the certificates to it
+        - name: KAFKA_WS_TLS_CA_FILE
+          value: "/opt/kafka-ws/certs/ca.crt"
+        - name: KAFKA_WS_TLS_KEY_FILE
+          value: "/opt/kafka-ws/certs/kafka-ws.key"
+        - name: KAFKA_WS_TLS_CERT_FILE
+          value: "/opt/kafka-ws/certs/kafka-ws.crt"
+        - name: KAFKA_WS_REQUEST_CERT
+          value: "true"
+{% if dojot_kafka_ws_persistent_volumes %}
+        volumeMounts:
+        - name: kafka-ws
+          mountPath: /opt/kafka-ws/certs
+      volumes:
+      - name: kafka-ws
+        persistentVolumeClaim:
+          claimName: kafka-ws
+{% endif %}
