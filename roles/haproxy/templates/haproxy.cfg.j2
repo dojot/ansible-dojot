@@ -44,14 +44,24 @@ listen mqtts
         server mqtt-{{ loop.index }} {{ node }}:{{ haproxy_mqtts_port }} check inter 1000ms fall 3 rise 5
 {% endfor %}
 
-listen kong
+listen http
         mode tcp
         option tcplog
         bind *:80
         balance leastconn
 
 {% for node in haproxy_kong_nodes | default([]) %}
-        server dojot-{{ loop.index }} {{ node }}:{{ haproxy_kong_port }} check inter 1000ms fall 3 rise 5
+        server kong-{{ loop.index }} {{ node }}:{{ haproxy_kong_http_port }} check inter 1000ms fall 3 rise 5
+{% endfor %}
+
+listen https
+        mode tcp
+        option tcplog
+        bind *:443
+        balance leastconn
+
+{% for node in haproxy_kong_nodes | default([]) %}
+        server kong-{{ loop.index }} {{ node }}:{{ haproxy_kong_https_port }} check inter 1000ms fall 3 rise 5
 {% endfor %}
 
 listen metrics
