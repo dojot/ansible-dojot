@@ -20,6 +20,8 @@ spec:
         env:
         - name: BACKEND_HOST
           value: localhost
+        - name: MOSCA_TLS_DNS_LIST
+          value: "{{ dojot_domain_name }}"
         - name: DOJOT_MANAGEMENT_USER
           value: iotagent-mqtt
         - name: KAFKA_GROUP_ID
