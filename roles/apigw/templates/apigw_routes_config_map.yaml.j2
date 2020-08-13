@@ -114,8 +114,8 @@ data:
         curl  -s  -sS -X POST \
             --url ${kong}/services/auth-service/plugins/ \
             --data "name=rate-limiting" \
-            --data "config.minute=500" \
-            --data "config.hour=4000" \
+            --data "config.minute=5" \
+            --data "config.hour=40" \
             --data "config.policy=local"
 
         createEndpoint "auth-revoke" "http://auth:5000"  '"/auth/revoke"' "false"

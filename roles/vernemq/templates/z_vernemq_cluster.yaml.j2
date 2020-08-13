@@ -6,8 +6,7 @@ metadata:
   name: k8s
   namespace: {{ dojot_namespace }}
 spec:
-  #baseImage: dojot/vernemq-dojot
-  baseImage: jonaphael/vernemq
+  baseImage: dojot/vernemq-dojot
   env:
     - name: USE_VMQ_OPERATOR
       value: "y"
@@ -52,6 +51,4 @@ spec:
     dojot.components/group: "{{ dojot_node_vernemq_label }}"
 {% endif %}
   size: {{ dojot_vernemq_replicas }}
-  #tag: {{ dojot_verne_version }}
-  tag: crl9
-
+  tag: {{ dojot_verne_version }}

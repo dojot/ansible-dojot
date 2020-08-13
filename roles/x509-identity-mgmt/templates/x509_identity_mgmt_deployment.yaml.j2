@@ -48,14 +48,6 @@ spec:
           value: "production"
         - name: MONGO_URI
           value: "mongodb://mongodb:27017/x509-identity-mgmt"
-        # - name: EJBCA_DELTA_CRL_PERIOD_DEVICES_CA
-        #   value: 0
-        # - name: EJBCA_CRL_EXPIRE_PERIOD_DEVICES_CA
-        #   value: "2h"
-        # - name: EJBCA_CRL_ISSUE_INTERVAL_DEVICES_CA
-        #   value: "1h"
-        # - name: EJBCA_CRL_UPDATER_SERVICE_INTERVAL_VALUE
-        #   value: 10
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
