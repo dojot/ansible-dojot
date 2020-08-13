@@ -47,3 +47,23 @@ spec:
         runAsNonRoot: true
         runAsUser: 65534
       serviceAccountName: prometheus-operator
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: dojot.components/group
+            operator: In
+            values:
+            - "{{ dojot_node_dojot_label }}"
+{% endif %}
