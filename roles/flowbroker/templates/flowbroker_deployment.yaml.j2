@@ -19,6 +19,7 @@ spec:
         app: dojot
     spec:
       serviceAccountName: flowbroker
+      restartPolicy: Always
       containers:
       - image: dojot/flowbroker:{{ dojot_flowbroker_version }}
         name: flowbroker
@@ -52,4 +53,14 @@ spec:
           value: "10000"
         - name: WAIT_LOCK_TIMEOUT
           value: "30000"
-      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}

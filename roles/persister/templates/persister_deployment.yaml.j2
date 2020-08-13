@@ -18,6 +18,7 @@ spec:
         name: persister
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/persister:{{ dojot_persister_version }}
         name: persister
@@ -31,5 +32,15 @@ spec:
         - name: KAFKA_HOSTS
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: KAFKA_ADDRESS
-          value: "kafka-server"  
-      restartPolicy: Always
+          value: "kafka-server"
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}

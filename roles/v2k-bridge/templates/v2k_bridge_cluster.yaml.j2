@@ -15,16 +15,7 @@ spec:
         app: dojot
         name: v2k-bridge
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: vernemq
-                operator: In
-                values:
-                - k8s
-            topologyKey: "kubernetes.io/hostname"
+      restartPolicy: Always
       containers:
       - name: v2k-bridge
         image: dojot/v2k-bridge:{{ dojot_v2k_version}}
@@ -37,3 +28,14 @@ spec:
           value: gzip
         - name: V2K_KAFKA_QUEUE_BUFFERING_MAX_MS
           value: "50"
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_vernemq_label }}"
+{% endif %}
