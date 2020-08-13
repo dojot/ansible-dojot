@@ -22,4 +22,4 @@ spec:
         - key: dojot.components/group
           operator: In
           values:
-          - dojot
+          - kafka
