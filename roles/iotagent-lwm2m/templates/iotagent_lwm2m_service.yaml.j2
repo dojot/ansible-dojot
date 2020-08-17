@@ -6,32 +6,27 @@ metadata:
   name: iotagent-lwm2m
   namespace: {{ dojot_namespace }}
 spec:
-  type: NodePort
   ports:
-  - name: lwm2m-one
+  - name: coap
     protocol: UDP
     port: 5683
     targetPort: 5683
-  - name: lwm2m-two
+  - name: coaps
     protocol: UDP
     port: 5684
     targetPort: 5684
-  - name: lwm2m-three
+  - name: file-server
     protocol: UDP
     port: 5693
     targetPort: 5693
-  - name: lwm2m-four
+  - name: file-servers
     protocol: UDP
     port: 5694
     targetPort: 5694
-  - name: lwm2m-http
+  - name: lw-http
     protocol: TCP
     port: 5896
     targetPort: 5896
-  - name: lwm2m-https
-    protocol: TCP
-    port: 5897
-    targetPort: 5897
   selector:
     name: iotagent-lwm2m
     app: dojot

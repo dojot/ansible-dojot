@@ -51,7 +51,8 @@
     - "templates/z_kube-state-metrics-serviceMonitor.yaml"
     - "templates/z_node-exporter-serviceMonitor.yaml"
 
-- name: Metrics service
+- name: Metrics External Service
+  when: not dojot_ingress_controller
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

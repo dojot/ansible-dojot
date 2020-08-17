@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: iotagent-lwm2m-external
+  name: iotagent-lwm2m-external
+  namespace: {{ dojot_namespace }}
+spec:
+  type: NodePort
+  ports:
+  - name: coap
+    protocol: UDP
+    port: 5683
+{% if dojot_fixed_nodeports_enabled %}
+    nodePort: {{ dojot_nodeports.lwm2m.coap }}
+{% endif %}
+  - name: coaps
+    protocol: UDP
+    port: 5684
+{% if dojot_fixed_nodeports_enabled %}
+    nodePort: {{ dojot_nodeports.lwm2m.coaps }}
+{% endif %}
+  - name: file-server
+    protocol: UDP
+    port: 5693
+{% if dojot_fixed_nodeports_enabled %}
+    nodePort: {{ dojot_nodeports.lwm2m.file_server }}
+{% endif %}
+  - name: file-servers
+    protocol: UDP
+    port: 5694
+{% if dojot_fixed_nodeports_enabled %}
+    nodePort: {{ dojot_nodeports.lwm2m.file_servers }}
+{% endif %}
+  - name: lw-http
+    protocol: TCP
+    port: 5896
+{% if dojot_fixed_nodeports_enabled %}
+    nodePort: {{ dojot_nodeports.lwm2m.http }}
+{% endif %}
+  selector:
+    name: iotagent-lwm2m
+    app: dojot

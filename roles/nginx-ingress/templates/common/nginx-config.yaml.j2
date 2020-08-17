@@ -1,0 +1,14 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-config
+  namespace: {{ dojot_ingress_namespace }}
+data:
+  lb-method: '{{ dojot_ingress_lb_method }}'
+  ssl-redirect: '{{ dojot_ingress_ssl_redirect }}'
+  worker-connections: '{{ dojot_ingress_worker_connections }}'
+  worker-rlimit-nofile: '{{ dojot_ingress_worker_rlimit_nofile }}'
+  access-log-off: '{{ dojot_ingress_access_log_off }}'
+  proxy-buffer-size: '{{ dojot_ingress_proxy_buffer_size }}'
+  proxy-buffers: '{{ dojot_ingress_proxy_buffers }}'
+  proxy-connect-timeout: '{{ dojot_ingress_proxy_connect_timeout }}'

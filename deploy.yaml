@@ -14,6 +14,14 @@
   roles:
     - role: dojot-basic
 
+# NGINX Ingress Controller and Resources
+- hosts: dojot-k8s[0]
+  gather_facts: true
+  any_errors_fatal: true
+  tags: [ingress, 100k]
+  roles:
+    - role: nginx-ingress
+
 # Minio
 - hosts: dojot-k8s[0]
   any_errors_fatal: true

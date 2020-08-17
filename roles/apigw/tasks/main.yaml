@@ -11,13 +11,25 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'apigw_internal_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'apigw_external_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_secrets.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_migration_job.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_migration_up_job.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_routes_config.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_deployment.yaml.j2') | from_yaml }}"
+
+- name: dojot - API External Service
+  when: not dojot_ingress_controller
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'apigw_external_service.yaml.j2') | from_yaml }}"
 
 - name: dojot - Kong Persistent Volume Claim
   when: "{{ dojot_apigw_persistent_volumes }}"
@@ -31,7 +43,6 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'apigw_pvc.yaml.j2') | from_yaml }}"
-
 
 - name: dojot - Gather the number of the node port for the ApiGW
   register: api_gw_node_port

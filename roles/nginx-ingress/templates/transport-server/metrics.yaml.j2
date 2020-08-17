@@ -1,0 +1,15 @@
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: metrics
+  namespace: dojot-monitoring
+spec:
+  listener:
+    name: metrics
+    protocol: TCP
+  upstreams:
+  - name: metrics
+    service: grafana
+    port: 3000
+  action:
+    pass: metrics

@@ -1,0 +1,9 @@
+dojot_ingress_namespace: dojot-ingress
+dojot_ingress_lb_method: 'least_conn'
+dojot_ingress_ssl_redirect: false
+dojot_ingress_worker_connections: 400000
+dojot_ingress_worker_rlimit_nofile: 800000
+dojot_ingress_access_log_off: true
+dojot_ingress_proxy_buffer_size: '16k'
+dojot_ingress_proxy_buffers: '8 16k'
+dojot_ingress_proxy_connect_timeout: '5s'

@@ -1,8 +1,16 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
+
+# Set the version of dojot components
 dojot_version: v0.5.0-alpha.3
+
+# Set dojot domain name for components
 dojot_domain_name: localhost
 
+# Whether it should use NGINX Ingress Controller
+dojot_ingress_controller: false
+
+# Set dojot storage class name
 dojot_storage_class_name: ""
 
 # Set Kubernetes RBAC

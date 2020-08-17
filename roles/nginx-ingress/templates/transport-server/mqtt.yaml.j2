@@ -1,0 +1,15 @@
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: mqtt
+  namespace: {{ dojot_namespace }}
+spec:
+  listener:
+    name: mqtt-tcp 
+    protocol: TCP
+  upstreams:
+  - name: mqtt
+    service: vernemq-k8s
+    port: 1883
+  action:
+    pass: mqtt

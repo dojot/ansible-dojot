@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: http
+  namespace: {{ dojot_namespace }}
+spec:
+  rules:
+  - host: {{ dojot_domain_name }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kong
+          servicePort: 8000

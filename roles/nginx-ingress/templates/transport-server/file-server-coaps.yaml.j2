@@ -1,0 +1,18 @@
+apiVersion: k8s.nginx.org/v1alpha1
+kind: TransportServer
+metadata:
+  name: file-server-coaps
+  namespace: {{ dojot_namespace }}
+spec:
+  listener:
+    name: file-server-coaps-udp
+    protocol: UDP 
+  upstreams:
+  - name: file-server-coaps
+    service: iotagent-lwm2m
+    port: 5693
+  upstreamParameters:
+    udpRequests: 1
+    udpResponses: 1
+  action:
+    pass: file-server-coaps

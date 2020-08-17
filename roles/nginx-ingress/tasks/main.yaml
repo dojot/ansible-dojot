@@ -1,0 +1,62 @@
+- name: dojot - NGINX Ingress Controller
+  when: dojot_ingress_controller
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'common/ns.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/sa.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'rbac/ingress-role.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'rbac/ingress-role-binding.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'rbac/dojot-role.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'rbac/dojot-role-binding.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/default-server-secret.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/nginx-config.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/vs-definition.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/vsr-definition.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/ts-definition.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/policy-definition.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/gc-definition.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'common/global-configuration.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'daemonset/nginx-ingress.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'service/nodeport.yaml.j2') | from_yaml }}"
+
+
+- name: dojot - NGINX Ingress Resources
+  when: dojot_ingress_controller
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'ingress-resources/http.yaml.j2') | from_yaml }}"
+
+
+- name: dojot - NGINX Ingress Tranport Servers
+  when: dojot_ingress_controller
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'transport-server/coap.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'transport-server/coaps.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'transport-server/mqtt.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'transport-server/mqtts.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'transport-server/metrics.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'transport-server/file-server-coap.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'transport-server/file-server-coaps.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'transport-server/file-server-coap-http.yaml.j2') | from_yaml }}"

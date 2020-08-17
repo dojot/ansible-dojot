@@ -1,0 +1,31 @@
+apiVersion: k8s.nginx.org/v1alpha1
+kind: GlobalConfiguration 
+metadata:
+  name: nginx-configuration
+  namespace: {{ dojot_ingress_namespace }}
+spec:
+  listeners:
+  - name: coap-udp
+    port: 5683
+    protocol: UDP
+  - name: coaps-udp
+    port: 5684
+    protocol: UDP
+  - name: file-server-coap-udp
+    port: 5693
+    protocol: UDP
+  - name: file-server-coaps-udp
+    port: 5694
+    protocol: UDP
+  - name: file-server-coap-http
+    port: 5896
+    protocol: TCP
+  - name: mqtt-tcp
+    port: 1883
+    protocol: TCP      
+  - name: mqtts-tcp
+    port: 8883
+    protocol: TCP
+  - name: metrics
+    port: 3000
+    protocol: TCP
