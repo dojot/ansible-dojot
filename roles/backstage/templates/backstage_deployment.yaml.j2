@@ -25,3 +25,14 @@ spec:
         - name: LOCAL_URL
           value: {{ kong_url }}
       restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}

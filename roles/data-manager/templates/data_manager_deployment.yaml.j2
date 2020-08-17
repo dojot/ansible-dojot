@@ -4,7 +4,7 @@ metadata:
   labels:
     name: data-manager
     app: dojot
-  name: data-manager  
+  name: data-manager
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
@@ -18,7 +18,18 @@ spec:
         name: data-manager
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/data-manager:{{ dojot_data_manager_version }}
         name: data-manager
-      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}
