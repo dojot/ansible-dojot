@@ -1,0 +1,8 @@
+---
+
+- name: start nginx
+  become: yes
+  service:
+    name: nginx
+    state: started
+    enabled: yes

@@ -1,0 +1,11 @@
+upstream secure_apigw_backend {
+    least_conn;
+{% for node in groups['apigw_nodes'] | default([]) %}
+    server {{ node }}:{{ dojot_nodeports.apigw.https }};
+{% endfor %}
+}
+
+server {
+    listen 443;
+    proxy_pass secure_apigw_backend;
+}

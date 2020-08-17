@@ -23,15 +23,15 @@ defaults
         timeout client 300000ms
         timeout server 300000ms
         default-server init-addr last,libc,none
-
+        
 listen mqtt
         mode tcp
         option tcplog
         bind *:1883
         balance leastconn
 
-{% for node in haproxy_mqtt_nodes | default([]) %}
-        server mqtt-{{ loop.index }} {{ node }}:{{ haproxy_mqtt_port }} check inter 1000ms fall 3 rise 5
+{% for node in groups['mqtt_nodes'] | default([]) %}
+        server mqtt-{{ loop.index }} {{ node }}:{{ dojot_nodeports.mqtt }} check inter 1000ms fall 3 rise 5
 {% endfor %}
 
 listen mqtts
@@ -40,28 +40,28 @@ listen mqtts
         bind *:8883
         balance leastconn
 
-{% for node in haproxy_mqtt_nodes | default([]) %}
-        server mqtt-{{ loop.index }} {{ node }}:{{ haproxy_mqtts_port }} check inter 1000ms fall 3 rise 5
+{% for node in groups['mqtt_nodes'] | default([]) %}
+        server mqtt-{{ loop.index }} {{ node }}:{{ dojot_nodeports.mqtts }} check inter 1000ms fall 3 rise 5
 {% endfor %}
 
-listen http
+listen apigw
         mode tcp
         option tcplog
         bind *:80
         balance leastconn
-
-{% for node in haproxy_kong_nodes | default([]) %}
-        server kong-{{ loop.index }} {{ node }}:{{ haproxy_kong_http_port }} check inter 1000ms fall 3 rise 5
+        
+{% for node in groups['apigw_nodes'] | default([]) %}
+        server dojot-{{ loop.index }} {{ node }}:{{ dojot_nodeports.apigw.http }} check inter 1000ms fall 3 rise 5
 {% endfor %}
 
-listen https
+listen apigws
         mode tcp
         option tcplog
         bind *:443
         balance leastconn
-
-{% for node in haproxy_kong_nodes | default([]) %}
-        server kong-{{ loop.index }} {{ node }}:{{ haproxy_kong_https_port }} check inter 1000ms fall 3 rise 5
+        
+{% for node in groups['apigw_nodes'] | default([]) %}
+        server dojot-{{ loop.index }} {{ node }}:{{ dojot_nodeports.apigw.https }} check inter 1000ms fall 3 rise 5
 {% endfor %}
 
 listen metrics
@@ -69,7 +69,7 @@ listen metrics
         option tcplog
         bind *:8080
         balance leastconn
-
-{% for node in haproxy_metrics_nodes | default([]) %}
-        server metrics-{{ loop.index }} {{ node }}:{{ haproxy_metrics_port }} check inter 1000ms fall 3 rise 5
-{% endfor %}
+        
+{% for node in groups['metrics_nodes'] | default([]) %}
+        server metrics-{{ loop.index }} {{ node }}:{{ dojot_nodeports.metrics }} check inter 1000ms fall 3 rise 5
+{% endfor %} 
