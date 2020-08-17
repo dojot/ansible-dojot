@@ -28,14 +28,17 @@ spec:
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
+{% if dojot_enable_node_affinity %}
       affinity:
-        podAntiAffinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-           - topologyKey: "kubernetes.io/hostname"
-             labelSelector:
-               matchLabels:
-                 name: zookeeper
-                 app: dojot
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}
       containers:
         - name: zookeeper
           image: "confluentinc/cp-zookeeper:5.5.0"
@@ -81,7 +84,7 @@ spec:
             - name: zk-volume-data
               mountPath: /var/lib/zookeeper/data
             - name: zk-volume-log
-              mountPath: /var/lib/zookeeper/log 
+              mountPath: /var/lib/zookeeper/log
   volumeClaimTemplates:
   - metadata:
       name: zk-volume-data
@@ -108,5 +111,5 @@ spec:
       selector:
         matchLabels:
           app: dojot
-          name: zookeeper-log    
+          name: zookeeper-log
 {% endif %}

@@ -38,6 +38,8 @@ dojot_vernemq_replicas: 1
 # Number of replicas for K2V, V2K and Loopback, it also modifies the default number of partitions
 # for Kafka topics
 dojot_bridges_replicas: 1
+# Number of x509 Identity Management replicas
+dojot_x509_identity_mgmt_replicas: 1
 
 # Enable Kafka WS TLS support, the service must have a configured volume with the certificates inside
 dojot_kafka_ws_enable_tls: false
@@ -55,3 +57,20 @@ dojot_nodeports:
   mqtt: 30310
   mqtts: 30311
   metrics: 30033
+
+## Node affinity
+# Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run
+# into problems.
+# Note: if you are using persistence, all PersistentVolume files must reflect the changes in here.
+# Example: you must assign the Kafka and Zookeeper volumes to the {{ dojot_node_kafka_label }} node
+
+# Enables node affinity in all services
+dojot_enable_node_affinity: false
+# Label for the rest of the services
+dojot_node_dojot_label: dojot
+# Label for x509 node
+dojot_node_x509_label: x509
+# Label for Kafka, Zookeeper and Kafka Loopback node
+dojot_node_kafka_label: kafka
+# Label for VerneMQ, K2V and V2K nodes
+dojot_node_vernemq_label: vernemq

@@ -16,16 +16,6 @@ spec:
         app: dojot
         name: kafka-server
     spec:
-      affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: "name"
-                    operator: In
-                    values:
-                      - kafka-server
-              topologyKey: "kubernetes.io/hostname"
       terminationGracePeriodSeconds: 300
       containers:
         - name: kafka
@@ -74,6 +64,17 @@ spec:
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_kafka_label }}"
+{% endif %}
 {% if dojot_kafka_persistent_volumes %}
   volumeClaimTemplates:
   - metadata:

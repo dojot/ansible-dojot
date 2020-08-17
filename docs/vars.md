@@ -22,6 +22,11 @@ before deploying dojot
 * *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**.
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
+* *dojot_enable_node_affinity*: Enables node affinity for all services. Beware that you must configure your nodes to match the labels in the files. Default to **false**.
+* *dojot_node_dojot_label*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
+* *dojot_node_kafka_label*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
+* *dojot_node_x509_label*: Label value for x509 nodes. Defaults to **x509**.
+* *dojot_node_vernemq_label*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
 
 
 ### - Zookeeper
@@ -128,6 +133,7 @@ before deploying dojot
 * *dojot_psql_ejbca_user*: EJBCA PostgreSQL database user. Defaults to **ejbca**.
 * *dojot_psql_ejbca_passwd*: EJBCA PostgreSQL database password. Defaults to **ejbca**.
 * *dojot_x509_identity_mgmt_version*: Version of the x509 Identity Management container. Defaults to **dojot_version**.
+* *dojot_x509_identity_mgmt_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
 
 ### - Kafka Loopback
 

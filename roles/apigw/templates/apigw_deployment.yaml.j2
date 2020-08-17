@@ -18,6 +18,17 @@ spec:
         name: kong
         app: dojot
     spec:
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}
       restartPolicy: Always
       securityContext:
         # User kong has UID 100
