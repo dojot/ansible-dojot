@@ -1,0 +1,83 @@
+# Set the dojot deployment namespace
+dojot_namespace: dojot
+dojot_version: v0.5.0-alpha.3
+dojot_domain_name: localhost
+
+dojot_storage_class_name: ""
+
+# Set Kubernetes RBAC
+dojot_kubernetes_rbac: true
+
+## Persistent Volume usage ##
+# Whether it should create a volume for Zookeeper
+dojot_zk_persistent_volumes: false
+# Whether it should create a volume for PostgreSQL
+dojot_psql_persistent_volumes: false
+# Whether it should create a volume for x509 Identity Management
+dojot_x509_identity_mgmt_persistent_volumes: false
+# Whether it should create a volume for MongoDB
+dojot_mongodb_persistent_volumes: false
+# Whether it should create a volume for Minio
+dojot_minio_persistent_volumes: false
+# Whether it should create a volume for Kafka
+dojot_kafka_persistent_volumes: false
+# Whether it should create a volume for Kafka WS
+dojot_kafka_ws_persistent_volumes: false
+# Whether it should create a volume for Kong (apigw)
+dojot_apigw_persistent_volumes: false
+
+# Enable email in Auth
+dojot_auth_email_enabled: false
+
+# Allow the usage of insecure MQTT
+dojot_insecure_mqtt: 'true'
+
+## Service Replicas ##
+# Number of replicas for VerneMQ
+dojot_vernemq_replicas: 1
+# Number of replicas for K2V, V2K and Loopback, it also modifies the default number of partitions
+# for Kafka topics
+dojot_bridges_replicas: 1
+# Number of x509 Identity Management replicas
+dojot_x509_identity_mgmt_replicas: 1
+
+# Enable Kafka WS TLS support, the service must have a configured volume with the certificates inside
+dojot_kafka_ws_enable_tls: false
+# Enable Kong (apigw) TLS support, the service must have a configured volume with the certificates inside
+dojot_apigw_enable_mutual_tls: false
+
+# Enables fixed nodeports
+dojot_fixed_nodeports_enabled: false
+
+# Fixed nodeports to use. It's used if dojot_fixed_nodeports_enabled is true
+dojot_nodeports:
+  apigw:
+    http: 30001
+    https: 30002
+  metrics: 30003
+  mqtt: 30004
+  mqtts: 30005
+  lwm2m:
+    coap: 30006
+    coaps: 30007
+    file_server: 30008
+    file_servers: 30009
+    http: 30010
+
+## Node affinity
+# Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run
+# into problems.
+# Note: if you are using persistence, all PersistentVolume files must reflect the changes in here.
+# Example: you must assign the Kafka and Zookeeper volumes to the {{ dojot_node_kafka_label }} node
+
+# Enables node affinity in all services
+dojot_enable_node_affinity: false
+# Label for the rest of the services
+dojot_node_dojot_label: dojot
+# Label for x509 node
+dojot_node_x509_label: x509
+# Label for Kafka, Zookeeper and Kafka Loopback node
+dojot_node_kafka_label: kafka
+# Label for VerneMQ, K2V and V2K nodes
+dojot_node_vernemq_label: vernemq
+

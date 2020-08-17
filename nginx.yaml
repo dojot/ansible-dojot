@@ -1,8 +1,8 @@
 ---
 
-- hosts: balancer[0]
+- hosts: nginx[0]
   gather_facts: true
   any_errors_fatal: true
-  tags: haproxy
+  tags: nginx
   roles:
-    - role: haproxy
+    - role: nginx
