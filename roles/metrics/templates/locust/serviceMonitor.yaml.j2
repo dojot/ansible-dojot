@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: locust-metrics
+  labels:
+    k8s-app: locust-metrics
+  namespace: dojot-monitoring
+spec:
+  selector:
+    matchLabels:
+      k8s-app: locust-metrics
+  namespaceSelector:
+    matchNames:
+    - dojot-monitoring
+  endpoints:
+  - port: metrics
+    interval: 5s
+    honorLabels: true
+  jobLabel: k8s-app

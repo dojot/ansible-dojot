@@ -1,4 +1,3 @@
-
 - name: Metrics
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
@@ -47,7 +46,7 @@
     - "templates/z_kube-state-metrics-serviceMonitor.yaml"
     - "templates/z_node-exporter-serviceMonitor.yaml"
 
-- name: Metrics - Ansible parametrized files
+- name: Metrics - Ansible parameterized files
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
@@ -62,3 +61,18 @@
   - "{{ lookup('template', 'grafana-external-service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'kube-state-metrics-deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'prometheus-servicelprometheus.yaml.j2') | from_yaml }}"
+
+- name: Metrics - Locust
+  when: dojot_enable_locust_exporter
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'locust/endpoint.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'locust/service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'locust/serviceMonitor.yaml.j2') | from_yaml }}"
