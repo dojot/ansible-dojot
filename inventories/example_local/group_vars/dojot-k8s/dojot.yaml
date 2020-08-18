@@ -75,3 +75,10 @@ dojot_node_label:
   kafka: kafka
   # Label for VerneMQ, K2V and V2K nodes
   vernemq: vernemq
+
+## Locust scrapping
+# Address to Locust Exporter
+dojot_enable_locust_exporter: false
+dojot_locust_exporter:
+  ip: 127.0.0.1
+  port: 9646

@@ -164,3 +164,9 @@ before deploying dojot
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 * *dojot_kafka_ws_port*: Port used to access Kafka WS services. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Internally exposed Kafka WS Redis port. Defaults to **6379**.
+
+### - Metrics
+
+* *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.
+* *dojot_locust_exporter.ip*: IP or hostname where there is a Locust Exporter running. Defaults to **127.0.0.1**.
+* *dojot_locust_exporter.port*: Port exposed by Locust Exporter. Defaults to **9646**.
