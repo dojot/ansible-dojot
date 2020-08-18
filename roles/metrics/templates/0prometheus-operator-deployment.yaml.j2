@@ -56,7 +56,7 @@ spec:
               - key: dojot.components/group
                 operator: In
                 values:
-                - "{{ dojot_node_dojot_label }}"
+                - "{{ dojot_node_label.dojot }}"
   affinity:
     nodeAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -65,5 +65,5 @@ spec:
           - key: dojot.components/group
             operator: In
             values:
-            - "{{ dojot_node_dojot_label }}"
+            - "{{ dojot_node_label.dojot }}"
 {% endif %}

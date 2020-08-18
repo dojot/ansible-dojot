@@ -23,10 +23,10 @@ before deploying dojot
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
 * *dojot_enable_node_affinity*: Enables node affinity for all services. Beware that you must configure your nodes to match the labels in the files. Default to **false**.
-* *dojot_node_dojot_label*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
-* *dojot_node_kafka_label*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
-* *dojot_node_x509_label*: Label value for x509 nodes. Defaults to **x509**.
-* *dojot_node_vernemq_label*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
+* *dojot_node_label.dojot*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
+* *dojot_node_label.kafka*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
+* *dojot_node_label.x509*: Label value for x509 nodes. Defaults to **x509**.
+* *dojot_node_label.vernemq*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
 
 
 ### - Zookeeper
