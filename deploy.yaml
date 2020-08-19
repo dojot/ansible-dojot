@@ -1,5 +1,5 @@
-# The group k8s-endpoint refer to the nodes that have access to the kubernetes api
-# Its is possible to run from localhost accessing a remote node by defining a kubeconfig file
+# The group k8s-endpoint refer to the nodes that have access to the Kubernetes API
+# It is possible to run from localhost accessing a remote node by defining a kubeconfig file
 - hosts: dojot-k8s[0]
   gather_facts: true
   any_errors_fatal: true
@@ -48,8 +48,8 @@
   roles:
     - role: metrics
 
-# Deploy ZK to the environment
-# TODO: Add possibility of using an external zk by setting config variables
+# Deploy Zookeeper to the environment
+# TODO: Add possibility of using an external Zookeeper by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
@@ -64,8 +64,8 @@
       when: not dojot_zk_use_external
 
 
-# Deploy postgreSQL to the environment
-# TODO: Add possibility of using an external postgres by setting DB config variables
+# Deploy PostgreSQL to the environment
+# TODO: Add possibility of using an external PostgreSQL by setting DB config variables
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
@@ -78,8 +78,8 @@
   roles:
     - role: databases/postgresql
 
-# Deploy mongoDB to the environment
-# TODO: Add possibility of using an external mongodb by setting DB config variables
+# Deploy MongoDB to the environment
+# TODO: Add possibility of using an external MongoDB by setting DB config variables
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
@@ -93,7 +93,7 @@
     - role: databases/mongodb
 
 # Deploy Kafka to the environment
-# TODO: Add possibility of using an external kafka by setting config variables
+# TODO: Add possibility of using an external Kafka by setting config variables
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
@@ -106,8 +106,8 @@
   roles:
     - role: kafka
 
-# Deploy verneMq to the environment
-# TODO: Add possibility of using an external verneMQ by setting config variables
+# Deploy VerneMQ to the environment
+# TODO: Add possibility of using an external VerneMQ by setting config variables
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
@@ -118,7 +118,7 @@
     - role: vernemq
 
 # Deploy RabbitMQ to the environment
-# TODO: Add possibility of using an external rabbit by setting config variables
+# TODO: Add possibility of using an external RabbitMQ by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
