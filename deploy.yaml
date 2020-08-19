@@ -32,7 +32,7 @@
   - vernemq
   - mosca
   - lwm2m
-  
+
   roles:
     - role: minio
 
@@ -123,7 +123,7 @@
   any_errors_fatal: true
   tags:
   - rabbitmq
-  - vernemq      
+  - vernemq
   - mosca
   - lwm2m
   roles:
@@ -138,7 +138,7 @@
   roles:
 
     - role: image-manager
-      tags:      
+      tags:
       - vernemq
       - mosca
       - lwm2m
@@ -155,45 +155,45 @@
       - vernemq
       - mosca
       - lwm2m
-      - 100k 
+      - 100k
 
     - role: backstage
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
 
     - role: data-broker
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
-      - 100k 
+      - 100k
 
     - role: device-manager
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
-      
+
     - role: history
-      tags: 
-      - vernemq      
+      tags:
+      - vernemq
       - mosca
       - lwm2m
-      
+
     - role: persister
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
-      
+    
     - role: gui
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
-      
+
     - role: iotagent-mosca
       tags:
       - never
@@ -202,26 +202,26 @@
     - role: iotagent-lwm2m
       tags:
       - never
-      - lwm2m 
-      
+      - lwm2m
+
     - role: flowbroker
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
-     
+
     - role: data-manager
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
-      
+
     - role: cron
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
-      
+
     - role: v2k-bridge
       tags:
       - vernemq
@@ -234,7 +234,7 @@
 
     - role: kafka2ftp
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
 
@@ -245,14 +245,14 @@
 
     - role: kafka-ws
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
       - 100k
 
     - role: x509-identity-mgmt
       tags:
-      - vernemq      
+      - vernemq
       - mosca
       - lwm2m
       - 100k
