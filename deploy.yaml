@@ -32,7 +32,6 @@
   - vernemq
   - mosca
   - lwm2m
-
   roles:
     - role: minio
 
