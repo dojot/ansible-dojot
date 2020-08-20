@@ -3,28 +3,58 @@
 - hosts: dojot-k8s[0]
   gather_facts: true
   any_errors_fatal: true
-  tags: [dojot-bootstrap, 100k]
+  tags:
+  - never
+  - "{{ 'always' if 'vernemq' in ansible_run_tags and 'mosca' in ansible_run_tags else ''}}"
+  tasks:
+    - name: Checking iotagent tag parameters
+      fail:
+        msg: Stopping playbook execution! The tags vernemq and mosca cannot be used together
+
+- hosts: dojot-k8s[0]
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - bootstrap
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
   roles:
     - role: k8s-api-bootstrap
 
 # Create dojot base for the deployment
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-bootstrap, 100k]
+  tags:
+  - bootstrap
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
   roles:
     - role: dojot-basic
 
 # Minio
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-minio]
+  tags:
+  - minio
+  - vernemq
+  - mosca
+  - lwm2m
   roles:
     - role: minio
 
 # Metrics (Prometheus, Grafana, Node Exporter)
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [metrics, 100k]
+  tags:
+  - metrics
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
   roles:
     - role: metrics
 
@@ -32,17 +62,29 @@
 # TODO: Add possibility of using an external Zookeeper by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-zk, dojot-kafka, 100k]
+  tags:
+  - zookeeper
+  - kafka
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
   roles:
     - role: zookeeper
       when: not dojot_zk_use_external
+
 
 # Deploy PostgreSQL to the environment
 # TODO: Add possibility of using an external PostgreSQL by setting DB config variables
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-psql, 100k]
+  tags:
+  - postgresql
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
   roles:
     - role: databases/postgresql
 
@@ -51,7 +93,12 @@
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-mongodb, 100k]
+  tags:
+  - mongodb
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
   roles:
     - role: databases/mongodb
 
@@ -60,7 +107,12 @@
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-kafka, 100k]
+  tags:
+  - kafka
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
   roles:
     - role: kafka
 
@@ -69,7 +121,9 @@
 # TODO: Support a HA cluster
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-vernemq, 100k]
+  tags:
+  - vernemq
+  - 100k
   roles:
     - role: vernemq
 
@@ -77,7 +131,11 @@
 # TODO: Add possibility of using an external RabbitMQ by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags: [dojot-rabbitmq]
+  tags:
+  - rabbitmq
+  - vernemq
+  - mosca
+  - lwm2m
   roles:
     - role: rabbitmq
 
@@ -88,32 +146,123 @@
   any_errors_fatal: true
   tags: dojot-components
   roles:
+
     - role: image-manager
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: apigw
-      tags: [100k]
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+      - 100k
+
     - role: auth
-      tags: [100k]
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+      - 100k
+
     - role: backstage
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: data-broker
-      tags: [100k]
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+      - 100k
+
     - role: device-manager
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: history
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: persister
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: gui
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: iotagent-mosca
-      tags: [never]
+      tags:
+      - never
+      - mosca
+
     - role: iotagent-lwm2m
+      tags:
+      - never
+      - lwm2m
+
     - role: flowbroker
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: data-manager
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: cron
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: v2k-bridge
-      tags: [100k]
+      tags:
+      - vernemq
+      - 100k
+
     - role: k2v-bridge
-      tags: [100k]
+      tags:
+      - vernemq
+      - 100k
+
     - role: kafka2ftp
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: kafka-loopback
-      tags: [never, 100k]
+      tags:
+      - never
+      - 100k
+
     - role: kafka-ws
-      tags: [100k]
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+      - 100k
+
     - role: x509-identity-mgmt
-      tags: [100k]
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+      - 100k
