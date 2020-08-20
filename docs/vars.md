@@ -113,6 +113,12 @@ before deploying dojot
 
 * *dojot_gui_version*: Version of the GUI container. Defaults to **dojot_version**.
 
+### - GUI V2
+
+* *dojot_guiv2_enabled*: Defines whether the GUI V2 will be deployed or not. Defaults to **false**.
+* *dojot_guiv2_version*: Version of the GUI V2 container. Defaults to **dojot_version**.
+* *dojot_guiv2_image*: Image to be used in GUI V2 deployment. Defaults to **dojot/gui-v2**.
+
 ### - History
 
 * *dojot_history_version*: Version of the history container. Defaults to **dojot_version**.
