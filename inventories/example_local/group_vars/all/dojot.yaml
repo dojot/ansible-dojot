@@ -66,10 +66,9 @@ dojot_nodeports:
     file_server: 30008
     file_servers: 30009
     http: 30010
-    
+
 ## Node affinity
-# Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run
-# into problems.
+# Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.
 # Note: if you are using persistence, all PersistentVolume files must reflect the changes in here.
 # Example: you must assign the Kafka and Zookeeper volumes to the {{ dojot_node_kafka_label }} node
 
