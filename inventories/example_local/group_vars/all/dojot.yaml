@@ -57,13 +57,18 @@ dojot_nodeports:
   apigw:
     http: 30001
     https: 30002
-  mqtt: 30310
-  mqtts: 30311
-  metrics: 30033
+  metrics: 30003
+  mqtt: 30004
+  mqtts: 30005
+  lwm2m:
+    coap: 30006
+    coaps: 30007
+    file_server: 30008
+    file_servers: 30009
+    http: 30010
 
 ## Node affinity
-# Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run
-# into problems.
+# Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.
 # Note: if you are using persistence, all PersistentVolume files must reflect the changes in here.
 # Example: you must assign the Kafka and Zookeeper volumes to the {{ dojot_node_kafka_label }} node
 
