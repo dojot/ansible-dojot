@@ -18,6 +18,7 @@ spec:
         name: device-manager
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/device-manager:{{ dojot_devm_version }}
         name: device-manager
@@ -52,5 +53,15 @@ spec:
           valueFrom:
             secretKeyRef:
               name: devm-secret
-              key: crypto_salt        
-      restartPolicy: Always
+              key: crypto_salt
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}

@@ -23,6 +23,17 @@ spec:
         - --web.enable-lifecycle
         - --storage.tsdb.no-lockfile
         - --web.route-prefix=/
+{% if dojot_enable_node_affinity %}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: dojot.components/group
+            operator: In
+            values:
+            - "{{ dojot_node_dojot_label }}"
+{% endif %}
   nodeSelector:
     beta.kubernetes.io/os: linux
   replicas: 1

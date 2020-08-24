@@ -26,6 +26,17 @@ spec:
         volumeMounts:
         - name: mongodb-volume
           mountPath: /data/db
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_dojot_label }}"
+{% endif %}
   volumeClaimTemplates:
   - metadata:
       name: mongodb-volume

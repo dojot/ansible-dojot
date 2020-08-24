@@ -26,6 +26,9 @@ dojot_kafka_ws_persistent_volumes: false
 # Whether it should create a volume for Kong (apigw)
 dojot_apigw_persistent_volumes: false
 
+#Whether it should deploy GUI V2 component
+dojot_guiv2_enabled: false
+
 # Enable email in Auth
 dojot_auth_email_enabled: false
 
@@ -63,7 +66,7 @@ dojot_nodeports:
     file_server: 30008
     file_servers: 30009
     http: 30010
-
+    
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run
 # into problems.
@@ -80,4 +83,3 @@ dojot_node_x509_label: x509
 dojot_node_kafka_label: kafka
 # Label for VerneMQ, K2V and V2K nodes
 dojot_node_vernemq_label: vernemq
-

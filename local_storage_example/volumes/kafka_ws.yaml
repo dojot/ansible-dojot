@@ -19,7 +19,7 @@ spec:
     required:
       nodeSelectorTerms:
       - matchExpressions:
-        - key: kubernetes.io/hostname
+        - key: dojot.components/group
           operator: In
           values:
-            - k8s17-worker
+          - dojot
