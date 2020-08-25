@@ -1,20 +1,3 @@
 ---
 
 haproxy_version: 2.0
-
-# Kong settings
-haproxy_kong_http_port: 30001 # node port example for Dojot Kong
-haproxy_kong_https_port: 30002 # node port example for Dojot Kong
-haproxy_kong_nodes:
-  - 127.0.0.1 # IP example for Dojot Kong
-
-# MQTT settings
-haproxy_mqtt_port: 30310 # node port example for Dojot MQTT
-haproxy_mqtts_port: 30311 # node port example for Dojot MQTTS
-haproxy_mqtt_nodes:
-  - 127.0.0.1 # IP example for Dojot MQTT and MQTTS
-
-# Metrics settings
-haproxy_metrics_port: 30033 # node port example for Dojot metrics service
-haproxy_metrics_nodes:
-  - 127.0.0.1 # IP example for Dojot metrics service
