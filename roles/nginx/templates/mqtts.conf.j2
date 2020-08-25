@@ -1,0 +1,15 @@
+upstream mqtts_backend {
+    zone mqtts_backend 256k;
+    least_conn;
+{% for node in groups['mqtt_nodes'] | default([]) %}
+    server {{ node }}:{{ dojot_nodeports.mqtts }};
+{% endfor %}
+}
+
+server {
+    listen 8883;
+    proxy_pass mqtts_backend;
+    proxy_timeout 10m;
+    proxy_connect_timeout 5s;
+    proxy_buffer_size 16k;
+}

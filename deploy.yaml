@@ -204,6 +204,12 @@
       - mosca
       - lwm2m
 
+    - role: gui-v2
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
     - role: iotagent-mosca
       tags:
       - never

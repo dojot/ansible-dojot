@@ -1,0 +1,11 @@
+upstream apigw_backend {
+    least_conn;
+{% for node in groups['apigw_nodes'] | default([]) %}
+    server {{ node }}:{{ dojot_nodeports.apigw.http }};
+{% endfor %}
+}
+
+server {
+	listen 80;
+	proxy_pass apigw_backend;
+}
