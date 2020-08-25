@@ -23,10 +23,10 @@ before deploying dojot
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
 * *dojot_enable_node_affinity*: Enables node affinity for all services. Beware that you must configure your nodes to match the labels in the files. Default to **false**.
-* *dojot_node_dojot_label*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
-* *dojot_node_kafka_label*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
-* *dojot_node_x509_label*: Label value for x509 nodes. Defaults to **x509**.
-* *dojot_node_vernemq_label*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
+* *dojot_node_label.dojot*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
+* *dojot_node_label.kafka*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
+* *dojot_node_label.x509*: Label value for x509 nodes. Defaults to **x509**.
+* *dojot_node_label.vernemq*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
 
 
 ### - Zookeeper
@@ -159,6 +159,11 @@ before deploying dojot
 * *dojot_kafka_ws_port*: Port used to access Kafka WS services. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Internally exposed Kafka WS Redis port. Defaults to **6379**.
 
+### - Metrics
+
+* *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.
+* *dojot_locust_exporter.ip*: IP or hostname where there is a Locust Exporter running. Defaults to **127.0.0.1**.
+* *dojot_locust_exporter.port*: Port exposed by Locust Exporter. Defaults to **9646**.
 ### - HAProxy
 
 * *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.

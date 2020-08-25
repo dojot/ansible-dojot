@@ -73,7 +73,7 @@ spec:
               - key: dojot.components/group
                 operator: In
                 values:
-                - "{{ dojot_node_kafka_label }}"
+                - "{{ dojot_node_label.kafka }}"
 {% endif %}
 {% if dojot_kafka_persistent_volumes %}
   volumeClaimTemplates:

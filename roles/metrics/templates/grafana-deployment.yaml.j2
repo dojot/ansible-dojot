@@ -24,7 +24,7 @@ spec:
               - key: dojot.components/group
                 operator: In
                 values:
-                - "{{ dojot_node_dojot_label }}"
+                - "{{ dojot_node_label.dojot }}"
 {% endif %}
       containers:
       - image: grafana/grafana:7.0.6
@@ -95,6 +95,11 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/dojot-100k
           name: grafana-dashboard-dojot-100k
           readOnly: false
+{% if dojot_enable_locust_exporter %}
+        - mountPath: /grafana-dashboard-definitions/0/locust
+          name: grafana-dashboard-locust
+          readOnly: false
+{% endif %}
       nodeSelector:
         beta.kubernetes.io/os: linux
       securityContext:
@@ -152,3 +157,8 @@ spec:
       - configMap:
           name: grafana-dashboard-dojot-100k
         name: grafana-dashboard-dojot-100k
+{% if dojot_enable_locust_exporter %}
+      - configMap:
+          name: grafana-dashboard-locust
+        name: grafana-dashboard-locust
+{% endif %}

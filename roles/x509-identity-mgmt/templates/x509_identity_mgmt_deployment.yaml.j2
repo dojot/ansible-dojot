@@ -57,7 +57,7 @@ spec:
               - key: dojot.components/group
                 operator: In
                 values:
-                - "{{ dojot_node_x509_label }}"
+                - "{{ dojot_node_label.x509 }}"
 {% endif %}
 {% if dojot_x509_identity_mgmt_persistent_volumes %}
         volumeMounts:
