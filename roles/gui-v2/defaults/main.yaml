@@ -3,4 +3,4 @@
 
 dojot_guiv2_version: "{{ dojot_version }}"
 
-dojot_guiv2_image: "dojot/gui-v2"
+dojot_guiv2_image: "artifactory.cpqd.com.br:8443/docker-dev/cpqd/dojot/gui-v2"
