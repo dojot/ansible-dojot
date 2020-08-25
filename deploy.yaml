@@ -108,6 +108,7 @@
     - role: history
     - role: persister
     - role: gui
+    - role: gui-v2
     - role: iotagent-mosca
       tags: [never]
     - role: iotagent-lwm2m

@@ -8,6 +8,7 @@ spec:
     metadata:
       name: kong-migrate
     spec:
+      restartPolicy: OnFailure
       containers:
       - name: kong-migrate
         env:
@@ -32,4 +33,14 @@ spec:
               key: db
         image: dojot/kong:{{ dojot_apigw_version }}
         args: ["kong", "migrations", "bootstrap"]
-      restartPolicy: OnFailure
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

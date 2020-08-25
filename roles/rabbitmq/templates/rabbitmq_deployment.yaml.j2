@@ -18,7 +18,18 @@ spec:
         name: rabbitmq
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/rabbitmq:{{ dojot_rabbitmq_version }}
         name: rabbitmq
-      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

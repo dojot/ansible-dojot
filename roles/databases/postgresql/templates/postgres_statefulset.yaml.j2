@@ -42,6 +42,17 @@ spec:
           - name: psql-volume
             mountPath: /var/lib/postgresql/data
 {% endif %}
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}
       volumes:
       - name: postgres-init
         configMap:

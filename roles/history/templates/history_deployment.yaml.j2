@@ -18,6 +18,7 @@ spec:
         name: history
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/history:{{ dojot_history_version }}
         name: history
@@ -26,4 +27,14 @@ spec:
           value: history.settings.docker
         - name: DOJOT_MANAGEMENT_USER
           value: 'history'
-      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

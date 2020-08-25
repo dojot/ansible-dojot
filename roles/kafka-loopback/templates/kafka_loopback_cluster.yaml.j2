@@ -19,3 +19,14 @@ spec:
       containers:
       - name: kafka-loopback
         image: dojot/kafka-loopback:{{ dojot_loopback_version }}
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.kafka }}"
+{% endif %}

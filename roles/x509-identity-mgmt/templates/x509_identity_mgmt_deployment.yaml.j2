@@ -8,7 +8,7 @@ spec:
     matchLabels:
       app: dojot
       name: x509-identity-mgmt
-  replicas: 1
+  replicas: {{ dojot_x509_identity_mgmt_replicas }}
   template:
     metadata:
       labels:
@@ -48,6 +48,17 @@ spec:
           value: "production"
         - name: MONGO_URI
           value: "mongodb://mongodb:27017/x509-identity-mgmt"
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.x509 }}"
+{% endif %}
 {% if dojot_x509_identity_mgmt_persistent_volumes %}
         volumeMounts:
         - name: x509-identity-mgmt

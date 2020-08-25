@@ -18,9 +18,9 @@ spec:
         name: kafka-ws
         app: dojot
     spec:
+      restartPolicy: Always
       securityContext:
         fsGroup: 0
-      restartPolicy: Always
       containers:
       - name: kafka-ws
         image: dojot/kafka-ws:{{ dojot_kafka_ws_version }}
@@ -65,4 +65,15 @@ spec:
       - name: kafka-ws
         persistentVolumeClaim:
           claimName: kafka-ws
+{% endif %}
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
 {% endif %}

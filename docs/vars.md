@@ -22,6 +22,11 @@ before deploying dojot
 * *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**.
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
+* *dojot_enable_node_affinity*: Enables node affinity for all services. Beware that you must configure your nodes to match the labels in the files. Default to **false**.
+* *dojot_node_label.dojot*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
+* *dojot_node_label.kafka*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
+* *dojot_node_label.x509*: Label value for x509 nodes. Defaults to **x509**.
+* *dojot_node_label.vernemq*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
 
 
 ### - Zookeeper
@@ -108,6 +113,12 @@ before deploying dojot
 
 * *dojot_gui_version*: Version of the GUI container. Defaults to **dojot_version**.
 
+### - GUI V2
+
+* *dojot_guiv2_enabled*: Defines whether the GUI V2 will be deployed or not. Defaults to **false**.
+* *dojot_guiv2_version*: Version of the GUI V2 container. Defaults to **dojot_version**.
+* *dojot_guiv2_image*: Image to be used in GUI V2 deployment. Defaults to **dojot/gui-v2**.
+
 ### - History
 
 * *dojot_history_version*: Version of the history container. Defaults to **dojot_version**.
@@ -128,6 +139,7 @@ before deploying dojot
 * *dojot_psql_ejbca_user*: EJBCA PostgreSQL database user. Defaults to **ejbca**.
 * *dojot_psql_ejbca_passwd*: EJBCA PostgreSQL database password. Defaults to **ejbca**.
 * *dojot_x509_identity_mgmt_version*: Version of the x509 Identity Management container. Defaults to **dojot_version**.
+* *dojot_x509_identity_mgmt_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
 
 ### - Kafka Loopback
 
@@ -142,19 +154,20 @@ before deploying dojot
 * *dojot_kafka_ws_port*: Port that will be used by the Kafka WS service. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 * *dojot_kafka_ws_enable_tls*: Activates the TLS communication. Defaults to **false**.
-
-### - HAProxy
-
-* *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.
-* *haproxy_kong_http_port*: Kong HTTP service port on k8s that the HAProxy will balance. Defaults to *30001*. By default kubernetes creates the service on a random port.
-* *haproxy_kong_https_port*: Kong HTTPS service port on k8s that the HAProxy will balance. The TLS must be activated in Kong for this to work. Defaults to *30002*. By default kubernetes creates the service on a random port.
-* *haproxy_kong_nodes*: The list of Kong nodes in k8s that HAProxy will balance.
-* *haproxy_mqtt_port*: MQTT service port on k8s that the HAProxy will balance. Defaults to *30310*. By default kubernetes creates the service on a random port.
-* *haproxy_mqtts_port*: MQTTS service port on k8s that the HAProxy will balance. Defaults to *30311*. By default kubernetes creates the service on a random port.
-* *haproxy_mqtt_nodes*: The list of MQTT/MQTTS nodes in k8s that HAProxy will balance.
-* *haproxy_metrics_port*: Metrics service port on k8s that the HAProxy will balance. Defaults to *30033*. By default kubernetes creates the service on a random port.
-* *haproxy_metrics_nodes*: The list of Metrics nodes in k8s that HAProxy will balance.
 * *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 * *dojot_kafka_ws_port*: Port used to access Kafka WS services. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Internally exposed Kafka WS Redis port. Defaults to **6379**.
+
+### - Metrics
+
+* *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.
+* *dojot_locust_exporter.ip*: IP or hostname where there is a Locust Exporter running. Defaults to **127.0.0.1**.
+* *dojot_locust_exporter.port*: Port exposed by Locust Exporter. Defaults to **9646**.
+### - HAProxy
+
+* *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.
+
+### - NGINX
+
+* *nginx_version*: Version of the NGINX service. Defaults to *1.19*.

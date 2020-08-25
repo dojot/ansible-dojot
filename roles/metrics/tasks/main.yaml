@@ -1,4 +1,3 @@
-
 - name: Metrics
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
@@ -15,18 +14,15 @@
     - "templates/0prometheus-operator-0servicemonitorCustomResourceDefinition.yaml"
     - "templates/0prometheus-operator-clusterRole.yaml"
     - "templates/0prometheus-operator-clusterRoleBinding.yaml"
-    - "templates/0prometheus-operator-deployment.yaml"
     - "templates/0prometheus-operator-service.yaml"
     - "templates/0prometheus-operator-serviceAccount.yaml"
     - "templates/grafana-dashboardDatasources.yaml"
     - "templates/grafana-dashboardDefinitions.yaml"
     - "templates/grafana-dashboardSources.yaml"
-    - "templates/grafana-deployment.yaml"
     - "templates/grafana-internal-service.yaml"
     - "templates/grafana-serviceAccount.yaml"
     - "templates/kube-state-metrics-clusterRole.yaml"
     - "templates/kube-state-metrics-clusterRoleBinding.yaml"
-    - "templates/kube-state-metrics-deployment.yaml"
     - "templates/kube-state-metrics-role.yaml"
     - "templates/kube-state-metrics-roleBinding.yaml"
     - "templates/kube-state-metrics-service.yaml"
@@ -44,15 +40,13 @@
     - "templates/prometheus-rules.yaml"
     - "templates/prometheus-service.yaml"
     - "templates/prometheus-serviceAccount.yaml"
-    - "templates/prometheus-servicelprometheus.yaml"
     - "templates/prometheus-serviceMonitorApiserver.yaml"
     - "templates/prometheus-serviceMonitorCoreDNS.yaml"
     - "templates/prometheus-serviceMonitorKubelet.yaml"
     - "templates/z_kube-state-metrics-serviceMonitor.yaml"
     - "templates/z_node-exporter-serviceMonitor.yaml"
 
-- name: Metrics External Service
-  when: not dojot_ingress_controller
+- name: Metrics - Ansible parameterized files
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
@@ -62,7 +56,23 @@
   retries: 30
   delay: 10
   loop:
+  - "{{ lookup('template', '0prometheus-operator-deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'grafana-deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'grafana-external-service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'kube-state-metrics-deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'prometheus-servicelprometheus.yaml.j2') | from_yaml }}"
 
-
-
+- name: Metrics - Locust
+  when: dojot_enable_locust_exporter
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'locust/endpoint.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'locust/service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'locust/serviceMonitor.yaml.j2') | from_yaml }}"

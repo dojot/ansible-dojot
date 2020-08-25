@@ -18,6 +18,7 @@ spec:
         name: iotagent-mosca
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/iotagent-mosca:{{ dojot_iotagent_mosca_version }}
         name: iotagent-mosca
@@ -42,4 +43,14 @@ spec:
         name: redis
         ports:
         - containerPort: 6379
-      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

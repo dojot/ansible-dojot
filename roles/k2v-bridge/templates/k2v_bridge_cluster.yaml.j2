@@ -15,16 +15,18 @@ spec:
         app: dojot
         name: k2v-bridge
     spec:
-      affinity:
-        podAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-              - key: vernemq
-                operator: In
-                values:
-                - k8s
-            topologyKey: "kubernetes.io/hostname"
+      restartPolicy: Always
       containers:
       - name: k2v-bridge
         image: dojot/k2v-bridge:{{ dojot_k2v_version}}
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.vernemq }}"
+{% endif %}

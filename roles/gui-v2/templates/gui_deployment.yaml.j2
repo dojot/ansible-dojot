@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: gui-v2
+    app: dojot
+  name: gui-v2
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: gui-v2
+  template:
+    metadata:
+      labels:
+        name: gui-v2
+        app: dojot
+    spec:
+      containers:
+      - image: {{ dojot_guiv2_image }}:{{ dojot_guiv2_version }}
+        name: gui-v2
+      restartPolicy: Always
