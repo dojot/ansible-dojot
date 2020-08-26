@@ -9,12 +9,12 @@ spec:
   externalTrafficPolicy: Local
   type: NodePort
   ports:
-    - name: mqtt
+    - name: mqtt-insecure
       port: 1883
 {% if dojot_fixed_nodeports_enabled %}
       nodePort: {{ dojot_nodeports.mqtt }}
 {% endif %}
-    - name: mqtts
+    - name: mqtt-secure
       port: 8883
 {% if dojot_fixed_nodeports_enabled %}
       nodePort: {{ dojot_nodeports.mqtts }}
