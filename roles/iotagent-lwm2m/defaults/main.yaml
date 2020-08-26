@@ -3,7 +3,7 @@
 
 dojot_iotagent_lwm2m_version: "{{ dojot_version }}"
 
-dojot_file_server_address: "localhost"
+dojot_file_server_address: "{{ dojot_domain_name }}"
 
 file_server_http_port: "30015"
 
