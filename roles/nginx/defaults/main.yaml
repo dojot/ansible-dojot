@@ -1,6 +1,6 @@
 ---
 
-nginx_version: '1.19*'
+nginx_version: '1.18*'
 
 nginx_worker_rlimit_nofile: 800000
 
