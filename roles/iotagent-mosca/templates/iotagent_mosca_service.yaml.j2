@@ -6,14 +6,19 @@ metadata:
   name: iotagent-mosca
   namespace: {{ dojot_namespace }}
 spec:
+  externalTrafficPolicy: Local
   type: NodePort
   ports:
-  - name: mqtt-insecure
-    port: 1883
-    targetPort: 1883
-  - name: mqtt-secure
-    port: 8883
-    targetPort: 8883
+    - name: mqtt
+      port: 1883
+{% if dojot_fixed_nodeports_enabled %}
+      nodePort: {{ dojot_nodeports.mqtt }}
+{% endif %}
+    - name: mqtts
+      port: 8883
+{% if dojot_fixed_nodeports_enabled %}
+      nodePort: {{ dojot_nodeports.mqtts }}
+{% endif %}
   selector:
     name: iotagent-mosca
     app: dojot
