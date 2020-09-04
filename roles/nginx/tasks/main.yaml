@@ -58,8 +58,17 @@
     - coaps
     - file_server
     - file_servers
-    - mqtt
     - mqtts
+
+- name: Copy mqtt config files
+  when: {{ dojot_insecure_mqtt }}
+  become: yes
+  template:
+    src: "mqtt.conf.j2"
+    dest: "/etc/nginx/stream-conf.d/dojot_mqtt.conf"
+    owner: root
+    group: root
+    mode: 0644
 
 - name: restart nginx
   become: yes
