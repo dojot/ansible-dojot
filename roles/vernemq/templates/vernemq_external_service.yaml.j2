@@ -8,10 +8,12 @@ spec:
   selector:
     vernemq: k8s
   ports:
+{% if dojot_insecure_mqtt %}
     - name: mqtt
       port: 1883
 {% if dojot_fixed_nodeports_enabled %}
       nodePort: {{ dojot_nodeports.mqtt }}
+{% endif %}
 {% endif %}
     - name: mqtts
       port: 8883

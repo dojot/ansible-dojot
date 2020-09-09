@@ -24,6 +24,7 @@ defaults
         timeout server 300000ms
         default-server init-addr last,libc,none
 
+{% if dojot_insecure_mqtt %}
 listen mqtt
         mode tcp
         option tcplog
@@ -33,6 +34,7 @@ listen mqtt
 {% for node in groups['mqtt_nodes'] | default([]) %}
         server mqtt-{{ loop.index }} {{ node }}:{{ dojot_nodeports.mqtt }} check inter 1000ms fall 3 rise 5
 {% endfor %}
+{% endif %}
 
 listen mqtts
         mode tcp
