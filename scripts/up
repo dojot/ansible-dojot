@@ -1,0 +1,56 @@
+#!/bin/bash
+# Brings up Ansible to install the Kubernetes environment.
+
+## Check the dependencies before running the rest of the script
+echo "Checking dependencies..."
+echo "Checking kubectl..."
+if ! command -v kubectl &> /dev/null
+then
+	echo "You must have kubectl installed!"
+	exit 1
+fi
+echo "OK"
+echo "Checking ansible-playbook..."
+if ! command -v ansible-playbook &> /dev/null
+then
+	echo "You must have ansible-playbook installed!"
+	exit 1
+fi
+echo "OK"
+
+## Retrieving the arguments
+while getopts f:d:h flag
+do
+	case "${flag}" in
+		f) flags=${OPTARG};;
+		d) deploy=${OPTARG};;
+		h) help="true";;
+	esac
+done
+
+## Setting default values
+deploy=${deploy:-"deploy.yaml"}
+flags=${flags:-"-vvvv"}
+
+## Print help
+if [ "${help}" == "true" ]
+then
+	echo "usage: $0 [OPTIONS]"
+	echo "  -d: deploy file to be used (defaults to deploy.yaml)"
+	echo "  -f: Ansible flags to be passed, like -vvvv, --tags=100k (defaults to -vvvv)"
+	echo "  -h: shows the script help (this message)"
+	exit 1
+fi
+
+## Creating the volumes
+echo "Bringing volumes up..."
+kubectl apply -f local_storage_example/volumes/
+if [ "$?" != "0" ]
+then
+	echo "Error while bringing volumes up!"
+	exit 1
+fi
+
+## Running Ansible
+ansible-playbook -K -k -i inventories/example_local ${deploy} ${flags}
+
