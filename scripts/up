@@ -25,6 +25,7 @@ do
 		f) flags=${OPTARG};;
 		d) deploy=${OPTARG};;
 		h) help="true";;
+		*) exit 1;;
 	esac
 done
 
@@ -44,8 +45,7 @@ fi
 
 ## Creating the volumes
 echo "Bringing volumes up..."
-kubectl apply -f local_storage_example/volumes/
-if [ "$?" != "0" ]
+if ! kubectl apply -f local_storage_example/volumes/
 then
 	echo "Error while bringing volumes up!"
 	exit 1
