@@ -89,6 +89,12 @@ is found on the document:
 
 [Inventory Variables](docs/vars.md)
 
+## Scripts
+
+In the [scripts folder](./scripts) you can find the `up` and `down` scripts. You can use them to
+bring up the project and to remove all brought up services, respectively. You can check out their
+help by passing the `-h` flag.
+
 ## License
 
 GPLv3
