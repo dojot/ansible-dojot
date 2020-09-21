@@ -6,7 +6,7 @@ echo "Checking dependencies..."
 echo "Checking kubectl..."
 if ! command -v kubectl &> /dev/null
 then
-	echo "You must have kubectl installed!"
+	echo "You must have Kubernetes installed!"
 	exit 1
 fi
 echo "OK"
