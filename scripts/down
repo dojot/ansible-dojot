@@ -1,0 +1,46 @@
+#!/bin/bash
+# Removes all the dojot components that are running in a Kubernetes environment.
+
+## Check the dependencies before running the rest of the script
+echo "Checking dependencies..."
+echo "Checking kubectl..."
+if ! command -v kubectl &> /dev/null
+then
+	echo "You must have Kubernetes installed!"
+	exit 1
+fi
+echo "OK"
+
+## Retrieve the arguments
+while getopts r:h flag
+do
+	case "${flag}" in
+		r) remove=${OPTARG};;
+		h) help="true";;
+		*) exit 1;;
+	esac
+done
+
+## Print help
+if [ "${remove}" != "false" ] && [ "${remove}" != "true" ] || [ "$help" == "true" ]
+then
+	echo "usage: $0 [OPTIONS]"
+	echo "  -h: shows the script help (this message)"
+	echo "	-r: true if it should remove the volumes (won't erase any data), false if it should not."
+	exit 1
+fi
+
+# When we run only delete --all all, it can kill the pods first, not the deployments nor
+# the stateful sets, thus creating new pods, so we first delete them to prevent this.
+kubectl delete --all sts,deploy -n dojot
+kubectl delete --all sts,deploy -n dojot-monitoring
+
+kubectl delete --all all -n dojot-monitoring
+kubectl delete --all all -n dojot
+
+if [ "${remove}" == "true" ]
+then
+	echo "Removing volumes"
+	kubectl delete --all pvc --all-namespaces
+	kubectl delete --all pv,sc
+fi

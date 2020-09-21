@@ -100,6 +100,12 @@ is found on the document:
 - 0 allow access to CPU-specific data but not raw tracepoint samples.
 - -1 no restrictions.
 
+## Scripts
+
+In the [scripts folder](./scripts) you can find the `up` and `down` scripts. You can use them to
+bring up the project and to remove all brought up services, respectively. You can check out their
+help by passing the `-h` flag.
+
 ## License
 
 GPLv3
