@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -8,6 +8,10 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: device-manager
   template:
     metadata:
       labels:
@@ -48,5 +52,5 @@ spec:
           valueFrom:
             secretKeyRef:
               name: devm-secret
-              key: crypto_salt        
+              key: crypto_salt
       restartPolicy: Always

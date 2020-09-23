@@ -1,5 +1,5 @@
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -9,6 +9,10 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: mongodb
   template:
     metadata:
       labels:
@@ -40,6 +44,6 @@ spec:
       - name: mongodb-volume
         persistentVolumeClaim:
           claimName: mongodb-volume-claim
-{% endif %} 
+{% endif %}
 
 # TODO: View deploy strategies

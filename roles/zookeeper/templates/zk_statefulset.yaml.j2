@@ -1,5 +1,5 @@
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
@@ -102,7 +102,7 @@ spec:
 {% if dojot_zk_persistent_volumes %}
           volumeMounts:
             - name: zk-volume
-              mountPath: /var/lib/zookeeper 
+              mountPath: /var/lib/zookeeper
 
   volumeClaimTemplates:
   - metadata:
@@ -114,4 +114,4 @@ spec:
       resources:
         requests:
           storage: {{ dojot_zk_volume_size }}
-{% endif %}         
+{% endif %}

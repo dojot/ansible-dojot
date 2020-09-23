@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: kafka-server
@@ -6,6 +6,10 @@ metadata:
 spec:
   serviceName: kafka-server
   replicas: {{ dojot_kafka_cluster_size }}
+  selector:
+    matchLabels:
+      app: dojot
+      name: kafka-server
   template:
     metadata:
       labels:
@@ -141,12 +145,12 @@ spec:
         volumeMounts:
         - name: kafka-volume
           mountPath: /var/lib/kafka
-{% endif %} 
+{% endif %}
         readinessProbe:
           exec:
-           command: 
-            - sh 
-            - -c 
+           command:
+            - sh
+            - -c
             - "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server=localhost:{{ dojot_kafka_port }}"
       securityContext:
         runAsUser: 1000
@@ -161,4 +165,4 @@ spec:
       resources:
         requests:
           storage: {{ dojot_kafka_volume_size }}
-{% endif %} 
+{% endif %}
