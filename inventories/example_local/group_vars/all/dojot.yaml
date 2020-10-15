@@ -1,6 +1,6 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_version: v0.5.0-alpha.4
+dojot_version: v0.5.0-rc.1
 dojot_domain_name: localhost
 
 dojot_storage_class_name: ""
@@ -27,7 +27,7 @@ dojot_kafka_ws_persistent_volumes: false
 dojot_apigw_persistent_volumes: false
 
 #Whether it should deploy GUI V2 component
-dojot_guiv2_enabled: false
+dojot_guiv2_enabled: true
 
 # Enable email in Auth
 dojot_auth_email_enabled: false
