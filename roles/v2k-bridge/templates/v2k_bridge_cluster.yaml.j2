@@ -20,7 +20,8 @@ spec:
       - name: v2k-bridge
         image: dojot/v2k-bridge:{{ dojot_v2k_version}}
         env:
-        - V2K_APP_USER_CONFIG_FILE: "production.conf"
+        - name: V2K_APP_USER_CONFIG_FILE
+          value: "production.conf"
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
