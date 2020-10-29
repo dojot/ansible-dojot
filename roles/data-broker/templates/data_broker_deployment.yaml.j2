@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -8,12 +8,17 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: data-broker
   template:
     metadata:
       labels:
         name: data-broker
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/data-broker:{{ dojot_data_broker_version }}
         name: data-broker
@@ -28,4 +33,18 @@ spec:
           value: kafka-server
         - name: DATABROKER_KAFKA_PORT
           value: "{{ dojot_kafka_port }}"
-      restartPolicy: Always
+        - name: KAFKA_NUM_PARTITIONS
+          value: "{{ dojot_bridges_replicas }}"
+        - name: KAFKA_REPLICATION_FACTOR
+          value: "1"
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

@@ -4,7 +4,7 @@ metadata:
   namespace: {{ dojot_namespace }}
   name: flowbroker-role
 rules:
-- apiGroups: ["extensions"]
+- apiGroups: ["apps"]
   resources: ["deployments"]
   verbs: ["get", "list", "create", "patch", "delete"]
 - apiGroups: [""]

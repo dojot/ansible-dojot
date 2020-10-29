@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -8,12 +8,17 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: device-manager
   template:
     metadata:
       labels:
         name: device-manager
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/device-manager:{{ dojot_devm_version }}
         name: device-manager
@@ -48,5 +53,15 @@ spec:
           valueFrom:
             secretKeyRef:
               name: devm-secret
-              key: crypto_salt        
-      restartPolicy: Always
+              key: crypto_salt
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

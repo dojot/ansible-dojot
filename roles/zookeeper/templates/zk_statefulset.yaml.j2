@@ -1,5 +1,5 @@
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   labels:
@@ -28,23 +28,21 @@ spec:
       securityContext:
         runAsUser: 1000
         fsGroup: 1000
+{% if dojot_enable_node_affinity %}
       affinity:
-        podAntiAffinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-           - topologyKey: "kubernetes.io/hostname"
-             labelSelector:
-               matchLabels:
-                 name: zookeeper
-                 app: dojot
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.kafka }}"
+{% endif %}
       containers:
         - name: zookeeper
-          ## - https://github.com/kubernetes/contrib/tree/master/statefulsets/zookeeper
-          image: "dojot/k8s_zookeeper:v3"
+          image: "confluentinc/cp-zookeeper:5.5.0"
           imagePullPolicy: IfNotPresent
-          command:
-            - /bin/bash
-            - -xec
-            - zkGenConfig.sh && exec zkServer.sh start-foreground
           ports:
             - containerPort: {{ dojot_zk_client_port }}
               name: client
@@ -52,61 +50,44 @@ spec:
               name: server
             - containerPort: {{ dojot_zk_election_port }}
               name: leader-election
-          livenessProbe:
-            exec:
-              command:
-                - zkOk.sh
-            initialDelaySeconds: 30
-            periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 6
-            successThreshold: 1
-          readinessProbe:
-            exec:
-              command:
-                - zkOk.sh
-            initialDelaySeconds: 30
-            periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 6
-            successThreshold: 1
           env:
-            - name: ZK_REPLICAS
+            - name: ZOOKEEPER_REPLICAS
               value: "{{ dojot_zk_cluster_size | string }}"
-            - name: ZK_CLIENT_PORT
+            - name: ZOOKEEPER_CLIENT_PORT
               value: "{{ dojot_zk_client_port }}"
-            - name: ZK_ELECTION_PORT
+            - name: ZOOKEEPER_ELECTION_PORT
               value: "{{ dojot_zk_election_port }}"
-            - name: ZK_SERVER_PORT
+            - name: ZOOKEEPER_SERVER_PORT
               value: "{{ dojot_zk_server_port }}"
-            - name: ZK_HEAP_SIZE
+            - name: ZOOKEEPER_HEAP_SIZE
               value: "2G"
-            - name: ZK_INIT_LIMIT
+            - name: ZOOKEEPER_INIT_LIMIT
               value: "5"
-            - name: ZK_LOG_LEVEL
+            - name: ZOOKEEPER_LOG_LEVEL
               value: "INFO"
-            - name: ZK_MAX_CLIENT_CNXNS
+            - name: ZOOKEEPER_MAX_CLIENT_CNXNS
               value: "100"
-            - name: ZK_MAX_SESSION_TIMEOUT
+            - name: ZOOKEEPER_MAX_SESSION_TIMEOUT
               value: "40000"
-            - name: ZK_MIN_SESSION_TIMEOUT
+            - name: ZOOKEEPER_MIN_SESSION_TIMEOUT
               value: "4000"
-            - name: ZK_PURGE_INTERVAL
+            - name: ZOOKEEPER_PURGE_INTERVAL
               value: "0"
-            - name: ZK_SNAP_RETAIN_COUNT
+            - name: ZOOKEEPER_SNAP_RETAIN_COUNT
               value: "3"
-            - name: ZK_SYNC_LIMIT
+            - name: ZOOKEEPER_SYNC_LIMIT
               value: "10"
-            - name: ZK_TICK_TIME
+            - name: ZOOKEEPER_TICK_TIME
               value: "2000"
 {% if dojot_zk_persistent_volumes %}
           volumeMounts:
-            - name: zk-volume
-              mountPath: /var/lib/zookeeper 
-
+            - name: zk-volume-data
+              mountPath: /var/lib/zookeeper/data
+            - name: zk-volume-log
+              mountPath: /var/lib/zookeeper/log
   volumeClaimTemplates:
   - metadata:
-      name: zk-volume
+      name: zk-volume-data
       namespace: {{ dojot_namespace }}
     spec:
       accessModes: [ "ReadWriteOnce" ]
@@ -114,4 +95,21 @@ spec:
       resources:
         requests:
           storage: {{ dojot_zk_volume_size }}
-{% endif %}         
+      selector:
+        matchLabels:
+          app: dojot
+          name: zookeeper-data
+  - metadata:
+      name: zk-volume-log
+      namespace: {{ dojot_namespace }}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_zk_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          name: zookeeper-log
+{% endif %}

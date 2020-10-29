@@ -1,0 +1,46 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kong-migrate-up
+  namespace: {{ dojot_namespace }}
+spec:
+  template:
+    metadata:
+      name: kong-migrate-up
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: kong-migrate-up
+        env:
+        - name: KONG_DATABASE
+          value: postgres
+        - name: KONG_PG_HOST
+          value: postgres
+        - name: KONG_PG_USER
+          valueFrom:
+            secretKeyRef:
+              name: kong-secret
+              key: user
+        - name: KONG_PG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kong-secret
+              key: password
+        - name: KONG_PG_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: kong-secret
+              key: db
+        image: dojot/kong:{{ dojot_apigw_version }}
+        args: ["kong",  "migrations", "up", "&&", "kong",  "migrations", "finish"]
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

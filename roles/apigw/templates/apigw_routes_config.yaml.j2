@@ -8,6 +8,7 @@ spec:
     metadata:
       name: kong-route-config
     spec:
+      restartPolicy: OnFailure
       containers:
       - name: kong-route-config
         image: dojot/byrnedo-alpine-curl
@@ -15,8 +16,18 @@ spec:
         - mountPath: /config_file
           name: kong-route-config
         command: ['/bin/sh', '/config_file/kong-config.sh']
-      restartPolicy: OnFailure
       volumes:
       - name: kong-route-config
         configMap:
           name: kong-config
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

@@ -4,7 +4,34 @@ all:
     localhost:
         ansible_connection: local
         ansible_python.version.major: 3
+    worker_host:
+        ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
+    nginx:
+        ansible_host: NGINX_HOST_ADDRESS #change to the host of NGINX
+    haproxy:
+        ansible_host: HAPROXY_HOST_ADDRESS #change to the host of NGINX
   children:
     dojot-k8s:
       hosts:
         localhost:
+    k8s-nodes:
+      children:
+        master_nodes:
+          hosts:
+            localhost:
+        worker_nodes:
+          hosts:
+            worker_host:
+    apigw_nodes:
+      hosts:
+        APIGW_HOST_ADDRESS: #change to the host of API GW worker node on k8s
+    mqtt_nodes:
+      hosts:
+        MQTT_HOST_ADDRESS: #change to the host of MQTT worker node on k8s
+    lwm2m_nodes:
+      hosts:
+        LWM2M_HOST_ADDRESS: #change to the host of LWM2M worker node on k8s
+    metrics_nodes:
+      hosts:
+        METRICS_HOST_ADDRESS: #change to the host of Metrics worker node on k8s
+

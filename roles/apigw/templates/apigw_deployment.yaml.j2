@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -8,15 +8,40 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: kong
   template:
     metadata:
       labels:
         name: kong
         app: dojot
     spec:
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}
+      restartPolicy: Always
+      securityContext:
+        # User kong has UID 100
+        runAsUser: 100
       containers:
       - name: kong
         image: dojot/kong:{{ dojot_apigw_version }}
+        ports:
+        - containerPort: {{ dojot_internal_http_port }}
+        - containerPort: {{ dojot_internal_api_config_port }}
+{% if dojot_apigw_enable_mutual_tls %}
+        - containerPort: {{ dojot_internal_https_port }}
+{% endif %}
         env:
         - name: KONG_DATABASE
           value: postgres
@@ -37,7 +62,30 @@ spec:
             secretKeyRef:
               name: kong-secret
               key: db
-        ports:
-        - containerPort: {{ dojot_internal_http_port }}
-        - containerPort: {{ dojot_internal_api_config_port }}
-      restartPolicy: Always
+{% if dojot_apigw_enable_mutual_tls %}
+        # NOTE: you must create the volume and pass the certificates to it
+        # NOTE: the certificate files' owner UID must be 100 and the permission must be 400
+        - name: KONG_SSL_CERT_KEY
+          value: "/certs/kong.key"
+        - name: KONG_SSL_CERT
+          value: "/certs/kong.crt"
+        - name: KONG_NGINX_PROXY_PROXY_SSL_CERTIFICATE_KEY
+          value: "/certs/kong-internal.key"
+        - name: KONG_NGINX_PROXY_PROXY_SSL_CERTIFICATE
+          value: "/certs/kong-internal.crt"
+        - name: KONG_NGINX_PROXY_PROXY_SSL_TRUSTED_CERTIFICATE
+          value: "/certs/ca.crt"
+        - name: KONG_NGINX_PROXY_PROXY_SSL_VERIFY
+          value: "on"
+        - name: KONG_NGINX_PROXY_PROXY_SSL_VERIFY_DEPTH
+          value: "2"
+{% endif %}
+{% if dojot_apigw_persistent_volumes %}
+        volumeMounts:
+        - name: kong
+          mountPath: /certs
+      volumes:
+      - name: kong
+        persistentVolumeClaim:
+          claimName: kong
+{% endif %}

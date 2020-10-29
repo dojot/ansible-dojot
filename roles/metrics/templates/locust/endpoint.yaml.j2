@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: locust-metrics
+  labels:
+    k8s-app: locust-metrics
+  namespace: dojot-monitoring
+subsets:
+  - addresses:
+      - ip: {{ dojot_locust_exporter.ip }}
+    ports:
+      - port: {{ dojot_locust_exporter.port }}
+        name: metrics

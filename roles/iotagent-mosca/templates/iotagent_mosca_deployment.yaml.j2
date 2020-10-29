@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -8,16 +8,27 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: iotagent-mosca
   template:
     metadata:
       labels:
         name: iotagent-mosca
         app: dojot
     spec:
+      restartPolicy: Always
       containers:
       - image: dojot/iotagent-mosca:{{ dojot_iotagent_mosca_version }}
         name: iotagent-mosca
         env:
+        - name: MOSCA_TLS_DNS_LIST
+          value: {{ dojot_domain_name }}
+        - name: LOG_LEVEL
+          value: info
+        - name: MQTTREST_EJBCA_URL
+          value: http://ejbca-wrapper:5583
         - name: BACKEND_HOST
           value: localhost
         - name: DOJOT_MANAGEMENT_USER
@@ -32,4 +43,14 @@ spec:
         name: redis
         ports:
         - containerPort: 6379
-      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

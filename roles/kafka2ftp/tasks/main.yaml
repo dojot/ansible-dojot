@@ -1,0 +1,12 @@
+
+- name:  dojot - Kafka2Ftp - Service of forwarding messages to the FTP server
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'kafk2ftp_deployment.yaml.j2') | from_yaml }}"

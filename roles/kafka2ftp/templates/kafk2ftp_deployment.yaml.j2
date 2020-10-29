@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: kafka2ftp
+    app: dojot
+  name: kafka2ftp
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: kafka2ftp
+  template:
+    metadata:
+      labels:
+        name: kafka2ftp
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/kafka2ftp:{{ dojot_kafka2ftp_version }}
+        name: kafka2ftp
+        env:
+        - name: KAFKA_HOSTS
+          value: kafka-server:9092
+        - name: KAFKA_GROUP_ID
+          value: kafka2ftp-group
+        - name: LOG_LEVEL
+          value: info
+        - name: FTP_TENANT
+          value: admin
+        - name: FTP_HOST
+          value: localhost
+        - name: FTP_PORT
+          value: "21"
+        - name: FTP_FTPS
+          value: "false"
+        - name: FTP_USER
+          value: anonymous
+        - name: FTP_PASSWORD
+          value: guest
+        - name: FTP_REMOTE_DIR
+          value: /incoming/
+        - name: MAX_CONCURRENT_CONNECTIONS
+          value: "10"
+        - name: RETRIES
+          value: "13"
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

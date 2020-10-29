@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: v2k-bridge
+  namespace: {{ dojot_namespace }}
+spec:
+  serviceName: "v2k-bridge"
+  selector:
+    matchLabels:
+      name: v2k-bridge
+  replicas: {{ dojot_bridges_replicas }}
+  template: #templates for the pods
+    metadata:
+      labels:
+        app: dojot
+        name: v2k-bridge
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: v2k-bridge
+        image: dojot/v2k-bridge:{{ dojot_v2k_version}}
+        env:
+        - name: V2K_APP_USER_CONFIG_FILE
+          value: "production.conf"
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.vernemq }}"
+{% endif %}

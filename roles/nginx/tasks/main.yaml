@@ -1,0 +1,78 @@
+---
+
+- name: Add an Apt signing key for nginx
+  become: yes
+  apt_key:
+    url: https://nginx.org/keys/nginx_signing.key
+
+- name: Add apt repository for nginx
+  become: yes
+  apt_repository:
+    repo: deb https://nginx.org/packages/ubuntu/ bionic nginx
+
+- name: Add apt src repository for nginx
+  become: yes
+  apt_repository:
+    repo: deb-src https://nginx.org/packages/ubuntu/ bionic nginx
+
+- name: install | dependencies
+  become: yes
+  apt:
+    name: "nginx={{ nginx_version }}"
+    update_cache: yes
+
+- name: Nginx config file
+  become: yes
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Delete default http config file
+  become: yes
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+
+- name: Creates stream directory
+  become: yes
+  file:
+    path: /etc/nginx/stream-conf.d
+    state: directory
+
+
+- name: Copy stream config files
+  become: yes
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/nginx/stream-conf.d/dojot_{{ item }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - apigw
+    - apigw_secure
+    - coap
+    - coaps
+    - file_server
+    - file_servers
+    - mqtts
+
+- name: Copy mqtt config files
+  when: {{ dojot_insecure_mqtt }}
+  become: yes
+  template:
+    src: "mqtt.conf.j2"
+    dest: "/etc/nginx/stream-conf.d/dojot_mqtt.conf"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: restart nginx
+  become: yes
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes

@@ -1,0 +1,1 @@
+dojot_kafka2ftp_version: "{{ dojot_version }}"
