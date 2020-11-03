@@ -36,7 +36,7 @@ spec:
           periodSeconds: 20
           timeoutSeconds: 5
         env:
-        - name: KAFKA_WS_CONSUMER_METADATA.BROKER.LIST
+        - name: KAFKA_WS_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: KAFKA_WS_SERVER_PORT
           value: "{{ dojot_kafka_ws_port }}"
