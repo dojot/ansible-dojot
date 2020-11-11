@@ -68,7 +68,7 @@ spec:
           value: NOEMAIL
 {% endif %}
         - name: AUTH_RESET_PWD_VIEW
-          value: https://{{ dojot_domain_name }}/#/setPassword/
+          value: {{ dojot_gui_url_set_password }}
       - image: dojot/redis:5.0.5-alpine3.10
         name: redis
         ports:
