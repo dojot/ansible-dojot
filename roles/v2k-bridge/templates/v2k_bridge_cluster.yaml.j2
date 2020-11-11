@@ -20,14 +20,8 @@ spec:
       - name: v2k-bridge
         image: dojot/v2k-bridge:{{ dojot_v2k_version}}
         env:
-        - name: V2K_APP_EJBCA_ADDRESS
-          value: x509-identity-mgmt:3000
-        - name: V2K_MQTT_BACKPRESSURE_QUEUE_LENGTH_MAX
-          value: "104857600"
-        - name: V2K_KAFKA_COMPRESSION_CODEC
-          value: gzip
-        - name: V2K_KAFKA_QUEUE_BUFFERING_MAX_MS
-          value: "50"
+        - name: V2K_APP_USER_CONFIG_FILE
+          value: "production.conf"
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
