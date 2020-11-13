@@ -1,3 +1,0 @@
-# Variable values for the apigw role
-
-dojot_apigw_version: "{{ dojot_version }}"
