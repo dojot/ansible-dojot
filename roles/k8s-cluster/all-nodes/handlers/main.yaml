@@ -3,3 +3,11 @@
 - name: docker status
   become: yes
   service: name=docker state=started
+
+- name: systemd daemon reload
+  become: yes
+  command: systemctl daemon-reload
+
+- name: restart docker
+  become: yes
+  service: name=docker state=restarted

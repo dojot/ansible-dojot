@@ -164,6 +164,12 @@ before deploying dojot
 * *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.
 * *dojot_locust_exporter.ip*: IP or hostname where there is a Locust Exporter running. Defaults to **127.0.0.1**.
 * *dojot_locust_exporter.port*: Port exposed by Locust Exporter. Defaults to **9646**.
+
+### - Kubernetes Cluster
+
+* *k8s_version*: Version of the Kubernetes cluster. Defaults to *1.17.3-00*.
+* *docker_log_size*: The maximum size of the log before it is rolled. Defaults to *100m*.
+
 ### - HAProxy
 
 * *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.
