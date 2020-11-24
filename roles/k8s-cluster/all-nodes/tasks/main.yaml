@@ -41,6 +41,17 @@
   notify:
     - docker status
 
+- name: Docker daemon settings
+  become: yes
+  template:
+    src: docker-daemon.json.j2
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - systemd daemon reload
+    - restart docker
 
 - name: Remove swapfile from /etc/fstab
   become: yes
