@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: influxdb-retriever
+    app: dojot
+  name: influxdb-retriever
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: influxdb-retriever
+  template:
+    metadata:
+      labels:
+        name: influxdb-retriever
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/influxdb-storer:{{ dojot_influxdb_retriever_version }}
+        name: influxdb-retriever
+        env:
+        - name: RETRIEVER_LOG_CONSOLE_LEVEL
+          value: "{{ dojot_influxdb_retriever_log_level }}"
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}

@@ -1,0 +1,2 @@
+dojot_influxdb_retriever_version: "{{ dojot_version }}"
+dojot_influxdb_retriever_log_level: info

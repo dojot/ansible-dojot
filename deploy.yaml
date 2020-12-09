@@ -11,6 +11,7 @@
       fail:
         msg: Stopping playbook execution! The tags vernemq and mosca cannot be used together
 
+
 - hosts: dojot-k8s[0]
   gather_facts: true
   any_errors_fatal: true
@@ -22,6 +23,7 @@
   - 100k
   roles:
     - role: k8s-api-bootstrap
+
 
 # Create dojot base for the deployment
 - hosts: dojot-k8s[0]
@@ -35,28 +37,6 @@
   roles:
     - role: dojot-basic
 
-# Minio
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-  - minio
-  - vernemq
-  - mosca
-  - lwm2m
-  roles:
-    - role: minio
-
-# Metrics (Prometheus, Grafana, Node Exporter)
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-  - metrics
-  - vernemq
-  - mosca
-  - lwm2m
-  - 100k
-  roles:
-    - role: metrics
 
 # Deploy Zookeeper to the environment
 # TODO: Add possibility of using an external Zookeeper by setting config variables
@@ -88,6 +68,22 @@
   roles:
     - role: databases/postgresql
 
+
+# Deploy InfluxDB to the environment
+# TODO: Add possibility of using an external InfluxDB by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+  - influxdb
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
+  roles:
+    - role: databases/influxdb
+
+
 # Deploy MongoDB to the environment
 # TODO: Add possibility of using an external MongoDB by setting DB config variables
 # TODO: Support a HA cluster
@@ -101,6 +97,7 @@
   - 100k
   roles:
     - role: databases/mongodb
+
 
 # Deploy Kafka to the environment
 # TODO: Add possibility of using an external Kafka by setting config variables
@@ -116,6 +113,7 @@
   roles:
     - role: kafka
 
+
 # Deploy VerneMQ to the environment
 # TODO: Add possibility of using an external VerneMQ by setting config variables
 # TODO: Support a HA cluster
@@ -126,6 +124,7 @@
   - 100k
   roles:
     - role: vernemq
+
 
 # Deploy RabbitMQ to the environment
 # TODO: Add possibility of using an external RabbitMQ by setting config variables
@@ -194,6 +193,20 @@
 
     - role: persister
       tags:
+      - vernemq
+      - mosca
+      - lwm2m
+
+    - role: influxdb-storer
+      tags:
+      - influxdb
+      - vernemq
+      - mosca
+      - lwm2m
+
+    - role: influxdb-retriever
+      tags:
+      - influxdb
       - vernemq
       - mosca
       - lwm2m
@@ -272,3 +285,27 @@
       - mosca
       - lwm2m
       - 100k
+
+
+# Minio
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+  - minio
+  - vernemq
+  - mosca
+  - lwm2m
+  roles:
+    - role: minio
+
+# Metrics (Prometheus, Grafana, Node Exporter)
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+  - metrics
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
+  roles:
+    - role: metrics

@@ -1,0 +1,9 @@
+dojot_influxdb_version: v2.0.2
+dojot_influxdb_port: 8086
+dojot_influxdb_admin_user: dojot
+dojot_influxdb_admin_token: dojot@token_default
+dojot_influxdb_admin_passwd: dojot@password
+dojot_influxdb_organization_name: admin
+dojot_influxdb_bucket: devices
+dojot_influxdb_retention: 7d
+dojot_influxdb_volume_size: 1Gi
