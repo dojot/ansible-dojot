@@ -33,3 +33,20 @@ dojot_insecure_mqtt: 'true'
 
 # Set dojot docnfiguration for EJBCA
 dojot_ejbca_persistent_volumes: false
+
+# Enables fixed nodeports
+dojot_fixed_nodeports_enabled: false
+
+
+# Fixed nodeports to use. It's used if dojot_fixed_nodeports_enabled is true
+dojot_nodeports:
+  apigw:
+    http: 30001
+  mqtt: 30004
+  mqtts: 30005
+  lwm2m:
+    coap: 30006
+    coaps: 30007
+    file_server: 30008
+    file_servers: 30009
+    http: 30010

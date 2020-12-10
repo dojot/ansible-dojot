@@ -17,6 +17,8 @@ before deploying dojot
 * *dojot_kubeconfig_file_path*: Path to the kubeconfig file that will be used to access the kubernetes API endpoints. If not set will use the default environment that is accessible by the node
 * *dojot_kubernetes_rbac*: This variable controls the creation of RBAC rules for dojot. Default value is **true**
 * *dojot_booststrap*: Defines if packages required for the deployment should be installed. Defaults to **true**
+* *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
+* *dojot_nodeports*: Range of fixed ports for dojot services with external access.
 
 ### - Zookeeper
 
@@ -112,3 +114,7 @@ before deploying dojot
 * *dojot_ejbca_persistent_volumes*: Configures whether ejbca should use persistent volumes or not, must be supported by the environment. Defaults to **false**
 * *dojot_ejbca_volume_size*: Size of the EJBCA volumes that are created. Defaults to **1Gi**
 * *dojot_ejbca_version*: Version of the ejbca-rest container. Defaults to *dojot_version*
+
+### - NGINX
+
+* *nginx_version*: Version of the NGINX service. Defaults to *1.18*.

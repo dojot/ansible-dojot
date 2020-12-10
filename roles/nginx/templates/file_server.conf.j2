@@ -1,0 +1,11 @@
+upstream file_server_backend {
+    least_conn;
+{% for node in groups['lwm2m_nodes'] | default([]) %}
+    server {{ node }}:{{ dojot_nodeports.lwm2m.file_server }};
+{% endfor %}
+}
+
+server {
+    listen 5693 udp;
+    proxy_pass file_server_backend;
+}
