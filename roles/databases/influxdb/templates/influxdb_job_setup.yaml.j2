@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: influxdb-job
+  namespace: {{ dojot_namespace }}
+spec:
+  backoffLimit: 3
+  template:
+    metadata:
+      name: influxdb-job
+    spec:
+      containers:
+      - name: influxdb-create-admin-user
+        image: quay.io/influxdb/influxdb:{{ dojot_influxdb_version }}
+        env:
+          - name: INFLUXDB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: influxdb-secret
+                key: admin-password
+          - name: INFLUXDB_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: influxdb-secret
+                key: admin-token
+        command:
+          - bash
+        args:
+          - -c
+          - |
+            influx setup -f \
+            --host http://influxdb:{{ dojot_influxdb_port }} \
+            -o "{{ dojot_influxdb_organization_name }}" \
+            -b "{{ dojot_influxdb_bucket }}" \
+            -u "{{ dojot_influxdb_user }}" \
+            -r "{{ dojot_influxdb_retention }}" \
+            -p ${INFLUXDB_PASSWORD} \
+            -t ${INFLUXDB_TOKEN}
+      restartPolicy: OnFailure

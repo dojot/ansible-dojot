@@ -145,6 +145,30 @@ before deploying dojot
 
 * *dojot_loopback_version*: Version of the Kafka loopback container. Defaults to **dojot_version**.
 
+### - Dojot InfluxDB
+
+* *dojot_influxdb_version*: InfluxDB container version. Defaults to **v2.0.2**.
+* *dojot_influxdb_port*: Port that will be used to communicate with InfluxDB. Defaults to **8086**.
+* *dojot_influxdb_user*: InfluxDB user. Defaults to **8086**.
+* *dojot_influxdb_token*: InfluxDB token. Defaults to **dojot@token_default**.
+* *dojot_influxdb_passwd*: InfluxDB password. Defaults to **dojot@password**.
+* *dojot_influxdb_organization_name*: InfluxDB organization name. Defaults to **admin**.
+* *dojot_influxdb_bucket*: InfluxDB bucket name. Defaults to **devices**.
+* *dojot_influxdb_retention*: InfluxDB data retention period. Defaults to **7d**.
+* *dojot_influxdb_volume_size*: Size of the InfluxDB volumes that are created. Defaults to **2Gi**.
+
+
+### - Dojot InfluxDB Storer
+
+* *dojot_influxdb_storer_version*: InfluxDB Storer container version. Defaults to **dojot_version**.
+* *dojot_influxdb_storer_log_level*: InfluxDB Storer log level. Defaults to **info**.
+
+
+### - Dojot InfluxDB Retriever
+
+* *dojot_influxdb_retriever_version*: InfluxDB Retriever container version. Defaults to **dojot_version**.
+* *dojot_influxdb_retriever_log_level*: InfluxDB Retriever log level. Defaults to **info**.
+
 ### - Kafka WS
 
 * *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
