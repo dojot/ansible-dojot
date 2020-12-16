@@ -187,26 +187,28 @@
 
     - role: history
       tags:
+      - history
       - vernemq
       - mosca
       - lwm2m
 
     - role: persister
       tags:
+      - persister
       - vernemq
       - mosca
       - lwm2m
 
     - role: influxdb-storer
       tags:
-      - influxdb
+      - influxdb-storer
       - vernemq
       - mosca
       - lwm2m
 
     - role: influxdb-retriever
       tags:
-      - influxdb
+      - influxdb-retriever
       - vernemq
       - mosca
       - lwm2m

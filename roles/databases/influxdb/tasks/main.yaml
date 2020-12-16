@@ -11,6 +11,5 @@
   loop:
   - "{{ lookup('template', 'influxdb_statefulset.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'influxdb_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'influxdb_external_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'influxdb_secret.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'influxdb_job_setup.yaml.j2') | from_yaml }}"

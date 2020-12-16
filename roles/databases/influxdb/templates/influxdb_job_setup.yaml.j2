@@ -32,7 +32,7 @@ spec:
             --host http://influxdb:{{ dojot_influxdb_port }} \
             -o "{{ dojot_influxdb_organization_name }}" \
             -b "{{ dojot_influxdb_bucket }}" \
-            -u "{{ dojot_influxdb_admin_user }}" \
+            -u "{{ dojot_influxdb_user }}" \
             -r "{{ dojot_influxdb_retention }}" \
             -p ${INFLUXDB_PASSWORD} \
             -t ${INFLUXDB_TOKEN}

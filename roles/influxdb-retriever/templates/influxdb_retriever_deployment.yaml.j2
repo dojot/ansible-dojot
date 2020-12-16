@@ -20,11 +20,29 @@ spec:
     spec:
       restartPolicy: Always
       containers:
-      - image: dojot/influxdb-storer:{{ dojot_influxdb_retriever_version }}
+      - image: dojot/influxdb-retriever:{{ dojot_influxdb_retriever_version }}
         name: influxdb-retriever
         env:
         - name: RETRIEVER_LOG_CONSOLE_LEVEL
           value: "{{ dojot_influxdb_retriever_log_level }}"
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9000
+          failureThreshold: 1
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 9000
+          failureThreshold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 3
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
