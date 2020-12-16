@@ -149,13 +149,13 @@ before deploying dojot
 
 * *dojot_influxdb_version*: InfluxDB container version. Defaults to **v2.0.2**.
 * *dojot_influxdb_port*: Port that will be used to communicate with InfluxDB. Defaults to **8086**.
-* *dojot_influxdb_admin_user*: InfluxDB admin user. Defaults to **8086**.
-* *dojot_influxdb_admin_token*: InfluxDB admin token. Defaults to **dojot@token_default**.
-* *dojot_influxdb_admin_passwd*: InfluxDB admin password. Defaults to **dojot@password**.
+* *dojot_influxdb_user*: InfluxDB admin user. Defaults to **8086**.
+* *dojot_influxdb_token*: InfluxDB admin token. Defaults to **dojot@token_default**.
+* *dojot_influxdb_passwd*: InfluxDB admin password. Defaults to **dojot@password**.
 * *dojot_influxdb_organization_name*: InfluxDB organization name. Defaults to **admin**.
 * *dojot_influxdb_bucket*: InfluxDB bucket name. Defaults to **devices**.
 * *dojot_influxdb_retention*: InfluxDB data retention period. Defaults to **7d**.
-* *dojot_influxdb_volume_size*: Size of the InfluxDB volumes that are created. Defaults to **1Gi**.
+* *dojot_influxdb_volume_size*: Size of the InfluxDB volumes that are created. Defaults to **2Gi**.
 
 
 ### - Dojot InfluxDB Storer
