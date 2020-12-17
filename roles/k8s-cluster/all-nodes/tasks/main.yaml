@@ -1,6 +1,8 @@
 ---
 
 - name: Install packages that allow apt to be used over HTTPS
+  tags:
+  - docker
   become: yes
   apt:
     name: "{{ packages }}"
@@ -16,18 +18,24 @@
     - software-properties-common
 
 - name: Add an apt signing key for Docker
+  tags:
+  - docker
   become: yes
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: Add apt repository for stable version
+  tags:
+  - docker
   become: yes
   apt_repository:
-    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts.lsb.codename }} stable
     state: present
 
 - name: Install docker and its dependecies
+  tags:
+  - docker
   become: yes
   apt:
     name: "{{ packages }}"
@@ -35,13 +43,15 @@
     update_cache: yes
   vars:
     packages:
-    - docker-ce
-    - docker-ce-cli
-    - containerd.io
+    - docker-ce=5:19.03.4~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
+    - docker-ce-cli=5:19.03.4~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
+    - containerd.io=1.2.10-3
   notify:
     - docker status
 
 - name: Docker daemon settings
+  tags:
+  - docker
   become: yes
   template:
     src: docker-daemon.json.j2
