@@ -1,6 +1,7 @@
 ## This role is responsible for deploying the Persister Service for dojot
 
 - name: dojot - Persister deployment
+  when: optional['persister']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

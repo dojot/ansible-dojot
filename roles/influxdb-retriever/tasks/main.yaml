@@ -1,6 +1,7 @@
 ## This role is responsible for deploying the InfluxDB Retriever Service for dojot
 
 - name: dojot - InfluxDB Retriever Objects
+  when: optional['influxdb_retriever'] and optional['influxdb']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
