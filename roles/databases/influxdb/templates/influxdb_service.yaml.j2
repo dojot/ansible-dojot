@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: influxdb
+  name: influxdb
+  namespace: {{ dojot_namespace }}
+spec:
+  type: ClusterIP
+  ports:
+  - port: {{ dojot_influxdb_port }}
+    targetPort: {{ dojot_influxdb_port }}
+  selector:
+    name: influxdb
+    app: dojot
