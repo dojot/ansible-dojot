@@ -1,5 +1,6 @@
 ## This role is responsible for deploying InfluxDB for dojot
 - name: dojot - InfluxDB Objects
+  when: optional['influxdb']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

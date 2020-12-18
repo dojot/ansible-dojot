@@ -75,7 +75,6 @@
   - vernemq
   - mosca
   - lwm2m
-  - 100k
   roles:
     - role: databases/influxdb
 

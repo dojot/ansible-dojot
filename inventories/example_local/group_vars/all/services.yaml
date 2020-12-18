@@ -1,0 +1,10 @@
+---
+#Some optional services that can be enabled or not on deployment
+optional:
+  #InfluxDB Services
+  influxdb: false
+  influxdb_storer: false #It will only be enabled if InfluxDB is enabled as well
+  influxdb_retriever: false #It will only be enabled if InfluxDB is enabled as well
+  #MongoDB Services
+  history: true
+  persister: true

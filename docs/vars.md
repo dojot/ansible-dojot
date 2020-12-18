@@ -195,3 +195,11 @@ before deploying dojot
 ### - NGINX
 
 * *nginx_version*: Version of the NGINX service. Defaults to *1.19*.
+
+### - Optional Services
+
+* *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to *false*.
+* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to *false*.
+* *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to *false*.
+* *optional[history]*: Defines whether History service will be enabled. Defaults to *true*.
+* *optional[persister]*: Defines whether Persister service will be enabled. Defaults to *true*.

@@ -1,6 +1,7 @@
 ## This role is responsible for deploying the Persister Service for dojot
 
 - name: dojot - InfluxDB Storer deployment
+  when: optional['influxdb_storer'] and optional['influxdb']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
