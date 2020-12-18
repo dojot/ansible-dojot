@@ -1,6 +1,6 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_version: v0.5.0
+dojot_version: v0.5.1-rc.1
 dojot_domain_name: localhost
 
 dojot_storage_class_name: ""
@@ -13,6 +13,8 @@ dojot_kubernetes_rbac: true
 dojot_zk_persistent_volumes: false
 # Whether it should create a volume for PostgreSQL
 dojot_psql_persistent_volumes: false
+# Whether it should create a volume for InfluxDB
+dojot_influxdb_persistent_volumes: false
 # Whether it should create a volume for x509 Identity Management
 dojot_x509_identity_mgmt_persistent_volumes: false
 # Whether it should create a volume for MongoDB

@@ -35,29 +35,6 @@
   roles:
     - role: dojot-basic
 
-# Minio
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-  - minio
-  - vernemq
-  - mosca
-  - lwm2m
-  roles:
-    - role: minio
-
-# Metrics (Prometheus, Grafana, Node Exporter)
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-  - metrics
-  - vernemq
-  - mosca
-  - lwm2m
-  - 100k
-  roles:
-    - role: metrics
-
 # Deploy Zookeeper to the environment
 # TODO: Add possibility of using an external Zookeeper by setting config variables
 - hosts: dojot-k8s[0]
@@ -87,6 +64,19 @@
   - 100k
   roles:
     - role: databases/postgresql
+
+# Deploy InfluxDB to the environment
+# TODO: Add possibility of using an external InfluxDB by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+  - influxdb
+  - vernemq
+  - mosca
+  - lwm2m
+  roles:
+    - role: databases/influxdb
 
 # Deploy MongoDB to the environment
 # TODO: Add possibility of using an external MongoDB by setting DB config variables
@@ -188,12 +178,28 @@
 
     - role: history
       tags:
+      - history
       - vernemq
       - mosca
       - lwm2m
 
     - role: persister
       tags:
+      - persister
+      - vernemq
+      - mosca
+      - lwm2m
+
+    - role: influxdb-storer
+      tags:
+      - influxdb-storer
+      - vernemq
+      - mosca
+      - lwm2m
+
+    - role: influxdb-retriever
+      tags:
+      - influxdb-retriever
       - vernemq
       - mosca
       - lwm2m
@@ -272,3 +278,26 @@
       - mosca
       - lwm2m
       - 100k
+
+# Minio
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+  - minio
+  - vernemq
+  - mosca
+  - lwm2m
+  roles:
+    - role: minio
+
+# Metrics (Prometheus, Grafana, Node Exporter)
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+  - metrics
+  - vernemq
+  - mosca
+  - lwm2m
+  - 100k
+  roles:
+    - role: metrics
