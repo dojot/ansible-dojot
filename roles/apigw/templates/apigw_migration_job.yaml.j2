@@ -30,6 +30,6 @@ spec:
             secretKeyRef:
               name: kong-secret
               key: db
-        image: dojot/kong:latest
+        image: dojot/kong:{{ dojot_apigw_version }}
         args: ["kong",  "migrations", "up"]
       restartPolicy: OnFailure
