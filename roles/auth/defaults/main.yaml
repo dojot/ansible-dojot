@@ -12,3 +12,5 @@ dojot_auth_email_passwd: user_passwd
 
 dojot_kafka_port: 9092
 dojot_internal_api_config_port: 8001
+
+dojot_gui_url_set_password: http://{{ dojot_domain_name }}/#/setPassword/

@@ -1,1 +1,2 @@
 k8s_version: 1.17.3-00
+docker_log_size: 100m

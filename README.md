@@ -108,10 +108,18 @@ help by passing the `-h` flag.
 
 ## License
 
-GPLv3
+This software is licensed under Apache License, Version 2.0.
 
 ## Copyright
 
-Author: Eric Baum
+Copyright 2019, CPqD <www.cpqd.com.br>
 
-Copyright 2019, CPqD
+Authors:
+
+* Anderson Luis Ribeiro
+* Mariane Previde
+* Eduardo Garcia Misiuk
+* Eric Baum
+* Leonardo Mariano
+* Jonaphael Aristil
+* Luis Antonio Dias de Sa Júnior

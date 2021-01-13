@@ -1,24 +1,30 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: v2k-bridge
+  labels:
+    name: influxdb-retriever
+    app: dojot
+  name: influxdb-retriever
   namespace: {{ dojot_namespace }}
 spec:
-  serviceName: "v2k-bridge"
+  replicas: 1
   selector:
     matchLabels:
-      name: v2k-bridge
-  replicas: {{ dojot_bridges_replicas }}
-  template: #templates for the pods
+      app: dojot
+      name: influxdb-retriever
+  template:
     metadata:
       labels:
+        name: influxdb-retriever
         app: dojot
-        name: v2k-bridge
     spec:
       restartPolicy: Always
       containers:
-      - name: v2k-bridge
-        image: dojot/v2k-bridge:{{ dojot_v2k_version}}
+      - image: dojot/influxdb-retriever:{{ dojot_influxdb_retriever_version }}
+        name: influxdb-retriever
+        env:
+        - name: RETRIEVER_LOG_CONSOLE_LEVEL
+          value: "{{ dojot_influxdb_retriever_log_level }}"
         readinessProbe:
           httpGet:
             path: /ready
@@ -37,9 +43,6 @@ spec:
           periodSeconds: 15
           successThreshold: 1
           timeoutSeconds: 3
-        env:
-        - name: V2K_APP_USER_CONFIG_FILE
-          value: "production.conf"
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
@@ -49,5 +52,5 @@ spec:
               - key: dojot.components/group
                 operator: In
                 values:
-                - "{{ dojot_node_label.vernemq }}"
+                - "{{ dojot_node_label.dojot }}"
 {% endif %}
