@@ -7,5 +7,6 @@ dojot_influxdb_organization_name: admin
 dojot_influxdb_bucket: devices
 # this retention is only for the organization `dojot_influxdb_organization_name` created when starting influxdb. 
 # For other retentions it is necessary to use an environment variable in the influxdb-storer.
+# Valid units are nanoseconds (ns), microseconds (us or µs), milliseconds (ms), seconds (s), minutes (m), hours (h), days (d),  weeks (w) and 0 is infinite retention
 dojot_influxdb_retention: 7d
 dojot_influxdb_volume_size: 2Gi
