@@ -154,7 +154,7 @@ before deploying dojot
 * *dojot_influxdb_passwd*: InfluxDB admin password. Defaults to **dojot@password**.
 * *dojot_influxdb_organization_name*: InfluxDB organization name. Defaults to **admin**.
 * *dojot_influxdb_bucket*: InfluxDB bucket name. Defaults to **devices**.
-* *dojot_influxdb_retention*: InfluxDB data retention period for *dojot_influxdb_organization_name*, for other retentions it is necessary to use an environment variable in the influxdb-storer. Valid units are nanoseconds (ns), microseconds (us or µs), milliseconds (ms), seconds (s), minutes (m), hours (h), days (d), and weeks (w). Defaults to **7d**.
+* *dojot_influxdb_retention*: InfluxDB data retention period for *dojot_influxdb_organization_name*, for other retentions it is necessary to use an environment variable in the influxdb-storer. Valid units are nanoseconds (ns), microseconds (us or µs), milliseconds (ms), seconds (s), minutes (m), hours (h), days (d),  weeks (w) and 0 is infinite retention Defaults to **7d**.
 * *dojot_influxdb_volume_size*: Size of the InfluxDB volumes that are created. Defaults to **2Gi**.
 
 
