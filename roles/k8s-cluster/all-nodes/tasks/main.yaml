@@ -43,8 +43,8 @@
     update_cache: yes
   vars:
     packages:
-    - docker-ce=5:19.03.4~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
-    - docker-ce-cli=5:19.03.4~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
+    - docker-ce=5:19.03.14~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
+    - docker-ce-cli=5:19.03.14~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
     - containerd.io=1.2.10-3
   notify:
     - docker status
