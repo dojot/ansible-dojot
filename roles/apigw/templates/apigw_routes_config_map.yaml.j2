@@ -161,6 +161,11 @@ data:
         createEndpoint "x509-identity-mgmt" "http://x509-identity-mgmt:3000/api"  '"/x509"' "true"
         addAuthToEndpoint "x509-identity-mgmt"
 
+        # service: influxdb-retriever
+        createEndpoint "influxdb-retriever" "http://influxdb-retriever:3000/tss"  '"/tss"' "true"
+        addAuthToEndpoint "influxdb-retriever"
+        createEndpoint "influxdb-retriever-api-docs" "http://influxdb-retriever:3000/tss/v1/api-docs"  '"/tss/v1/api-docs"' "true"
+
         # service: kafka-ws
         KAFKAWS_PROTOCOL=http
 {% if dojot_kafka_ws_enable_tls %}

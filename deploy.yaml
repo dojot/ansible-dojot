@@ -73,7 +73,6 @@
     - role: zookeeper
       when: not dojot_zk_use_external
 
-
 # Deploy PostgreSQL to the environment
 # TODO: Add possibility of using an external PostgreSQL by setting DB config variables
 # TODO: Support a HA cluster
@@ -87,6 +86,19 @@
   - 100k
   roles:
     - role: databases/postgresql
+
+# Deploy InfluxDB to the environment
+# TODO: Add possibility of using an external InfluxDB by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+  - influxdb
+  - vernemq
+  - mosca
+  - lwm2m
+  roles:
+    - role: databases/influxdb
 
 # Deploy MongoDB to the environment
 # TODO: Add possibility of using an external MongoDB by setting DB config variables
@@ -188,12 +200,28 @@
 
     - role: history
       tags:
+      - history
       - vernemq
       - mosca
       - lwm2m
 
     - role: persister
       tags:
+      - persister
+      - vernemq
+      - mosca
+      - lwm2m
+
+    - role: influxdb-storer
+      tags:
+      - influxdb-storer
+      - vernemq
+      - mosca
+      - lwm2m
+
+    - role: influxdb-retriever
+      tags:
+      - influxdb-retriever
       - vernemq
       - mosca
       - lwm2m
