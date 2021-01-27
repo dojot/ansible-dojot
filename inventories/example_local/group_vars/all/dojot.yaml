@@ -3,30 +3,8 @@ dojot_namespace: dojot
 dojot_version: development
 dojot_domain_name: localhost
 
-dojot_storage_class_name: ""
-
 # Set Kubernetes RBAC
 dojot_kubernetes_rbac: true
-
-## Persistent Volume usage ##
-# Whether it should create a volume for Zookeeper
-dojot_zk_persistent_volumes: false
-# Whether it should create a volume for PostgreSQL
-dojot_psql_persistent_volumes: false
-# Whether it should create a volume for InfluxDB
-dojot_influxdb_persistent_volumes: false
-# Whether it should create a volume for x509 Identity Management
-dojot_x509_identity_mgmt_persistent_volumes: false
-# Whether it should create a volume for MongoDB
-dojot_mongodb_persistent_volumes: false
-# Whether it should create a volume for Minio
-dojot_minio_persistent_volumes: false
-# Whether it should create a volume for Kafka
-dojot_kafka_persistent_volumes: false
-# Whether it should create a volume for Kafka WS
-dojot_kafka_ws_persistent_volumes: false
-# Whether it should create a volume for Kong (apigw)
-dojot_apigw_persistent_volumes: false
 
 #Whether it should deploy GUI V2 component
 dojot_guiv2_enabled: true

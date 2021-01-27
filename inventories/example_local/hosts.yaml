@@ -11,9 +11,11 @@ all:
     haproxy:
         ansible_host: HAPROXY_HOST_ADDRESS #change to the host of NGINX
   children:
+    #host where dojot will be deployed
     dojot-k8s:
       hosts:
         localhost:
+    #hosts that will be part of the k8s cluster
     k8s-nodes:
       children:
         master_nodes:
@@ -22,6 +24,18 @@ all:
         worker_nodes:
           hosts:
             worker_host:
+    #hosts where volumes will be mapped
+    volume-nodes:
+      children:
+        dojot_nodes:
+          hosts:
+            worker_host: #host for dojot related services volumes (apigw; influxdb; kafka_ws; minio; mongodb; postgres; prometheus;)
+        kafka_nodes:
+          hosts:
+            worker_host: #host for kafka related services volumes (kafka; zookeeper;)
+        x509_nodes:
+          hosts:
+            worker_host: #host for x509 related services volumes (x509;)
     apigw_nodes:
       hosts:
         APIGW_HOST_ADDRESS: #change to the host of API GW worker node on k8s

@@ -8,7 +8,7 @@ before deploying dojot
 * *dojot_namespace*: Defines the namespace where dojot will be deployed.
 * *dojot_version*: Sets the dojot version that will be used for all the modules.
 * *dojot_domain_name*: Defines the domain name for the dojot infrastructure.
-* *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes.
+* *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes. Defaults to **local-storage**.
 
 ## Optional Variables
 
@@ -27,7 +27,9 @@ before deploying dojot
 * *dojot_node_label.kafka*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
 * *dojot_node_label.x509*: Label value for x509 nodes. Defaults to **x509**.
 * *dojot_node_label.vernemq*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
-
+* *dojot_dojot_hostname*: Hostname of the worker node that will be labeled with the dojot label.
+* *dojot_kafka_hostname*: Hostname of the worker node that will be labeled with the kafka label.
+* *dojot_x509_hostname*: Hostname of the worker node that will be labeled with the x509 label.
 
 ### - Zookeeper
 
@@ -37,11 +39,12 @@ before deploying dojot
 * *dojot_zk_cluster_size*: Inital cluster size for deploying Zookeeper. Defaults to **1**.
 * *dojot_zk_persistent_volumes*: Defines whether ot not the Zookeeper services will use persistent volumes, this should be supported by the kubernetes setup. Defaults to **false**.
 * *dojot_zk_volume_size*: Size of the persistent volume created for the Zookeeper service. Defaults to **1G**.
+* *dojot_zk_label*: Defines the label of the node where the Zookeeper volume will be deployed. Defaults to **dojot**.
 
 ### - PostgreSQL
 
 * *dojot_psql_default_db*: Name of the default database created by postgres. Defaults to **postgres**.
-* *dojot_psql_super_user*: Name of the postgreSQL super user. Defaults to postgres.
+* *dojot_psql_super_user*: Name of the PostgreSQL super user. Defaults to postgres.
 * *dojot_psql_super_passwd*: Password for the PostgreSQL super user. Defaults to postgres.
 * *dojot_psql_version*: Version of the PostgreSQL container '*postgresql*' used on this deployment. Defaults to **9.6.11-alpine**.
 * *dojot_psql_kong_user*: Username for accessing the Kong database. Defaults to **kong**.
@@ -57,16 +60,17 @@ before deploying dojot
 * *dojot_psql_port*: PostgreSQL port configured for acessing the database by the dojot services. Defaults to **5432**.
 * *dojot_psql_persistent_volumes*: If persistent volumes are supported by your environment this variable should be set to true. Defaults to **false**.
 * *dojot_psql_volume_size*: Size of the persistent volume that will be created for the PostgreSQL volume. Defaults to **2G**.
-
+* *dojot_psql_label*: Defines the label of the node where the PostgreSQL volume will be deployed. Defaults to **dojot**.
 
 ### - MongoDB
 
 * *dojot_mongodb_super_user*: Super user name for accessing MongoDB. Defaults to **mongodb**.
 * *dojot_mongodb_super_passwd*: Super user password for accessing MongoDB. Defaults to **mongodb**.
-* *dojot_mongodb_version*: Container version for the mongodb container. Defaults to **3.4**.
+* *dojot_mongodb_version*: Container version for the MongoDB container. Defaults to **3.4**.
 * *dojot_mongodb_port*: MongoDB access port. Defaults to **27017**.
 * *dojot_mongodb_persistent_volumes*: If persistent volumes are supported by your environment this variable should be set to true. Defaults to **false**.
-* *dojot_mongodb_volume_size*: Size of the persistent volume that will be created for the mongoDB volume. Defaults to **2G**.
+* *dojot_mongodb_volume_size*: Size of the persistent volume that will be created for the MongoDB volume. Defaults to **2G**.
+* *dojot_mongodb_label*: Defines the label of the node where the MongoDB volume will be deployed. Defaults to **dojot**.
 
 ### - API Gateway
 
@@ -76,6 +80,7 @@ before deploying dojot
 * *dojot_apigw_version*: Version of the api gateway container 'dojot/kong' used by this deployment. Default value **v0.2.1-static**.
 * *dojot_mongodb_persistent_volumes*: Enables the volume for Kong certificates directory, you should configure persistent volumes in your environment for this option to work. Defaults to **false**.
 * *dojot_apigw_volume_size*: Size of the persistent volume that will be created for Kong certificates directory. Defaults to **5Mi**.
+* *dojot_apigw_label*: Defines the label of the node where the Kong volume will be deployed. Defaults to **dojot**.
 * *dojot_apigw_enable_mutual_tls*: Enables mutual TLS communication. You must enable Kong volumes if this is true. Defaults to **false**.
 
 ### - Auth
@@ -99,6 +104,7 @@ before deploying dojot
 * *dojot_kafka_cluster_size*: Number of nodes inittialy present on the deployment. Defaults to **1**.
 * *dojot_kafka_persistent_volumes*: Configures whether Kafka should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_kafka_volume_size*: Size of the Kafka volumes that are created. Defaults to **2Gi**.
+* *dojot_kafka_label*: Defines the label of the node where the Kafka volume will be deployed. Defaults to **dojot**.
 
 ### - RabbitMQ
 
@@ -136,6 +142,7 @@ before deploying dojot
 
 * *dojot_x509_identity_mgmt_persistent_volumes*: Configures whether x509 Identity Management should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_x509_identity_management_volume_size*: Size of the x509 Identity Management volumes that are created. Defaults to **10Mi**.
+* *dojot_x509_label*: Defines the label of the node where the x509 Identity Management volume will be deployed. Defaults to **dojot**.
 * *dojot_psql_ejbca_user*: EJBCA PostgreSQL database user. Defaults to **ejbca**.
 * *dojot_psql_ejbca_passwd*: EJBCA PostgreSQL database password. Defaults to **ejbca**.
 * *dojot_x509_identity_mgmt_version*: Version of the x509 Identity Management container. Defaults to **dojot_version**.
@@ -155,8 +162,9 @@ before deploying dojot
 * *dojot_influxdb_organization_name*: InfluxDB organization name. Defaults to **admin**.
 * *dojot_influxdb_bucket*: InfluxDB bucket name. Defaults to **devices**.
 * *dojot_influxdb_retention*: InfluxDB data retention period for *dojot_influxdb_organization_name*, for other retentions it is necessary to use an environment variable in the influxdb-storer. Valid units are nanoseconds (ns), microseconds (us or µs), milliseconds (ms), seconds (s), minutes (m), hours (h), days (d),  weeks (w) and 0 is infinite retention. It is considered only the first time that InfluxDB is started. Defaults to **7d**.
+* *dojot_influxdb_persistent_volumes*: Configures whether InfluxDB should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_influxdb_volume_size*: Size of the InfluxDB volumes that are created. Defaults to **2Gi**.
-
+* *dojot_influxdb_label*: Defines the label of the node where the InfluxDB volume will be deployed. Defaults to **dojot**.
 
 ### - Dojot InfluxDB Storer
 
@@ -175,6 +183,7 @@ before deploying dojot
 * *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
 * *dojot_kafka_ws_persistent_volumes*: Configures whether Kafka WS should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_kafka_ws_volume_size*: Size of the Kafka WS volumes that are created. Defaults to **5Mi**.
+* *dojot_kafka_ws_label*: Defines the label of the node where the Kafka WS volume will be deployed. Defaults to **dojot**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 * *dojot_kafka_ws_port*: Port that will be used by the Kafka WS service. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
@@ -189,6 +198,17 @@ before deploying dojot
 * *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.
 * *dojot_locust_exporter.ip*: IP or hostname where there is a Locust Exporter running. Defaults to **127.0.0.1**.
 * *dojot_locust_exporter.port*: Port exposed by Locust Exporter. Defaults to **9646**.
+
+### - Minio
+
+* *dojot_minio_persistent_volumes*: Configures whether Minio should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
+* *dojot_minio_volume_size*: Size of the Minio volumes that are created. Defaults to **2Gi**.
+* *dojot_minio_label*: Defines the label of the node where the Minio volume will be deployed. Defaults to **dojot**.
+
+### - Prometheus
+
+* *dojot_prometheus_persistent_volumes*: Configures whether Prometheus should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
+* *dojot_prometheus_label*: Defines the label of the node where the Prometheus volume will be deployed. Defaults to **dojot**.
 
 ### - Kubernetes Cluster
 

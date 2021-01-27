@@ -2,20 +2,23 @@
 - hosts: k8s-nodes
   gather_facts: true
   any_errors_fatal: true
-  tags: [k8s-node]
+  tags:
+  - k8s-node
   roles:
     - role: k8s-cluster/all-nodes
 
 - hosts: master_nodes
   gather_facts: true
   any_errors_fatal: true
-  tags: [k8s-master-node]
+  tags:
+  - k8s-master-node
   roles:
     - role: k8s-cluster/master-node
 
 - hosts: worker_nodes
   gather_facts: true
   any_errors_fatal: true
-  tags: [k8s-worker-node]
+  tags:
+  - k8s-worker-node
   roles:
     - role: k8s-cluster/worker-node

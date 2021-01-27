@@ -1,0 +1,41 @@
+# Set the volume type
+dojot_storage_class_name: "local-storage"
+
+## Persistent Volume usage ##
+# Whether it should create a volume for Zookeeper
+dojot_zk_persistent_volumes: false
+# Whether it should create a volume for PostgreSQL
+dojot_psql_persistent_volumes: false
+# Whether it should create a volume for InfluxDB
+dojot_influxdb_persistent_volumes: false
+# Whether it should create a volume for x509 Identity Management
+dojot_x509_identity_mgmt_persistent_volumes: false
+# Whether it should create a volume for MongoDB
+dojot_mongodb_persistent_volumes: false
+# Whether it should create a volume for Minio
+dojot_minio_persistent_volumes: false
+# Whether it should create a volume for Kafka
+dojot_kafka_persistent_volumes: false
+# Whether it should create a volume for Kafka WS
+dojot_kafka_ws_persistent_volumes: false
+# Whether it should create a volume for Kong (apigw)
+dojot_apigw_persistent_volumes: false
+# Whether it should create a volume for prometheus
+dojot_prometheus_persistent_volumes: false
+
+# Set the label of the nodes where the volumes will be deployed
+dojot_apigw_label: "dojot"
+dojot_kafka_ws_label: "dojot"
+dojot_kafka_label: "dojot"
+dojot_minio_label: "dojot"
+dojot_mongodb_label: "dojot"
+dojot_psql_label: "dojot"
+dojot_prometheus_label: "dojot"
+dojot_x509_label: "dojot"
+dojot_zk_label: "dojot"
+dojot_influxdb_label: "dojot"
+
+# Hostnames of dojot worker nodes that will be labeled
+dojot_dojot_hostname: "" #To deploy all volumes on just one worker host fill in only this variable
+dojot_kafka_hostname: ""
+dojot_x509_hostname: ""

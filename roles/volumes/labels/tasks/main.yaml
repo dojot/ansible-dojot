@@ -1,0 +1,36 @@
+---
+- name: Label dojot nodes
+  when: (dojot_dojot_hostname != "") and
+        (dojot_storage_class_name == "local-storage")
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ dojot_dojot_hostname }}"
+        labels:
+          dojot.components/group: "dojot"
+
+- name: Label kafka nodes
+  when: (dojot_kafka_hostname != "") and
+        (dojot_storage_class_name == "local-storage")
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ dojot_kafka_hostname }}"
+        labels:
+          dojot.components/group: "kafka"
+
+- name: Label x509 nodes
+  when: (dojot_x509_hostname != "") and
+        (dojot_storage_class_name == "local-storage")
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ dojot_x509_hostname }}"
+        labels:
+          dojot.components/group: "x509"
