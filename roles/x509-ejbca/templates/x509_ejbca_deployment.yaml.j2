@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: x509-ejbca
+  namespace: {{ dojot_namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: dojot
+      name: x509-ejbca
+  replicas: {{ dojot_x509_ejbca_replicas }}
+  template:
+    metadata:
+      labels:
+        app: dojot
+        name: x509-ejbca
+    spec:
+      securityContext:
+        fsGroup: 10001
+      hostname: "x509-ejbca"
+      #subdomain: ""
+      restartPolicy: Always
+      containers:
+      - name: x509-ejbca
+        image: dojot/ejbca:{{ dojot_x509_ejbca_version  }}
+        readinessProbe:
+          httpGet:
+            path: /ejbca/publicweb/healthcheck/ejbcahealth
+            port: 8080
+          periodSeconds: 20
+          timeoutSeconds: 5
+        env:
+        - name: EJBCA_EXTERNAL_ACCESS
+          value: "true"
+        - name: DATABASE_JDBC_URL
+          value: "jdbc:postgresql://postgres:5432/ejbca?characterEncoding=UTF-8"
+        - name: DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: x509-ejbca-secret
+              key: user
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: x509-ejbca-secret
+              key: password
+{% if dojot_x509_ejbca_persistent_volumes %}
+        volumeMounts:
+        - name: x509-ejbca
+          mountPath: /mnt/persistent
+        - name: x509-ejbca-tls
+          mountPath: /opt/tls
+      volumes:
+      - name: x509-ejbca
+        persistentVolumeClaim:
+          claimName: x509-ejbca
+      - name: x509-ejbca-tls
+        persistentVolumeClaim:
+          claimName: x509-ejbca-tls
+{% endif %}
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.x509 }}"
+{% endif %}

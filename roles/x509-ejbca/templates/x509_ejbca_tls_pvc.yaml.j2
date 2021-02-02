@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: x509-identity-mgmt
+  name: x509-ejbca-tls
   namespace: {{ dojot_namespace }}
   labels:
     app: dojot
-    name: x509-identity-mgmt
+    name: x509-ejbca-tls
 spec:
   selector:
     matchLabels:
       app: dojot
-      name: x509-identity-mgmt
+      name: x509-ejbca-tls
   accessModes:
     - ReadWriteMany
   storageClassName: {{ dojot_storage_class_name }}
   resources:
     requests:
-      storage: {{ dojot_x509_identity_management_volume_size }}
+      storage: {{ dojot_x509_ejbca_volume_size }}

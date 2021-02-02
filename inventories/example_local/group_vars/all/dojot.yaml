@@ -17,6 +17,8 @@ dojot_psql_persistent_volumes: false
 dojot_influxdb_persistent_volumes: false
 # Whether it should create a volume for x509 Identity Management
 dojot_x509_identity_mgmt_persistent_volumes: false
+# Whether it should create a volume for x509 EJBCA
+dojot_x509_ejbca_persistent_volumes: false
 # Whether it should create a volume for MongoDB
 dojot_mongodb_persistent_volumes: false
 # Whether it should create a volume for Minio
@@ -45,6 +47,8 @@ dojot_vernemq_replicas: 1
 dojot_bridges_replicas: 1
 # Number of x509 Identity Management replicas
 dojot_x509_identity_mgmt_replicas: 1
+# Number of x509 EJBCA replicas
+dojot_x509_ejbca_replicas: 1
 
 # Enable Kafka WS TLS support, the service must have a configured volume with the certificates inside
 dojot_kafka_ws_enable_tls: false

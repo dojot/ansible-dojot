@@ -17,45 +17,33 @@ spec:
     spec:
       securityContext:
         fsGroup: 10001
-      hostname: "x509-identity-mgmt"
-      #subdomain: "dojot.iot"
       restartPolicy: Always
       containers:
       - name: x509-identity-mgmt
         image: dojot/x509-identity-mgmt:{{ dojot_x509_identity_mgmt_version  }}
         readinessProbe:
           httpGet:
-            path: /healthcheck
-            port: 3000
+            path: /health
+            port: 9000
           periodSeconds: 20
           timeoutSeconds: 5
         env:
-        - name: DATABASE_JDBC_URL
-          value: "jdbc:postgresql://postgres:5432/ejbca?characterEncoding=UTF-8"
-        - name: DATABASE_USER
-          valueFrom:
-            secretKeyRef:
-              name: x509-identity-mgmt-secret
-              key: user
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: x509-identity-mgmt-secret
-              key: password
-        - name: EJBCA_PERFORM_DOJOT_SETUP
-          value: "true"
         - name: NODE_ENV
           value: "production"
-        - name: MONGO_URI
+        - name: X509IDMGMT_MONGO_CONN_URI
           value: "mongodb://mongodb:27017/x509-identity-mgmt"
+        - name: X509IDMGMT_EJBCA_HEALTHCHECK_URL
+          value: "http://x509-ejbca:8080/ejbca/publicweb/healthcheck/ejbcahealth"
+        - name: X509IDMGMT_EJBCA_WSDL
+          value: "https://x509-ejbca:8443/ejbca/ejbcaws/ejbcaws?wsdl"
 {% if dojot_x509_identity_mgmt_persistent_volumes %}
         volumeMounts:
-        - name: x509-identity-mgmt
-          mountPath: /mnt/persistent
+        - name: x509-ejbca-tls
+          mountPath: /opt/tls
       volumes:
-      - name: x509-identity-mgmt
+      - name: x509-ejbca-tls
         persistentVolumeClaim:
-          claimName: x509-identity-mgmt
+          claimName: x509-ejbca-tls
 {% endif %}
 {% if dojot_enable_node_affinity %}
       affinity:

@@ -302,6 +302,13 @@
       - lwm2m
       - 100k
 
+    - role: x509-ejbca
+      tags:
+      - vernemq
+      - mosca
+      - lwm2m
+      - 100k
+
     - role: x509-identity-mgmt
       tags:
       - vernemq

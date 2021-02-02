@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-pv-x509-identity-mgmt
+  name: local-pv-x509-ejbca-tls
   labels:
     type: local
     app: dojot
-    name: x509-identity-mgmt
+    name: x509-ejbca-tls
 spec:
   capacity:
     storage: 10Mi
@@ -14,7 +14,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
   local:
-    path: /mnt/data/ejbca
+    path: /mnt/data/ejbca-tls
   nodeAffinity:
     required:
       nodeSelectorTerms:
