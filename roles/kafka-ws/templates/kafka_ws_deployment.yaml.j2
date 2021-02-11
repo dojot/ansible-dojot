@@ -28,18 +28,32 @@ spec:
         # by Kubernetes
         readinessProbe:
           httpGet:
-            path: /healthcheck
-            port: 8080
+            path: /ready
+            port: 9000
 {% if dojot_kafka_ws_enable_tls %}
             scheme: HTTPS
 {% endif %}
+          initialDelaySeconds: 15
+          failureThresold: 1
           periodSeconds: 20
+          successThreshold: 1
           timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 9000
+          failureThresold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 3
         env:
         - name: KAFKA_WS_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: KAFKA_WS_SERVER_PORT
           value: "{{ dojot_kafka_ws_port }}"
+        - name: KAFKA_WS_REDIS_HOST
+          value: "kafka-ws-redis"
         - name: KAFKA_WS_REDIS_PORT
           value: "{{ dojot_kafka_ws_redis_port }}"
         - name: KAFKA_WS_SERVER_TLS
