@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: dojot
+    name: influxdb
+  name: influxdb
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: influxdb
+  template:
+    metadata:
+      labels:
+        app: dojot
+        name: influxdb
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/group
+                operator: In
+                values:
+                - "{{ dojot_node_label.dojot }}"
+{% endif %}
+      containers:
+      - image: quay.io/influxdb/influxdb:{{ dojot_influxdb_version }}
+        name: influxdb
+        ports:
+        - containerPort: 8086
+          name: api
+          protocol: TCP
+        - containerPort: 8088
+          name: rpc
+          protocol: TCP
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: api
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: api
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        startupProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ping
+            port: api
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1  
+{% if dojot_influxdb_persistent_volumes %}          
+        volumeMounts:
+          - name: influxdb-volume
+            mountPath: /root/.influxdbv2  
+  volumeClaimTemplates:
+  - metadata:
+      name: influxdb-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_influxdb_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          db: influxdb
+{% endif %}

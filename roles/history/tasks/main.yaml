@@ -1,6 +1,7 @@
 ## This role is responsible for deploying the Auth Service for dojot
 
 - name: dojot - History Objects
+  when: optional['history']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
