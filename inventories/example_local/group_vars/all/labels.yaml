@@ -1,0 +1,16 @@
+# Set the label of the nodes where the volumes will be deployed
+dojot_apigw_label: "dojot"
+dojot_kafka_ws_label: "dojot"
+dojot_kafka_label: "dojot"
+dojot_minio_label: "dojot"
+dojot_mongodb_label: "dojot"
+dojot_psql_label: "dojot"
+dojot_prometheus_label: "dojot"
+dojot_x509_label: "dojot"
+dojot_zk_label: "dojot"
+dojot_influxdb_label: "dojot"
+
+# Nodenames of dojot worker nodes that will be labeled
+dojot_dojot_nodename: "" #To deploy all volumes on just one worker host fill in only this variable
+dojot_kafka_nodename: ""
+dojot_x509_nodename: ""

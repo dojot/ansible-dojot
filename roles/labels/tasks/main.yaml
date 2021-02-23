@@ -1,0 +1,33 @@
+---
+- name: Label dojot nodes
+  when: (dojot_dojot_nodename != "")
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ dojot_dojot_nodename }}"
+        labels:
+          dojot.components/group: "dojot"
+
+- name: Label kafka nodes
+  when: (dojot_kafka_nodename != "")
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ dojot_kafka_nodename }}"
+        labels:
+          dojot.components/group: "kafka"
+
+- name: Label x509 nodes
+  when: (dojot_x509_nodename != "")
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ dojot_x509_nodename }}"
+        labels:
+          dojot.components/group: "x509"

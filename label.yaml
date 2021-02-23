@@ -1,0 +1,7 @@
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - labels
+  roles:
+    - role: labels
