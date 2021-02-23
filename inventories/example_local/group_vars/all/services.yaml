@@ -8,3 +8,7 @@ optional:
   #MongoDB Services
   history: true
   persister: true
+  #IotAgents
+  vernemq: true
+  mosca: false
+  lwm2m: false
