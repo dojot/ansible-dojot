@@ -3,15 +3,6 @@
 - hosts: dojot-k8s[0]
   gather_facts: true
   any_errors_fatal: true
-  tasks:
-    - name: Checking compatibility between iotagents
-      when: optional['vernemq'] and optional['mosca']
-      fail:
-        msg: Stopping playbook execution! The iotagents vernemq and mosca cannot be deployed together. Please check services.yaml.
-
-- hosts: dojot-k8s[0]
-  gather_facts: true
-  any_errors_fatal: true
   tags:
   - bootstrap
   - 100k
