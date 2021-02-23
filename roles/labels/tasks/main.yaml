@@ -8,7 +8,7 @@
       metadata:
         name: "{{ dojot_dojot_nodename }}"
         labels:
-          dojot.components/group: "dojot"
+          dojot.components/dojot: "true"
 
 - name: Label kafka nodes
   when: (dojot_kafka_nodename != "")
@@ -19,7 +19,7 @@
       metadata:
         name: "{{ dojot_kafka_nodename }}"
         labels:
-          dojot.components/group: "kafka"
+          dojot.components/kafka: "true"
 
 - name: Label x509 nodes
   when: (dojot_x509_nodename != "")
@@ -30,4 +30,21 @@
       metadata:
         name: "{{ dojot_x509_nodename }}"
         labels:
-          dojot.components/group: "x509"
+          dojot.components/x509: "true"
+
+{# - name: Copy stream config files
+  become: yes
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/nginx/stream-conf.d/dojot_{{ item }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - apigw
+    - apigw_secure
+    - coap
+    - coaps
+    - file_server
+    - file_servers
+    - mqtts #}

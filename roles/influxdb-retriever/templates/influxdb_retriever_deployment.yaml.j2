@@ -49,8 +49,8 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/group
+              - key: dojot.components/dojot
                 operator: In
                 values:
-                - "{{ dojot_node_label.dojot }}"
+                - true
 {% endif %}

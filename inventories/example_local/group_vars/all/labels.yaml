@@ -14,3 +14,14 @@ dojot_influxdb_label: "dojot"
 dojot_dojot_nodename: "" #To deploy all volumes on just one worker host fill in only this variable
 dojot_kafka_nodename: ""
 dojot_x509_nodename: ""
+
+dojot_dojot_nodenames: # Nodes that will receive the label for the rest of the services
+  - k8s-worker1
+  - k8s-worker2
+
+dojot_kafka_nodenames: # Nodes that will receive the label for Kafka, Zookeeper and Kafka Loopback node
+
+dojot_x509_nodenames:  # Nodes that will receive the label for x509 node
+
+dojot_verne_nodenames: # Nodes that will receive the label for VerneMQ, K2V and V2K nodes
+

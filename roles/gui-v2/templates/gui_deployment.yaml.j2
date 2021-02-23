@@ -22,3 +22,14 @@ spec:
       - image: {{ dojot_guiv2_image }}:{{ dojot_guiv2_version }}
         name: gui-v2
       restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - true
+{% endif %}

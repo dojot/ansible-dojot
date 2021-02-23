@@ -70,10 +70,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/group
+              - key: dojot.components/kafka
                 operator: In
                 values:
-                - "{{ dojot_node_label.kafka }}"
+                - true
 {% endif %}
 {% if dojot_kafka_persistent_volumes %}
   volumeClaimTemplates:

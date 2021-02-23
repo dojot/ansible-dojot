@@ -43,8 +43,8 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/group
+              - key: dojot.components/vernemq
                 operator: In
                 values:
-                - "{{ dojot_node_label.vernemq }}"
+                - true
 {% endif %}

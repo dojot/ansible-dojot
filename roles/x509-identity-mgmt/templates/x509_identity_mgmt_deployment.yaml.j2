@@ -63,8 +63,8 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/group
+              - key: dojot.components/x509
                 operator: In
                 values:
-                - "{{ dojot_node_label.x509 }}"
+                - true
 {% endif %}

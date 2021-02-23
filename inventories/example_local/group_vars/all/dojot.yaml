@@ -76,15 +76,6 @@ dojot_nodeports:
 
 # Enables node affinity in all services
 dojot_enable_node_affinity: false
-dojot_node_label:
-  # Label for the rest of the services
-  dojot: dojot
-  # Label for x509 node
-  x509: x509
-  # Label for Kafka, Zookeeper and Kafka Loopback node
-  kafka: kafka
-  # Label for VerneMQ, K2V and V2K nodes
-  vernemq: vernemq
 
 ## Locust scrapping
 # Address to Locust Exporter
