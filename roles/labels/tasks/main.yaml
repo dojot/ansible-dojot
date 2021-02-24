@@ -1,50 +1,48 @@
 ---
 - name: Label dojot nodes
-  when: (dojot_dojot_nodename != "")
+  when: dojot_dojot_nodenames|length > 0
   k8s:
     definition:
       apiversion: v1
       kind: Node
       metadata:
-        name: "{{ dojot_dojot_nodename }}"
+        name: "{{ item }}"
         labels:
           dojot.components/dojot: "true"
+  loop: "{{ dojot_dojot_nodenames if dojot_dojot_nodenames is iterable else [] }}"
 
 - name: Label kafka nodes
-  when: (dojot_kafka_nodename != "")
+  when: dojot_kafka_nodenames|length > 0
   k8s:
     definition:
       apiversion: v1
       kind: Node
       metadata:
-        name: "{{ dojot_kafka_nodename }}"
+        name: "{{ item }}"
         labels:
           dojot.components/kafka: "true"
+  loop: "{{ dojot_kafka_nodenames if dojot_kafka_nodenames is iterable else [] }}"
 
 - name: Label x509 nodes
-  when: (dojot_x509_nodename != "")
+  when: dojot_x509_nodenames|length > 0
   k8s:
     definition:
       apiversion: v1
       kind: Node
       metadata:
-        name: "{{ dojot_x509_nodename }}"
+        name: "{{ item }}"
         labels:
           dojot.components/x509: "true"
+  loop: "{{ dojot_x509_nodenames if dojot_x509_nodenames is iterable else [] }}"
 
-{# - name: Copy stream config files
-  become: yes
-  template:
-    src: "{{ item }}.conf.j2"
-    dest: "/etc/nginx/stream-conf.d/dojot_{{ item }}.conf"
-    owner: root
-    group: root
-    mode: 0644
-  loop:
-    - apigw
-    - apigw_secure
-    - coap
-    - coaps
-    - file_server
-    - file_servers
-    - mqtts #}
+- name: Label vernemq nodes
+  when: dojot_vernemq_nodenames|length > 0
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item }}"
+        labels:
+          dojot.components/vernemq: "true"
+  loop: "{{ dojot_vernemq_nodenames if dojot_vernemq_nodenames is iterable else [] }}"

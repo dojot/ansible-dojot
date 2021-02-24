@@ -19,7 +19,7 @@ spec:
     required:
       nodeSelectorTerms:
       - matchExpressions:
-        - key: dojot.components/group
+        - key: dojot.components/dojot
           operator: In
           values:
-          - dojot
+          - true
