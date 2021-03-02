@@ -29,7 +29,7 @@ spec:
               - key: dojot.components/dojot
                 operator: In
                 values:
-                - true
+                - "enabled"
 {% endif %}
       containers:
       - image: quay.io/influxdb/influxdb:{{ dojot_influxdb_version }}

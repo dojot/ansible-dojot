@@ -73,7 +73,7 @@ spec:
               - key: dojot.components/kafka
                 operator: In
                 values:
-                - true
+                - "enabled"
 {% endif %}
 {% if dojot_kafka_persistent_volumes %}
   volumeClaimTemplates:

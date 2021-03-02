@@ -8,7 +8,7 @@
       metadata:
         name: "{{ item }}"
         labels:
-          dojot.components/dojot: "true"
+          dojot.components/dojot: "enabled"
   loop: "{{ dojot_dojot_nodenames if dojot_dojot_nodenames is iterable else [] }}"
 
 - name: Label kafka nodes
@@ -20,7 +20,7 @@
       metadata:
         name: "{{ item }}"
         labels:
-          dojot.components/kafka: "true"
+          dojot.components/kafka: "enabled"
   loop: "{{ dojot_kafka_nodenames if dojot_kafka_nodenames is iterable else [] }}"
 
 - name: Label x509 nodes
@@ -32,7 +32,7 @@
       metadata:
         name: "{{ item }}"
         labels:
-          dojot.components/x509: "true"
+          dojot.components/x509: "enabled"
   loop: "{{ dojot_x509_nodenames if dojot_x509_nodenames is iterable else [] }}"
 
 - name: Label vernemq nodes
@@ -44,5 +44,5 @@
       metadata:
         name: "{{ item }}"
         labels:
-          dojot.components/vernemq: "true"
+          dojot.components/vernemq: "enabled"
   loop: "{{ dojot_vernemq_nodenames if dojot_vernemq_nodenames is iterable else [] }}"

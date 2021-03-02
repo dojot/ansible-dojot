@@ -21,4 +21,4 @@ spec:
         - key: dojot.components/dojot
           operator: In
           values:
-          - true
+          - "enabled"

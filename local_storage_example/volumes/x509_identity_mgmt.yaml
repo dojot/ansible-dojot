@@ -22,4 +22,4 @@ spec:
         - key: dojot.components/x509
           operator: In
           values:
-          - true
+          - "enabled"
