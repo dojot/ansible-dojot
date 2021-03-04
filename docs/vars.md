@@ -23,11 +23,10 @@ before deploying dojot
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
 * *dojot_enable_node_affinity*: Enables node affinity for all services. Beware that you must configure your nodes to match the labels in the files. Default to **false**.
-* *dojot_node_label.dojot*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
-* *dojot_node_label.kafka*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
-* *dojot_node_label.x509*: Label value for x509 nodes. Defaults to **x509**.
-* *dojot_node_label.vernemq*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
-
+* *dojot_dojot_nodenames*: List of workers nodenames that will be labled with the dojot label.
+* *dojot_kafka_nodenames*: List of workers nodenames that will be labled with the kafka label.
+* *dojot_x509_nodenames*: List of workers nodenames that will be labled with the x509 label.
+* *dojot_vernemq_nodenames*: List of workers nodenames that will be labled with the vernemq label.
 
 ### - Zookeeper
 
@@ -41,8 +40,8 @@ before deploying dojot
 ### - PostgreSQL
 
 * *dojot_psql_default_db*: Name of the default database created by postgres. Defaults to **postgres**.
-* *dojot_psql_super_user*: Name of the postgreSQL super user. Defaults to postgres.
-* *dojot_psql_super_passwd*: Password for the PostgreSQL super user. Defaults to postgres.
+* *dojot_psql_super_user*: Name of the postgreSQL super user. Defaults to **postgres**.
+* *dojot_psql_super_passwd*: Password for the PostgreSQL super user. Defaults to **postgres**.
 * *dojot_psql_version*: Version of the PostgreSQL container '*postgresql*' used on this deployment. Defaults to **9.6.11-alpine**.
 * *dojot_psql_kong_user*: Username for accessing the Kong database. Defaults to **kong**.
 * *dojot_psql_kong_passwd*: Password for accessing the Kong database. Defaults to **kong**.

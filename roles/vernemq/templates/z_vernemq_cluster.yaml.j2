@@ -48,7 +48,7 @@ spec:
   serviceAccountName: vernemq-k8s
 {% if dojot_enable_node_affinity %}
   nodeSelector:
-    dojot.components/group: "{{ dojot_node_label.vernemq }}"
+    dojot.components/vernemq: "enabled"
 {% endif %}
   size: {{ dojot_vernemq_replicas }}
   tag: {{ dojot_verne_version }}
