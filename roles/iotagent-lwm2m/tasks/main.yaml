@@ -1,6 +1,7 @@
 ## This role is responsible for deploying the IoT Agent Lwm2m Service for dojot
 
 - name: dojot - IoT Agent Lwm2m Objects
+  when: optional['lwm2m']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

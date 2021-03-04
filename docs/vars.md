@@ -210,4 +210,7 @@ before deploying dojot
 * *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to *false*.
 * *optional[history]*: Defines whether History service will be enabled. Defaults to *true*.
 * *optional[persister]*: Defines whether Persister service will be enabled. Defaults to *true*.
+* *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to *true*.
+* *optional[mosca]*: Defines whether IotAgent Mosca will be enabled. It will only be enabled if IotAgent VerneMQ is disabled. Defaults to *false*.
+* *optional[lwm2m]*: Defines whether IotAgent Lwm2m will be enabled. Defaults to *false*.
 
