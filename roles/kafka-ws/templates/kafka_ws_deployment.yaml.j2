@@ -67,7 +67,6 @@ spec:
           value: "/opt/kafka-ws/certs/kafka-ws.crt"
         - name: KAFKA_WS_SERVER_REQUEST_CERT
           value: "true"
-{% if dojot_kafka_ws_persistent_volumes %}
         volumeMounts:
         - name: kafka-ws
           mountPath: /opt/kafka-ws/certs
@@ -75,7 +74,6 @@ spec:
       - name: kafka-ws
         persistentVolumeClaim:
           claimName: kafka-ws
-{% endif %}
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

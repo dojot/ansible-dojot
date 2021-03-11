@@ -11,7 +11,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: {{ dojot_storage_class_name }}
   local:
     path: /mnt/data/prometheus
   nodeAffinity:

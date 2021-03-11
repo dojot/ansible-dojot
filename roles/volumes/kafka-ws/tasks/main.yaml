@@ -5,8 +5,7 @@
   file:
     path: /mnt/data/kafka_ws
     state: directory
-  when: (dojot_kafka_ws_persistent_volumes) and
-        (dojot_storage_class_name == "local-storage") and
+  when: (dojot_storage_class_name == "local-storage") and
         ('dojot_nodes' in {{ group_names }})
 
 - name: Create kafka_ws volume
@@ -20,6 +19,5 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'kafka_ws.yaml.j2') | from_yaml }}"
-  when: (dojot_kafka_ws_persistent_volumes) and
-        (dojot_storage_class_name == "local-storage") and
+  when: (dojot_storage_class_name == "local-storage") and
         ('master_nodes' in {{ group_names }})

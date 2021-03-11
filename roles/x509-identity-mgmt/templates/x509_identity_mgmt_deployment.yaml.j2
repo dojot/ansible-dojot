@@ -48,7 +48,6 @@ spec:
           value: "production"
         - name: MONGO_URI
           value: "mongodb://mongodb:27017/x509-identity-mgmt"
-{% if dojot_x509_identity_mgmt_persistent_volumes %}
         volumeMounts:
         - name: x509-identity-mgmt
           mountPath: /mnt/persistent
@@ -56,7 +55,6 @@ spec:
       - name: x509-identity-mgmt
         persistentVolumeClaim:
           claimName: x509-identity-mgmt
-{% endif %}
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

@@ -5,8 +5,7 @@
   file:
     path: /mnt/data/minio
     state: directory
-  when: (dojot_minio_persistent_volumes) and
-        (dojot_storage_class_name == "local-storage") and
+  when: (dojot_storage_class_name == "local-storage") and
         ('dojot_nodes' in {{ group_names }})
 
 - name: Create minio volume
@@ -20,6 +19,5 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'minio.yaml.j2') | from_yaml }}"
-  when: (dojot_minio_persistent_volumes) and
-        (dojot_storage_class_name == "local-storage") and
+  when: (dojot_storage_class_name == "local-storage") and
         ('master_nodes' in {{ group_names }})

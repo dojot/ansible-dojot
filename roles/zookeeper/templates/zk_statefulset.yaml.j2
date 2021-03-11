@@ -79,7 +79,6 @@ spec:
               value: "10"
             - name: ZOOKEEPER_TICK_TIME
               value: "2000"
-{% if dojot_zk_persistent_volumes %}
           volumeMounts:
             - name: zk-volume-data
               mountPath: /var/lib/zookeeper/data
@@ -112,4 +111,3 @@ spec:
         matchLabels:
           app: dojot
           name: zookeeper-log
-{% endif %}

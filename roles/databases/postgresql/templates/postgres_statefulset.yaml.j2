@@ -38,10 +38,8 @@ spec:
         volumeMounts:
           - name: postgres-init
             mountPath: /docker-entrypoint-initdb.d/
-{% if dojot_psql_persistent_volumes %}
           - name: psql-volume
             mountPath: /var/lib/postgresql/data
-{% endif %}
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
@@ -57,7 +55,6 @@ spec:
       - name: postgres-init
         configMap:
           name: postgres-init
-{% if dojot_psql_persistent_volumes %}
   volumeClaimTemplates:
   - metadata:
       name: psql-volume
@@ -71,4 +68,3 @@ spec:
         matchLabels:
           app: dojot
           db: postgres
-{% endif %}

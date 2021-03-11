@@ -71,7 +71,6 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
-{% if dojot_influxdb_persistent_volumes %}
         volumeMounts:
           - name: influxdb-volume
             mountPath: /root/.influxdbv2
@@ -88,4 +87,3 @@ spec:
         matchLabels:
           app: dojot
           db: influxdb
-{% endif %}
