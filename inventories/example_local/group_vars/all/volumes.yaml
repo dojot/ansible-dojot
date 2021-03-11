@@ -1,1 +1,3 @@
 dojot_storage_class_name: ""
+
+dojot_volume_directory: "/mnt/data"

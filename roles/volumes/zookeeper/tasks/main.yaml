@@ -3,7 +3,7 @@
 - name: Create zookeeper directory if it does not exists
   become: true
   file:
-    path: '/mnt/data/zookeeper/{{item.path}}'
+    path: '{{ dojot_volume_directory }}/zookeeper/{{item.path}}'
     state: directory
   loop:
     - { path: 'data' }

@@ -14,7 +14,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: {{ dojot_storage_class_name }}
   local:
-    path: /mnt/data/kafka_ws
+    path: {{ dojot_volume_directory }}/kafka_ws
   nodeAffinity:
     required:
       nodeSelectorTerms:

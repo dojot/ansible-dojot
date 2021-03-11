@@ -3,7 +3,7 @@
 - name: Create kong directory if it does not exists
   become: true
   file:
-    path: /mnt/data/kong
+    path: {{ dojot_volume_directory }}/kong
     state: directory
   when: (dojot_storage_class_name == "local-storage") and
         ('dojot_nodes' in {{ group_names }})

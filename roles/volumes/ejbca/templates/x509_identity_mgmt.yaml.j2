@@ -14,7 +14,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: {{ dojot_storage_class_name }}
   local:
-    path: /mnt/data/ejbca
+    path: {{ dojot_volume_directory }}/ejbca
   nodeAffinity:
     required:
       nodeSelectorTerms:

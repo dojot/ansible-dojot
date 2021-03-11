@@ -3,7 +3,7 @@
 - name: Create mongodb directory if it does not exists
   become: true
   file:
-    path: /mnt/data/mongodb
+    path: {{ dojot_volume_directory }}/mongodb
     state: directory
   when: (dojot_storage_class_name == "local-storage") and
         ('dojot_nodes' in {{ group_names }})
