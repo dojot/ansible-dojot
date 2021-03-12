@@ -3,7 +3,7 @@
 - name: Create ejbca directory if it does not exists
   become: true
   file:
-    path: {{ dojot_volume_directory }}/ejbca
+    path: "{{ dojot_volume_directory }}/ejbca"
     state: directory
   when: (dojot_storage_class_name == "local-storage") and
         ('x509_nodes' in {{ group_names }})
