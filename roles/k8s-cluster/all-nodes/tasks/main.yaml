@@ -99,6 +99,6 @@
     update_cache: yes
   vars:
     packages:
-      - kubelet="{{ k8s_version }}-00"
-      - kubeadm="{{ k8s_version }}-00"
-      - kubectl="{{ k8s_version }}-00"
+      - kubelet={{ k8s_version }}
+      - kubeadm={{ k8s_version }}
+      - kubectl={{ k8s_version }}
