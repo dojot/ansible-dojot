@@ -43,8 +43,8 @@
     update_cache: yes
   vars:
     packages:
-    - docker-ce=5:{{ docker_version }}~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
-    - docker-ce-cli=5:{{ docker_version }}~3-0~ubuntu-{{ ansible_facts.lsb.codename }}
+    - docker-ce=5:{{ docker_version }}-{{ ansible_facts.lsb.codename }}
+    - docker-ce-cli=5:{{ docker_version }}-{{ ansible_facts.lsb.codename }}
     - containerd.io={{ containerd_version }}
   notify:
     - docker status
@@ -99,6 +99,6 @@
     update_cache: yes
   vars:
     packages:
-      - kubelet={{ k8s_version }}
-      - kubeadm={{ k8s_version }}
-      - kubectl={{ k8s_version }}
+      - kubelet="{{ k8s_version }}-00"
+      - kubeadm="{{ k8s_version }}-00"
+      - kubectl="{{ k8s_version }}-00"
