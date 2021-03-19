@@ -47,11 +47,9 @@ spec:
               value: "262144000"
             - name: KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS
               value: "30000"
-{% if dojot_kafka_persistent_volumes %}
           volumeMounts:
             - mountPath: /var/lib/kafka/data
               name: kafka-volume
-{% endif %}
           readinessProbe:
             exec:
               command:
@@ -75,7 +73,6 @@ spec:
                 values:
                 - "enabled"
 {% endif %}
-{% if dojot_kafka_persistent_volumes %}
   volumeClaimTemplates:
   - metadata:
       name: kafka-volume
@@ -89,4 +86,3 @@ spec:
         matchLabels:
           app: dojot
           name: kafka-server
-{% endif %}

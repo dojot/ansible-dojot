@@ -1,20 +1,20 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-pv-mongo
+  name: local-pv-influxdb
   labels:
     type: local
     app: dojot
-    db: mongodb
+    db: influxdb
 spec:
   capacity:
     storage: 2Gi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: {{ dojot_storage_class_name }}
   local:
-    path: /mnt/data/mongodb
+    path: {{ dojot_volume_directory }}/influxdb
   nodeAffinity:
     required:
       nodeSelectorTerms:

@@ -80,7 +80,6 @@ spec:
         - name: KONG_NGINX_PROXY_PROXY_SSL_VERIFY_DEPTH
           value: "2"
 {% endif %}
-{% if dojot_apigw_persistent_volumes %}
         volumeMounts:
         - name: kong
           mountPath: /certs
@@ -88,4 +87,3 @@ spec:
       - name: kong
         persistentVolumeClaim:
           claimName: kong
-{% endif %}

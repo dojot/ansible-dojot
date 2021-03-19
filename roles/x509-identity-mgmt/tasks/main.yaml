@@ -13,7 +13,6 @@
   - "{{ lookup('template', 'x509_identity_mgmt_service.yaml.j2') | from_yaml }}"
 
 - name: dojot - x509 Identity Management Persistent Volume Claim
-  when: "{{ dojot_x509_identity_mgmt_persistent_volumes }}"
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

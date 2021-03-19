@@ -1,0 +1,48 @@
+---
+- hosts: dojot_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/kong
+    - role: volumes/minio
+    - role: volumes/mongodb
+    - role: volumes/postgres
+    - role: volumes/prometheus
+    - role: volumes/kafka-ws
+    - role: volumes/influxdb
+
+- hosts: kafka_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/kafka
+    - role: volumes/zookeeper
+
+- hosts: x509_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/ejbca
+
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/kong
+    - role: volumes/minio
+    - role: volumes/mongodb
+    - role: volumes/postgres
+    - role: volumes/prometheus
+    - role: volumes/kafka-ws
+    - role: volumes/kafka
+    - role: volumes/zookeeper
+    - role: volumes/ejbca
+    - role: volumes/influxdb

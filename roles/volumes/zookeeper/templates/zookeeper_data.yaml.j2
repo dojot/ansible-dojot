@@ -1,25 +1,25 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-pv-x509-identity-mgmt
+  name: local-pv-zk-data
   labels:
     type: local
     app: dojot
-    name: x509-identity-mgmt
+    name: zookeeper-data
 spec:
   capacity:
-    storage: 10Mi
+    storage: 1Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: {{ dojot_storage_class_name }}
   local:
-    path: /mnt/data/ejbca
+    path: {{ dojot_volume_directory }}/zookeeper/data
   nodeAffinity:
     required:
       nodeSelectorTerms:
       - matchExpressions:
-        - key: dojot.components/x509
+        - key: dojot.components/kafka
           operator: In
           values:
           - "enabled"

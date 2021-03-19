@@ -20,7 +20,6 @@
   - "{{ lookup('template', 'apigw_deployment.yaml.j2') | from_yaml }}"
 
 - name: dojot - Kong Persistent Volume Claim
-  when: "{{ dojot_apigw_persistent_volumes }}"
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

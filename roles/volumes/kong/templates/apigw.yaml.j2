@@ -12,9 +12,9 @@ spec:
   accessModes:
     - ReadOnlyMany
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: {{ dojot_storage_class_name }}
   local:
-    path: /mnt/data/kong
+    path: {{ dojot_volume_directory }}/kong
   nodeAffinity:
     required:
       nodeSelectorTerms:
