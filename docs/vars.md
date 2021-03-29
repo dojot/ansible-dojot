@@ -134,6 +134,8 @@ before deploying dojot
 * *dojot_psql_ejbca_passwd*: EJBCA PostgreSQL database password. Defaults to **ejbca**.
 * *dojot_x509_identity_mgmt_version*: Version of the x509 Identity Management container. Defaults to **dojot_version**.
 * *dojot_x509_identity_mgmt_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
+* *dojot_x509_ejbca_version*: Version of the x509 EJBCA container. Defaults to **dojot_version**.
+* *dojot_x509_ejbca_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
 
 ### - Kafka Loopback
 

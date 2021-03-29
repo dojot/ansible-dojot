@@ -28,7 +28,8 @@
   tags:
   - volumes
   roles:
-    - role: volumes/ejbca
+    - role: volumes/x509-ejbca
+    - role: volumes/x509-identity-mgmt
 
 - hosts: master_nodes
   gather_facts: true
@@ -44,5 +45,6 @@
     - role: volumes/kafka-ws
     - role: volumes/kafka
     - role: volumes/zookeeper
-    - role: volumes/ejbca
+    - role: volumes/x509-ejbca
+    - role: volumes/x509-identity-mgmt
     - role: volumes/influxdb
