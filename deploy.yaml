@@ -193,3 +193,7 @@
     - role: x509-identity-mgmt
       tags:
       - 100k
+
+    - role: x509-ejbca
+      tags:
+      - 100k
