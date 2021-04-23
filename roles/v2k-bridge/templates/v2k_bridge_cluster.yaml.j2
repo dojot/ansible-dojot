@@ -39,7 +39,67 @@ spec:
           timeoutSeconds: 3
         env:
         - name: V2K_APP_USER_CONFIG_FILE
-          value: "production.conf"
+          value: "default.conf"
+        - name: V2K_APP_HOSTNAME
+          value: "v2k-bridge"
+        - name: V2K_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: V2K_MQTT_CA
+          value: "/certs/ca.crt"
+        - name: V2K_MQTT_CERT
+          value: "/certs/v2k-bridge.crt"
+        - name: V2K_MQTT_KEY
+          value: "/certs/v2k-bridge.key"
+        - name: V2K_LOG_CONSOLE_LEVEL
+          value: "info"
+        volumeMounts:
+        - mountPath: /certs
+          name: v2k-certs
+      - name: v2k-sidecar
+        image: dojot/cert-sidecar:{{ dojot_v2k_version }}
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8889
+          failureThreshold: 1
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 8889
+          failureThreshold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 3
+        env:
+        - name: CERT_SC_APP_SIDECAR_TO
+          value: "v2k-bridge"
+        - name: CERT_SC_LOG_CONSOLE_LEVEL
+          value: "info"
+        - name: CERT_SC_CERTS_CRL
+          value: "false"  
+        - name: CERT_SC_CERTS_HOSTNAMES
+          value: "[\"v2k-bridge\"]"
+        - name: HOSTNAME
+          value: "v2k-bridge"
+        - name: CERT_SC_CERTS_FILES_BASEPATH
+          value: "/certs"
+        - name: CERT_SC_CERTS_FILES_CA
+          value: "ca.crt"
+        - name: CERT_SC_CERTS_FILES_CERT
+          value: "v2k-bridge.crt"
+        - name: CERT_SC_CERTS_FILES_KEY
+          value: "v2k-bridge.key"     
+        volumeMounts:
+        - mountPath: /certs
+          name: v2k-certs  
+      volumes:
+      - name: v2k-certs
+        emptyDir: {}           
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

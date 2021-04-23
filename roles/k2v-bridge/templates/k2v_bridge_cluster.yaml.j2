@@ -37,6 +37,69 @@ spec:
           periodSeconds: 15
           successThreshold: 1
           timeoutSeconds: 3
+        env:
+        - name: K2V_APP_USER_CONFIG_FILE
+          value: "default.conf"
+        - name: K2V_APP_HOSTNAME
+          value: "k2v-bridge"
+        - name: K2V_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: K2V_MQTT_CA
+          value: "/certs/ca.crt"
+        - name: K2V_MQTT_CERT
+          value: "/certs/k2v-bridge.crt"
+        - name: K2V_MQTT_KEY
+          value: "/certs/k2v-bridge.key"
+        - name: K2V_LOG_CONSOLE_LEVEL
+          value: "info"
+        volumeMounts:
+        - mountPath: /certs
+          name: k2v-certs
+      - name: k2v-sidecar
+        image: dojot/cert-sidecar:{{ dojot_k2v_version}}
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8889
+          failureThreshold: 1
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 8889
+          failureThreshold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 3
+        env:
+        - name: CERT_SC_APP_SIDECAR_TO
+          value: "k2v-bridge"
+        - name: CERT_SC_LOG_CONSOLE_LEVEL
+          value: "info"
+        - name: CERT_SC_CERTS_CRL
+          value: "false"  
+        - name: CERT_SC_CERTS_HOSTNAMES
+          value: "[\"k2v-bridge\"]"
+        - name: HOSTNAME
+          value: "k2v-bridge"
+        - name: CERT_SC_CERTS_FILES_BASEPATH
+          value: "/certs"
+        - name: CERT_SC_CERTS_FILES_CA
+          value: "ca.crt"
+        - name: CERT_SC_CERTS_FILES_CERT
+          value: "k2v-bridge.crt"
+        - name: CERT_SC_CERTS_FILES_KEY
+          value: "k2v-bridge.key"     
+        volumeMounts:
+        - mountPath: /certs
+          name: k2v-certs
+      volumes:
+      - name: k2v-certs
+        emptyDir: {}        
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
