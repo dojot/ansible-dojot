@@ -34,6 +34,8 @@ done
 deploy=${deploy:-"deploy.yaml"}
 flags=${flags:-"-vvvv"}
 
+nodeNameSuffix="worker"
+
 ## Print help
 if [ "${help}" == "true" ]
 then
@@ -45,10 +47,15 @@ then
   exit 1
 fi
 
+## Trying to find out the name of the Worker Node...
+if [ -z "${nodeName}" ] ; then
+  nodeName=$(kubectl get nodes -o NAME | grep "${nodeNameSuffix}" | cut -d'/' -f 2)
+fi
+
 ## labeling worker node
 if [ -n "${nodeName+true}" ] ; then
   echo "labeling worker node..."
-  kubectl label nodes "${nodeName}" dojot.components/group=dojot
+  kubectl label nodes "${nodeName}" dojot.components/group=dojot --overwrite
 fi
 
 ## Creating the volumes
