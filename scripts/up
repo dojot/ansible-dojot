@@ -49,9 +49,6 @@ fi
 if [ -n "${nodeName+true}" ] ; then
   echo "labeling worker node..."
   kubectl label nodes "${nodeName}" dojot.components/group=dojot
-  kubectl label nodes "${nodeName}" dojot.components/group=x509
-  kubectl label nodes "${nodeName}" dojot.components/group=kafka
-  kubectl label nodes "${nodeName}" dojot.components/group=vernemq
 fi
 
 ## Creating the volumes
