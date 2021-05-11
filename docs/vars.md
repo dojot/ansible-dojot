@@ -188,7 +188,8 @@ before deploying dojot
 ### - Kubernetes Cluster
 
 * *k8s_version*: Version of the Kubernetes cluster. Defaults to *1.17.3-00*.
-* *docker_log_size*: The maximum size of the log before it is rolled. Defaults to *100m*.
+* *docker_log_size*: The maximum size of the log before it is rolled. Defaults to *20m*.
+* *docker_log_files_amount*: The maximum amount of log files before it is rolled. Defaults to *5*.
 
 ### - HAProxy
 
