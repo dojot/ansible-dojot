@@ -30,8 +30,6 @@ spec:
           periodSeconds: 20
           timeoutSeconds: 5
         env:
-        - name: EJBCA_SERVER_CERT_REGEN
-          value: "true"
         - name: DATABASE_JDBC_URL
           value: "jdbc:postgresql://postgres:5432/ejbca?characterEncoding=UTF-8"
         - name: DATABASE_USER

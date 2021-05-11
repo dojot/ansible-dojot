@@ -6,32 +6,28 @@ echo "Checking dependencies..."
 echo "Checking kubectl..."
 if ! command -v kubectl &> /dev/null
 then
-  echo "You must have Kubernetes installed!"
-  exit 1
+	echo "You must have Kubernetes installed!"
+	exit 1
 fi
 echo "OK"
 
 ## Retrieve the arguments
-while getopts r:l:h flag
+while getopts r:h flag
 do
-  case "${flag}" in
-    r) remove=${OPTARG};;
-    l) nodeName=${OPTARG};;
-    h) help="true";;
-    *) exit 1;;
-  esac
+	case "${flag}" in
+		r) remove=${OPTARG};;
+		h) help="true";;
+		*) exit 1;;
+	esac
 done
-
-nodeNameSuffix="worker"
 
 ## Print help
 if [ "${remove}" != "false" ] && [ "${remove}" != "true" ] || [ "$help" == "true" ]
 then
-  echo "usage: $0 [OPTIONS]"
-  echo "  -h: shows the script help (this message)"
-  echo "  -r: true if it should remove the volumes (won't erase any data), false if it should not."
-  echo "  -l: Name of the Worker Node whose labels required by the volumes are to be removed"
-  exit 1
+	echo "usage: $0 [OPTIONS]"
+	echo "  -h: shows the script help (this message)"
+	echo "	-r: true if it should remove the volumes (won't erase any data), false if it should not."
+	exit 1
 fi
 
 # When we run only delete --all all, it can kill the pods first, not the deployments nor
@@ -44,18 +40,7 @@ kubectl delete --all all -n dojot
 
 if [ "${remove}" == "true" ]
 then
-  echo "Removing volumes"
-  kubectl delete --all pvc --all-namespaces
-  kubectl delete --all pv,sc
-
-  ## Trying to find out the name of the Worker Node...
-  if [ -z "${nodeName}" ] ; then
-    nodeName=$(kubectl get nodes -o NAME | grep "${nodeNameSuffix}" | cut -d'/' -f 2)
-  fi
-
-  ## removes labels from worker node
-  if [ -n "${nodeName+true}" ] ; then
-    echo "labeling worker node..."
-    kubectl label nodes "${nodeName}" dojot.components/group-
-  fi
+	echo "Removing volumes"
+	kubectl delete --all pvc --all-namespaces
+	kubectl delete --all pv,sc
 fi
