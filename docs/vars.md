@@ -174,10 +174,13 @@ before deploying dojot
 * *dojot_kafka_ws_port*: Port that will be used by the Kafka WS service. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 * *dojot_kafka_ws_enable_tls*: Activates the TLS communication. Defaults to **false**.
-* *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
-* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
-* *dojot_kafka_ws_port*: Port used to access Kafka WS services. Defaults to **8080**.
-* *dojot_kafka_ws_redis_port*: Internally exposed Kafka WS Redis port. Defaults to **6379**.
+
+### - Certificate ACL
+
+* *dojot_certificate_acl_version*: Version of the Certificate ACL container. Defaults to **dojot_version**.
+* *dojot_certificate_acl_volume_size*: Size of the Certificate ACL volumes that are created. Defaults to **5Mi**.
+* *dojot_certificate_acl_port*: Port that will be used by the Certificate ACL service. Defaults to **8080**.
+* *dojot_certificate_acl_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 
 ### - Metrics
 

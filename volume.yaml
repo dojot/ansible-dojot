@@ -12,6 +12,7 @@
     - role: volumes/prometheus
     - role: volumes/kafka-ws
     - role: volumes/influxdb
+    - role: volumes/certificate-acl
 
 - hosts: kafka_nodes
   gather_facts: true
@@ -48,3 +49,4 @@
     - role: volumes/x509-ejbca
     - role: volumes/x509-identity-mgmt
     - role: volumes/influxdb
+    - role: volumes/certificate-acl
