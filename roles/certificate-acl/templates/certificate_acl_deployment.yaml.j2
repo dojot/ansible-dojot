@@ -23,7 +23,7 @@ spec:
         fsGroup: 0
       containers:
       - name: certificate-acl
-        image: dojot/certificate_acl:{{ dojot_certificate_acl_version }}
+        image: dojot/certificate-acl:{{ dojot_certificate_acl_version }}
         # WARNING: if you are using Mutual TLS, the readiness won't work because it's not supported
         # by Kubernetes
         readinessProbe:
@@ -45,7 +45,7 @@ spec:
           successThreshold: 1
           timeoutSeconds: 3
         env:
-        - name: CERTIFICATE_ACL_KAFKA_CONSUMER_METADATA_BROKER_LIST
+        - name: CERTIFICATE_ACL_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: CERTIFICATE_ACL_REDIS_HOST
           value: certificate-acl-redis
