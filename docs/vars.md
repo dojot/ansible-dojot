@@ -174,10 +174,7 @@ before deploying dojot
 * *dojot_kafka_ws_port*: Port that will be used by the Kafka WS service. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 * *dojot_kafka_ws_enable_tls*: Activates the TLS communication. Defaults to **false**.
-* *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
-* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
-* *dojot_kafka_ws_port*: Port used to access Kafka WS services. Defaults to **8080**.
-* *dojot_kafka_ws_redis_port*: Internally exposed Kafka WS Redis port. Defaults to **6379**.
+* *dojot_kafka_ws_ticket_secret*: Kafka WS secret that should be unique for each environment.
 
 ### - Metrics
 
@@ -187,26 +184,26 @@ before deploying dojot
 
 ### - Kubernetes Cluster
 
-* *k8s_version*: Version of the Kubernetes cluster. Defaults to *1.17.3-00*.
-* *docker_log_size*: The maximum size of the log before it is rolled. Defaults to *20m*.
-* *docker_log_files_amount*: The maximum amount of log files before it is rolled. Defaults to *5*.
+* *k8s_version*: Version of the Kubernetes cluster. Defaults to **1.17.3-00**.
+* *docker_log_size*: The maximum size of the log before it is rolled. Defaults to **20m**.
+* *docker_log_files_amount*: The maximum amount of log files before it is rolled. Defaults to **5**.
 
 ### - HAProxy
 
-* *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.
+* *haproxy_version*: Version of the HAProxy service. Defaults to **2.0**.
 
 ### - NGINX
 
-* *nginx_version*: Version of the NGINX service. Defaults to *1.19*.
+* *nginx_version*: Version of the NGINX service. Defaults to **1.19**.
 
 ### - Optional Services
 
-* *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to *false*.
-* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to *false*.
-* *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to *false*.
-* *optional[history]*: Defines whether History service will be enabled. Defaults to *true*.
-* *optional[persister]*: Defines whether Persister service will be enabled. Defaults to *true*.
-* *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to *true*.
-* *optional[mosca]*: Defines whether IotAgent Mosca will be enabled. It will only be enabled if IotAgent VerneMQ is disabled. Defaults to *false*.
-* *optional[lwm2m]*: Defines whether IotAgent Lwm2m will be enabled. Defaults to *false*.
+* *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to **false**.
+* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **false**.
+* *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **false**.
+* *optional[history]*: Defines whether History service will be enabled. Defaults to **true**.
+* *optional[persister]*: Defines whether Persister service will be enabled. Defaults to **true**.
+* *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to **true**.
+* *optional[mosca]*: Defines whether IotAgent Mosca will be enabled. It will only be enabled if IotAgent VerneMQ is disabled. Defaults to **false**.
+* *optional[lwm2m]*: Defines whether IotAgent Lwm2m will be enabled. Defaults to **false**.
 
