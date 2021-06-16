@@ -67,6 +67,9 @@ spec:
           value: "/opt/kafka-ws/certs/kafka-ws.crt"
         - name: KAFKA_WS_SERVER_REQUEST_CERT
           value: "true"
+          # NOTE: The KAFKA_WS_TICKET_SECRET should be unique for each environment
+        - name: KAFKA_WS_TICKET_SECRET
+          value: "{{ dojot_kafka_ws_ticket_secret }}"
         volumeMounts:
         - name: kafka-ws
           mountPath: /opt/kafka-ws/certs

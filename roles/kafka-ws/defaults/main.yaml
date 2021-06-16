@@ -6,3 +6,5 @@ dojot_kafka_ws_volume_size: 5Mi
 dojot_kafka_port: 9092
 dojot_kafka_ws_port: 8080
 dojot_kafka_ws_redis_port: 6379
+
+dojot_kafka_ws_ticket_secret: fT5nAgHR9pkj0yYsBdc4p+PPq6ArjshcPdz0HA6W
