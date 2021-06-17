@@ -1,13 +1,13 @@
 # Nodenames of dojot worker nodes that will be labeled
 dojot_dojot_nodenames:   # Nodes that will receive the label for the rest of the services
-  - k8s-worker-nodename
+  - eri-worker
 # - k8s-worker2-nodename #If you want you can add multiple nodes to receive the same label
 
 dojot_kafka_nodenames:   # Nodes that will receive the label for Kafka, Zookeeper and Kafka Loopback node
-  - k8s-worker-nodename
+  - eri-worker
 
 dojot_x509_nodenames:    # Nodes that will receive the label for x509 node
-  - k8s-worker-nodename
+  - eri-worker
 
 dojot_vernemq_nodenames: # Nodes that will receive the label for VerneMQ, K2V and V2K nodes
-  - k8s-worker-nodename
+  - eri-worker
