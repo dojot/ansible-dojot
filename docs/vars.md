@@ -179,8 +179,8 @@ before deploying dojot
 
 * *dojot_certificate_acl_version*: Version of the Certificate ACL container. Defaults to **dojot_version**.
 * *dojot_certificate_acl_volume_size*: Size of the Certificate ACL volumes that are created. Defaults to **5Mi**.
-* *dojot_certificate_acl_port*: Port that will be used by the Certificate ACL service. Defaults to **8080**.
 * *dojot_certificate_acl_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
+* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
 ### - Metrics
 
