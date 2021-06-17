@@ -7,8 +7,8 @@ metadata:
   namespace: {{ dojot_namespace }}
 spec:
   ports:
-  - port: {{ dojot_certificate_acl_port }}
-    targetPort: {{ dojot_certificate_acl_port }}
+  - port: 3000
+    targetPort: 3000
   selector:
     name: certificate-acl
     app: dojot

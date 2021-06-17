@@ -4,5 +4,5 @@ dojot_certificate_acl_version: "{{ dojot_version }}"
 dojot_certificate_acl_volume_size: 5Mi
 
 dojot_kafka_port: 9092
-dojot_certificate_acl_port: 8080
+dojot_certificate_acl_port: 3000
 dojot_certificate_acl_redis_port: 6379
