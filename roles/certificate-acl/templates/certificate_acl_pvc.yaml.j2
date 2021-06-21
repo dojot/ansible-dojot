@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: certificate-acl
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: dojot
+    name: certificate-acl
+spec:
+  selector:
+    matchLabels:
+      app: dojot
+      name: certificate-acl
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: {{ dojot_storage_class_name }}
+  resources:
+    requests:
+      storage: {{ dojot_certificate_acl_volume_size }}

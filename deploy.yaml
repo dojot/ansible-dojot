@@ -197,3 +197,5 @@
     - role: x509-ejbca
       tags:
       - 100k
+
+    - role: certificate-acl
