@@ -9,7 +9,7 @@
     - { path: 'data' }
     - { path: 'log' }
   when: (dojot_storage_class_name == "local-storage") and
-        ('kafka_nodes' in {{ group_names }})
+        ('kafka_nodes' in group_names)
 
 - name: Create zookeeper volume
   k8s:
@@ -24,4 +24,4 @@
   - "{{ lookup('template', 'zookeeper_data.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'zookeeper_log.yaml.j2') | from_yaml }}"
   when: (dojot_storage_class_name == "local-storage") and
-        ('master_nodes' in {{ group_names }})
+        ('master_nodes' in group_names)
