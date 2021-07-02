@@ -4,6 +4,7 @@ all:
     localhost:
         ansible_connection: local
         ansible_python.version.major: 3
+        ansible_python_interpreter: /usr/bin/python3
     worker_host:
         ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
     nginx:
