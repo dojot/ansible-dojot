@@ -6,7 +6,7 @@
     path: "{{ dojot_volume_directory }}/postgres"
     state: directory
   when: (dojot_storage_class_name == "local-storage") and
-        ('dojot_nodes' in {{ group_names }})
+        ('dojot_nodes' in group_names)
 
 - name: Create postgres volume
   k8s:
@@ -20,4 +20,4 @@
   loop:
   - "{{ lookup('template', 'postgres.yaml.j2') | from_yaml }}"
   when: (dojot_storage_class_name == "local-storage") and
-        ('master_nodes' in {{ group_names }})
+        ('master_nodes' in group_names)
