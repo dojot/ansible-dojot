@@ -67,6 +67,7 @@
   any_errors_fatal: true
   tags:
   - influxdb
+  - 100k
   roles:
     - role: databases/influxdb
 
@@ -152,10 +153,12 @@
     - role: influxdb-storer
       tags:
       - influxdb-storer
+      - 100k
 
     - role: influxdb-retriever
       tags:
       - influxdb-retriever
+      - 100k
 
     - role: gui
 
@@ -199,3 +202,5 @@
       - 100k
 
     - role: certificate-acl
+      tags:
+      - 100k
