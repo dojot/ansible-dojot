@@ -44,6 +44,8 @@ spec:
           value: "k2v-bridge"
         - name: K2V_PRODUCER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: K2V_MQTT_PORT
+          value: "9883"
         - name: K2V_MQTT_CA
           value: "/certs/ca.crt"
         - name: K2V_MQTT_CERT
