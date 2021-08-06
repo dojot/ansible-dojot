@@ -1,1 +1,1 @@
-dojot_v2k_version: "{{ dojot_version }}"
+dojot_v2k_version: v0.6.1-rc.1
