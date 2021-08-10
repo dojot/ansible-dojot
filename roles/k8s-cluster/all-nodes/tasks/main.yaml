@@ -1,8 +1,6 @@
 ---
 
 - name: Install packages that allow apt to be used over HTTPS
-  tags:
-  - docker
   become: yes
   apt:
     name: "{{ packages }}"
@@ -17,25 +15,19 @@
     - gnupg2
     - software-properties-common
 
-- name: Add an apt signing key for Docker
-  tags:
-  - docker
+- name: Add an apt signing key for containerd
   become: yes
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     state: present
 
 - name: Add apt repository for stable version
-  tags:
-  - docker
   become: yes
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_facts.lsb.codename }} stable
     state: present
 
-- name: Install docker and its dependecies
-  tags:
-  - docker
+- name: Install containerd
   become: yes
   apt:
     name: "{{ packages }}"
@@ -43,25 +35,49 @@
     update_cache: yes
   vars:
     packages:
-    - docker-ce=5:{{ docker_version }}-{{ ansible_facts.lsb.codename }}
-    - docker-ce-cli=5:{{ docker_version }}-{{ ansible_facts.lsb.codename }}
     - containerd.io={{ containerd_version }}
   notify:
-    - docker status
+    - containerd status
 
-- name: Docker daemon settings
-  tags:
-  - docker
+- name: Load Modules for Containerd
   become: yes
   template:
-    src: docker-daemon.json.j2
-    dest: /etc/docker/daemon.json
+    src: containerd.conf.j2
+    dest: /etc/modules-load.d/containerd.conf
     owner: root
     group: root
     mode: 0644
   notify:
-    - systemd daemon reload
-    - restart docker
+    - modprobe overlay
+    - modprobe br_netfilter
+
+- name: Setup required sysctl params
+  become: yes
+  template:
+    src: 99-kubernetes-cri.conf.j2
+    dest: /etc/sysctl.d/99-kubernetes-cri.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - sysctl reload
+
+- name: Create config dir containerd
+  become: yes
+  command: "mkdir -p /etc/containerd"
+
+- name: Get defaults from containerd
+  become: yes
+  command: containerd config default
+  changed_when: false
+  register: containerd_config_default
+
+- name: Write defaults to config.toml.
+  become: yes
+  copy:
+    dest: /etc/containerd/config.toml
+    content: "{{ containerd_config_default.stdout }}"
+  notify: containerd restart
 
 - name: Remove swapfile from /etc/fstab
   become: yes
@@ -78,7 +94,7 @@
   command: swapoff -a
   when: ansible_swaptotal_mb > 0
 
-- name: Add an apt signing key for Kubernetes
+- name: Add an apt-key for Kubernetes
   become: yes
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
