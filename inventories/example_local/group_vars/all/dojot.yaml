@@ -1,6 +1,6 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_version: v0.6.0
+dojot_version: v0.6.1
 dojot_domain_name: localhost
 
 dojot_storage_class_name: ""
