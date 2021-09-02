@@ -186,7 +186,7 @@ before deploying dojot
 ### - HTTP Agent
 
 * *dojot_http_agent_version*: Version of the HTTP Agent container. Defaults to **dojot_version**.
-* *dojot_http_agent_port*: Port that will be used to communicate with HTTP Agent. Defaults to **3000**.
+* *dojot_http_agent_port*: Port that will be used to communicate with HTTP Agent. Defaults to **8080**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
 ### - Metrics
