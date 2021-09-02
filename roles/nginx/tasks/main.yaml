@@ -59,6 +59,7 @@
     - file_server
     - file_servers
     - mqtts
+    - http_agent
 
 - name: Copy mqtt config files
   when: "{{ dojot_insecure_mqtt }}"

@@ -48,6 +48,9 @@ dojot_nodeports:
     file_server: 30008
     file_servers: 30009
     http: 30010
+  agent:
+    https: 30011
+
 
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.

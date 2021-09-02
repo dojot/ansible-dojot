@@ -183,6 +183,12 @@ before deploying dojot
 * *dojot_certificate_acl_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
+### - HTTP Agent
+
+* *dojot_http_agent_version*: Version of the HTTP Agent container. Defaults to **dojot_version**.
+* *dojot_http_agent_port*: Port that will be used to communicate with HTTP Agent. Defaults to **3000**.
+* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
+
 ### - Metrics
 
 * *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.

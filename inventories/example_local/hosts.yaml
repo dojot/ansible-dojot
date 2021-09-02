@@ -44,6 +44,9 @@ all:
     mqtt_nodes:
       hosts:
         MQTT_HOST_ADDRESS: #change to the host of MQTT worker node on k8s
+    http_agent_nodes:
+      hosts:
+        HTTP_AGENT_HOST_ADDRESS: #change to the host of HTTP Agent worker node on k8s
     lwm2m_nodes:
       hosts:
         LWM2M_HOST_ADDRESS: #change to the host of LWM2M worker node on k8s
