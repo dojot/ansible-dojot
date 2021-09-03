@@ -35,7 +35,7 @@ spec:
         - name: X509IDMGMT_KAFKA_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:9092"
         - name: X509IDMGMT_CERTIFICATE_BELONGSTO_APPLICATION
-          value: "[\"vernemq-k8s\", \"v2k-bridge\", \"k2v-bridge\"]"
+          value: "[\"vernemq-k8s\", \"v2k-bridge\", \"k2v-bridge\", \"http-agent\"]"
         volumeMounts:
         - name: x509-identity-mgmt
           mountPath: /opt/tls

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dojot
+  name: http-agent
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - name: http-agent
+    port: {{ dojot_http_agent_port }}
+    targetPort: {{ dojot_http_agent_port }}
+    protocol: TCP
+  selector:
+    name: http-agent
+    app: dojot
+  topologyKeys:
+    - "kubernetes.io/hostname"
+  sessionAffinity: ClientIP
