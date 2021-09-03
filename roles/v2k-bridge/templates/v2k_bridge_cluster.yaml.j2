@@ -44,6 +44,8 @@ spec:
           value: "v2k-bridge"
         - name: V2K_PRODUCER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: V2K_MQTT_PORT
+          value: "9883"
         - name: V2K_MQTT_CA
           value: "/certs/ca.crt"
         - name: V2K_MQTT_CERT
