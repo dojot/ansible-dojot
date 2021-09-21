@@ -1,0 +1,52 @@
+---
+- hosts: dojot_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/kong
+    - role: volumes/minio
+    - role: volumes/mongodb
+    - role: volumes/postgres
+    - role: volumes/prometheus
+    - role: volumes/kafka-ws
+    - role: volumes/influxdb
+    - role: volumes/certificate-acl
+
+- hosts: kafka_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/kafka
+    - role: volumes/zookeeper
+
+- hosts: x509_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/x509-ejbca
+    - role: volumes/x509-identity-mgmt
+
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+  - volumes
+  roles:
+    - role: volumes/kong
+    - role: volumes/minio
+    - role: volumes/mongodb
+    - role: volumes/postgres
+    - role: volumes/prometheus
+    - role: volumes/kafka-ws
+    - role: volumes/kafka
+    - role: volumes/zookeeper
+    - role: volumes/x509-ejbca
+    - role: volumes/x509-identity-mgmt
+    - role: volumes/influxdb
+    - role: volumes/certificate-acl

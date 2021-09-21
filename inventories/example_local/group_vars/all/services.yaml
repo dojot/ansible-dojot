@@ -8,3 +8,7 @@ optional:
   #MongoDB Services
   history: true
   persister: true
+  #IotAgents
+  vernemq: true #You cannot use Mosca together with Vernemq.
+  mosca: false  #If These two variables are set to true, iotagent Vernemq will have priority
+  lwm2m: false

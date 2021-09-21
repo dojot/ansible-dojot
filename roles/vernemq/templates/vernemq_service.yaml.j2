@@ -19,6 +19,9 @@ spec:
   - name: http
     port: 8888
     targetPort: http
+  - name: mqtts-internal
+    port: 9883
+    targetPort: 9883
   selector:
     app: vernemq
     vernemq: k8s

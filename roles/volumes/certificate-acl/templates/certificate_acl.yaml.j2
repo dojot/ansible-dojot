@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv-certificate-acl
+  labels:
+    type: local
+    app: dojot
+    name: certificate-acl
+spec:
+  capacity:
+    storage: 5Mi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ dojot_storage_class_name }}
+  local:
+    path: {{ dojot_volume_directory }}/certificate_acl
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/dojot
+          operator: In
+          values:
+          - "enabled"

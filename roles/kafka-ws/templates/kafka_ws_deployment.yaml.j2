@@ -67,7 +67,9 @@ spec:
           value: "/opt/kafka-ws/certs/kafka-ws.crt"
         - name: KAFKA_WS_SERVER_REQUEST_CERT
           value: "true"
-{% if dojot_kafka_ws_persistent_volumes %}
+          # NOTE: The KAFKA_WS_TICKET_SECRET should be unique for each environment
+        - name: KAFKA_WS_TICKET_SECRET
+          value: "{{ dojot_kafka_ws_ticket_secret }}"
         volumeMounts:
         - name: kafka-ws
           mountPath: /opt/kafka-ws/certs
@@ -75,15 +77,14 @@ spec:
       - name: kafka-ws
         persistentVolumeClaim:
           claimName: kafka-ws
-{% endif %}
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/group
+              - key: dojot.components/dojot
                 operator: In
                 values:
-                - "{{ dojot_node_label.dojot }}"
+                - "enabled"
 {% endif %}
