@@ -4,35 +4,16 @@
   gather_facts: true
   any_errors_fatal: true
   tags:
-  - never
-  - "{{ 'always' if 'vernemq' in ansible_run_tags and 'mosca' in ansible_run_tags else ''}}"
-  tasks:
-    - name: Checking iotagent tag parameters
-      fail:
-        msg: Stopping playbook execution! The tags vernemq and mosca cannot be used together
-
-
-- hosts: dojot-k8s[0]
-  gather_facts: true
-  any_errors_fatal: true
-  tags:
   - bootstrap
-  - vernemq
-  - mosca
-  - lwm2m
   - 100k
   roles:
     - role: k8s-api-bootstrap
-
 
 # Create dojot base for the deployment
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
   - bootstrap
-  - vernemq
-  - mosca
-  - lwm2m
   - 100k
   roles:
     - role: dojot-basic
@@ -42,9 +23,6 @@
   any_errors_fatal: true
   tags:
   - minio
-  - vernemq
-  - mosca
-  - lwm2m
   roles:
     - role: minio
 
@@ -53,9 +31,6 @@
   any_errors_fatal: true
   tags:
   - metrics
-  - vernemq
-  - mosca
-  - lwm2m
   - 100k
   roles:
     - role: metrics
@@ -67,9 +42,6 @@
   tags:
   - zookeeper
   - kafka
-  - vernemq
-  - mosca
-  - lwm2m
   - 100k
   roles:
     - role: zookeeper
@@ -83,9 +55,6 @@
   any_errors_fatal: true
   tags:
   - postgresql
-  - vernemq
-  - mosca
-  - lwm2m
   - 100k
   roles:
     - role: databases/postgresql
@@ -98,9 +67,7 @@
   any_errors_fatal: true
   tags:
   - influxdb
-  - vernemq
-  - mosca
-  - lwm2m
+  - 100k
   roles:
     - role: databases/influxdb
 
@@ -112,9 +79,6 @@
   any_errors_fatal: true
   tags:
   - mongodb
-  - vernemq
-  - mosca
-  - lwm2m
   - 100k
   roles:
     - role: databases/mongodb
@@ -127,9 +91,6 @@
   any_errors_fatal: true
   tags:
   - kafka
-  - vernemq
-  - mosca
-  - lwm2m
   - 100k
   roles:
     - role: kafka
@@ -141,7 +102,6 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - vernemq
   - 100k
   roles:
     - role: vernemq
@@ -153,9 +113,6 @@
   any_errors_fatal: true
   tags:
   - rabbitmq
-  - vernemq
-  - mosca
-  - lwm2m
   roles:
     - role: rabbitmq
 
@@ -168,127 +125,64 @@
   roles:
 
     - role: image-manager
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: apigw
       tags:
-      - vernemq
-      - mosca
-      - lwm2m
       - 100k
 
     - role: auth
       tags:
-      - vernemq
-      - mosca
-      - lwm2m
       - 100k
 
     - role: backstage
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: data-broker
       tags:
-      - vernemq
-      - mosca
-      - lwm2m
       - 100k
 
     - role: device-manager
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: history
       tags:
       - history
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: persister
       tags:
       - persister
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: influxdb-storer
       tags:
       - influxdb-storer
-      - vernemq
-      - mosca
-      - lwm2m
+      - 100k
 
     - role: influxdb-retriever
       tags:
       - influxdb-retriever
-      - vernemq
-      - mosca
-      - lwm2m
+      - 100k
 
     - role: gui
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: gui-v2
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: iotagent-mosca
-      tags:
-      - never
-      - mosca
 
     - role: iotagent-lwm2m
-      tags:
-      - never
-      - lwm2m
 
     - role: flowbroker
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: data-manager
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: cron
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: v2k-bridge
       tags:
-      - vernemq
       - 100k
 
     - role: k2v-bridge
       tags:
-      - vernemq
       - 100k
 
     - role: kafka2ftp
-      tags:
-      - vernemq
-      - mosca
-      - lwm2m
 
     - role: kafka-loopback
       tags:
@@ -297,14 +191,16 @@
 
     - role: kafka-ws
       tags:
-      - vernemq
-      - mosca
-      - lwm2m
       - 100k
 
     - role: x509-identity-mgmt
       tags:
-      - vernemq
-      - mosca
-      - lwm2m
+      - 100k
+
+    - role: x509-ejbca
+      tags:
+      - 100k
+
+    - role: certificate-acl
+      tags:
       - 100k

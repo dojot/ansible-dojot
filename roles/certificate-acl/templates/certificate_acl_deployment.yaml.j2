@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: certificate-acl
+    app: dojot
+  name: certificate-acl
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: certificate-acl
+  template:
+    metadata:
+      labels:
+        name: certificate-acl
+        app: dojot
+    spec:
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 0
+      containers:
+      - name: certificate-acl
+        image: dojot/certificate-acl:{{ dojot_certificate_acl_version }}
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9000
+          initialDelaySeconds: 15
+          failureThresold: 1
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 9000
+          failureThresold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 3
+        env:
+        - name: CERTIFICATE_ACL_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: CERTIFICATE_ACL_REDIS_HOST
+          value: certificate-acl-redis
+        volumeMounts:
+        - name: certificate-acl
+          mountPath: /opt/certificate-acl/certs
+      volumes:
+      - name: certificate-acl
+        persistentVolumeClaim:
+          claimName: certificate-acl
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/vernemq
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

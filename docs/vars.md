@@ -23,11 +23,11 @@ before deploying dojot
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
 * *dojot_enable_node_affinity*: Enables node affinity for all services. Beware that you must configure your nodes to match the labels in the files. Default to **false**.
-* *dojot_node_label.dojot*: Label value for the rest of Dojot components nodes. Defaults to **dojot**.
-* *dojot_node_label.kafka*: Label value for Kafka, Zookeeper and Kafka Loopback nodes. Defaults to **kafka**.
-* *dojot_node_label.x509*: Label value for x509 nodes. Defaults to **x509**.
-* *dojot_node_label.vernemq*: Label value for VerneMQ, K2V and V2K nodes. Defaults to **vernemq**.
-
+* *dojot_dojot_nodenames*: List of workers nodenames that will be labled with the dojot label.
+* *dojot_kafka_nodenames*: List of workers nodenames that will be labled with the kafka label.
+* *dojot_x509_nodenames*: List of workers nodenames that will be labled with the x509 label.
+* *dojot_vernemq_nodenames*: List of workers nodenames that will be labled with the vernemq label.
+* *dojot_volume_directory*: Defines the base path where volumes will be mapped. Defaults to **/mnt/data**
 
 ### - Zookeeper
 
@@ -35,14 +35,13 @@ before deploying dojot
 * *dojot_zk_server_port*: Port exposed by Zookeeper for server access. Defaults to **2888**.
 * *dojot_zk_election_port*: Port exposed by Zookeeper for cluster election. Defaults to **3888**.
 * *dojot_zk_cluster_size*: Inital cluster size for deploying Zookeeper. Defaults to **1**.
-* *dojot_zk_persistent_volumes*: Defines whether ot not the Zookeeper services will use persistent volumes, this should be supported by the kubernetes setup. Defaults to **false**.
 * *dojot_zk_volume_size*: Size of the persistent volume created for the Zookeeper service. Defaults to **1G**.
 
 ### - PostgreSQL
 
 * *dojot_psql_default_db*: Name of the default database created by postgres. Defaults to **postgres**.
-* *dojot_psql_super_user*: Name of the postgreSQL super user. Defaults to postgres.
-* *dojot_psql_super_passwd*: Password for the PostgreSQL super user. Defaults to postgres.
+* *dojot_psql_super_user*: Name of the postgreSQL super user. Defaults to **postgres**.
+* *dojot_psql_super_passwd*: Password for the PostgreSQL super user. Defaults to **postgres**.
 * *dojot_psql_version*: Version of the PostgreSQL container '*postgresql*' used on this deployment. Defaults to **9.6.11-alpine**.
 * *dojot_psql_kong_user*: Username for accessing the Kong database. Defaults to **kong**.
 * *dojot_psql_kong_passwd*: Password for accessing the Kong database. Defaults to **kong**.
@@ -55,7 +54,6 @@ before deploying dojot
 * *dojot_psql_devm_user*: Username for accessing the devm database. Defaults to **devm**.
 * *dojot_psql_devm_passwd*: Password for accessing the devm database. Defaults to **devm**.
 * *dojot_psql_port*: PostgreSQL port configured for acessing the database by the dojot services. Defaults to **5432**.
-* *dojot_psql_persistent_volumes*: If persistent volumes are supported by your environment this variable should be set to true. Defaults to **false**.
 * *dojot_psql_volume_size*: Size of the persistent volume that will be created for the PostgreSQL volume. Defaults to **2G**.
 
 
@@ -65,7 +63,6 @@ before deploying dojot
 * *dojot_mongodb_super_passwd*: Super user password for accessing MongoDB. Defaults to **mongodb**.
 * *dojot_mongodb_version*: Container version for the mongodb container. Defaults to **3.4**.
 * *dojot_mongodb_port*: MongoDB access port. Defaults to **27017**.
-* *dojot_mongodb_persistent_volumes*: If persistent volumes are supported by your environment this variable should be set to true. Defaults to **false**.
 * *dojot_mongodb_volume_size*: Size of the persistent volume that will be created for the mongoDB volume. Defaults to **2G**.
 
 ### - API Gateway
@@ -74,7 +71,6 @@ before deploying dojot
 * *dojot_internal_https_port*: Defines the internal port that will be exposed for HTTPS traffic by the Kong service. Defaults to **8443**.
 * *dojot_internal_api_config_port*: Defines the internal port for Kong administration tasks. Defaults to **8001**.
 * *dojot_apigw_version*: Version of the api gateway container 'dojot/kong' used by this deployment. Default value **v0.2.1-static**.
-* *dojot_mongodb_persistent_volumes*: Enables the volume for Kong certificates directory, you should configure persistent volumes in your environment for this option to work. Defaults to **false**.
 * *dojot_apigw_volume_size*: Size of the persistent volume that will be created for Kong certificates directory. Defaults to **5Mi**.
 * *dojot_apigw_enable_mutual_tls*: Enables mutual TLS communication. You must enable Kong volumes if this is true. Defaults to **false**.
 
@@ -97,7 +93,6 @@ before deploying dojot
 
 * *dojot_kafka_port*: Kafka port exposed to the services. Defaults to **9092**.
 * *dojot_kafka_cluster_size*: Number of nodes inittialy present on the deployment. Defaults to **1**.
-* *dojot_kafka_persistent_volumes*: Configures whether Kafka should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_kafka_volume_size*: Size of the Kafka volumes that are created. Defaults to **2Gi**.
 
 ### - RabbitMQ
@@ -134,12 +129,13 @@ before deploying dojot
 
 ### - x509 Identity Management
 
-* *dojot_x509_identity_mgmt_persistent_volumes*: Configures whether x509 Identity Management should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_x509_identity_management_volume_size*: Size of the x509 Identity Management volumes that are created. Defaults to **10Mi**.
 * *dojot_psql_ejbca_user*: EJBCA PostgreSQL database user. Defaults to **ejbca**.
 * *dojot_psql_ejbca_passwd*: EJBCA PostgreSQL database password. Defaults to **ejbca**.
 * *dojot_x509_identity_mgmt_version*: Version of the x509 Identity Management container. Defaults to **dojot_version**.
 * *dojot_x509_identity_mgmt_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
+* *dojot_x509_ejbca_version*: Version of the x509 EJBCA container. Defaults to **dojot_version**.
+* *dojot_x509_ejbca_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
 
 ### - Kafka Loopback
 
@@ -173,16 +169,19 @@ before deploying dojot
 ### - Kafka WS
 
 * *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
-* *dojot_kafka_ws_persistent_volumes*: Configures whether Kafka WS should use persistent volumes or not, must be supported by the environment. Defaults to **false**.
 * *dojot_kafka_ws_volume_size*: Size of the Kafka WS volumes that are created. Defaults to **5Mi**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 * *dojot_kafka_ws_port*: Port that will be used by the Kafka WS service. Defaults to **8080**.
 * *dojot_kafka_ws_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 * *dojot_kafka_ws_enable_tls*: Activates the TLS communication. Defaults to **false**.
-* *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
+* *dojot_kafka_ws_ticket_secret*: Kafka WS secret that should be unique for each environment.
+
+### - Certificate ACL
+
+* *dojot_certificate_acl_version*: Version of the Certificate ACL container. Defaults to **dojot_version**.
+* *dojot_certificate_acl_volume_size*: Size of the Certificate ACL volumes that are created. Defaults to **5Mi**.
+* *dojot_certificate_acl_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
-* *dojot_kafka_ws_port*: Port used to access Kafka WS services. Defaults to **8080**.
-* *dojot_kafka_ws_redis_port*: Internally exposed Kafka WS Redis port. Defaults to **6379**.
 
 ### - Metrics
 
@@ -192,22 +191,26 @@ before deploying dojot
 
 ### - Kubernetes Cluster
 
-* *k8s_version*: Version of the Kubernetes cluster. Defaults to *1.17.3-00*.
-* *docker_log_size*: The maximum size of the log before it is rolled. Defaults to *100m*.
+* *k8s_version*: Version of the Kubernetes cluster. Defaults to **1.17.3-00**.
+* *docker_log_size*: The maximum size of the log before it is rolled. Defaults to **20m**.
+* *docker_log_files_amount*: The maximum amount of log files before it is rolled. Defaults to **5**.
 
 ### - HAProxy
 
-* *haproxy_version*: Version of the HAProxy service. Defaults to *2.0*.
+* *haproxy_version*: Version of the HAProxy service. Defaults to **2.0**.
 
 ### - NGINX
 
-* *nginx_version*: Version of the NGINX service. Defaults to *1.19*.
+* *nginx_version*: Version of the NGINX service. Defaults to **1.19**.
 
 ### - Optional Services
 
-* *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to *false*.
-* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to *false*.
-* *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to *false*.
-* *optional[history]*: Defines whether History service will be enabled. Defaults to *true*.
-* *optional[persister]*: Defines whether Persister service will be enabled. Defaults to *true*.
+* *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to **false**.
+* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **false**.
+* *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **false**.
+* *optional[history]*: Defines whether History service will be enabled. Defaults to **true**.
+* *optional[persister]*: Defines whether Persister service will be enabled. Defaults to **true**.
+* *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to **true**.
+* *optional[mosca]*: Defines whether IotAgent Mosca will be enabled. It will only be enabled if IotAgent VerneMQ is disabled. Defaults to **false**.
+* *optional[lwm2m]*: Defines whether IotAgent Lwm2m will be enabled. Defaults to **false**.
 

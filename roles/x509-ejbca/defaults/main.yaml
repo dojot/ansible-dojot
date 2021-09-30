@@ -1,0 +1,5 @@
+dojot_x509_ejbca_version: "{{ dojot_version }}"
+dojot_x509_ejbca_volume_size: 10Mi
+
+dojot_psql_ejbca_user: "ejbca"
+dojot_psql_ejbca_passwd: "ejbca"

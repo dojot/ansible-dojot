@@ -1,0 +1,23 @@
+---
+
+- name: Create Certificate ACL directory if it does not exists
+  become: true
+  file:
+    path: "{{ dojot_volume_directory }}/certificate_acl"
+    state: directory
+  when: (dojot_storage_class_name == "local-storage") and
+        ('dojot_nodes' in group_names)
+
+- name: Create Certificate ACL volume
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'certificate_acl.yaml.j2') | from_yaml }}"
+  when: (dojot_storage_class_name == "local-storage") and
+        ('master_nodes' in group_names)

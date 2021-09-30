@@ -1,0 +1,48 @@
+---
+- name: Label dojot nodes
+  when: dojot_dojot_nodenames|length > 0
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item }}"
+        labels:
+          dojot.components/dojot: "enabled"
+  loop: "{{ dojot_dojot_nodenames if dojot_dojot_nodenames is iterable else [] }}"
+
+- name: Label kafka nodes
+  when: dojot_kafka_nodenames|length > 0
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item }}"
+        labels:
+          dojot.components/kafka: "enabled"
+  loop: "{{ dojot_kafka_nodenames if dojot_kafka_nodenames is iterable else [] }}"
+
+- name: Label x509 nodes
+  when: dojot_x509_nodenames|length > 0
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item }}"
+        labels:
+          dojot.components/x509: "enabled"
+  loop: "{{ dojot_x509_nodenames if dojot_x509_nodenames is iterable else [] }}"
+
+- name: Label vernemq nodes
+  when: dojot_vernemq_nodenames|length > 0
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item }}"
+        labels:
+          dojot.components/vernemq: "enabled"
+  loop: "{{ dojot_vernemq_nodenames if dojot_vernemq_nodenames is iterable else [] }}"

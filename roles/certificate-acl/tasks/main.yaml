@@ -1,0 +1,26 @@
+- name:  dojot - Certificate Acl
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'certificate_acl_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'certificate_acl_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'certificate_acl_redis_statefulset.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'certificate_acl_redis_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - Certificate ACL Persistent Volume Claim
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'certificate_acl_pvc.yaml.j2') | from_yaml }}"

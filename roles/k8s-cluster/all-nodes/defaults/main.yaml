@@ -1,2 +1,5 @@
-k8s_version: 1.17.3-00
-docker_log_size: 100m
+k8s_version: 1.19.8-00
+docker_version: 19.03.14~3-0~ubuntu
+docker_log_size: 20m
+docker_log_files_amount: '5'
+containerd_version: 1.2.13-2

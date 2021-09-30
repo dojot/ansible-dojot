@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv-x509-ejbca
+  labels:
+    type: local
+    app: dojot
+    name: x509-ejbca
+spec:
+  capacity:
+    storage: 10Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ dojot_storage_class_name }}
+  local:
+    path: {{ dojot_volume_directory }}/ejbca
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/x509
+          operator: In
+          values:
+          - "enabled"

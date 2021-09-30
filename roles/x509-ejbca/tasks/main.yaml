@@ -1,0 +1,25 @@
+- name: dojot - x509 EJBCA Objects
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'x509_ejbca_secrets.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'x509_ejbca_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'x509_ejbca_service.yaml.j2') | from_yaml }}"
+
+- name: dojot - x509 EJBCA Persistent Volume Claim
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'x509_ejbca_pvc.yaml.j2') | from_yaml }}"

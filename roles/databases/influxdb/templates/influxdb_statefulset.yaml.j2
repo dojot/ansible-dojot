@@ -26,10 +26,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/group
+              - key: dojot.components/dojot
                 operator: In
                 values:
-                - "{{ dojot_node_label.dojot }}"
+                - "enabled"
 {% endif %}
       containers:
       - image: quay.io/influxdb/influxdb:{{ dojot_influxdb_version }}
@@ -70,11 +70,10 @@ spec:
           initialDelaySeconds: 5
           periodSeconds: 10
           successThreshold: 1
-          timeoutSeconds: 1  
-{% if dojot_influxdb_persistent_volumes %}          
+          timeoutSeconds: 1
         volumeMounts:
           - name: influxdb-volume
-            mountPath: /root/.influxdbv2  
+            mountPath: /root/.influxdbv2
   volumeClaimTemplates:
   - metadata:
       name: influxdb-volume
@@ -88,4 +87,3 @@ spec:
         matchLabels:
           app: dojot
           db: influxdb
-{% endif %}

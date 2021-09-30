@@ -32,7 +32,8 @@ spec:
               fieldPath: metadata.name
         - name: OPERATOR_NAME
           value: vmq-operator
-        image: dojot/vmq-operator-dojot:{{ dojot_verne_operator_version }} 
+        # https://github.com/dojot/vmq-operator/commit/8060622dbdb4a6203feee4d43fd93549a4ad4108
+        image: dojot/vmq-operator-dojot:{{ dojot_verne_operator_version }}
         name: vmq-operator
       nodeSelector:
         beta.kubernetes.io/os: linux

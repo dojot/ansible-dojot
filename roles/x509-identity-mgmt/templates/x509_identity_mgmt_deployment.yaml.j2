@@ -17,54 +17,40 @@ spec:
     spec:
       securityContext:
         fsGroup: 10001
-      hostname: "x509-identity-mgmt"
-      #subdomain: "dojot.iot"
       restartPolicy: Always
       containers:
       - name: x509-identity-mgmt
         image: dojot/x509-identity-mgmt:{{ dojot_x509_identity_mgmt_version  }}
         readinessProbe:
           httpGet:
-            path: /healthcheck
-            port: 3000
+            path: /health
+            port: 9000
           periodSeconds: 20
           timeoutSeconds: 5
         env:
-        - name: DATABASE_JDBC_URL
-          value: "jdbc:postgresql://postgres:5432/ejbca?characterEncoding=UTF-8"
-        - name: DATABASE_USER
-          valueFrom:
-            secretKeyRef:
-              name: x509-identity-mgmt-secret
-              key: user
-        - name: DATABASE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: x509-identity-mgmt-secret
-              key: password
-        - name: EJBCA_PERFORM_DOJOT_SETUP
-          value: "true"
         - name: NODE_ENV
           value: "production"
-        - name: MONGO_URI
-          value: "mongodb://mongodb:27017/x509-identity-mgmt"
-{% if dojot_x509_identity_mgmt_persistent_volumes %}
+        - name: X509IDMGMT_KAFKA_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:9092"
+        - name: X509IDMGMT_KAFKA_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:9092"
+        - name: X509IDMGMT_CERTIFICATE_BELONGSTO_APPLICATION
+          value: "[\"vernemq-k8s\", \"v2k-bridge\", \"k2v-bridge\"]"
         volumeMounts:
         - name: x509-identity-mgmt
-          mountPath: /mnt/persistent
+          mountPath: /opt/tls
       volumes:
       - name: x509-identity-mgmt
         persistentVolumeClaim:
           claimName: x509-identity-mgmt
-{% endif %}
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/group
+              - key: dojot.components/x509
                 operator: In
                 values:
-                - "{{ dojot_node_label.x509 }}"
+                - "enabled"
 {% endif %}

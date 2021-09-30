@@ -1,6 +1,7 @@
 ## This role is responsible for deploying verneMq for dojot
 
 - name: dojot - verneMQ Objects
+  when: optional['vernemq']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
