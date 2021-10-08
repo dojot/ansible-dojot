@@ -2,8 +2,8 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: dojot # cluster’s name
-  region: REGION #change to the AWS region 
+  name: dojot #cluster’s name
+  region: REGION #change to the AWS region
   version: "1.19"
 
 availabilityZones: ["ZONE_1", "ZONE_2", "ZONE_3"] #change to the availability zones (exemple: "us-east-1a", "us-east-1b", "us-east-1c")
@@ -11,8 +11,8 @@ availabilityZones: ["ZONE_1", "ZONE_2", "ZONE_3"] #change to the availability zo
 managedNodeGroups:
   - name: worker
     instanceType: m5.xlarge #change to the EC2 type
-    desiredCapacity: 1 
-    volumeSize: 40 
+    desiredCapacity: 1
+    volumeSize: 40
     ami: ami-0a0b9243cac256a4b
     ssh:
       allow: true
