@@ -21,4 +21,4 @@
   become: true
   pip:
     name: openshift
-    version: 0.7.2
+    version: 0.12.0

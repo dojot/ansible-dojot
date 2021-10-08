@@ -1,0 +1,8 @@
+---
+- hosts: worker_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags: [eks-worker-node]
+  roles:
+    - role: eks-cluster
+    - role: k8s-api-bootstrap
