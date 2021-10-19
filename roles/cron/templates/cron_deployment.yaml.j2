@@ -24,6 +24,12 @@ spec:
         env:
         - name: KAFKA_HOSTS
           value: {{ kafka_host }}
+        - name: CRON_PRODUCER_METADATA_BROKER_LIST
+          value: "{{ kafka_host }}"
+        - name: CRON_CONSUMER_METADATA_BROKER_LIST
+          value: "{{ kafka_host }}"
+        - name: CRON_APP_USER_CONFIG_FILE
+          value: "default.conf"
       restartPolicy: Always
 {% if dojot_enable_node_affinity %}
       affinity:
