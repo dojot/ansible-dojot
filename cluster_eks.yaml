@@ -1,0 +1,22 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: dojot #cluster’s name
+  region: REGION #change to the AWS region
+  version: "1.19"
+
+availabilityZones: ["ZONE_1", "ZONE_2", "ZONE_3"] #change to the availability zones (exemple: "us-east-1a", "us-east-1b", "us-east-1c")
+
+managedNodeGroups:
+  - name: worker
+    instanceType: m5.xlarge #change to the EC2 type
+    desiredCapacity: 1
+    volumeSize: 40
+    ami: ami-0a0b9243cac256a4b
+    ssh:
+      allow: true
+      publicKeyName: KEY_PAIR_EC2  #change to the name of key pair EC2
+    overrideBootstrapCommand: |
+      #!/bin/bash
+      /etc/eks/bootstrap.sh dojot --container-runtime containerd

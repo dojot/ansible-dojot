@@ -4,7 +4,6 @@ metadata:
   name: vernemq-k8s-external-service
   namespace: {{ dojot_namespace }}
 spec:
-  externalTrafficPolicy: Local
   selector:
     vernemq: k8s
   ports:
