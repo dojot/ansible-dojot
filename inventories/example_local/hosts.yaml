@@ -7,6 +7,7 @@ all:
         ansible_python_interpreter: /usr/bin/python3
     worker_host:
         ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
+        ansible_python_interpreter: /usr/bin/python3
     nginx:
         ansible_host: NGINX_HOST_ADDRESS #change to the host of NGINX
     haproxy:
