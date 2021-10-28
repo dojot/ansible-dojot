@@ -129,6 +129,7 @@
     - role: apigw
       tags:
       - 100k
+      - apigw
 
     - role: auth
       tags:
@@ -141,6 +142,8 @@
       - 100k
 
     - role: device-manager
+      tags:
+      - device-manager
 
     - role: history
       tags:
@@ -173,6 +176,8 @@
     - role: data-manager
 
     - role: cron
+      tags:
+      - cron
 
     - role: v2k-bridge
       tags:

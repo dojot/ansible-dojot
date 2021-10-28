@@ -6,9 +6,15 @@
   - volumes
   roles:
     - role: volumes/kong
+      tags:
+      - kong
     - role: volumes/minio
+      tags:
+      - minio
     - role: volumes/mongodb
     - role: volumes/postgres
+      tags:
+      - postgresql
     - role: volumes/prometheus
     - role: volumes/kafka-ws
     - role: volumes/influxdb
@@ -39,9 +45,15 @@
   - volumes
   roles:
     - role: volumes/kong
+      tags:
+      - kong
     - role: volumes/minio
+      tags:
+      - minio
     - role: volumes/mongodb
     - role: volumes/postgres
+      tags:
+      - postgresql
     - role: volumes/prometheus
     - role: volumes/kafka-ws
     - role: volumes/kafka
