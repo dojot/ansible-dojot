@@ -102,6 +102,7 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
+  - vernemq
   - 100k
   roles:
     - role: vernemq
@@ -125,20 +126,26 @@
   roles:
 
     - role: image-manager
+      tags:
+      - image-manager
 
     - role: apigw
       tags:
-      - 100k
       - apigw
+      - 100k
 
     - role: auth
       tags:
+      - auth
       - 100k
 
     - role: backstage
+      tags:
+      - backstage
 
     - role: data-broker
       tags:
+      - data-broker
       - 100k
 
     - role: device-manager
@@ -164,16 +171,28 @@
       - 100k
 
     - role: gui
+      tags:
+      - gui
 
     - role: gui-v2
+      tags:
+      - gui-v2
 
     - role: iotagent-mosca
+      tags:
+      - iotagent-mosca
 
     - role: iotagent-lwm2m
+      tags:
+      - iotagent-lwm2m
 
     - role: flowbroker
+      tags:
+      - flowbroker
 
     - role: data-manager
+      tags:
+      - data-manager
 
     - role: cron
       tags:
@@ -181,35 +200,45 @@
 
     - role: v2k-bridge
       tags:
+      - v2k-bridge
       - 100k
 
     - role: k2v-bridge
       tags:
+      - k2v-bridge
       - 100k
 
     - role: kafka2ftp
+      tags:
+      - kafka2ftp
 
     - role: kafka-loopback
       tags:
+      - kafka-loopback
       - never
       - 100k
 
     - role: kafka-ws
       tags:
+      - kafka-ws
       - 100k
 
     - role: x509-identity-mgmt
       tags:
+      - x509-identity-mgmt
       - 100k
 
     - role: x509-ejbca
       tags:
+      - x509-ejbca
       - 100k
 
     - role: certificate-acl
       tags:
+      - certificate-acl
       - 100k
 
     - role: http-agent
       tags:
+      - http-agent
       - 100k

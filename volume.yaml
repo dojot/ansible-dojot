@@ -12,13 +12,23 @@
       tags:
       - minio
     - role: volumes/mongodb
+      tags:
+      - mongodb
     - role: volumes/postgres
       tags:
       - postgresql
     - role: volumes/prometheus
+      tags:
+      - prometheus
     - role: volumes/kafka-ws
+      tags:
+      - kafka-ws
     - role: volumes/influxdb
+      tags:
+      - influxdb
     - role: volumes/certificate-acl
+      tags:
+      - certificate-acl
 
 - hosts: kafka_nodes
   gather_facts: true
@@ -27,7 +37,11 @@
   - volumes
   roles:
     - role: volumes/kafka
+      tags:
+      - kafka
     - role: volumes/zookeeper
+      tags:
+      - zookeeper
 
 - hosts: x509_nodes
   gather_facts: true
@@ -36,7 +50,11 @@
   - volumes
   roles:
     - role: volumes/x509-ejbca
+      tags:
+      - x509-ejbca
     - role: volumes/x509-identity-mgmt
+      tags:
+      - x509-identity-mgmt
 
 - hosts: master_nodes
   gather_facts: true
@@ -51,14 +69,32 @@
       tags:
       - minio
     - role: volumes/mongodb
+      tags:
+      - mongodb
     - role: volumes/postgres
       tags:
       - postgresql
     - role: volumes/prometheus
+      tags:
+      - prometheus
     - role: volumes/kafka-ws
+      tags:
+      - kafka-ws
     - role: volumes/kafka
+      tags:
+      - kafka
     - role: volumes/zookeeper
+      tags:
+      - zookeeper
     - role: volumes/x509-ejbca
+      tags:
+      - x509-ejbca
     - role: volumes/x509-identity-mgmt
+      tags:
+      - x509-identity-mgmt
     - role: volumes/influxdb
+      tags:
+      - influxdb
     - role: volumes/certificate-acl
+      tags:
+      - certificate-acl
