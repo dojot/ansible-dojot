@@ -31,10 +31,10 @@ spec:
       containers:
       - name: minio
         env:
-        - name: MINIO_ACCESS_KEY
-          value: {{ dojot_minio_access_key }}
-        - name: MINIO_SECRET_KEY
-          value: {{ dojot_minio_secret_key }}
+        - name: MINIO_ACCESS_KEY_FILE
+          value: MINIO_ACCESS_KEY
+        - name: MINIO_SECRET_KEY_FILE
+          value: MINIO_SECRET_KEY
         image: dojot/minio:{{ dojot_minio_version }}
         args:
         - server
