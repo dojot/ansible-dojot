@@ -38,6 +38,7 @@
   tags:
   - volumes
   roles:
+    - role: volumes/storageclass
     - role: volumes/kong
     - role: volumes/minio
     - role: volumes/mongodb

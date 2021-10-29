@@ -3,8 +3,8 @@ kind: PersistentVolume
 metadata:
   name: local-pv-prometheus
   labels:
-    type: local
-    db: prometheus
+    app: prometheus
+    prometheus: k8s
 spec:
   capacity:
     storage: 2Gi
