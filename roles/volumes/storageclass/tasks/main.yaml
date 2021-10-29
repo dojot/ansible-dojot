@@ -5,7 +5,7 @@
     definition: "{{ item }}"
   register: result
   until: result.failed == 0
-  retries: 3
+  retries: 30
   delay: 10
   loop:
   - "{{ lookup('template', 'storageclass.yaml.j2') | from_yaml }}"
