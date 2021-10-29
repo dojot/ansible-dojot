@@ -62,6 +62,7 @@
   tags:
   - volumes
   roles:
+    - role: volumes/storageclass
     - role: volumes/kong
       tags:
       - kong
