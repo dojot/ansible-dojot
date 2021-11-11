@@ -9,8 +9,8 @@ server {
     listen 443 ssl;
     listen [::]:443 ssl;
 
-    ssl_certificate /etc/letsencrypt/live/{{ certbot_certs_domain }}/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/{{ certbot_certs_domain }}/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/{{ dojot_certbot_certs_domain }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ dojot_certbot_certs_domain }}/privkey.pem;
 
     ssl_protocols TLSv1.2 TLSv1.1 TLSv1;
     ssl_prefer_server_ciphers on;

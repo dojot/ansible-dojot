@@ -22,8 +22,8 @@ certbot_create_method: webroot
 certbot_create_command: >-
   {{ certbot_script }} certonly --webroot --agree-tos --no-eff-email
   --webroot-path=/etc/letsencrypt/data
-  --email {{ certbot_admin_email }}
-  -d {{ certbot_certs_domain }}
+  --email {{ dojot_certbot_admin_email }}
+  -d {{ dojot_certbot_certs_domain }}
 
 certbot_services:
   - nginx

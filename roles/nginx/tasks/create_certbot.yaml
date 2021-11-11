@@ -44,7 +44,7 @@
 - name: Check if certificate already exists.
   become: yes
   stat:
-    path: /etc/letsencrypt/live/{{ certbot_certs_domain }}/cert.pem
+    path: /etc/letsencrypt/live/{{ dojot_certbot_certs_domain }}/cert.pem
   register: letsencrypt_cert
 
 

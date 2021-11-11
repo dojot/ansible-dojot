@@ -31,10 +31,10 @@
     mode: 0644
 
 - include_tasks: create_certbot.yaml
-  when: enable_https_nginx == true
+  when: dojot_enable_https_nginx
 
 - include_tasks: config_https.yaml
-  when: enable_https_nginx == true
+  when: dojot_enable_https_nginx
 
 - name: Delete default http config file
   become: yes

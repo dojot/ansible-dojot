@@ -1,7 +1,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name {{ certbot_certs_domain }};
+    server_name {{ dojot_certbot_certs_domain }};
 
     location ~ /.well-known/acme-challenge {
         allow all;
