@@ -3,6 +3,12 @@ dojot_namespace: dojot
 dojot_version: development
 dojot_domain_name: localhost
 
+# Parameters used when active HTTPS in NGINX
+# If enable_https_nginx = true, is necessary IP public and domain in NGINX server
+enable_https_nginx: true
+certbot_admin_email: daniela@cpqd.com.br
+certbot_certs_domain: moe.dojot.com.br
+
 # Set Kubernetes RBAC
 dojot_kubernetes_rbac: true
 
