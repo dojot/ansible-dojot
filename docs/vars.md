@@ -29,9 +29,9 @@ before deploying dojot
 * *dojot_vernemq_nodenames*: List of workers nodenames that will be labled with the vernemq label.
 * *dojot_volume_directory*: Defines the base path where volumes will be mapped. Defaults to **/mnt/data**
 
-* *enable_https_nginx*: Active HTTPS in NGINX. If enable_https_nginx = true, is necessary IP public and domain in NGINX server. Defaults to **false**
-* *certbot_admin_email*: Certbot admin email.
-* *certbot_admin_email*: Certbot certs domain
+* *dojot_enable_https_nginx*: Active HTTPS in NGINX. If enable_https_nginx = true, is necessary IP public and domain in NGINX server. Defaults to **false**
+* *dojot_certbot_admin_email*: Certbot admin email.
+* *dojot_certbot_certs_domain*: Certbot certs domain
 
 
 ### - Zookeeper
