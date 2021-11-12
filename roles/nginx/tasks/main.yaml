@@ -30,6 +30,12 @@
     group: root
     mode: 0644
 
+- include_tasks: create_certbot.yaml
+  when: dojot_enable_https_nginx
+
+- include_tasks: config_https.yaml
+  when: dojot_enable_https_nginx
+
 - name: Delete default http config file
   become: yes
   file:
@@ -41,7 +47,6 @@
   file:
     path: /etc/nginx/stream-conf.d
     state: directory
-
 
 - name: Copy stream config files
   become: yes

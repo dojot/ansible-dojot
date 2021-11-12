@@ -1,0 +1,12 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name {{ dojot_certbot_certs_domain }};
+
+    location ~ /.well-known/acme-challenge {
+        allow all;
+        root /etc/letsencrypt/data;
+    }
+
+    root /etc/letsencrypt/data;
+}

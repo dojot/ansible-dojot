@@ -1,0 +1,31 @@
+---
+
+- name: Delete default http config file
+  become: yes
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+
+- name: Creates stream directory
+  become: yes
+  file:
+    path: /etc/nginx/stream-conf.d
+    state: directory
+
+- name: Copy stream config files - https
+  become: yes
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/nginx/stream-conf.d/dojot_{{ item }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - apigw_https
+
+- name: restart nginx
+  become: yes
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
