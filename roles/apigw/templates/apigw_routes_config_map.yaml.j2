@@ -186,3 +186,13 @@ data:
         addAuthToEndpoint "backstage_graphql"
 
         echo "API Gateway Paths configured"
+
+        echo ""
+        echo ""
+        echo "- add global correlation-id plugin"
+        curl  -s  -sS -X POST \
+            --url ${kong}/plugins/ \
+            --data "name=correlation-id" \
+            --data "config.header_name=X-Request-Id" \
+            --data "config.generator=uuid" \
+            --data "config.echo_downstream=false"
