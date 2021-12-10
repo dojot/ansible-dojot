@@ -6,3 +6,13 @@ Pipfile*
 
 # Ansible retry files
 *.retry
+
+# Python virtual environment files
+bin/
+lib/
+lib64
+pyvenv.cfg
+
+# Ignore ansible collections files
+collections/*
+!collections/requirements.yml
