@@ -1,14 +1,14 @@
 # Namespace that will be created for monitoring stack deployment
 dojot_monitoring_namespace: dojot-monitoring
 
-# Install Helm3 binary? True or False
+# Whether to install helm3 binary or not
 dojot_helm_install: true
 
 # Helm version number
 dojot_helm_version: '3.7.2'
 
 # The OS of the Helm redistributable
-helm_os: 'linux'
+dojot_helm_os: 'linux'
 
 # The CPU architecture of the Helm executable to install
 dojot_helm_architecture: 'amd64'
