@@ -5,6 +5,7 @@ optional:
   influxdb: false
   influxdb_storer: false #It will only be enabled if InfluxDB is enabled as well
   influxdb_retriever: false #It will only be enabled if InfluxDB is enabled as well
+  influxdb_chronograf: false #It will only be enabled if InfluxDB is enabled as well
   #MongoDB Services
   history: true
   persister: true

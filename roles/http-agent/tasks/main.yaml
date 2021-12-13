@@ -13,3 +13,5 @@
   - "{{ lookup('template', 'http_agent_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'http_agent_external_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'http_agent_cluster.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'http_agent_redis_statefulset.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'http_agent_redis_service.yaml.j2') | from_yaml }}"

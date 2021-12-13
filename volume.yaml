@@ -96,6 +96,9 @@
     - role: volumes/influxdb
       tags:
       - influxdb
+    - role: volumes/influxdb-chronograf
+      tags:
+      - influxdb-chronograf
     - role: volumes/certificate-acl
       tags:
       - certificate-acl

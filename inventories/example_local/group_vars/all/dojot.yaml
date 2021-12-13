@@ -57,6 +57,7 @@ dojot_nodeports:
   agent:
     https: 30011
   minio: 30012
+  influxdb: 30013
 
 
 
