@@ -1,4 +1,4 @@
-- name: Metrics
+- name: Metrics | Deploy prometheus, node_exporter, kube-state-metrics (KSM) and grafana
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
@@ -46,7 +46,7 @@
     - "templates/z_kube-state-metrics-serviceMonitor.yaml"
     - "templates/z_node-exporter-serviceMonitor.yaml"
 
-- name: Metrics - Ansible parameterized files
+- name: Metrics | Ansible parameterized files
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
@@ -62,7 +62,7 @@
   - "{{ lookup('template', 'kube-state-metrics-deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'prometheus-servicelprometheus.yaml.j2') | from_yaml }}"
 
-- name: Metrics - Locust
+- name: Metrics | Locust | Enable locust monitoring
   when: dojot_enable_locust_exporter
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
@@ -77,19 +77,15 @@
   - "{{ lookup('template', 'locust/service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'locust/serviceMonitor.yaml.j2') | from_yaml }}"
 
-- name: Metrics | Loki | Add grafana helm repo.
-  kubernetes.core.helm:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
-    name: grafana
-    repo_url: "https://grafana.github.io/helm-charts"
+# - name: Metrics | Helm | Include helm tasks
+#   include_tasks: helm.yml
+#   when: helm_install | bool
+#   tags: helm
 
-- name: Metrics | Loki | Deploy Loki chart with values loaded from template.
-  kubernetes.core.helm:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
-    name: grafana
-    chart_ref: grafana/loki
-    chart_version: 2.8.1
-    release_namespace: dojot-monitoring
-    update_repo_cache: yes
-    values: "{{ lookup('template', 'loki-values.yaml') | from_yaml }}"
-  
+- name: Metrics | Loki | Include loki tasks
+  include_tasks: loki.yml
+  tags: loki
+
+- name: Metrics | Promtail | Include promtail tasks
+  include_tasks: promtail.yml
+  tags: promtail

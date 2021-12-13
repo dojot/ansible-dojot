@@ -1,0 +1,14 @@
+- name: Metrics | Loki | Add grafana helm repository
+  kubernetes.core.helm_repository:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    name: grafana
+    repo_url: "https://grafana.github.io/helm-charts"
+
+- name: Metrics | Loki | Deploy Loki chart with values loaded from template
+  kubernetes.core.helm:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    chart_ref: grafana/loki
+    chart_version: 2.8.1
+    release_name: loki
+    release_namespace: "{{ dojot_monitoring_namespace }}"
+    release_values: "{{ lookup('template', 'loki/loki-values.yml.j2') | from_yaml }}"
