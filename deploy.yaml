@@ -170,6 +170,11 @@
       - influxdb-retriever
       - 100k
 
+    - role: influxdb-chronograf
+      tags:
+      - influxdb-chronograf
+      - 100k
+
     - role: gui
       tags:
       - gui

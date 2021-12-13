@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: http-agent-redis
+  name: http-agent-redis
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_http_agent_redis_port }}
+    targetPort: {{ dojot_http_agent_redis_port }}
+    name: http-agent-redis
+  selector:
+    name: http-agent-redis
+    app: dojot

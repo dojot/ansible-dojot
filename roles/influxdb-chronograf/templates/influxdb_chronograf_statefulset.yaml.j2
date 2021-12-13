@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    name: influxdb-chronograf
+    app: dojot
+  name: influxdb-chronograf
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: influxdb-chronograf
+  template:
+    metadata:
+      labels:
+        name: influxdb-chronograf
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: chronograf:{{ dojot_influxdb_chronograf_version }}
+        name: influxdb-chronograf
+        env:
+        - name: INFLUXDB_URL
+          value: http://influxdb:8086
+        - name: INFLUXDB_USERNAME
+          value: admin
+        - name: INFLUXDB_PASSWORD
+          value: admin
+      ports:
+        - 127.0.0.1:8888:8888
+      volumeMounts:
+          - name: influxdb-chronograf-volume
+            mountPath: /var/lib/chronograf
+  volumeClaimTemplates:
+  - metadata:
+      name: influxdb-chronograf-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_influxdb_chronograf_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          db: influxdb-chronograf-volume
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

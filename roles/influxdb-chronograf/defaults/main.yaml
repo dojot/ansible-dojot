@@ -1,0 +1,5 @@
+dojot_influxdb_chronograf_version: "1.9.1"
+dojot_influxdb_chronograf_log_level: info
+
+dojot_influxdb_chronograf_volume_size: 2Gi
+
