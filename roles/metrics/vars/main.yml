@@ -1,5 +1,5 @@
-# The OS of the Helm redistributable
-helm_os: 'linux'
+# Directory to store files downloaded for Helm
+dojot_helm_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
 
 # File name of the Helm redistributable file
-helm_redistributable_filename: 'helm-v{{ helm_version }}-{{ helm_os }}-{{ helm_architecture }}.tar.gz'
+dojot_helm_redistributable_filename: 'helm-v{{ helm_version }}-{{ helm_os }}-{{ helm_architecture }}.tar.gz'

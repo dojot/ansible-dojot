@@ -56,11 +56,11 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', '0prometheus-operator-deployment.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'grafana-deployment.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'grafana-external-service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'kube-state-metrics-deployment.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'prometheus-servicelprometheus.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', '0prometheus-operator-deployment.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'grafana-deployment.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'grafana-external-service.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'kube-state-metrics-deployment.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'prometheus-servicelprometheus.yaml.j2') | from_yaml }}"
 
 - name: Metrics | Locust | Enable locust monitoring
   when: dojot_enable_locust_exporter
@@ -73,14 +73,14 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'locust/endpoint.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'locust/service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'locust/serviceMonitor.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'locust/endpoint.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'locust/service.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'locust/serviceMonitor.yaml.j2') | from_yaml }}"
 
-# - name: Metrics | Helm | Include helm tasks
-#   include_tasks: helm.yml
-#   when: helm_install | bool
-#   tags: helm
+- name: Metrics | Helm | Include helm tasks
+  include_tasks: helm.yml
+  when: dojot_helm_install | bool
+  tags: helm
 
 - name: Metrics | Loki | Include loki tasks
   include_tasks: loki.yml

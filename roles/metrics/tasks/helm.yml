@@ -2,25 +2,25 @@
   file:
     state: directory
     mode: 'u=rwx,go=x'
-    dest: '{{ helm_download_dir }}'
+    dest: '{{ dojot_dojot_helm_download_dir }}'
 
 - name: Metrics | Helm | Download sha256sum file
   get_url:
-    url: '{{ helm_mirror }}/{{ helm_redistributable_filename }}.sha256sum'
-    dest: '{{ helm_download_dir }}/{{ helm_redistributable_filename }}.sha256sum'
+    url: '{{ dojot_dojot_helm_mirror }}/{{ dojot_dojot_helm_redistributable_filename }}.sha256sum'
+    dest: '{{ dojot_dojot_helm_download_dir }}/{{ dojot_dojot_helm_redistributable_filename }}.sha256sum'
     force: no
     validate_certs: yes
     mode: 'u=rw,go=r'
 
 - name: Metrics | Helm | Read sha256sum file
   slurp:
-    src: '{{ helm_download_dir }}/{{ helm_redistributable_filename }}.sha256sum'
+    src: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256sum'
   register: helm_sha256sum
 
 - name: Metrics | Helm | Download Helm
   get_url:
-    url: '{{ helm_mirror }}/{{ helm_redistributable_filename }}'
-    dest: '{{ helm_download_dir }}/{{ helm_redistributable_filename }}'
+    url: '{{ dojot_helm_mirror }}/{{ dojot_helm_redistributable_filename }}'
+    dest: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}'
     sha256sum: '{{ helm_sha256sum.content | b64decode | trim }}'
     force: no
     valiadate_certs: yes
@@ -33,25 +33,25 @@
     owner: root
     group: root
     mode: 'u=rwx,go=x'
-    dest: '{{ helm_install_dir }}'
+    dest: '{{ dojot_helm_install_dir }}'
 
 - name: Metrics | Helm | Install Helm
   become: yes
   unarchive:
-    src: '{{ helm_download_dir }}/{{ helm_redistributable_filename }}'
+    src: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}'
     remote_src: yes
-    dest: '{{ helm_install_dir }}'
+    dest: '{{ dojot_helm_install_dir }}'
     extra_opts:
       - '--strip-components=1'
     owner: root
     group: root
     mode: 'o-w'
-    creates: '{{ helm_install_dir }}/helm'
+    creates: '{{ dojot_helm_install_dir }}/helm'
 
 - name: Metrics | Helm | Create Helm symlink to OS path
   become: yes
   file:
-    src: '{{ helm_install_dir }}/helm'
+    src: '{{ dojot_helm_install_dir }}/helm'
     dest: '/usr/local/bin/helm'
     state: link
     owner: root
