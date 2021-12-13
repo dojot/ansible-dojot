@@ -189,11 +189,18 @@ before deploying dojot
 * *dojot_http_agent_port*: Port that will be used to communicate with HTTP Agent. Defaults to **8080**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
-### - Metrics
+### - Metrics and Logging
 
 * *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.
 * *dojot_locust_exporter.ip*: IP or hostname where there is a Locust Exporter running. Defaults to **127.0.0.1**.
 * *dojot_locust_exporter.port*: Port exposed by Locust Exporter. Defaults to **9646**.
+* *dojot_monitoring_namespace*: Namespace that will be created for monitoring stack deployment. Defaults to **dojot-monitoring**.
+* *dojot_helm_install*: Whether to install helm3 binary or not. Defaults to **true**.
+* *dojot_helm_version*: Helm version number. Defaults to **3.7.2**.
+* *dojot_helm_os*: The OS of the Helm redistributable. Defaults to **linux**.
+* *dojot_helm_architecture*: The CPU architecture of the Helm executable to install. Defaults to *amd64*.
+* *dojot_helm_mirror*: Mirror to download Helm from. Defaults to **https://get.helm.sh**.
+* *dojot_helm_install_dir*: Directory where Helm should be installed. Defaults to **/usr/local/share/helm**.
 
 ### - Kubernetes Cluster
 
