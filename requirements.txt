@@ -1,2 +1,1 @@
 ansible >= 2.9.17
-openshift >= 0.12.1
