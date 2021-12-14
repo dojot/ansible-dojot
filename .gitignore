@@ -10,6 +10,8 @@ Pipfile*
 # Python virtual environment files
 bin/
 lib/
+README/
+share/
 lib64
 pyvenv.cfg
 
