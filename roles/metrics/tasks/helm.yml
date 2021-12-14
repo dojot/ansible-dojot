@@ -2,12 +2,12 @@
   file:
     state: directory
     mode: 'u=rwx,go=x'
-    dest: '{{ dojot_dojot_helm_download_dir }}'
+    dest: '{{ dojot_helm_download_dir }}'
 
 - name: Metrics | Helm | Download sha256sum file
   get_url:
-    url: '{{ dojot_dojot_helm_mirror }}/{{ dojot_dojot_helm_redistributable_filename }}.sha256sum'
-    dest: '{{ dojot_dojot_helm_download_dir }}/{{ dojot_dojot_helm_redistributable_filename }}.sha256sum'
+    url: '{{ dojot_helm_mirror }}/{{ dojot_helm_redistributable_filename }}.sha256sum'
+    dest: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256sum'
     force: no
     validate_certs: yes
     mode: 'u=rw,go=r'
