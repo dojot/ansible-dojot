@@ -1,6 +1,5 @@
 - name: Metrics | Loki | Add grafana helm repository
   kubernetes.core.helm_repository:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     name: grafana
     repo_url: "https://grafana.github.io/helm-charts"
 

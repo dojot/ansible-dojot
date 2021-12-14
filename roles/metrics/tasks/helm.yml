@@ -6,15 +6,15 @@
 
 - name: Metrics | Helm | Download sha256sum file
   get_url:
-    url: '{{ dojot_helm_mirror }}/{{ dojot_helm_redistributable_filename }}.sha256sum'
-    dest: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256sum'
+    url: '{{ dojot_helm_mirror }}/{{ dojot_helm_redistributable_filename }}.sha256'
+    dest: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256'
     force: no
     validate_certs: yes
     mode: 'u=rw,go=r'
 
 - name: Metrics | Helm | Read sha256sum file
   slurp:
-    src: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256sum'
+    src: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256'
   register: helm_sha256sum
 
 - name: Metrics | Helm | Download Helm
