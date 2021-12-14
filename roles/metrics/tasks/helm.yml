@@ -23,7 +23,7 @@
     dest: '{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}'
     sha256sum: '{{ helm_sha256sum.content | b64decode | trim }}'
     force: no
-    valiadate_certs: yes
+    validate_certs: yes
     mode: 'u=rw,go=r'
 
 - name: Metrics | Helm | Create the Helm installation directory
