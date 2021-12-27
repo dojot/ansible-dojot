@@ -3,6 +3,12 @@ dojot_namespace: dojot
 dojot_version: development
 dojot_domain_name: localhost
 
+# Parameters used when active HTTPS in NGINX
+# If dojot_enable_https_nginx = true, is necessary public IP and domain in NGINX server
+dojot_enable_https_nginx: false
+dojot_certbot_admin_email: email@example.com
+dojot_certbot_certs_domain: example.com
+
 # Set Kubernetes RBAC
 dojot_kubernetes_rbac: true
 
@@ -50,6 +56,9 @@ dojot_nodeports:
     http: 30010
   agent:
     https: 30011
+  minio: 30012
+  influxdb: 30013
+
 
 
 ## Node affinity

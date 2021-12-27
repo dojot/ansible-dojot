@@ -11,3 +11,7 @@ dojot_influxdb_bucket: devices
 # Valid units are nanoseconds (ns), microseconds (us or µs), milliseconds (ms), seconds (s), minutes (m), hours (h), days (d),  weeks (w) and 0 is infinite retention
 dojot_influxdb_retention: 7d
 dojot_influxdb_volume_size: 2Gi
+
+# User Interface WEB
+dojot_influxdb_cronograf_user: admin_dojot
+dojot_influxdb_cronograf_passwd: admin@dojot

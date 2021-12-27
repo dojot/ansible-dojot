@@ -29,6 +29,11 @@ before deploying dojot
 * *dojot_vernemq_nodenames*: List of workers nodenames that will be labled with the vernemq label.
 * *dojot_volume_directory*: Defines the base path where volumes will be mapped. Defaults to **/mnt/data**
 
+* *dojot_enable_https_nginx*: Active HTTPS in NGINX. If enable_https_nginx = true, is necessary IP public and domain in NGINX server. Defaults to **false**
+* *dojot_certbot_admin_email*: Certbot admin email.
+* *dojot_certbot_certs_domain*: Certbot certs domain
+
+
 ### - Zookeeper
 
 * *dojot_zk_client_port*: Port exposed by Zookeeper for client access. Defaults to **2181**.
@@ -215,6 +220,24 @@ before deploying dojot
 ### - NGINX
 
 * *nginx_version*: Version of the NGINX service. Defaults to **1.19**.
+
+### - Certbot
+
+* *certbot_auto_renew*: Auto renew Certbot. Defaults to **true**.
+* *certbot_auto_renew_user*: Auto renew Certbot User
+* *certbot_auto_renew_hour*: Auto renew Certbot Hour. Defaults to **3**.
+* *certbot_auto_renew_minute*: Auto renew Certbot Minute. Defaults to **30**.
+* *certbot_auto_renew_options*: Auto renew Certbot Options. Defaults to **renew --quiet --webroot -w /data/letsencrypt**.
+* *certbot_create_if_missing*: Certbot Option when creating new certs. Defaults to **false**.
+* *certbot_create_method*: Certbot certs Method. Defaults to **webroot**.
+* *certbot_create_command*: Certbot command.
+* *certbot_services*: Certbot service. Defaults to **nginx**.
+* *certbot_install_method*: Certbot install method. Defaults to **package**.
+* *certbot_repo*: Certbot repo. Defaults to **https://github.com/certbot/certbot.git**.
+* *certbot_version*: Certbot version. Defaults to **master**.
+* *certbot_keep_updated*: Certbot updated. Defaults to **false**.
+* *certbot_package*: Certbot package. Defaults to **letsencrypt**.
+* *certbot_dir*: Certbot install directory. Defaults to **/opt/certbot**.
 
 ### - Optional Services
 

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    name: http-agent-redis
+    app: dojot
+  name: http-agent-redis
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: http-agent-redis
+  template:
+    metadata:
+      labels:
+        name: http-agent-redis
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/redis:6.0.4-alpine3.11
+        name: http-agent-redis
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}
