@@ -1,0 +1,32 @@
+affinity:
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: dojot.components/dojot
+        operator: In
+        values:
+        - enabled
+
+extraArgs:
+  log.level: info
+
+persistence:
+  enabled: true
+  accessModes:
+  - ReadWriteOnce
+  size: 10Gi
+  storageClassName: {{ dojot_storage_class_name }}
+
+replicas: 1
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+serviceMonitor:
+  enabled: true

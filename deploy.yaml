@@ -26,7 +26,7 @@
   roles:
     - role: minio
 
-# Metrics (Prometheus, Grafana, Node Exporter)
+# Metrics (Prometheus, Grafana, Loki, Promtail and Node Exporter)
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:

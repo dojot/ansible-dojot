@@ -1,0 +1,14 @@
+# - name: Metrics | Promtail | Add grafana helm repository
+#   kubernetes.core.helm_repository:
+#     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+#     name: grafana
+#     repo_url: "https://grafana.github.io/helm-charts"
+
+- name: Metrics | Promtail | Deploy Promtail chart with values loaded from template
+  kubernetes.core.helm:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    chart_ref: grafana/promtail
+    chart_version: 3.9.1
+    release_name: promtail
+    release_namespace: "{{ dojot_monitoring_namespace }}"
+    release_values: "{{ lookup('template', 'promtail/promtail-values.yml.j2') | from_yaml }}"
