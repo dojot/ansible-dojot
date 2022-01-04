@@ -1,3 +1,5 @@
+---
+# roles/metrics/tasks/main.yml
 - name: Metrics | Deploy prometheus, node_exporter, kube-state-metrics (KSM) and grafana
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
