@@ -1,0 +1,16 @@
+---
+# roles/velero/tasks/main.yml
+- name: Velero | Install velero binary
+  include_tasks:
+    file: binary.yml
+    apply:
+      tags: binary
+  tags: binay
+  when: velero_binary_install | bool
+
+- name: Velero | Install velero from Helm Charts
+  include_tasks:
+    file: deploy.yml
+    apply:
+      tags: deploy
+  tags: deploy

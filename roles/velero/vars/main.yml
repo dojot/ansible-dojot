@@ -1,0 +1,6 @@
+---
+# Directory to store files downloaded
+velero_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
+
+# Filename of the Velero redistributable file
+velero_redistributable_filename: "https://github.com/vmware-tanzu/velero/releases/download/v{{ velero_version }}/velero-v{{ velero_version }}-linux-amd64.tar.gz"

@@ -1,0 +1,38 @@
+---
+# Whether to install helm3 binary or not.
+velero_binary_install: false
+
+# Velero version number.
+velero_version: 1.7.1
+
+# Namespace that will be created for velero deployment.
+velero_namespace: velero
+
+# S3URL region. Defaults to 'minio'.
+velero_storage_region: minio
+
+# S3URL URL connection.
+velero_storage_s3url: http://minio.minio.svc.cluster.local:9000
+
+# S3URL access key (e.g. MINIO_ROOT_USER).
+velero_aws_access_key: ''
+
+# S3URL secret key (e.g. MINIO_ROOT_PASSWORD).
+velero_aws_secret_key: ''
+
+# S3URL bucket name created to velero.
+velero_bucket_name: velero
+
+# Backups settings.
+velero_backup_namespaces:
+  - namespace: dojot
+    disabled: false
+    cron_expression: "0 */1 * * *"
+    ttl: "24h"
+  - namespace: dojot-monitoring
+    disabled: false
+    cron_expression: "0 */1 * * *"
+    ttl: "24h"
+
+# Whether active the monitoring. Must have Prometheus Operator installed and working.
+velero_prometheus_monitoring: true
