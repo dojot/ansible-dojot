@@ -1,0 +1,46 @@
+- name: Velero | Create download directory
+  ansible.builtin.file:
+    state: directory
+    mode: 'u=rwx,go=x'
+    dest: '{{ velero_download_dir }}'
+
+- name: Velero | Download binary
+  ansible.builtin.get_url:
+    url: '{{ velero_binary_mirror }}/{{ velero_redistributable_filename }}'
+    dest: '{{ velero_download_dir }}/{{ velero_redistributable_filename }}'
+    force: no
+    validate_certs: yes
+    mode: 'u=rw,go=r'
+
+- name: Velero | Create the binary installation directory
+  become: yes
+  ansible.builtin.file:
+    state: directory
+    owner: root
+    group: root
+    mode: 'u=rwx,go=x'
+    dest: '{{ velero_download_dir }}'
+
+- name: Velero | Install binary
+  become: yes
+  ansible.builtin.unarchive:
+    src: '{{ velero_download_dir }}/{{ velero_redistributable_filename }}'
+    remote_src: yes
+    dest: '{{ velero_download_dir }}'
+    extra_opts:
+      - '--strip-components=1'
+    owner: root
+    group: root
+    mode: 'o-w'
+    creates: '{{ velero_download_dir }}/velero'
+
+- name: Velero | Create binary symlink to OS path
+  become: yes
+  ansible.builtin.file:
+    #src: '{{ velero_download_dir }}/velero-v{{ velero_version }}-linux-amd64/velero'
+    src: '{{ velero_download_dir }}/velero'
+    dest: '/usr/local/bin/velero'
+    state: link
+    owner: root
+    group: root
+    mode: 'u=rwx,go=rx'
