@@ -57,6 +57,8 @@ spec:
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: HTTP_AGENT_APP_USER_CONFIG_FILE
           value: "default.conf"
+        - name: HTTP_AGENT_HTTPS_CA
+          value: /certs/cabundle.crt
         volumeMounts:
         - mountPath: /certs
           name: http-agent-certs
