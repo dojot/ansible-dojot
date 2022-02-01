@@ -1,0 +1,18 @@
+---
+
+# roles/grafana/tasks/deploy.yml
+- name: Add Grafana chart repo
+  kubernetes.core.helm_repository:
+    name: grafana
+    repo_url: "https://grafana.github.io/helm-charts"
+
+- name: Deploy Grafana chart on 6.20.7 with values loaded from template
+  kubernetes.core.helm:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    chart_ref: grafana/grafana
+    chart_version: 6.20.7
+    release_name: grafana
+    #create_namespace: yes
+    release_namespace: "{{ dojot_monitoring_namespace }}" #dojot-monitoring
+    values: "{{ lookup('template', 'grafana-values.yaml.j2') | from_yaml }}"
+tags: deploy

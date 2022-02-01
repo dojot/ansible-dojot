@@ -29,11 +29,14 @@
 # Metrics (Prometheus, Grafana, Loki, Promtail and Node Exporter)
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
+  gather_facts: true
   tags:
   - metrics
   - 100k
+  - grafana
   roles:
     - role: metrics
+    - role: grafana
 
 # Deploy Zookeeper to the environment
 # TODO: Add possibility of using an external Zookeeper by setting config variables
