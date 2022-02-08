@@ -4,21 +4,7 @@ rbac:
   pspUseAppArmor: true
   namespaced: false
 
-serviceAccount:
-  create: true
-  autoMount: true
-
 replicas: 1
-
-
-headlessService: false
-
-
-autoscaling:
-  enabled: false
-
-deploymentStrategy:
-  type: RollingUpdate
 
 readinessProbe:
   httpGet:
@@ -36,26 +22,6 @@ livenessProbe:
 image:
   repository: grafana/grafana
   tag: 8.3.4
-  sha: ""
-  pullPolicy: IfNotPresent
-
-testFramework:
-  enabled: true
-  image: "bats/bats"
-  tag: "v1.4.1"
-  imagePullPolicy: IfNotPresent
-  securityContext: {}
-
-securityContext:
-  runAsUser: 472
-  runAsGroup: 472
-  fsGroup: 472
-
-downloadDashboardsImage:
-  repository: curlimages/curl
-  tag: 7.73.0
-  sha: ""
-  pullPolicy: IfNotPresent
 
 podPortName: grafana
 
@@ -73,15 +39,6 @@ serviceMonitor:
   interval: 1m
   scheme: http
   scrapeTimeout: 30s
-
-ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-  path: /
-  pathType: Prefix
-  hosts:
-    - grafana.meudominio.local
 
 resources:
   limits:
@@ -114,27 +71,9 @@ persistence:
     app: grafana
   name: grafana
   namespace: dojot-monitoring
-  
-  #inMemory:
-  #  enabled: false
-
-initChownData:
-  enabled: true
-  image:
-    repository: busybox
-    tag: "1.31.1"
-    sha: ""
-    pullPolicy: IfNotPresent
 
 adminUser: admin
 adminPassword: admin
-
-admin:
-  existingSecret: ""
-  userKey: admin-user
-  passwordKey: admin-password
-
-enableServiceLinks: true
 
 datasources:
   datasources.yaml:
@@ -145,7 +84,6 @@ datasources:
       url: http://prometheus-k8s.{{dojot_monitoring_namespace}}.svc.cluster.local:9090
       access: proxy
       isDefault: true
-      #namespace: {{dojot_monitoring_namespace}}
 
 dashboardProviders:
   dashboardproviders.yaml:
@@ -272,90 +210,3 @@ grafana.ini:
     mode: console
   grafana_net:
     url: https://grafana.net
-
-ldap:
-  enabled: false
-  existingSecret: ""
-  config: ""
-
-smtp:
-  existingSecret: ""
-  userKey: "user"
-  passwordKey: "password"
-
-sidecar:
-  image:
-    repository: quay.io/kiwigrid/k8s-sidecar
-    tag: 1.14.2
-    sha: ""
-  imagePullPolicy: IfNotPresent
-  enableUniqueFilenames: true
-  dashboards:
-    enabled: true
-    SCProvider: true
-    label: grafana_dashboard
-    labelValue: null
-    folder: /tmp/dashboards
-    defaultFolderName: null
-    searchNamespace: null
-    watchMethod: WATCH
-    resource: both
-    folderAnnotation: null
-    script: null
-    provider:
-      name: sidecarProvider
-      orgid: 1
-      folder: 'dojot'
-      type: file
-      disableDelete: false
-      allowUiUpdates: false
-      foldersFromFilesStructure: true
-    extraMounts: []
-  datasources:
-    enabled: false
-    label: grafana_datasource
-    labelValue: null
-    searchNamespace: null
-    watchMethod: WATCH
-    resource: both
-    reloadURL: "http://localhost:3000/api/admin/provisioning/datasources/reload"
-  notifiers:
-    enabled: false
-    label: grafana_notifier
-
-    searchNamespace: null
-    resource: both
-
-revisionHistoryLimit: 10
-
-imageRenderer:
-  enabled: false
-  replicas: 1
-  image:
-    repository: grafana/grafana-image-renderer
-    tag: latest
-    sha: ""
-    pullPolicy: Always
-  env:
-    HTTP_HOST: "0.0.0.0"
-  serviceAccountName: ""
-  priorityClassName: ''
-  service:
-    enabled: true
-    portName: 'http'
-    port: 8081
-    targetPort: 8081
-  grafanaProtocol: http
-  grafanaSubPath: ""
-  podPortName: http
-  revisionHistoryLimit: 10
-  networkPolicy:
-    limitIngress: true
-    limitEgress: false
-
-networkPolicy:
-  enabled: false
-
-  allowExternal: true
-
-enableKubeBackwardCompatibility: false
