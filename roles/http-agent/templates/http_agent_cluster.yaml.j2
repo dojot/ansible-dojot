@@ -34,8 +34,12 @@ spec:
           value: http-agent.crt
         - name: CERT_SC_CERTS_FILES_KEY
           value: http-agent.key
-        - name: CERT_SC_CERTS_FILES_CRL 
+        - name: CERT_SC_CERTS_FILES_CRL
           value: ca.crl
+        - name: CERT_SC_CERTS_FILES_CABUNDLE
+          value: cabundle.crt
+        - name: CERT_SC_CRON_CABUNDLE
+          value: "true"
         volumeMounts:
         - mountPath: /certs
           name: http-agent-certs
@@ -53,6 +57,8 @@ spec:
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: HTTP_AGENT_APP_USER_CONFIG_FILE
           value: "default.conf"
+        - name: HTTP_AGENT_HTTPS_CA
+          value: /certs/cabundle.crt
         volumeMounts:
         - mountPath: /certs
           name: http-agent-certs
@@ -65,6 +71,6 @@ spec:
 
       volumes:
       - name: http-agent-certs
-        emptyDir: {} 
-  
+        emptyDir: {}
+
 
