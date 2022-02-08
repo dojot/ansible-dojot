@@ -1,0 +1,18 @@
+---
+# roles/velero/tasks/deploy.yml
+- name: Velero | Deploy | Add VMware Tanzu helm repository
+  kubernetes.core.helm_repository:
+    name: vmware-tanzu
+    repo_url: "https://vmware-tanzu.github.io/helm-charts"
+  tags: deploy
+
+- name: Velero | Deploy | Deploy velero chart with values loaded from template
+  kubernetes.core.helm:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    chart_ref: vmware-tanzu/velero
+    chart_version: 2.27.1
+    release_name: velero
+    create_namespace: yes
+    release_namespace: "{{ velero_namespace }}"
+    release_values: "{{ lookup('template', 'velero-values.yml.j2') | from_yaml }}"
+  tags: deploy

@@ -1,0 +1,18 @@
+# https://galaxy.ansible.com/docs/contributing/creating_role.html#role-metadata
+galaxy_info:
+  role_name: velero
+  author: Francisco Ewerton
+  description: Install VMware Tanzy Velero to Dojot IoT Platform
+  company: CPqD
+  license: MIT
+  min_ansible_version: 2.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - bionic
+    - focal
+
+  galaxy_tags:
+  - velero
+
+dependencies: []
