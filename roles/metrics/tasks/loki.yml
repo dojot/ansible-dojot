@@ -1,3 +1,5 @@
+---
+# roles/metrics/tasks/loki.yml
 - name: Metrics | Loki | Add grafana helm repository
   kubernetes.core.helm_repository:
     name: grafana

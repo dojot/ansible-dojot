@@ -14,12 +14,18 @@ It contain playbooks that execute the deployment based on the inventory file whe
 
 This module requires:
 
-* Ansible > 2.6
+* Ansible >= 2.9.17
 
 To install the requirements run the following command:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Some resources are installed by [`Helm`](https://helm.sh/), therefore, you need to install an ansible collection using the command bellow.
+
+```bash
+ansible-galaxy collection install --requirements-file collections/requirements.yml --collections-path collections
 ```
 
 ## Deploy Requirements
