@@ -20,6 +20,9 @@
     - role: volumes/prometheus
       tags:
       - prometheus
+    - role: volumes/grafana
+      tags:
+      - grafana
     - role: volumes/kafka-ws
       tags:
       - kafka-ws
@@ -78,6 +81,9 @@
     - role: volumes/prometheus
       tags:
       - prometheus
+    - role: volumes/grafana
+      tags:
+      - grafana
     - role: volumes/kafka-ws
       tags:
       - kafka-ws

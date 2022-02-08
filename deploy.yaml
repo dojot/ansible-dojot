@@ -33,11 +33,8 @@
   tags:
   - metrics
   - 100k
-  - grafana
   roles:
     - role: metrics
-    - role: grafana
-
 # Deploy Zookeeper to the environment
 # TODO: Add possibility of using an external Zookeeper by setting config variables
 - hosts: dojot-k8s[0]
