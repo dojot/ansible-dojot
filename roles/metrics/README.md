@@ -65,56 +65,6 @@ For [`Kubernetes`](https://kubernetes.io/) we have several specific dashboards f
 * k8s usemethod cluster;
 * k8s usemethod node.
 
-
-## Using the service
-
-Since we are using Docker, it is natural that we will use its metrics. To set the Docker daemon as a Prometheus target, you need to specify the metrics-address in ``/etc/docker/daemon.json``.
-
-The first step is editing the file ``/etc/docker/daemon.json``.
-
-If the file does not exists, you need to create it.
-
-If the file is empty, paste the following:
-
-```json
-{
-  "metrics-addr" : "0.0.0.0:9323",
-  "experimental" : true
-}
-```
-
-If the file is not empty, add these two keys, making sure the resulting file is a valid JSON. Be careful that all lines must end with a comma "," except the last line.
-
-In order for the changes to be applied it is necessary to restart the docker daemon and the docker itself.
-
-```
-sudo systemctl daemon-reload
-```
-
-```
-sudo systemctl restart docker.service
-```
-
-Since we are running Prometheus on localhost, in case we try to use the docker as localhost as well, Prometheus could understand that the metrics are inside the service itself (Prometheus) and then, could try to access port ``9323`` inside the Promethues container. To prevent this from happening we should use the default IP `172.17.0.1` of the **bridge** docker ``docker0``.
-
-Before running make sure that the `docker0` IP is really the default (172.17.0.1) with the following command:
-
-```
-ip address show dev docker0
-```
-
-The output will be similar to the one shown below, the *IP* will normally appear on the third line after the term ``inet``:
-```
-docker0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN group default
-    link/ether 02:42:a3:bf:97:21 brd ff:ff:ff:ff:ff:ff
-    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
-       valid_lft forever preferred_lft forever
-    inet6 fe80::42:a3ff:febf:9721/64 scope link
-       valid_lft forever preferred_lft forever
-```
-
-If the IP is different, use the one that is on your ``docker0``.
-
 ## Viewing metrics in grafana
 
 As the service is declared in [Grafana Values](templates/grafana/grafana-values.yml.j2), it has already been instantiated. Then just access the service at the URL http://localhost:3000.
