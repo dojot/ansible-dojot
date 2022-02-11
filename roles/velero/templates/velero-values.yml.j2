@@ -1,0 +1,72 @@
+resources:
+  requests:
+    cpu: 500m
+    memory: 128Mi
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+
+initContainers:
+  - name: velero-plugin-for-aws
+    image: velero/velero-plugin-for-aws:v1.3.0
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
+
+metrics:
+  enabled: {{ velero_prometheus_monitoring }}
+  scrapeInterval: 30s
+  scrapeTimeout: 10s
+
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8085"
+    prometheus.io/path: "/metrics"
+
+  serviceMonitor:
+    enabled: false
+    additionalLabels: {}
+
+configuration:
+  provider: aws
+  backupStorageLocation:
+    bucket: {{ velero_bucket_name }}
+    config:
+      region: {{ velero_storage_region }}
+      s3ForcePathStyle: true
+      s3Url: {{ velero_storage_s3url }}
+
+credentials:
+  useSecret: true
+  secretContents:
+    cloud: |-
+      [default]
+      aws_access_key_id = {{ velero_aws_access_key }}
+      aws_secret_access_key = {{ velero_aws_secret_key }}
+
+defaultVolumesToRestic: true
+snapshotsEnabled: false
+
+# Whether to deploy the restic daemonset.
+deployRestic: true
+restic:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Backup schedules to create.
+schedules:
+{% for ns in velero_backup_namespaces %}
+  {{ ns.namespace }}:
+    disabled: {{ ns.disabled }}
+    schedule: {{ ns.cron_expression }}
+    template:
+      ttl: {{ ns.ttl }}
+      includedNamespaces:
+      - {{ ns.namespace }}
+{% endfor %}

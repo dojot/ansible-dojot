@@ -4,8 +4,8 @@
   gather_facts: true
   any_errors_fatal: true
   tags:
-  - bootstrap
-  - 100k
+    - bootstrap
+    - 100k
   roles:
     - role: k8s-api-bootstrap
 
@@ -13,8 +13,8 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - bootstrap
-  - 100k
+    - bootstrap
+    - 100k
   roles:
     - role: dojot-basic
 
@@ -22,7 +22,7 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - minio
+    - minio
   roles:
     - role: minio
 
@@ -31,8 +31,8 @@
   any_errors_fatal: true
   gather_facts: true
   tags:
-  - metrics
-  - 100k
+    - metrics
+    - 100k
   roles:
     - role: metrics
 # Deploy Zookeeper to the environment
@@ -40,9 +40,9 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - zookeeper
-  - kafka
-  - 100k
+    - zookeeper
+    - kafka
+    - 100k
   roles:
     - role: zookeeper
       when: not dojot_zk_use_external
@@ -54,8 +54,8 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - postgresql
-  - 100k
+    - postgresql
+    - 100k
   roles:
     - role: databases/postgresql
 
@@ -66,11 +66,10 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - influxdb
-  - 100k
+    - influxdb
+    - 100k
   roles:
     - role: databases/influxdb
-
 
 # Deploy MongoDB to the environment
 # TODO: Add possibility of using an external MongoDB by setting DB config variables
@@ -78,11 +77,10 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - mongodb
-  - 100k
+    - mongodb
+    - 100k
   roles:
     - role: databases/mongodb
-
 
 # Deploy Kafka to the environment
 # TODO: Add possibility of using an external Kafka by setting config variables
@@ -90,11 +88,10 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - kafka
-  - 100k
+    - kafka
+    - 100k
   roles:
     - role: kafka
-
 
 # Deploy VerneMQ to the environment
 # TODO: Add possibility of using an external VerneMQ by setting config variables
@@ -102,21 +99,19 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - vernemq
-  - 100k
+    - vernemq
+    - 100k
   roles:
     - role: vernemq
-
 
 # Deploy RabbitMQ to the environment
 # TODO: Add possibility of using an external RabbitMQ by setting config variables
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
-  - rabbitmq
+    - rabbitmq
   roles:
     - role: rabbitmq
-
 
 # Deploy Dojot Components to the Environment
 # Deploy the dojot services
@@ -127,123 +122,123 @@
 
     - role: image-manager
       tags:
-      - image-manager
+        - image-manager
 
     - role: apigw
       tags:
-      - apigw
-      - 100k
+        - apigw
+        - 100k
 
     - role: auth
       tags:
-      - auth
-      - 100k
+        - auth
+        - 100k
 
     - role: backstage
       tags:
-      - backstage
+        - backstage
 
     - role: data-broker
       tags:
-      - data-broker
-      - 100k
+        - data-broker
+        - 100k
 
     - role: device-manager
       tags:
-      - device-manager
+        - device-manager
 
     - role: history
       tags:
-      - history
+        - history
 
     - role: persister
       tags:
-      - persister
+        - persister
 
     - role: influxdb-storer
       tags:
-      - influxdb-storer
-      - 100k
+        - influxdb-storer
+        - 100k
 
     - role: influxdb-retriever
       tags:
-      - influxdb-retriever
-      - 100k
+        - influxdb-retriever
+        - 100k
 
     - role: influxdb-chronograf
       tags:
-      - influxdb-chronograf
-      - 100k
+        - influxdb-chronograf
+        - 100k
 
     - role: gui
       tags:
-      - gui
+        - gui
 
     - role: gui-v2
       tags:
-      - gui-v2
+        - gui-v2
 
     - role: iotagent-mosca
       tags:
-      - iotagent-mosca
+        - iotagent-mosca
 
     - role: iotagent-lwm2m
       tags:
-      - iotagent-lwm2m
+        - iotagent-lwm2m
 
     - role: flowbroker
       tags:
-      - flowbroker
+        - flowbroker
 
     - role: data-manager
       tags:
-      - data-manager
+        - data-manager
 
     - role: cron
       tags:
-      - cron
+        - cron
 
     - role: v2k-bridge
       tags:
-      - v2k-bridge
-      - 100k
+        - v2k-bridge
+        - 100k
 
     - role: k2v-bridge
       tags:
-      - k2v-bridge
-      - 100k
+        - k2v-bridge
+        - 100k
 
     - role: kafka2ftp
       tags:
-      - kafka2ftp
+        - kafka2ftp
 
     - role: kafka-loopback
       tags:
-      - kafka-loopback
-      - never
-      - 100k
+        - kafka-loopback
+        - never
+        - 100k
 
     - role: kafka-ws
       tags:
-      - kafka-ws
-      - 100k
+        - kafka-ws
+        - 100k
 
     - role: x509-identity-mgmt
       tags:
-      - x509-identity-mgmt
-      - 100k
+        - x509-identity-mgmt
+        - 100k
 
     - role: x509-ejbca
       tags:
-      - x509-ejbca
-      - 100k
+        - x509-ejbca
+        - 100k
 
     - role: certificate-acl
       tags:
-      - certificate-acl
-      - 100k
+        - certificate-acl
+        - 100k
 
     - role: http-agent
       tags:
-      - http-agent
-      - 100k
+        - http-agent
+        - 100k

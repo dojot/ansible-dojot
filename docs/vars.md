@@ -239,6 +239,19 @@ before deploying dojot
 * *certbot_package*: Certbot package. Defaults to **letsencrypt**.
 * *certbot_dir*: Certbot install directory. Defaults to **/opt/certbot**.
 
+### - Velero Disaster Recovery
+
+* *velero_binary_install*: Whether to install helm3 binary or not. Defaults to **false**.
+* *velero_version*: Velero version number. Defaults to *1.7.1*.
+* *velero_namespace* Namespace that will be created for velero deployment. Defaults to **velero**.
+* *velero_storage_region*: S3URL region. Defaults to `minio`.
+* *velero_storage_s3url*: S3URL URL connection. Defaults to `http://minio.minio.svc.cluster.local:9000`.
+* *velero_aws_access_key*: S3URL access key (e.g. MINIO_ROOT_USER).
+* *velero_aws_secret_key*: S3URL secret key (e.g. MINIO_ROOT_PASSWORD).
+* *velero_bucket_name*: S3URL bucket name created to velero. Defaults to `velero`.
+* *velero_backup_namespaces*: Backups settings. Defaults to `dojot` and `dojot-monitoring`. See [velero.yaml](../inventories/example_local/group_vars/all/velero.yaml) to more details.
+* *velero_prometheus_monitoring*: Whether active the monitoring. Must have Prometheus Operator installed and working. Defaults to `true`.
+
 ### - Optional Services
 
 * *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to **false**.
@@ -249,4 +262,3 @@ before deploying dojot
 * *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to **true**.
 * *optional[mosca]*: Defines whether IotAgent Mosca will be enabled. It will only be enabled if IotAgent VerneMQ is disabled. Defaults to **false**.
 * *optional[lwm2m]*: Defines whether IotAgent Lwm2m will be enabled. Defaults to **false**.
-
