@@ -1,0 +1,212 @@
+rbac:
+  create: true
+  pspEnabled: true
+  pspUseAppArmor: true
+  namespaced: false
+
+replicas: 1
+
+readinessProbe:
+  httpGet:
+    path: /api/health
+    port: 3000
+
+livenessProbe:
+  httpGet:
+    path: /api/health
+    port: 3000
+  initialDelaySeconds: 60
+  timeoutSeconds: 30
+  failureThreshold: 10
+
+image:
+  repository: grafana/grafana
+  tag: 8.3.4
+
+podPortName: grafana
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+  portName: service
+
+serviceMonitor:
+
+  enabled: true
+  path: /metrics
+  interval: 1m
+  scheme: http
+  scrapeTimeout: 30s
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+affinity:
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: dojot.components/dojot
+        operator: In
+        values:
+        - enabled
+
+persistence:
+  type: pvc
+  enabled: true
+  accessModes:
+  - ReadWriteOnce
+  size: 10Gi 
+  storageClassName: {{ dojot_storage_class_name }}
+  finalizers:
+    - kubernetes.io/pvc-protection
+  labels:
+    app: grafana
+  name: grafana
+  namespace: dojot-monitoring
+
+adminUser: admin
+adminPassword: admin
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-k8s.{{dojot_monitoring_namespace}}.svc.cluster.local:9090
+      access: proxy
+      isDefault: true
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: 'dojot'
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+    system-stats:
+      gnetId: 15713
+      revision: 0
+      datasource: Prometheus
+    docker-stats:
+      gnetId: 15712
+      revision: 0
+      datasource: Prometheus
+    dojot-100k:
+      gnetId: 15706
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-namespace-workloads:
+      gnetId: 15697
+      revision: 0
+      datasource: Prometheus
+    locust:
+      gnetId: 15701
+      revision: 0
+      datasource: Prometheus
+    vmq-cluster:
+      gnetId: 15696
+      revision: 0
+      datasource: Prometheus
+    vmq-node:
+      gnetId: 15695
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-cluster:
+      gnetId: 15687
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-namespace-pods:
+      gnetId: 15692
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-pod:
+      gnetId: 15694
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-workload:
+      gnetId: 15693
+      revision: 0
+      datasource: Prometheus
+    k8s-nodes:
+      gnetId: 15688
+      revision: 0
+      datasource: Prometheus
+    k8s-persistentvolumes:
+      gnetId: 15691
+      revision: 0
+      datasource: Prometheus
+    k8s-pods:
+      gnetId: 15689
+      revision: 0
+      datasource: Prometheus
+    k8s-statefulsets:
+      gnetId: 15690
+      revision: 0
+      datasource: Prometheus
+    k8s-usemethod-cluster:
+      gnetId: 15685
+      revision: 0
+      datasource: Prometheus
+    k8s-usemethod-node:
+      gnetId: 15686
+      revision: 0
+      datasource: Prometheus
+    #kafka-stats:
+    #  gnetId: 15590
+    #  revision: 0
+    #  datasource: Prometheus
+    #kong-stats:
+    #  gnetId: 15595
+    #  revision: 0
+    #  datasource: Prometheus
+    #verneMQ-stats:
+    #  gnetId: 15598
+    #  revision: 0
+    #  datasource: Prometheus
+    #mongo-stats:
+    #  gnetId: 15596
+    #  revision: 0
+    #  datasource: Prometheus
+    #influx-stats:
+    #  gnetId: 15594
+    #  revision: 0
+    #  datasource: Prometheus
+    #rabbitMQ-stats:
+    #  gnetId: 15597
+    #  revision: 0
+    #  datasource: Prometheus
+    overview-stats:
+      gnetId: 15593
+      revision: 0
+      datasource: Prometheus
+
+
+grafana.ini:
+  paths:
+    data: /var/lib/grafana/
+    logs: /var/log/grafana
+    plugins: /var/lib/grafana/plugins
+    provisioning: /etc/grafana/provisioning
+  analytics:
+    check_for_updates: true
+  log:
+    mode: console
+  grafana_net:
+    url: https://grafana.net
