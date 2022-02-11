@@ -3,108 +3,114 @@
   gather_facts: true
   any_errors_fatal: true
   tags:
-  - volumes
+    - volumes
   roles:
     - role: volumes/kong
       tags:
-      - kong
+        - kong
     - role: volumes/minio
       tags:
-      - minio
+        - minio
     - role: volumes/mongodb
       tags:
-      - mongodb
+        - mongodb
     - role: volumes/postgres
       tags:
-      - postgresql
+        - postgresql
     - role: volumes/prometheus
       tags:
-      - prometheus
+        - prometheus
     - role: volumes/grafana
       tags:
       - grafana
+    - role: volumes/loki
+      tags:
+        - loki
     - role: volumes/kafka-ws
       tags:
-      - kafka-ws
+        - kafka-ws
     - role: volumes/influxdb
       tags:
-      - influxdb
+        - influxdb
     - role: volumes/certificate-acl
       tags:
-      - certificate-acl
+        - certificate-acl
 
 - hosts: kafka_nodes
   gather_facts: true
   any_errors_fatal: true
   tags:
-  - volumes
+    - volumes
   roles:
     - role: volumes/kafka
       tags:
-      - kafka
+        - kafka
     - role: volumes/zookeeper
       tags:
-      - zookeeper
+        - zookeeper
 
 - hosts: x509_nodes
   gather_facts: true
   any_errors_fatal: true
   tags:
-  - volumes
+    - volumes
   roles:
     - role: volumes/x509-ejbca
       tags:
-      - x509-ejbca
+        - x509-ejbca
     - role: volumes/x509-identity-mgmt
       tags:
-      - x509-identity-mgmt
+        - x509-identity-mgmt
 
 - hosts: master_nodes
   gather_facts: true
   any_errors_fatal: true
   tags:
-  - volumes
+    - volumes
   roles:
     - role: volumes/storageclass
     - role: volumes/kong
       tags:
-      - kong
+        - kong
     - role: volumes/minio
       tags:
-      - minio
+        - minio
     - role: volumes/mongodb
       tags:
-      - mongodb
+        - mongodb
     - role: volumes/postgres
       tags:
-      - postgresql
+        - postgresql
     - role: volumes/prometheus
       tags:
-      - prometheus
+        - prometheus
     - role: volumes/grafana
       tags:
       - grafana
+     role: volumes/loki
+      tags:
+        - loki
     - role: volumes/kafka-ws
       tags:
-      - kafka-ws
+        - kafka-ws
     - role: volumes/kafka
       tags:
-      - kafka
+        - kafka
     - role: volumes/zookeeper
       tags:
-      - zookeeper
+        - zookeeper
     - role: volumes/x509-ejbca
       tags:
-      - x509-ejbca
+        - x509-ejbca
     - role: volumes/x509-identity-mgmt
       tags:
-      - x509-identity-mgmt
+        - x509-identity-mgmt
     - role: volumes/influxdb
       tags:
-      - influxdb
+        - influxdb
     - role: volumes/influxdb-chronograf
       tags:
-      - influxdb-chronograf
+        - influxdb-chronograf
     - role: volumes/certificate-acl
       tags:
-      - certificate-acl
+        - certificate-acl
