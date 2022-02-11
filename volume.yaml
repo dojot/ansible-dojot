@@ -87,7 +87,7 @@
     - role: volumes/grafana
       tags:
       - grafana
-     role: volumes/loki
+    - role: volumes/loki
       tags:
         - loki
     - role: volumes/kafka-ws
