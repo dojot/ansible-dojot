@@ -12,7 +12,7 @@
   - "{{ lookup('template', 'storageclass.yaml.j2') | from_yaml }}"
   when: (dojot_storage_class_name == "local-storage") and
         ('master_nodes' in group_names)
- 
+
 - name: Create StorageClass NFS
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
