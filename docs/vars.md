@@ -8,7 +8,7 @@ before deploying dojot
 * *dojot_namespace*: Defines the namespace where dojot will be deployed.
 * *dojot_version*: Sets the dojot version that will be used for all the modules.
 * *dojot_domain_name*: Defines the domain name for the dojot infrastructure.
-* *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes.
+* *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes **(local-storage or nfs)**.
 
 ## Optional Variables
 
@@ -27,7 +27,9 @@ before deploying dojot
 * *dojot_kafka_nodenames*: List of workers nodenames that will be labled with the kafka label.
 * *dojot_x509_nodenames*: List of workers nodenames that will be labled with the x509 label.
 * *dojot_vernemq_nodenames*: List of workers nodenames that will be labled with the vernemq label.
-* *dojot_volume_directory*: Defines the base path where volumes will be mapped. Defaults to **/mnt/data**
+* *nfs_server_node*: NFS server nodename.
+
+* *dojot_volume_directory*: Defines the base path where volumes will be mapped. Inform local volume path or mount volume. Defaults to **/mnt/data**
 
 * *dojot_enable_https_nginx*: Active HTTPS in NGINX. If enable_https_nginx = true, is necessary IP public and domain in NGINX server. Defaults to **false**
 * *dojot_certbot_admin_email*: Certbot admin email.
