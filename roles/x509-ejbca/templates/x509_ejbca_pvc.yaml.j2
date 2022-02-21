@@ -7,10 +7,12 @@ metadata:
     app: dojot
     name: x509-ejbca
 spec:
+{% if dojot_storage_class_name == "local-storage" %}
   selector:
     matchLabels:
       app: dojot
       name: x509-ejbca
+{% endif %}
   accessModes:
     - ReadWriteMany
   storageClassName: {{ dojot_storage_class_name }}

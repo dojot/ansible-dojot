@@ -1,0 +1,20 @@
+---
+- name: NFS-Provisioner - Deploy
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'nfs-clusterrole.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'nfs-clusterrolebinding.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'nfs-serviceaccount.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'nfs-role.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'nfs-rolebinding.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'nfs-deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'nfs-service.yaml.j2') | from_yaml }}"          
+  when: (dojot_storage_class_name == "nfs") and
+        ('master_nodes' in group_names)

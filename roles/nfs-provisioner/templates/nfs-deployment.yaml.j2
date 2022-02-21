@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-subdir-external-provisioner
+  labels:
+    chart: nfs-subdir-external-provisioner-4.0.15
+    heritage: Helm
+    app: nfs-subdir-external-provisioner
+    release: nfs-subdir-external-provisioner
+  namespace:  {{ dojot_namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: nfs-subdir-external-provisioner
+      release: nfs-subdir-external-provisioner
+  template:
+    metadata:
+      annotations:
+      labels:
+        app: nfs-subdir-external-provisioner
+        release: nfs-subdir-external-provisioner
+    spec:
+      serviceAccountName: nfs-subdir-external-provisioner
+      securityContext:
+        {}
+      containers:
+        - name: nfs-subdir-external-provisioner
+          image: "k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2"
+          ports:
+            - name: nfs
+              containerPort: 2049
+            - name: mountd
+              containerPort: 20048
+            - name: rpcbind
+              containerPort: 111
+            - name: rpcbind-udp
+              containerPort: 111
+              protocol: UDP
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            {}
+          volumeMounts:
+            - name: nfs-subdir-external-provisioner-root
+              mountPath: /persistentvolumes
+          env:
+            - name: PROVISIONER_NAME
+              value: cluster.local/nfs-subdir-external-provisioner
+            - name: NFS_SERVER
+              value: {{ hostvars.nfs_host.ansible_host }}
+            - name: NFS_PATH
+              value: {{ dojot_volume_directory }}
+      volumes:
+      - name: nfs-subdir-external-provisioner-root
+        nfs:
+          server: {{ hostvars.nfs_host.ansible_host }}
+          path: {{ dojot_volume_directory }}

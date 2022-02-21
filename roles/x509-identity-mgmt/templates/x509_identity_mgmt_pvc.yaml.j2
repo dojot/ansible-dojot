@@ -7,10 +7,12 @@ metadata:
     app: dojot
     name: x509-identity-mgmt
 spec:
+{% if dojot_storage_class_name == "local-storage" %}
   selector:
     matchLabels:
       app: dojot
       name: x509-identity-mgmt
+{% endif %}
   accessModes:
     - ReadWriteMany
   storageClassName: {{ dojot_storage_class_name }}
