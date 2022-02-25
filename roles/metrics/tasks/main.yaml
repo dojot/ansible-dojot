@@ -1,62 +1,4 @@
 ---
-# roles/metrics/tasks/main.yml
-- name: Metrics | Deploy prometheus, node_exporter, kube-state-metrics (KSM) and grafana
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
-    state: present
-    definition: "{{ item }}"
-  register: result
-  until: result.failed == 0
-  retries: 30
-  delay: 10
-  with_file:
-    - "templates/00namespace-namespace.yaml"
-    - "templates/0prometheus-operator-0prometheusCustomResourceDefinition.yaml"
-    - "templates/0prometheus-operator-0prometheusruleCustomResourceDefinition.yaml"
-    - "templates/0prometheus-operator-0servicemonitorCustomResourceDefinition.yaml"
-    - "templates/0prometheus-operator-clusterRole.yaml"
-    - "templates/0prometheus-operator-clusterRoleBinding.yaml"
-    - "templates/0prometheus-operator-service.yaml"
-    - "templates/0prometheus-operator-serviceAccount.yaml"
-    - "templates/kube-state-metrics-clusterRole.yaml"
-    - "templates/kube-state-metrics-clusterRoleBinding.yaml"
-    - "templates/kube-state-metrics-role.yaml"
-    - "templates/kube-state-metrics-roleBinding.yaml"
-    - "templates/kube-state-metrics-service.yaml"
-    - "templates/kube-state-metrics-serviceAccount.yaml"
-    - "templates/node-exporter-clusterRole.yaml"
-    - "templates/node-exporter-clusterRoleBinding.yaml"
-    - "templates/node-exporter-daemonset.yaml"
-    - "templates/node-exporter-dserviceAccount.yaml"
-    - "templates/node-exporter-service.yaml"
-    - "templates/prometheus-clusterRole.yaml"
-    - "templates/prometheus-clusterRoleBinding.yaml"
-    - "templates/prometheus-roleBindingSpecificNamespaces.yaml"
-    - "templates/prometheus-roleConfig.yaml"
-    - "templates/prometheus-roleSpecificNamespaces.yaml"
-    - "templates/prometheus-rules.yaml"
-    - "templates/prometheus-service.yaml"
-    - "templates/prometheus-serviceAccount.yaml"
-    - "templates/prometheus-serviceMonitorApiserver.yaml"
-    - "templates/prometheus-serviceMonitorCoreDNS.yaml"
-    - "templates/prometheus-serviceMonitorKubelet.yaml"
-    - "templates/z_kube-state-metrics-serviceMonitor.yaml"
-    - "templates/z_node-exporter-serviceMonitor.yaml"
-
-- name: Metrics | Ansible parameterized files
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
-    state: present
-    definition: "{{ item }}"
-  register: result
-  until: result.failed == 0
-  retries: 30
-  delay: 10
-  loop:
-    - "{{ lookup('template', '0prometheus-operator-deployment.yaml.j2') | from_yaml }}"
-    - "{{ lookup('template', 'kube-state-metrics-deployment.yaml.j2') | from_yaml }}"
-    - "{{ lookup('template', 'prometheus-servicelprometheus.yaml.j2') | from_yaml }}"
-
 - name: Metrics | Locust | Enable locust monitoring
   when: dojot_enable_locust_exporter
   k8s:
@@ -88,3 +30,19 @@
 - name: Metrics | Grafana | Include Grafana tasks
   include_tasks: grafana.yml
   tags: grafana
+
+- name: Metrics | Prometheus | include Prometheus tasks
+  include_tasks: prometheus.yml
+  tags: prometheus
+
+- name: Metrics | Alertmanager | include Alertmanager tasks
+  include_tasks: alertmanager.yml
+  tags: alertmanager
+
+#- name: Metrics | Node-exporter | include Node-exporter tasks
+#  include_tasks: node-exporter.yml
+#  tags: node-exporter
+
+#- name: Metrics | Kube-State-Metrics | include Kube-State-Metrics tasks
+#  include_tasks: kube-state-metrics.yml
+#  tags: kube-state-metrics

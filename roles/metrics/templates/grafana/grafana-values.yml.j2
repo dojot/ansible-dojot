@@ -81,7 +81,7 @@ datasources:
     datasources:
     - name: Prometheus
       type: prometheus
-      url: http://prometheus-k8s.{{dojot_monitoring_namespace}}.svc.cluster.local:9090
+      url: http://prometheus-k8s-0.{{dojot_monitoring_namespace}}.svc.cluster.local
       access: proxy
       isDefault: true
 
