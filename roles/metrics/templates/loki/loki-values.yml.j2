@@ -17,11 +17,13 @@ persistence:
   - ReadWriteOnce
   size: 10Gi
   storageClassName: {{ dojot_storage_class_name }}
+{% if dojot_storage_class_name == "local-storage" %}
   selector:
     matchLabels:
       app.kubernetes.io/name: loki
       app.kubernetes.io/part-of: monitoring
       app.kubernetes.io/managed-by: helm
+{% endif %}
 
 replicas: 1
 

@@ -1,0 +1,17 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  labels:
+    chart: nfs-subdir-external-provisioner-4.0.15
+    heritage: Helm
+    app: nfs-subdir-external-provisioner
+    release: nfs-subdir-external-provisioner
+  name: nfs
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: cluster.local/nfs-subdir-external-provisioner
+allowVolumeExpansion: false
+reclaimPolicy: Retain
+parameters:
+  archiveOnDelete: "false"
+volumeBindingMode: WaitForFirstConsumer

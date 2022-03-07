@@ -17,6 +17,11 @@
     - 100k
   roles:
     - role: dojot-basic
+    - role: nfs-provisioner
+      when: dojot_storage_class_name == "nfs"
+      tags:
+        - nfs-provisioner
+        - 100k
 
 # Minio
 - hosts: dojot-k8s[0]
@@ -119,7 +124,6 @@
   any_errors_fatal: true
   tags: dojot-components
   roles:
-
     - role: image-manager
       tags:
         - image-manager

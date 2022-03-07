@@ -5,6 +5,7 @@
   file:
     path: "{{ dojot_volume_directory }}/certificate_acl"
     state: directory
+    mode: "2775"
   when: (dojot_storage_class_name == "local-storage") and
         ('dojot_nodes' in group_names)
 

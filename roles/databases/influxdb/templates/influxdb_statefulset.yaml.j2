@@ -74,6 +74,17 @@ spec:
         volumeMounts:
           - name: influxdb-volume
             mountPath: /root/.influxdbv2
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}
   volumeClaimTemplates:
   - metadata:
       name: influxdb-volume

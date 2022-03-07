@@ -1,5 +1,4 @@
 ---
-
 - name: Create kong directory if it does not exists
   become: true
   file:

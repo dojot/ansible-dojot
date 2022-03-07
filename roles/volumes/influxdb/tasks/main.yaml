@@ -5,8 +5,7 @@
   file:
     path: "{{ dojot_volume_directory }}/influxdb"
     state: directory
-  when: (dojot_storage_class_name == "local-storage") and
-        ('dojot_nodes' in group_names)
+  when: ('dojot_nodes' in group_names)
 
 - name: Create influxdb volume
   k8s:
@@ -19,5 +18,4 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'influxdb.yaml.j2') | from_yaml }}"
-  when: (dojot_storage_class_name == "local-storage") and
-        ('master_nodes' in group_names)
+  when: ('master_nodes' in group_names)
