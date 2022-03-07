@@ -1,0 +1,3 @@
+dojot_http_agent_version: "{{ dojot_version }}"
+dojot_http_agent_port: 3000
+dojot_kafka_port: 9092

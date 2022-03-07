@@ -204,3 +204,7 @@
     - role: certificate-acl
       tags:
       - 100k
+
+    - role: http-agent
+      tags:
+      - 100k

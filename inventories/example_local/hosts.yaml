@@ -4,12 +4,23 @@ all:
     localhost:
         ansible_connection: local
         ansible_python.version.major: 3
+        ansible_python_interpreter: /usr/bin/python3
+    # If you are using ansible in a control node (outside of master) you should uncomment
+    # master_host declaration (lines 11...14) and then change the lines 28 and 34
+    # pointing to "master_host"
+    # master_host:
+    #     ansible_host: MASTER_HOST_ADDRESS #change to the host of master node on k8s
+    #     ansible_python.version.major: 3
+    #     ansible_python_interpreter: /usr/bin/python3
     worker_host:
         ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
+        ansible_python_interpreter: /usr/bin/python3
     nginx:
         ansible_host: NGINX_HOST_ADDRESS #change to the host of NGINX
+        ansible_python_interpreter: /usr/bin/python3
     haproxy:
         ansible_host: HAPROXY_HOST_ADDRESS #change to the host of NGINX
+        ansible_python_interpreter: /usr/bin/python3
   children:
     #host where dojot will be deployed
     dojot-k8s:
@@ -43,6 +54,9 @@ all:
     mqtt_nodes:
       hosts:
         MQTT_HOST_ADDRESS: #change to the host of MQTT worker node on k8s
+    http_agent_nodes:
+      hosts:
+        HTTP_AGENT_HOST_ADDRESS: #change to the host of HTTP Agent worker node on k8s
     lwm2m_nodes:
       hosts:
         LWM2M_HOST_ADDRESS: #change to the host of LWM2M worker node on k8s

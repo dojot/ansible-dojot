@@ -1,13 +1,25 @@
 ---
 
-- name: docker status
+- name: containerd status
   become: yes
-  service: name=docker state=started
+  service: name=containerd state=started
 
 - name: systemd daemon reload
   become: yes
   command: systemctl daemon-reload
 
-- name: restart docker
+- name: modprobe overlay
   become: yes
-  service: name=docker state=restarted
+  command: modprobe overlay
+
+- name: modprobe br_netfilter
+  become: yes
+  command: modprobe br_netfilter
+
+- name: sysctl reload
+  become: yes
+  command: sysctl --system
+
+- name: containerd restart
+  become: yes
+  command: systemctl restart containerd

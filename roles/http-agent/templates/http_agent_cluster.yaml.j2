@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-agent
+  namespace: {{ dojot_namespace }}
+
+spec:
+  serviceName: "http-agent"
+  selector:
+    matchLabels:
+      name: http-agent
+  template: #templates for the pods
+    metadata:
+      labels:
+        app: dojot
+        name: http-agent
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: http-agent-cert-sidecar
+        image: dojot/cert-sidecar:{{ dojot_http_agent_version }}
+        env:
+        - name: CERT_SC_APP_SIDECAR_TO
+          value: "http-agent"
+        - name: CERT_SC_LOG_CONSOLE_LEVEL
+          value: "info"
+        - name: CERT_SC_CERTS_HOSTNAMES
+          value: "[\"http-agent\", \"{{ dojot_domain_name }}\"]"
+        - name: CERT_SC_CERTS_FILES_BASEPATH
+          value: /certs
+        - name: CERT_SC_CERTS_FILES_CA
+          value: ca.crt
+        - name: CERT_SC_CERTS_FILES_CERT
+          value: http-agent.crt
+        - name: CERT_SC_CERTS_FILES_KEY
+          value: http-agent.key
+        - name: CERT_SC_CERTS_FILES_CRL
+          value: ca.crl
+        - name: CERT_SC_CERTS_FILES_CABUNDLE
+          value: cabundle.crt
+        - name: CERT_SC_CRON_CABUNDLE
+          value: "true"
+        volumeMounts:
+        - mountPath: /certs
+          name: http-agent-certs
+
+      - name: http-agent
+        image: dojot/http-agent:{{ dojot_http_agent_version }}
+        env:
+        - name: HOSTNAME
+          value: http-agent
+        - name: HTTP_AGENT_LOG_CONSOLE_LEVEL
+          value: "info"
+        - name: HTTP_AGENT_LOG_VERBOSE
+          value: "false"
+        - name: HTTP_AGENT_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: HTTP_AGENT_APP_USER_CONFIG_FILE
+          value: "default.conf"
+        - name: HTTP_AGENT_HTTPS_CA
+          value: /certs/cabundle.crt
+        volumeMounts:
+        - mountPath: /certs
+          name: http-agent-certs
+        config:
+          listeners:
+          - address: 0.0.0.0
+            port: {{ dojot_http_agent_port }}
+            websocket: true
+          plugins: []
+
+      volumes:
+      - name: http-agent-certs
+        emptyDir: {}
+
+
