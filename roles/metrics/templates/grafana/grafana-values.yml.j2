@@ -34,7 +34,7 @@ service:
 
 serviceMonitor:
 
-  enabled: true
+  enabled: false
   path: /metrics
   interval: 1m
   scheme: http
@@ -42,8 +42,8 @@ serviceMonitor:
 
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 100m
+    memory: 128Mi
   requests:
     cpu: 100m
     memory: 128Mi
@@ -81,7 +81,7 @@ datasources:
     datasources:
     - name: Prometheus
       type: prometheus
-      url: http://prometheus-k8s-0.{{dojot_monitoring_namespace}}.svc.cluster.local
+      url: http://prometheus-server.{{dojot_monitoring_namespace}}.svc.cluster.local
       access: proxy
       isDefault: true
 

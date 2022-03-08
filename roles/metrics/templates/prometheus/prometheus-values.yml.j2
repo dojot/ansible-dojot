@@ -5,36 +5,23 @@ alertmanager:
   enabled: false
 
 configmapReload:
-
   prometheus:
-    enabled: true
-    name: configmap-reload
-    image:
-      repository: jimmidyson/configmap-reload
-      tag: v0.5.0
-      pullPolicy: IfNotPresent
+    enabled: false
 
 kubeStateMetrics:
   enabled: true
-  image:
-    repository: k8s.gcr.io/kube-state-metrics/kube-state-metrics
-    tag: v2.4.1
-    pullPolicy: IfNotPresent
 
   resources:
   limits:
-    cpu: 50m
-    memory: 100Mi
+    cpu: 100m
+    memory: 64Mi
   requests:
-    cpu: 20m
-    memory: 50Mi
+    cpu: 10m
+    memory: 32Mi
 
 
 nodeExporter:
   enabled: true
-  hostNetwork: true
-  hostPID: true
-  hostRootfs: true
   name: node-exporter
   image:
     repository: quay.io/prometheus/node-exporter
@@ -44,51 +31,36 @@ nodeExporter:
     type: RollingUpdate
   resources:
     limits:
-      cpu: 250m
-      memory: 180Mi
+      cpu: 200m
+      memory: 50Mi
     requests:
-      cpu: 102m
-      memory: 180Mi
-
-  securityContext:
-    fsGroup: 65534
-    runAsGroup: 65534
-    runAsNonRoot: true
-    runAsUser: 65534
-
-  service:
-    annotations:
-      prometheus.io/scrape: "true"
-    hostPort: 9100
-    servicePort: 9100
-    type: ClusterIP
+      cpu: 100m
+      memory: 39Mi
 
 server:
   enabled: true
-  name: k8s-0
+  #name: k8s-0
   image:
     repository: quay.io/prometheus/prometheus
     tag: v2.31.1
     pullPolicy: IfNotPresent
   enableServiceLinks: true
-  baseURL: "http://prometheus-k8s-0.{{dojot_monitoring_namespace}}.svc.cluster.local:9090"
+  baseURL: "http://prometheus-server.{{dojot_monitoring_namespace}}.svc.cluster.local:9090"
   extraFlags:
     - web.enable-lifecycle
-    - web.enable-admin-api
-
   global:
     scrape_interval: 1m
     scrape_timeout: 10s
     evaluation_interval: 1m
 
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-    hosts:
-      - prometheus-k8s-0.{{dojot_monitoring_namespace}}.svc.cluster.local
-    path: /
-    pathType: Prefix
+  #ingress:
+  #  enabled: false
+  #  annotations:
+  #    kubernetes.io/ingress.class: nginx
+  #  hosts:
+  #    - prometheus-k8s-0.{{dojot_monitoring_namespace}}.svc.cluster.local
+  #  path: /
+  #  pathType: Prefix
 
   affinity:
   podAntiAffinity:
@@ -106,6 +78,7 @@ server:
     accessModes:
       - ReadWriteOnce
     size: 1Gi
+    mountPath: /data
     storageClass: "{{ dojot_storage_class_name }}"
     finalizers:
       - kubernetes.io/pvc-protection
@@ -115,51 +88,13 @@ server:
         prometheus: k8s
     namespace: "{{dojot_monitoring_namespace}}"
 
-  #alertmanagers:
-  #  - alertmanager-0.{{dojot_monitoring_namespace}}.svc.cluster.local:9093
-
-  replicaCount: 1
-
-  tcpSocketProbeEnabled: false
-  probeScheme: HTTP
-  readinessProbeInitialDelay: 30
-  readinessProbePeriodSeconds: 5
-  readinessProbeTimeout: 4
-  readinessProbeFailureThreshold: 3
-  readinessProbeSuccessThreshold: 1
-  livenessProbeInitialDelay: 30
-  livenessProbePeriodSeconds: 15
-  livenessProbeTimeout: 10
-  livenessProbeFailureThreshold: 3
-  livenessProbeSuccessThreshold: 1
-
   resources:
     limits:
-      cpu: 400m
-      memory: 512Mi
+      cpu: 500m
+      memory: 2Gi
     requests:
-      cpu: 100m
-      memory: 100Mi
-
-  hostNetwork: false
-
-  dnsPolicy: ClusterFirst
-  securityContext:
-    runAsUser: 65534
-    runAsNonRoot: true
-    runAsGroup: 65534
-    fsGroup: 65534
-
-  service:
-    clusterIP: ""
-
-    loadBalancerIP: ""
-    loadBalancerSourceRanges: []
-    servicePort: 80
-    type: ClusterIP
-
-  terminationGracePeriodSeconds: 300
-  retention: "15d"
+      cpu: 500m
+      memory: 512Mi
 
 pushgateway:
   enabled: true
@@ -168,32 +103,6 @@ pushgateway:
     repository: prom/pushgateway
     tag: v1.4.2
     pullPolicy: IfNotPresent
-  ingress:
-    enabled: false
-    path: /
-    pathType: Prefix
-
-  replicaCount: 1
-
-  podDisruptionBudget:
-    enabled: false
-    maxUnavailable: 1
-
-  verticalAutoscaler:
-    enabled: false
-
-  securityContext:
-    runAsUser: 65534
-    runAsNonRoot: true
-
-  service:
-    annotations:
-      prometheus.io/probe: pushgateway
-    servicePort: 9091
-    type: ClusterIP
-
-  persistentVolume:
-    enabled: false
 
 serverFiles:
 
