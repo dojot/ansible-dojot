@@ -4,24 +4,17 @@ rbac:
   pspUseAppArmor: true
   namespaced: false
 
-replicas: 1
-
-readinessProbe:
-  httpGet:
-    path: /api/health
-    port: 3000
-
-livenessProbe:
-  httpGet:
-    path: /api/health
-    port: 3000
-  initialDelaySeconds: 60
-  timeoutSeconds: 30
-  failureThreshold: 10
-
 image:
   repository: grafana/grafana
-  tag: 8.3.4
+  tag: 8.4.2
+  sha: ""
+  pullPolicy: IfNotPresent
+
+downloadDashboardsImage:
+  repository: curlimages/curl
+  tag: 7.73.0
+  sha: ""
+  pullPolicy: IfNotPresent
 
 podPortName: grafana
 
@@ -32,13 +25,13 @@ service:
   targetPort: 3000
   portName: service
 
-serviceMonitor:
-
-  enabled: false
-  path: /metrics
-  interval: 1m
-  scheme: http
-  scrapeTimeout: 30s
+initChownData:
+  enabled: true
+  image:
+    repository: busybox
+    tag: "1.31.1"
+    sha: ""
+    pullPolicy: IfNotPresent
 
 resources:
   limits:
@@ -79,11 +72,12 @@ datasources:
   datasources.yaml:
     apiVersion: 1
     datasources:
-    - name: Prometheus
+    - name: prometheus
       type: prometheus
       url: http://prometheus-server.{{dojot_monitoring_namespace}}.svc.cluster.local
       access: proxy
       isDefault: true
+      editable: true
 
 dashboardProviders:
   dashboardproviders.yaml:
@@ -91,15 +85,28 @@ dashboardProviders:
     providers:
     - name: 'default'
       orgId: 1
-      folder: 'dojot'
+      folder: 'monitoring'
       type: file
       disableDeletion: false
+      updateIntervalSeconds: 10
+      allowUiUpdates: true
+      options:
+        path: /var/lib/grafana/dashboards
+        foldersFromFilesStructure: true
       editable: true
       options:
         path: /var/lib/grafana/dashboards/default
 
 dashboards:
   default:
+    #kube-state-metrics-v2:
+    #  gnetId: 13332
+    #  revision: 2
+    #  datasource: Prometheus
+    #deployment-metrics:
+    #  gnetId: 741
+    #  revision: 0
+    #  datasource: Prometheus
     system-stats:
       gnetId: 15713
       revision: 0
@@ -116,58 +123,58 @@ dashboards:
       gnetId: 15697
       revision: 0
       datasource: Prometheus
-    locust:
-      gnetId: 15701
-      revision: 0
-      datasource: Prometheus
-    vmq-cluster:
-      gnetId: 15696
-      revision: 0
-      datasource: Prometheus
-    vmq-node:
-      gnetId: 15695
-      revision: 0
-      datasource: Prometheus
+    #locust:
+    #  gnetId: 15701
+    #  revision: 0
+    #  datasource: Prometheus
+    #vmq-cluster:
+    #  gnetId: 15696
+    #  revision: 0
+    #  datasource: Prometheus
+    #vmq-node:
+    #  gnetId: 15695
+    #  revision: 0
+    #  datasource: Prometheus
     k8s-resource-cluster:
       gnetId: 15687
       revision: 0
       datasource: Prometheus
-    k8s-resource-namespace-pods:
-      gnetId: 15692
-      revision: 0
-      datasource: Prometheus
-    k8s-resource-pod:
-      gnetId: 15694
-      revision: 0
-      datasource: Prometheus
-    k8s-resource-workload:
-      gnetId: 15693
-      revision: 0
-      datasource: Prometheus
-    k8s-nodes:
-      gnetId: 15688
-      revision: 0
-      datasource: Prometheus
-    k8s-persistentvolumes:
-      gnetId: 15691
-      revision: 0
-      datasource: Prometheus
-    k8s-pods:
-      gnetId: 15689
-      revision: 0
-      datasource: Prometheus
-    k8s-statefulsets:
-      gnetId: 15690
-      revision: 0
-      datasource: Prometheus
-    k8s-usemethod-cluster:
-      gnetId: 15685
-      revision: 0
-      datasource: Prometheus
-    k8s-usemethod-node:
-      gnetId: 15686
-      revision: 0
-      datasource: Prometheus
+    #k8s-resource-namespace-pods:
+    #  gnetId: 15692
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-resource-pod:
+    #  gnetId: 15694
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-resource-workload:
+    #  gnetId: 15693
+    # revision: 0
+    #  datasource: Prometheus
+    #k8s-nodes:
+    #  gnetId: 15688
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-persistentvolumes:
+    #  gnetId: 15691
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-pods:
+    #  gnetId: 15689
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-statefulsets:
+    #  gnetId: 15690
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-usemethod-cluster:
+    #  gnetId: 15685
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-usemethod-node:
+    #  gnetId: 15686
+    #  revision: 0
+    #  datasource: Prometheus
     #kafka-stats:
     #  gnetId: 15590
     #  revision: 0

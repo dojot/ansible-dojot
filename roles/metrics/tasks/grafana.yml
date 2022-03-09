@@ -6,7 +6,7 @@
 - name: Metrics | Grafana | Deploy Grafana chart with values loaded from template
   kubernetes.core.helm:
     chart_ref: grafana/grafana
-    chart_version: 6.20.7
+    chart_version: 6.24.0
     release_name: grafana
     release_namespace: "{{ dojot_monitoring_namespace }}"
     values: "{{ lookup('template', 'grafana/grafana-values.yml.j2') | from_yaml }}"
