@@ -57,7 +57,7 @@ server:
   baseURL: "http://prometheus-server.{{dojot_monitoring_namespace}}.svc.cluster.local:9090"
   extraFlags:
     - web.enable-lifecycle
-  #configPath: /etc/config/prometheus.yml
+  configPath: /etc/config/prometheus.yml
   global:
     scrape_interval: 1m
     scrape_timeout: 10s
