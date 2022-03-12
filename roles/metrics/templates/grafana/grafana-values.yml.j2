@@ -72,10 +72,10 @@ datasources:
   datasources.yaml:
     apiVersion: 1
     datasources:
-    - name: prometheus
-      type: prometheus
-      url: http://prometheus-server.{{dojot_monitoring_namespace}}.svc.cluster.local
-      #database: mysql
+    - name: "Prometheus"
+      type: "prometheus"
+      orgId: 1
+      url: "http://prometheus-server.{{dojot_monitoring_namespace}}.svc.cluster.local"
       access: proxy
       isDefault: true
       editable: true
@@ -89,21 +89,16 @@ dashboardProviders:
       folder: 'monitoring'
       type: file
       disableDeletion: false
-      updateIntervalSeconds: 10
-      allowUiUpdates: true
-      options:
-        path: /var/lib/grafana/dashboards
-        foldersFromFilesStructure: true
       editable: true
       options:
         path: /var/lib/grafana/dashboards/default
 
 dashboards:
   default:
-    kube-state-metrics-v2:
-      gnetId: 13332
-      revision: 2
-      datasource: Prometheus
+    #kube-state-metrics-v2:
+    #  gnetId: 13332
+    #  revision: 2
+    #  datasource: Prometheus
     #deployment-metrics:
     #  gnetId: 741
     #  revision: 0
@@ -116,14 +111,14 @@ dashboards:
       gnetId: 15712
       revision: 0
       datasource: Prometheus
-    dojot-100k:
-      gnetId: 15706
-      revision: 0
-      datasource: Prometheus
-    k8s-resource-namespace-workloads:
-      gnetId: 15697
-      revision: 0
-      datasource: Prometheus
+    #dojot-100k:
+    #  gnetId: 15706
+    #  revision: 0
+    #  datasource: Prometheus
+    #k8s-resource-namespace-workloads:
+    #  gnetId: 15697
+    #  revision: 0
+    #  datasource: Prometheus
     #locust:
     #  gnetId: 15701
     #  revision: 0
@@ -136,10 +131,10 @@ dashboards:
     #  gnetId: 15695
     #  revision: 0
     #  datasource: Prometheus
-    k8s-resource-cluster:
-      gnetId: 15687
-      revision: 0
-      datasource: Prometheus
+    #k8s-resource-cluster:
+    #  gnetId: 15687
+    #  revision: 0
+    #  datasource: Prometheus
     #k8s-resource-namespace-pods:
     #  gnetId: 15692
     #  revision: 0
@@ -212,18 +207,18 @@ grafana.ini:
     logs: /var/log/grafana
     plugins: /var/lib/grafana/plugins
     provisioning: /etc/grafana/provisioning
-  database:
+  #database:
     # caso não funcione com sqlite3 (testar quando chegar)testar com mysql novamente
-    #type: #mysql #postgres  #sqlite3
+    #type: mysql #postgres  #sqlite3
     #host: 0.0.0.0:3306
-    type: sqlite3
-    host: 127.0.0.1:3306
-    name: grafana
-    user: root
-  unified_alerting:
-    enabled: false
-  alerting:
-    enabled: true
+  #  type: sqlite3
+  #  host: 127.0.0.1:3306
+  #  name: grafana
+  #  user: root
+  #unified_alerting:
+  #  enabled: false
+  #alerting:
+  #  enabled: true
   analytics:
     check_for_updates: true
   log:
