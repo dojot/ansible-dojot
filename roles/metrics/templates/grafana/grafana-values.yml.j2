@@ -35,8 +35,8 @@ initChownData:
 
 resources:
   limits:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 500m
+    memory: 1Gi
   requests:
     cpu: 100m
     memory: 128Mi
@@ -95,82 +95,78 @@ dashboardProviders:
 
 dashboards:
   default:
-    #kube-state-metrics-v2:
-    #  gnetId: 13332
-    #  revision: 2
-    #  datasource: Prometheus
-    #deployment-metrics:
-    #  gnetId: 741
-    #  revision: 0
-    #  datasource: Prometheus
     system-stats:
-      gnetId: 15713
+      gnetId: 15592
       revision: 0
       datasource: Prometheus
     docker-stats:
       gnetId: 15712
       revision: 0
       datasource: Prometheus
-    #dojot-100k:
-    #  gnetId: 15706
-    #  revision: 0
+    #k8s-deployment:
+    #  gnetId: 8588
+    #  revision: 12
     #  datasource: Prometheus
-    #k8s-resource-namespace-workloads:
-    #  gnetId: 15697
-    #  revision: 0
-    #  datasource: Prometheus
-    #locust:
-    #  gnetId: 15701
-    #  revision: 0
-    #  datasource: Prometheus
-    #vmq-cluster:
-    #  gnetId: 15696
-    #  revision: 0
-    #  datasource: Prometheus
-    #vmq-node:
-    #  gnetId: 15695
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-resource-cluster:
-    #  gnetId: 15687
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-resource-namespace-pods:
-    #  gnetId: 15692
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-resource-pod:
-    #  gnetId: 15694
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-resource-workload:
-    #  gnetId: 15693
-    # revision: 0
-    #  datasource: Prometheus
-    #k8s-nodes:
-    #  gnetId: 15688
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-persistentvolumes:
-    #  gnetId: 15691
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-pods:
-    #  gnetId: 15689
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-statefulsets:
-    #  gnetId: 15690
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-usemethod-cluster:
-    #  gnetId: 15685
-    #  revision: 0
-    #  datasource: Prometheus
-    #k8s-usemethod-node:
-    #  gnetId: 15686
-    #  revision: 0
-    #  datasource: Prometheus
+    dojot-100k:
+      gnetId: 15706
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-namespace-workloads:
+      gnetId: 12118
+      revision: 0
+      datasource: Prometheus
+    locust:
+      gnetId: 15701
+      revision: 0
+      datasource: Prometheus
+    vmq-cluster:
+      gnetId: 15696
+      revision: 0
+      datasource: Prometheus
+    vmq-node:
+      gnetId: 15695
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-cluster:
+      gnetId: 12114
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-namespace-pods:
+      gnetId: 12117
+      revision: 0
+      datasource: Prometheus
+    k8s-resource-pod:
+      gnetId: 12120
+      revision: 1
+      datasource: Prometheus
+    k8s-resource-workload:
+      gnetId: 12121
+      revision: 0
+      datasource: Prometheus
+    k8s-nodes:
+      gnetId: 12133
+      revision: 0
+      datasource: Prometheus
+    k8s-persistentvolumes:
+      gnetId: 12127
+      revision: 0
+      datasource: Prometheus
+    k8s-pods:
+      gnetId: 12128
+      revision: 0
+      datasource: Prometheus
+    k8s-statefulsets:
+      gnetId: 12131
+      revision: 0
+      datasource: Prometheus
+    k8s-usemethod-cluster:
+      gnetId: 12135
+      revision: 0
+      datasource: Prometheus
+    k8s-usemethod-node:
+      gnetId: 12136
+      revision: 0
+      datasource: Prometheus
     #kafka-stats:
     #  gnetId: 15590
     #  revision: 0
@@ -207,18 +203,6 @@ grafana.ini:
     logs: /var/log/grafana
     plugins: /var/lib/grafana/plugins
     provisioning: /etc/grafana/provisioning
-  #database:
-    # caso não funcione com sqlite3 (testar quando chegar)testar com mysql novamente
-    #type: mysql #postgres  #sqlite3
-    #host: 0.0.0.0:3306
-  #  type: sqlite3
-  #  host: 127.0.0.1:3306
-  #  name: grafana
-  #  user: root
-  #unified_alerting:
-  #  enabled: false
-  #alerting:
-  #  enabled: true
   analytics:
     check_for_updates: true
   log:

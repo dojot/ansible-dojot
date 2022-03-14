@@ -29,6 +29,15 @@ kubeStateMetrics:
     cpu: 10m
     memory: 32Mi
 
+  affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: dojot.components/dojot
+          operator: In
+          values:
+          - enabled
 
 nodeExporter:
   enabled: true
