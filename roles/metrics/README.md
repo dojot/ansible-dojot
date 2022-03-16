@@ -100,8 +100,9 @@ Example:
 
 ssh -L 3000:10.200.40.100:3000 myuser@11:210.44.110
 
+
+# User and password to access grafana
+
 **User**: ``admin``
 
 **Password**: ``admin``
-
-[Grafana](http://localhost:3000)
