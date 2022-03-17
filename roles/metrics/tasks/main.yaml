@@ -38,11 +38,3 @@
 - name: Metrics | Alertmanager | include Alertmanager tasks
   include_tasks: alertmanager.yml
   tags: alertmanager
-
-#- name: Metrics | Node-exporter | include Node-exporter tasks
-#  include_tasks: node-exporter.yml
-#  tags: node-exporter
-
-#- name: Metrics | Kube-State-Metrics | include Kube-State-Metrics tasks
-#  include_tasks: kube-state-metrics.yml
-#  tags: kube-state-metrics

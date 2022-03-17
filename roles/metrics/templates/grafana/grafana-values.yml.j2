@@ -7,13 +7,11 @@ rbac:
 image:
   repository: grafana/grafana
   tag: 8.4.2
-  sha: ""
   pullPolicy: IfNotPresent
 
 downloadDashboardsImage:
   repository: curlimages/curl
   tag: 7.73.0
-  sha: ""
   pullPolicy: IfNotPresent
 
 podPortName: grafana
@@ -163,30 +161,6 @@ dashboards:
       gnetId: 12136
       revision: 0
       datasource: Prometheus
-    #kafka-stats:
-    #  gnetId: 15590
-    #  revision: 0
-    #  datasource: Prometheus
-    #kong-stats:
-    #  gnetId: 15595
-    #  revision: 0
-    #  datasource: Prometheus
-    #verneMQ-stats:
-    #  gnetId: 15598
-    #  revision: 0
-    #  datasource: Prometheus
-    #mongo-stats:
-    #  gnetId: 15596
-    #  revision: 0
-    #  datasource: Prometheus
-    #influx-stats:
-    #  gnetId: 15594
-    #  revision: 0
-    #  datasource: Prometheus
-    #rabbitMQ-stats:
-    #  gnetId: 15597
-    #  revision: 0
-    #  datasource: Prometheus
     overview-stats:
       gnetId: 15593
       revision: 0
