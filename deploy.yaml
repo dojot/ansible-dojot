@@ -50,7 +50,7 @@
   tags:
     - zookeeper
     - kafka
-    - 100kf
+    - 100k
   roles:
     - role: zookeeper
       when: not dojot_zk_use_external
