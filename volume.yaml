@@ -11,6 +11,9 @@
     - role: volumes/minio
       tags:
         - minio
+    - role: volumes/minio-files
+      tags:
+        - minio-files
     - role: volumes/mongodb
       tags:
         - mongodb
@@ -78,6 +81,9 @@
     - role: volumes/minio
       tags:
         - minio
+    - role: volumes/minio-files
+      tags:
+        - minio-files
     - role: volumes/mongodb
       tags:
         - mongodb

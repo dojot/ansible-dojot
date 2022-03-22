@@ -58,6 +58,8 @@ dojot_nodeports:
     https: 30011
   minio: 30012
   influxdb: 30013
+  minio_files_console: 30014
+
 
 
 

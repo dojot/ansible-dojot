@@ -1,0 +1,12 @@
+# This files has the default values for dojot File-MGMT variables
+
+dojot_file_mgmt_version: "{{ dojot_version }}"
+dojot_kafka_port: 9092
+
+dojot_minio_files_access_key: '9HEODSF6WQN5EZ39DM7Z'
+
+dojot_minio_files_secret_key: 'fT5nAgHR9pkj0yYsBdc4p+PPq6ArjshcPdz0HA6W'
+
+dojot_minio_files_volume_size: 2Gi
+
+MINIO_BUCKET_SUFFIX: cpqd.dojot
