@@ -6,10 +6,6 @@ dojot_minio_files_secret_key: 'fT5nAgHR9pkj0yYsBdc4p+PPq6ArjshcPdz0HA6W'
 
 dojot_minio_files_version: 'RELEASE.2021-11-09T03-21-45Z'
 
-dojot_minio_files_api_port: 9000
-
-dojot_minio_files_console_port: 9001
-
 dojot_minio_files_cluster_size: 1
 
 dojot_minio_files_volume_size: 2Gi
