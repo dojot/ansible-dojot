@@ -34,19 +34,10 @@ spec:
       volumeMounts:
           - name: influxdb-chronograf-volume
             mountPath: /var/lib/chronograf
-  volumeClaimTemplates:
-  - metadata:
-      name: influxdb-chronograf-volume
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: {{ dojot_storage_class_name }}
-      resources:
-        requests:
-          storage: {{ dojot_influxdb_chronograf_volume_size }}
-      selector:
-        matchLabels:
-          app: dojot
-          db: influxdb-chronograf-volume
+      volumes:
+      - name: influxdb-chronograf-volume
+        persistentVolumeClaim:
+          claimName: influxdb-chronograf-volume
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
@@ -58,3 +49,19 @@ spec:
                 values:
                 - "enabled"
 {% endif %}
+  volumeClaimTemplates:
+  - metadata:
+      name: influxdb-chronograf-volume
+    spec:
+{% if dojot_storage_class_name == "local-storage" %}
+      selector:
+        matchLabels:
+          app: dojot
+          db: influxdb-chronograf
+          type: local
+{% endif %}
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_influxdb_chronograf_volume_size }}

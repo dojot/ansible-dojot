@@ -68,9 +68,18 @@ spec:
             port: {{ dojot_http_agent_port }}
             websocket: true
           plugins: []
-
       volumes:
       - name: http-agent-certs
         emptyDir: {}
-
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}
 

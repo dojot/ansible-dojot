@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: local-pv-prometheus
+  name: pv-prometheus
   labels:
     app: prometheus
     prometheus: k8s
@@ -12,8 +12,15 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: {{ dojot_storage_class_name }}
+{% if dojot_storage_class_name == "local-storage" %}
   local:
     path: {{ dojot_volume_directory }}/prometheus
+{% endif %}
+{% if dojot_storage_class_name == "nfs" %}
+  nfs:
+    server: {{ hostvars.nfs_host.ansible_host }}
+    path: {{ dojot_volume_directory }}/prometheus
+{% endif %}
   nodeAffinity:
     required:
       nodeSelectorTerms:

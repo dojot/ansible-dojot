@@ -21,6 +21,8 @@ all:
     haproxy:
         ansible_host: HAPROXY_HOST_ADDRESS #change to the host of NGINX
         ansible_python_interpreter: /usr/bin/python3
+    nfs_host:
+        ansible_host: NFS-SERVER_HOST_ADDRESS #change to the host of NFS Server
   children:
     #host where dojot will be deployed
     dojot-k8s:
@@ -41,12 +43,15 @@ all:
         dojot_nodes:
           hosts:
             worker_host: #host for dojot related services volumes (apigw; influxdb; kafka_ws; minio; mongodb; postgres; prometheus;)
+            # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
         kafka_nodes:
           hosts:
             worker_host: #host for kafka related services volumes (kafka; zookeeper;)
+            # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
         x509_nodes:
           hosts:
             worker_host: #host for x509 related services volumes (x509;)
+            # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
 
     apigw_nodes:
       hosts:

@@ -1,0 +1,20 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: nfs-subdir-external-provisioner
+  labels:
+    app: nfs-subdir-external-provisioner
+  namespace:  {{ dojot_namespace }}
+spec:
+  ports:
+    - name: nfs
+      port: 2049
+    - name: mountd
+      port: 20048
+    - name: rpcbind
+      port: 111
+    - name: rpcbind-udp
+      port: 111
+      protocol: UDP
+  selector:
+    app: nfs-subdir-external-provisioner

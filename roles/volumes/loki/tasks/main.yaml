@@ -6,7 +6,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0644'
+    mode: "2775"
   when: (dojot_storage_class_name == "local-storage") and
         ('dojot_nodes' in group_names)
 
