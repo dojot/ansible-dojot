@@ -59,8 +59,6 @@ dojot_nodeports:
   minio: 30012
   influxdb: 30013
 
-
-
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.
 # Note: if you are using persistence, all PersistentVolume files must reflect the changes in here.

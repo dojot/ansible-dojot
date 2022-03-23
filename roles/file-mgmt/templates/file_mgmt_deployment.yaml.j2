@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-mgmt
+  labels:
+    name: file-mgmt
+    app: dojot
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: file-mgmt
+  template:
+    metadata:
+      labels:
+        name: file-mgmt
+        app: dojot
+    spec:
+      containers:
+      - name: file-mgmt
+        image: dojot/file-mgmt:{{ dojot_file_mgmt_version }}
+        env:
+        - name: FILEMGMT_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: FILEMGMT_BUCKET_SUFFIX
+          value: cpqd.dojot.
+        - name: FILEMGMT_MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-files-secrets
+              key: MINIO_ACCESS_KEY
+        - name: FILEMGMT_MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-files-secrets
+              key: MINIO_SECRET_KEY
+        ports:
+        - containerPort: 7000
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9000
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          failureThreshold: 3
+          timeoutSeconds: 20

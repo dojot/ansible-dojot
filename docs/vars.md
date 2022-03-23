@@ -196,6 +196,25 @@ before deploying dojot
 * *dojot_http_agent_port*: Port that will be used to communicate with HTTP Agent. Defaults to **8080**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
+### - File MGMT
+
+* *dojot_file_mgmt_version*: Version of the File MGMT container. Defaults to **dojot_version**.
+* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
+* *dojot_minio_files_access_key*: MinIO access key.
+* *dojot_minio_files_secret_key*: MinIO secret key.
+* *dojot_minio_files_volume_size*: Size of the File Mgmt volumes that are created. Defaults to **2Gi**.
+* *dojot_minio_bucket_suffix*: MinIO bucket suffix of the File Mgmt. Defaults to **cpqd.dojot**.
+
+
+### - MinIO Files
+
+* *dojot_minio_files_access_key*: MinIO access key.
+* *dojot_minio_files_secret_key*: MinIO secret key.
+* *dojot_minio_files_version*: Version of the MinIO.
+* *dojot_minio_files_api_port*: API Port of the MinIO. Defaults to **9000**.
+* *dojot_minio_files_cluster_size*: Size of the MinIO Files cluster. Defaults to **1**.
+* *dojot_minio_files_volume_size*: Size of the MinIO Files volumes that are created. Defaults to **2Gi**.
+
 ### - Metrics and Logging
 
 * *dojot_enable_locust_exporter*: Whether to activate the Locust Exporter or not. Defaults to **false**.

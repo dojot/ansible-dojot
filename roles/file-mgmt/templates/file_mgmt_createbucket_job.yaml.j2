@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: createbuckets
+  namespace: {{ dojot_namespace }}
+  labels:
+      app: dojot
+      name: minio-files
+spec:
+  template:
+    metadata:
+      name: createbuckets
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: createbuckets
+        image: minio/mc:latest
+        env:
+        - name: ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-files-secrets
+              key: MINIO_ACCESS_KEY
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: minio-files-secrets
+              key: MINIO_SECRET_KEY
+        command:
+          - /bin/sh
+          - -c
+          - '/usr/bin/mc config host add myminio http://minio-files:9000 $ACCESS_KEY $SECRET_KEY; /usr/bin/mc mb myminio/{{ dojot_minio_bucket_suffix }}.admin; /usr/bin/mc ls myminio'

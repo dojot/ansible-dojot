@@ -26,10 +26,13 @@
 # Minio
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
-  tags:
-    - minio
   roles:
     - role: minio
+      tags:
+        - minio
+    - role: minio-files
+      tags:
+        - minio-files
 
 # Metrics (Prometheus, Grafana, Loki, Promtail and Node Exporter)
 - hosts: dojot-k8s[0]
@@ -245,4 +248,9 @@
     - role: http-agent
       tags:
         - http-agent
+        - 100k
+
+    - role: file-mgmt
+      tags:
+        - file-mgmt
         - 100k

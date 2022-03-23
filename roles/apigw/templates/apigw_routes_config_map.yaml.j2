@@ -196,3 +196,7 @@ data:
             --data "config.header_name=X-Request-Id" \
             --data "config.generator=uuid" \
             --data "config.echo_downstream=false"
+
+        # service: file-mgmt
+        createEndpoint "file-mgmt" "http://file-mgmt:7000"  '"/file-mgmt"' "true"
+        addAuthToEndpoint "file-mgmt"
