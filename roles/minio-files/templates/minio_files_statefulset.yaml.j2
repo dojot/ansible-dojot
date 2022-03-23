@@ -49,9 +49,6 @@ spec:
         - containerPort: {{ dojot_minio_files_api_port }}
           name: api
           protocol: TCP
-        - containerPort: {{ dojot_minio_files_console_port }}
-          name: console
-          protocol: TCP
         volumeMounts:
         - name: minio-files-volume
           mountPath: /data

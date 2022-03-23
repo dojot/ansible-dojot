@@ -10,6 +10,6 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'minio-files_secrets.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'minio-files_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'minio-files_statefulset.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'minio_files_secrets.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'minio_files_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'minio_files_statefulset.yaml.j2') | from_yaml }}"

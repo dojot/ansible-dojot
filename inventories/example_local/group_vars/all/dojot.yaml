@@ -58,10 +58,6 @@ dojot_nodeports:
     https: 30011
   minio: 30012
   influxdb: 30013
-  minio_files_console: 30014
-
-
-
 
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.

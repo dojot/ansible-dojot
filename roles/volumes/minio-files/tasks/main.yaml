@@ -17,5 +17,5 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'minio-files.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'minio_files.yaml.j2') | from_yaml }}"
   when: ('master_nodes' in group_names)

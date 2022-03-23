@@ -26,8 +26,6 @@ spec:
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: FILEMGMT_BUCKET_SUFFIX
           value: cpqd.dojot.
-        #- name: FILEMGMT_APP_USER_CONFIG_FILE
-        #  value: "default.conf"
         - name: FILEMGMT_MINIO_ACCESS_KEY
           valueFrom:
             secretKeyRef:

@@ -200,19 +200,20 @@ before deploying dojot
 
 * *dojot_file_mgmt_version*: Version of the File MGMT container. Defaults to **dojot_version**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
-* *dojot_minio_files_access_key*: MinIO acess key.
+* *dojot_minio_files_access_key*: MinIO access key.
 * *dojot_minio_files_secret_key*: MinIO secret key.
-* *dojot_minio_files_volume_size*: Size of the File Mgmt volumes that are created. Defaults to **2Mi**.
-* *MINIO_BUCKET_SUFFIX*: MinIO bucket suffix of the File Mgmt. Defaults to **cpqd.dojot**.
+* *dojot_minio_files_volume_size*: Size of the File Mgmt volumes that are created. Defaults to **2Gi**.
+* *dojot_minio_bucket_suffix*: MinIO bucket suffix of the File Mgmt. Defaults to **cpqd.dojot**.
 
 
 ### - MinIO Files
 
-* *dojot_minio_files_access_key*: MinIO acess key.
+* *dojot_minio_files_access_key*: MinIO access key.
 * *dojot_minio_files_secret_key*: MinIO secret key.
-* *dojot_minio_files_version*: Version of the MinIo.
+* *dojot_minio_files_version*: Version of the MinIO.
+* *dojot_minio_files_api_port*: API Port of the MinIO. Defaults to **9000**.
 * *dojot_minio_files_cluster_size*: Size of the MinIO Files cluster. Defaults to **1**.
-* *dojot_minio_files_volume_size*: Size of the MinIO Files volumes that are created. Defaults to **2Mi**.
+* *dojot_minio_files_volume_size*: Size of the MinIO Files volumes that are created. Defaults to **2Gi**.
 
 ### - Metrics and Logging
 

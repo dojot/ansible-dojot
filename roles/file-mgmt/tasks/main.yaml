@@ -7,9 +7,9 @@
     definition: "{{ item }}"
   register: result
   until: result.failed == 0
-  retries: 2
+  retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'file-mgmt_createbucket_job.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'file-mgmt_deployment.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'file-mgmt_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'file_mgmt_createbucket_job.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'file_mgmt_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'file_mgmt_service.yaml.j2') | from_yaml }}"

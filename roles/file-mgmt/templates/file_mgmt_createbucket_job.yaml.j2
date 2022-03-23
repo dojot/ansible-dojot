@@ -29,4 +29,4 @@ spec:
         command:
           - /bin/sh
           - -c
-          - '/usr/bin/mc config host add myminio http://minio-files:9000 $ACCESS_KEY $SECRET_KEY; /usr/bin/mc mb myminio/{{ MINIO_BUCKET_SUFFIX }}.admin; /usr/bin/mc ls myminio'
+          - '/usr/bin/mc config host add myminio http://minio-files:9000 $ACCESS_KEY $SECRET_KEY; /usr/bin/mc mb myminio/{{ dojot_minio_bucket_suffix }}.admin; /usr/bin/mc ls myminio'

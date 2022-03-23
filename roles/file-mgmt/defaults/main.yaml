@@ -9,4 +9,4 @@ dojot_minio_files_secret_key: 'fT5nAgHR9pkj0yYsBdc4p+PPq6ArjshcPdz0HA6W'
 
 dojot_minio_files_volume_size: 2Gi
 
-MINIO_BUCKET_SUFFIX: cpqd.dojot
+dojot_minio_bucket_suffix: cpqd.dojot
