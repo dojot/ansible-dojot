@@ -65,12 +65,44 @@ For [`Kubernetes`](https://kubernetes.io/) we have several specific dashboards f
 * k8s usemethod cluster;
 * k8s usemethod node.
 
-## Viewing metrics in grafana
+## How to view and access data in grafana?
 
-As the service is declared in [Grafana Values](templates/grafana/grafana-values.yml.j2), it has already been instantiated. Then just access the service at the URL http://localhost:3000.
+
+* If you are using dojot in a local cluster, just access the grafana service through the URL http://localhost:3000 and prometheus via the URL http://localhost:9090.
+
+* However, if you do not have local access to the cluster, to access the services of prometheus and grafana, simply open an ``SSH`` tunnel using the ``IP`` of the service. To get the ``IP`` of the services run the commands below and search for ``Endpoints`` from the command output:
+
+```
+kubectl describe service grafana -n dojot-monitoring
+```
+
+and
+
+```
+kubectl describe service prometheus-server -n dojot-monitoring
+```
+
+* After that, just open an ssh tunnel with the endpoint obtained, for example:
+
+# Prometheus
+
+ssh -L <portlocal>:<endpoint_service_prometheus>:9090 <user_cluster>@<ip_cluster>
+
+Example: 
+
+ssh -L 9090:10.200.40.100:9090 myuser@11:210.44.110
+
+# Grafana
+
+ssh -L <portlocal>:<endpoint_service_prometheus>:3000 <user_cluster>:<ip_cluster>
+
+Example:
+
+ssh -L 3000:10.200.40.100:3000 myuser@11:210.44.110
+
+
+# User and password to access grafana
 
 **User**: ``admin``
 
 **Password**: ``admin``
-
-[Grafana](http://localhost:3000)
