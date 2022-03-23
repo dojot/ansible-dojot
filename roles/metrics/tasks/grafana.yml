@@ -1,14 +1,12 @@
 - name: Metrics | Grafana | Add grafana helm repository
   kubernetes.core.helm_repository:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     name: grafana
     repo_url: "https://grafana.github.io/helm-charts"
 
 - name: Metrics | Grafana | Deploy Grafana chart with values loaded from template
   kubernetes.core.helm:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     chart_ref: grafana/grafana
-    chart_version: 6.20.7
+    chart_version: 6.24.0
     release_name: grafana
     release_namespace: "{{ dojot_monitoring_namespace }}"
     values: "{{ lookup('template', 'grafana/grafana-values.yml.j2') | from_yaml }}"

@@ -1,0 +1,12 @@
+- name: Metrics | Prometheus | Add prometheus helm repository
+  kubernetes.core.helm_repository:
+    name: prometheus-community
+    repo_url: "https://prometheus-community.github.io/helm-charts"
+
+- name: Metrics | Prometheus | Deploy Prometheus chart with values loaded from template
+  kubernetes.core.helm:
+    chart_ref: prometheus-community/prometheus
+    chart_version: 15.5.3
+    release_name: prometheus
+    release_namespace: "{{ dojot_monitoring_namespace }}"
+    values: "{{ lookup('template', 'prometheus/prometheus-values.yml.j2') | from_yaml }}"
