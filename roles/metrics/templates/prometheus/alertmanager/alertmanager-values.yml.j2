@@ -1,0 +1,67 @@
+replicaCount: 1
+
+image:
+  repository: quay.io/prometheus/alertmanager
+  pullPolicy: IfNotPresent
+  tag: "v0.23.0"
+
+
+serviceAccount:
+  create: false
+podSecurityContext:
+  fsGroup: 65534
+dnsConfig: {}
+securityContext:
+  runAsUser: 65534
+  runAsNonRoot: true
+  runAsGroup: 65534
+service:
+  annotations: {}
+  type: ClusterIP
+  port: 9093
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 10m
+    memory: 32Mi
+
+affinity:
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: dojot.components/dojot
+        operator: In
+        values:
+        - enabled
+
+
+persistence:
+  enabled: false
+  ## Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ## set, choosing the default provisioner.
+  ##
+  storageClass: "{{ dojot_storage_class_name }}"
+  accessModes:
+    - ReadWriteOnce
+  size: 50Mi
+
+config:
+  global: {}
+  templates:
+    - '/etc/alertmanager/*.tmpl'
+
+  receivers:
+    - name: default-receiver
+  route:
+    group_wait: 10s
+    group_interval: 5m
+    receiver: default-receiver
+    repeat_interval: 3h
+
+templates: {}
