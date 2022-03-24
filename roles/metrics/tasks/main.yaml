@@ -41,4 +41,4 @@
 
 - name: Metrics | kafka-exporter | include Kafka-exporter tasks
   include_tasks: kafka.yml
-  tags: prometheus-kafka-exporter
+  tags: kafka-exporter

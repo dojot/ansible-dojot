@@ -5,8 +5,9 @@
 
 - name: Metrics | Kafka-exporter | Deploy Kafka-exporter chart with values loaded from template
   kubernetes.core.helm:
+    name: kafka-exporter
     chart_ref: prometheus-community/prometheus-kafka-exporter
     chart_version: 1.5.0
-    release_name: prometheus-kafka-exporter
+    force: true
     release_namespace: "{{ dojot_monitoring_namespace }}"
     values: "{{ lookup('template', 'prometheus/kafka/kafka-exporter-values.yml.j2') | from_yaml }}"
