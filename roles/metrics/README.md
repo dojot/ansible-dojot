@@ -77,6 +77,45 @@ Available metrics:
 * Message consume per minute;
 * Partitions per Topic.
 
+## VerneMQ
+
+As ``VerneMQ`` officially enables integration, the process becomes simpler. It is only necessary to declare the ``job`` in the Prometheus configuration file.
+
+Available metrics:
+
+* Summary;
+* Clients;
+* Queues;
+* Subscriptions;
+* Erlang VM;
+* Bytes IN & OUT;
+* Retain;
+* TCP Sockets;
+* Node to cluster communication;
+* MQTT Connect;
+* MQTT Subscribe;
+* MQTT Publish;
+* MQTT Ping;
+* MISC.
+
+## Kong API Gateway Exporter
+
+As ``Kong`` officially allows the integration, the process becomes simpler. It is only necessary to declare ``job`` in the Prometheus configuration file to get metrics regarding cloud services to manage, monitor and scale application programming interfaces and microservices.
+
+Available metrics:
+
+* Status codes;
+* Latencies Histograms;
+  * Request;
+  * Kong;
+  * Upstream;
+* Bandwidth;
+* DB reachability;
+* Connections;
+* Target Health;
+* Dataplane Status;
+* Enterprise License Information.
+
 ## How to view and access data in grafana?
 
 
