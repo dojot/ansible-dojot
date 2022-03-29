@@ -126,6 +126,8 @@ Available metrics:
 * Request for InfluxDB;
 * GO Metrics;
 
+Note: influxdb is not initialized by default, if you want to use and monitor it, it is necessary to enable the service and its dependencies in ``inventories/example_local/group_vars/all/services.yaml``.
+
 ## How to view and access data in grafana?
 
 
