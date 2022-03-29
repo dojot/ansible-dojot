@@ -38,3 +38,7 @@
 - name: Metrics | Alertmanager | include Alertmanager tasks
   include_tasks: alertmanager.yml
   tags: alertmanager
+
+- name: Metrics | kafka-exporter | include Kafka-exporter tasks
+  include_tasks: kafka.yml
+  tags: kafka-exporter

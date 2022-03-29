@@ -1,0 +1,50 @@
+image:
+  repository: danielqsj/kafka-exporter
+  tag: v1.4.1
+  pullPolicy: IfNotPresent
+
+kafkaServer:
+  - kafka-server.dojot.svc.cluster.local:9092
+
+kafkaBrokerVersion:
+
+rbac:
+  create: true
+  pspEnabled: true
+
+serviceAccount:
+  create: false
+
+service:
+  type: ClusterIP
+  port: 9308
+
+prometheus:
+  serviceMonitor:
+    enabled: true
+    namespace: dojot-monitoring
+    interval: "120s"
+    additionalLabels:
+      release: prometheus
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+tls:
+  enabled: false
+  insecureSkipVerify: true
+
+affinity:
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: dojot.components/dojot
+        operator: In
+        values:
+        - enabled

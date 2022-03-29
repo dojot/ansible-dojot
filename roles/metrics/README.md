@@ -65,6 +65,18 @@ For [`Kubernetes`](https://kubernetes.io/) we have several specific dashboards f
 * k8s usemethod cluster;
 * k8s usemethod node.
 
+## Apache Kafka Exporter
+
+Kafka-Exporter is used to get metrics from the service ``Kafka``. In other words, the metrics obtained by Prometheus are directly related to high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.
+
+Available metrics:
+
+* Message in per second;
+* Lag by Consumer Group;
+* Message in per minute;
+* Message consume per minute;
+* Partitions per Topic.
+
 ## How to view and access data in grafana?
 
 
