@@ -1,6 +1,6 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_version: development
+dojot_version: v0.8.0-rc.1
 dojot_domain_name: localhost
 
 # Parameters used when active HTTPS in NGINX
