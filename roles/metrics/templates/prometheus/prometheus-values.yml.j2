@@ -152,6 +152,13 @@ serverFiles:
         scrape_interval: 5s
         scrape_timeout: 5s
 
+      - job_name: mongodb-exporter
+        static_configs:
+          - targets:
+            - mongodb-exporter-prometheus-mongodb-exporter.{{dojot_monitoring_namespace}}.svc.cluster.local:9216
+        scrape_interval: 5m
+        scrape_timeout: 30s
+
       - job_name: 'kubernetes-apiservers'
 
         kubernetes_sd_configs:
