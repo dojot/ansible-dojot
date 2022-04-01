@@ -116,6 +116,18 @@ Available metrics:
 * Dataplane Status;
 * Enterprise License Information.
 
+## InfluxDB
+
+As ``InfluxDB`` officially allows the integration, the process becomes simpler. It is only necessary to declare ``job`` in the Prometheus configuration file to get metrics regarding cloud services to manage, monitor and scale application programming interfaces and microservices.
+
+Available metrics:
+
+* InfluxDB Informations;
+* Request for InfluxDB;
+* GO Metrics;
+
+Note: influxdb is not initialized by default, if you want to use and monitor it, it is necessary to enable the service and its dependencies in ``inventories/example_local/group_vars/all/services.yaml``.
+
 ## How to view and access data in grafana?
 
 

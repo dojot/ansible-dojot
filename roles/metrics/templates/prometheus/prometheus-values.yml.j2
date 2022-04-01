@@ -146,6 +146,12 @@ serverFiles:
         scrape_interval: 5s
         scrape_timeout: 5s
 
+      - job_name: 'influxdb'
+        static_configs:
+          - targets: ['influxdb.{{ dojot_namespace }}.svc.cluster.local:8086']
+        scrape_interval: 5s
+        scrape_timeout: 5s
+
       - job_name: 'kubernetes-apiservers'
 
         kubernetes_sd_configs:
