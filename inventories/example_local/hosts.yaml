@@ -6,7 +6,7 @@ all:
         ansible_python.version.major: 3
         ansible_python_interpreter: /usr/bin/python3
     # If you are using ansible in a control node (outside of master) you should uncomment
-    # master_host declaration (lines 11...14) and then change the lines 28 and 34
+    # master_host declaration (lines 11...14) and then change the lines 34 and 40
     # pointing to "master_host"
     # master_host:
     #     ansible_host: MASTER_HOST_ADDRESS #change to the host of master node on k8s
@@ -23,6 +23,10 @@ all:
         ansible_python_interpreter: /usr/bin/python3
     nfs_host:
         ansible_host: NFS-SERVER_HOST_ADDRESS #change to the host of NFS Server
+    k3s_host:
+        ansible_host: K3S_HOST_ADDRESS #change to the host of K3S Server
+        ansible_python_interpreter: /usr/bin/python3
+
   children:
     #host where dojot will be deployed
     dojot-k8s:
@@ -37,6 +41,9 @@ all:
         worker_nodes:
           hosts:
             worker_host:
+    k3s-nodes:
+      hosts:
+        k3s_host:
     #hosts where volumes will be mapped
     volume-nodes:
       children:
