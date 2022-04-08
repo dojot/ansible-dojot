@@ -63,7 +63,7 @@ do_unmount_and_remove '/run/netns/cni-'
 ip netns show 2>/dev/null | grep cni- | xargs -r -t -n 1 ip netns delete
 
 # Delete network interface(s) that match 'master cni0'
-ip link show 2>/dev/null | grep 'master cni0' | while read ignore iface ignore; do
+ip link show 2>/dev/null | grep 'master cni0' | while read -r ignore iface ignore; do
     iface=${iface%%@*}
     [ -z "$iface" ] || ip link delete $iface
 done
