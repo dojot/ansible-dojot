@@ -42,3 +42,7 @@
 - name: Metrics | kafka-exporter | include Kafka-exporter tasks
   include_tasks: kafka.yml
   tags: kafka-exporter
+
+- name: Metrics | mongodb-exporter | include mongodb-exporter tasks
+  include_tasks: mongodb.yml
+  tags: mongodb-exporter

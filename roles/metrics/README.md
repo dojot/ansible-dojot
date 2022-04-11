@@ -128,6 +128,17 @@ Available metrics:
 
 Note: influxdb is not initialized by default, if you want to use and monitor it, it is necessary to enable the service and its dependencies in ``inventories/example_local/group_vars/all/services.yaml``.
 
+## MongoDB Exporter
+
+[`MongoDB Exporter`](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-mongodb-exporter) is used to get metrics from ``MongoDB`` service.
+
+Available metrics:
+
+* Query metrics for MongoDB;
+* Health metrics for MongoDb;
+* Resource Metrics;
+* Dashboard Row;
+
 ## How to view and access data in grafana?
 
 
