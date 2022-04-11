@@ -9,4 +9,4 @@
     chart_version: 0.15.0
     release_name: alertmanager
     release_namespace: "{{ dojot_monitoring_namespace }}"
-    values: "{{ lookup('template', 'prometheus/alertmanager/alertmanager-values.yml.j2') | from_yaml }}"
+    values: "{{ lookup('template', 'alertmanager/alertmanager-values.yml.j2') | from_yaml }}"

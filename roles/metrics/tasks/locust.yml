@@ -1,0 +1,15 @@
+---
+- name: Metrics | Locust | Enable locust monitoring
+  when: dojot_enable_locust_exporter
+  kubernetes.core.k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+    - "{{ lookup('template', 'locust/endpoint.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'locust/service.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'locust/serviceMonitor.yaml.j2') | from_yaml }}"
