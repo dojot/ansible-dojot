@@ -9,4 +9,4 @@
     chart_ref: prometheus-community/prometheus-mongodb-exporter
     chart_version: 2.9.0
     release_namespace: "{{ dojot_monitoring_namespace }}"
-    values: "{{ lookup('template', 'prometheus/mongodb/mongodb-exporter-values.yml.j2') | from_yaml }}"
+    values: "{{ lookup('template', 'mongodb-exporter/mongodb-exporter-values.yml.j2') | from_yaml }}"
