@@ -65,6 +65,80 @@ For [`Kubernetes`](https://kubernetes.io/) we have several specific dashboards f
 * k8s usemethod cluster;
 * k8s usemethod node.
 
+## Apache Kafka Exporter
+
+Kafka-Exporter is used to get metrics from the service ``Kafka``. In other words, the metrics obtained by Prometheus are directly related to high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.
+
+Available metrics:
+
+* Message in per second;
+* Lag by Consumer Group;
+* Message in per minute;
+* Message consume per minute;
+* Partitions per Topic.
+
+## VerneMQ
+
+As ``VerneMQ`` officially enables integration, the process becomes simpler. It is only necessary to declare the ``job`` in the Prometheus configuration file.
+
+Available metrics:
+
+* Summary;
+* Clients;
+* Queues;
+* Subscriptions;
+* Erlang VM;
+* Bytes IN & OUT;
+* Retain;
+* TCP Sockets;
+* Node to cluster communication;
+* MQTT Connect;
+* MQTT Subscribe;
+* MQTT Publish;
+* MQTT Ping;
+* MISC.
+
+## Kong API Gateway Exporter
+
+As ``Kong`` officially allows the integration, the process becomes simpler. It is only necessary to declare ``job`` in the Prometheus configuration file to get metrics regarding cloud services to manage, monitor and scale application programming interfaces and microservices.
+
+Available metrics:
+
+* Status codes;
+* Latencies Histograms;
+  * Request;
+  * Kong;
+  * Upstream;
+* Bandwidth;
+* DB reachability;
+* Connections;
+* Target Health;
+* Dataplane Status;
+* Enterprise License Information.
+
+## InfluxDB
+
+As ``InfluxDB`` officially allows the integration, the process becomes simpler. It is only necessary to declare ``job`` in the Prometheus configuration file to get metrics regarding cloud services to manage, monitor and scale application programming interfaces and microservices.
+
+Available metrics:
+
+* InfluxDB Informations;
+* Request for InfluxDB;
+* GO Metrics;
+
+Note: influxdb is not initialized by default, if you want to use and monitor it, it is necessary to enable the service and its dependencies in ``inventories/example_local/group_vars/all/services.yaml``.
+
+## MongoDB Exporter
+
+[`MongoDB Exporter`](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-mongodb-exporter) is used to get metrics from ``MongoDB`` service.
+
+Available metrics:
+
+* Query metrics for MongoDB;
+* Health metrics for MongoDb;
+* Resource Metrics;
+* Dashboard Row;
+
 ## How to view and access data in grafana?
 
 
