@@ -1,0 +1,18 @@
+galaxy_info:
+  author:
+  description: Dojot K3S
+  company: CPqD
+
+  license: MIT
+
+  min_ansible_version: 2.9.17
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - focal
+
+  galaxy_tags:
+    - k3s
+
+dependencies: []

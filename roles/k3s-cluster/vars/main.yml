@@ -1,0 +1,2 @@
+---
+node_ip: "{{ hostvars.k3s_host.ansible_host }}"

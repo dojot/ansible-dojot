@@ -1,0 +1,20 @@
+---
+# K3s version (kubernetes version)
+# See: https://github.com/k3s-io/k3s/releases
+k3s_release_version: 1.19.16
+
+# Directory to hold state. Defaults to '/var/lib/rancher/k3s'
+k3s_server_data_dir: '/var/lib/rancher/k3s'
+
+# Do not deploy packaged components and delete any deployed components (valid items: coredns, servicelb, traefik,local-storage, metrics-server)
+# k3s_server_disable_services: [servicelb, traefik, local-storage]
+k3s_server_disable_services:
+  - servicelb
+  - traefik
+  - local-storage
+
+# Default local storage path for local provisioner storage class. Defaults to '/var/lib/rancher/k3s/storage'
+k3s_server_local_storage_path: "{{ dojot_volume_directory }}"
+
+# Node labels
+k3s_server_node_labels: []

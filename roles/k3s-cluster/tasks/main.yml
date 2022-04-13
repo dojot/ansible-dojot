@@ -1,0 +1,95 @@
+---
+- name: K3s | Disable SWAP memory
+  become: yes
+  ansible.builtin.command: >-
+    swapoff --all
+  when: ansible_swaptotal_mb > 0
+  tags: k3s
+
+- name: K3s | Remove swapfile from /etc/fstab
+  become: yes
+  ansible.posix.mount:
+    name: "{{ item }}"
+    fstype: swap
+    state: absent
+  with_items:
+    - swap
+    - none
+  tags: k3s
+
+- name: K3s | Install K3s v{{ k3s_release_version }}
+  become: yes
+  ansible.builtin.get_url:
+    url: https://github.com/k3s-io/k3s/releases/download/v{{ k3s_release_version }}%2Bk3s1/k3s
+    dest: '/usr/local/bin/k3s'
+    checksum: sha256:https://github.com/k3s-io/k3s/releases/download/v{{ k3s_release_version }}%2Bk3s1/sha256sum-amd64.txt
+    force: yes
+    validate_certs: yes
+    mode: 0755
+  register: k3s_downloaded
+  tags: k3s
+
+- name: K3s | Copy k3s systemd service file
+  become: yes
+  ansible.builtin.template:
+    src: k3s.service.j2
+    dest: /etc/systemd/system/k3s.service
+    owner: root
+    group: root
+    mode: 0644
+  tags: k3s
+
+- name: K3s | Enable and start k3s service
+  become: yes
+  ansible.builtin.systemd:
+    name: k3s.service
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  tags: k3s
+
+- name: K3s | Copy k3s scripts to /usr/local/bin
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
+  loop:
+    - k3s-killall.sh
+    - k3s-uninstall.sh
+  tags: k3s
+
+- name: K3s | Create kubectl symlink
+  become: yes
+  ansible.builtin.file:
+    src: /usr/local/bin/k3s
+    dest: /usr/local/bin/kubectl
+    state: link
+  tags: k3s
+
+- name: K3s | Kubectl command-line completion
+  become: yes
+  ansible.builtin.shell:
+    cmd: /usr/local/bin/kubectl completion bash > /etc/bash_completion.d/kubectl
+  tags: k3s
+
+- name: K3s | Set KUBECONFIG environment variable on /etc/environment
+  become: yes
+  ansible.builtin.lineinfile:
+    path: /etc/profile.d/k3s_kubeconfig.sh
+    line: "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml"
+    state: present
+    create: yes
+  tags: k3s
+
+- name: create .kube directory
+  command: "mkdir -p {{ ansible_facts.user_dir  }}/.kube"
+
+- name: Setup kubeconfig for user
+  become: yes
+  command: "{{ item }}"
+  with_items:
+    - "cp -f /etc/rancher/k3s/k3s.yaml {{ ansible_facts.user_dir  }}/.kube/config"
+    - "chown {{ ansible_facts.user_uid }}:{{ ansible_facts.user_gid }} {{ ansible_facts.user_dir }}/.kube/config"

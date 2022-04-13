@@ -1,0 +1,7 @@
+---
+- hosts: k3s-nodes[0]
+  gather_facts: true
+  any_errors_fatal: true
+  tags: [k3s-node]
+  roles:
+    - role: k3s-cluster
