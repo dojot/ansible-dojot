@@ -1,23 +1,16 @@
 ---
-- name: Metrics | Locust | Enable locust monitoring
-  when: dojot_enable_locust_exporter
-  k8s:
-    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
-    state: present
-    definition: "{{ item }}"
-  register: result
-  until: result.failed == 0
-  retries: 30
-  delay: 10
-  loop:
-    - "{{ lookup('template', 'locust/endpoint.yaml.j2') | from_yaml }}"
-    - "{{ lookup('template', 'locust/service.yaml.j2') | from_yaml }}"
-    - "{{ lookup('template', 'locust/serviceMonitor.yaml.j2') | from_yaml }}"
+- name: Metrics | Locust | include Locust tasks
+  include_tasks: locust.yml
+  tags: locust
 
 - name: Metrics | Helm | Include helm tasks
   include_tasks: helm.yml
   when: dojot_helm_install | bool
   tags: helm
+
+- name: Metrics | Prometheus | include Prometheus tasks
+  include_tasks: prometheus.yml
+  tags: prometheus
 
 - name: Metrics | Loki | Include loki tasks
   include_tasks: loki.yml
@@ -31,10 +24,14 @@
   include_tasks: grafana.yml
   tags: grafana
 
-- name: Metrics | Prometheus | include Prometheus tasks
-  include_tasks: prometheus.yml
-  tags: prometheus
-
 - name: Metrics | Alertmanager | include Alertmanager tasks
   include_tasks: alertmanager.yml
   tags: alertmanager
+
+- name: Metrics | kafka-exporter | include Kafka-exporter tasks
+  include_tasks: kafka.yml
+  tags: kafka-exporter
+
+- name: Metrics | mongodb-exporter | include mongodb-exporter tasks
+  include_tasks: mongodb.yml
+  tags: mongodb-exporter

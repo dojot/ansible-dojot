@@ -1,0 +1,72 @@
+affinity:
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: dojot.components/dojot
+        operator: In
+        values:
+        - enabled
+
+extraArgs:
+- --collect.collection
+- --collect.database
+- --collect.indexusage
+- --collect.topmetrics
+- --collect.connpoolstats
+
+image:
+  pullPolicy: IfNotPresent
+  repository: ssheehy/mongodb-exporter
+  tag: 0.10.0
+
+livenessProbe:
+  httpGet:
+    path: /
+    port: metrics
+  initialDelaySeconds: 10
+
+mongodb:
+  uri: "mongodb.{{ dojot_namespace }}.svc.cluster.local:27017"
+
+port: "9216"
+
+priorityClassName: ""
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: metrics
+  initialDelaySeconds: 10
+
+replicas: 1
+
+resources:
+ limits:
+   cpu: 250m
+   memory: 192Mi
+ requests:
+   cpu: 100m
+   memory: 128Mi
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["all"]
+  readOnlyRootFilesystem: true
+  runAsGroup: 10000
+  runAsNonRoot: true
+  runAsUser: 10000
+
+service:
+  port: 9216
+  type: ClusterIP
+
+serviceAccount:
+  create: false
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  scrapeTimeout: 10s
+  namespace: "{{ dojot_monitoring_namespace }}"
