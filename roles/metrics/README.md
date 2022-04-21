@@ -135,9 +135,19 @@ Note: influxdb is not initialized by default, if you want to use and monitor it,
 Available metrics:
 
 * Query metrics for MongoDB;
-* Health metrics for MongoDb;
+* Health metrics for MongoDB;
 * Resource Metrics;
 * Dashboard Row;
+
+## MongoDB Exporter
+
+MongoDB-Exporter is used to get metrics from ``Postgres`` service.
+
+Available metrics:
+
+* General Counters, CPU, Memory and File Descriptor Stats
+* Settings;
+* Database Stats;
 
 ## How to view and access data in grafana?
 
