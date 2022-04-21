@@ -139,7 +139,7 @@ Available metrics:
 * Resource Metrics;
 * Dashboard Row;
 
-## MongoDB Exporter
+## Postgres Exporter
 
 MongoDB-Exporter is used to get metrics from ``Postgres`` service.
 
@@ -172,7 +172,7 @@ kubectl describe service prometheus-server -n dojot-monitoring
 
 ssh -L <portlocal>:<endpoint_service_prometheus>:9090 <user_cluster>@<ip_cluster>
 
-Example: 
+Example:
 
 ssh -L 9090:10.200.40.100:9090 myuser@11:210.44.110
 
