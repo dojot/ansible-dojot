@@ -141,7 +141,7 @@ Available metrics:
 
 ## Postgres Exporter
 
-MongoDB-Exporter is used to get metrics from ``Postgres`` service.
+Postgres-Exporter is used to get metrics from ``Postgres`` service.
 
 Available metrics:
 
