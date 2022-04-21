@@ -1,0 +1,13 @@
+- name: Metrics | Prometheus | Add prometheus helm repository
+  kubernetes.core.helm_repository:
+    name: prometheus-community
+    repo_url: "https://prometheus-community.github.io/helm-charts"
+
+- name: Metrics | Postgres-exporter | Deploy Postgres-exporter chart with values loaded from template
+  kubernetes.core.helm:
+    name: postgres-exporter
+    chart_ref: prometheus-community/prometheus-postgres-exporter
+    chart_version: 2.7.0
+    #force: true
+    release_namespace: "{{ dojot_monitoring_namespace }}"
+    values: "{{ lookup('template', 'postgres-exporter/postgres-exporter-values.yml.j2') | from_yaml }}"
