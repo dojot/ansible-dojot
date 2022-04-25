@@ -1,0 +1,55 @@
+replicaCount: 1
+
+image:
+
+  repository: kbudde/rabbitmq-exporter
+  tag: v0.29.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  externalPort: 9419
+  internalPort: 9419
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+affinity:
+podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: dojot.components/dojot
+        operator: In
+        values:
+        - enabled
+
+loglevel: info
+
+rabbitmq:
+  url: http://rabbitmq.{{ dojot_namespace }}.svc.cluster.local:5672
+  user: guest
+  password: guest
+  existingPasswordSecret: ~
+  existingPasswordSecretKey: password
+  capabilities: bert,no_sort
+  include_queues: ".*"
+  include_vhost: ".*"
+  skip_queues: "^$"
+  skip_verify: "false"
+  skip_vhost: "^$"
+  exporters: "exchange,node,overview,queue"
+  output_format: "TTY"
+  timeout: 30
+  max_queues: 0
+
+prometheus:
+  monitor:
+    enabled: true
+    interval: 1m
+    namespace: ["{{ dojot_monitoring_namespace }}"]
