@@ -135,9 +135,19 @@ Note: influxdb is not initialized by default, if you want to use and monitor it,
 Available metrics:
 
 * Query metrics for MongoDB;
-* Health metrics for MongoDb;
+* Health metrics for MongoDB;
 * Resource Metrics;
 * Dashboard Row;
+
+## Postgres Exporter
+
+Postgres-Exporter is used to get metrics from ``Postgres`` service.
+
+Available metrics:
+
+* General Counters, CPU, Memory and File Descriptor Stats
+* Settings;
+* Database Stats;
 
 ## How to view and access data in grafana?
 
@@ -162,7 +172,7 @@ kubectl describe service prometheus-server -n dojot-monitoring
 
 ssh -L <portlocal>:<endpoint_service_prometheus>:9090 <user_cluster>@<ip_cluster>
 
-Example: 
+Example:
 
 ssh -L 9090:10.200.40.100:9090 myuser@11:210.44.110
 

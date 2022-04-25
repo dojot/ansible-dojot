@@ -35,3 +35,7 @@
 - name: Metrics | mongodb-exporter | include mongodb-exporter tasks
   include_tasks: mongodb.yml
   tags: mongodb-exporter
+
+- name: Metrics | postgres-exporter | include postgres-exporter tasks
+  include_tasks: postgres.yml
+  tags: postgres-exporter
