@@ -149,6 +149,18 @@ Available metrics:
 * Settings;
 * Database Stats;
 
+## RabbitMQ Exporter
+
+RabbitMQ-Exporter is used to get metrics from ``RabbitMQ`` service.
+
+Available metrics:
+
+* Logs;
+* Stream publishers and receiveds;
+* Nodes;
+* Queue Messages;
+* Memory available and outhers;
+
 ## How to view and access data in grafana?
 
 

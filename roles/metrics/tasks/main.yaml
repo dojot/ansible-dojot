@@ -39,3 +39,7 @@
 - name: Metrics | postgres-exporter | include postgres-exporter tasks
   include_tasks: postgres.yml
   tags: postgres-exporter
+
+- name: Metrics | rabbitmq-exporter | include rabbitmq-exporter tasks
+  include_tasks: rabbitmq.yml
+  tags: rabbitmq-exporter
