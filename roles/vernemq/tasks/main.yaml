@@ -20,4 +20,3 @@
   - "{{ lookup('template', 'vernemq_external_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'vernemq_serviceAccount.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'z_vernemq_cluster.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'z_vernemq-serviceMonitor.yaml.j2') | from_yaml }}"

@@ -163,7 +163,6 @@ Available metrics:
 
 ## How to view and access data in grafana?
 
-
 * If you are using dojot in a local cluster, just access the grafana service through the URL http://localhost:3000 and prometheus via the URL http://localhost:9090.
 
 * However, if you do not have local access to the cluster, to access the services of prometheus and grafana, simply open an ``SSH`` tunnel using the ``IP`` of the service. To get the ``IP`` of the services run the commands below and search for ``Endpoints`` from the command output:
@@ -179,6 +178,20 @@ kubectl describe service prometheus-server -n dojot-monitoring
 ```
 
 * After that, just open an ssh tunnel with the endpoint obtained, for example:
+
+## How to deploy monitoring solution?
+
+Initially, it is necessary to instantiate the volumes that will be used by the services to store and obtain log data, metrics and others. Given that, run the command below to instantiate the volumes:
+
+```
+ansible-playbook -K -k -u gbessa -i inventories/example_local/ volume-monitoring.yaml
+```
+
+Now that the volumes are available, we can deploy the monitoring services by running the command below:
+
+```
+ansible-playbook -K -k -u gbessa -i inventories/example_local/ deploy-monitoring.yaml
+```
 
 # Prometheus
 

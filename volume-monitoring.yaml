@@ -1,0 +1,32 @@
+---
+- hosts: dojot_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - volumes
+  roles:
+    - role: volumes/prometheus
+      tags:
+        - prometheus
+    - role: volumes/loki
+      tags:
+        - loki
+    - role: volumes/grafana
+      tags:
+        - grafana
+
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - volumes
+  roles:
+    - role: volumes/prometheus
+      tags:
+        - prometheus
+    - role: volumes/loki
+      tags:
+        - loki
+    - role: volumes/grafana
+      tags:
+        - grafana
