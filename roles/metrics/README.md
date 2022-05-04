@@ -181,16 +181,16 @@ kubectl describe service prometheus-server -n dojot-monitoring
 
 ## How to deploy monitoring solution?
 
-Initially, it is necessary to instantiate the volumes that will be used by the services to store and obtain log data, metrics and others. Given that, run the command below to instantiate the volumes:
+Initially, it is necessary to deploy the volumes that will be used by the services to store and obtain log data, metrics and others. So, run the command below to deploy the volumes:
 
 ```
-ansible-playbook -K -k -u gbessa -i inventories/example_local/ volume-monitoring.yaml
+ansible-playbook -K -k -u dojot -i inventories/example_local/ volume-monitoring.yaml
 ```
 
 Now that the volumes are available, we can deploy the monitoring services by running the command below:
 
 ```
-ansible-playbook -K -k -u gbessa -i inventories/example_local/ deploy-monitoring.yaml
+ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy-monitoring.yaml
 ```
 
 # Prometheus

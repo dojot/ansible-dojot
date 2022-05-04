@@ -4,6 +4,5 @@
   gather_facts: true
   tags:
     - metrics
-    - 100k
   roles:
     - role: metrics
