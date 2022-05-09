@@ -11,11 +11,9 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: {{ monitoring_storage_class_name }}
-{% if monitoring_storage_class_name == "local-storage" %}
+  storageClassName: local-storage
   local:
     path: {{ dojot_volume_directory }}/prometheus
-{% endif %}
   nodeAffinity:
     required:
       nodeSelectorTerms:

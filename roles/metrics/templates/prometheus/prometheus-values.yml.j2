@@ -89,7 +89,7 @@ server:
       - ReadWriteOnce
     size: 1Gi
     mountPath: {{ dojot_volume_directory }}/prometheus
-    storageClass: "{{ monitoring_storage_class_name }}"
+    storageClass: local-storage
     finalizers:
       - kubernetes.io/pvc-protection
     selector:
