@@ -1,3 +1,5 @@
 dojot_storage_class_name: "" #local-storage or nfs
 
+monitoring_storage_class_name: "local-storage"
+
 dojot_volume_directory: "/mnt/data" #local volume path or mount volume
