@@ -193,6 +193,14 @@ Now that the volumes are available, we can deploy the monitoring services by run
 ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy-monitoring.yaml
 ```
 
+# Observation
+
+At this moment, the dojot user has the possibility to choose between two storage classes (local-storage and NFS). However, due to the warning provided in the Prometheus documentation regarding the form of storage, Prometheus, in particular, will use local-storage statically, without the possibility of using NFS due to this incompatibility.
+
+Note made in the Prometheus documentation:
+
+``CAUTION``: Non-POSIX compliant filesystems are not supported for Prometheus' local storage as unrecoverable corruptions may happen. NFS filesystems (including AWS's EFS) are not supported. NFS could be POSIX-compliant, but most implementations are not. It is strongly recommended to use a local filesystem for reliability.
+
 # Prometheus
 
 ssh -L <portlocal>:<endpoint_service_prometheus>:9090 <user_cluster>@<ip_cluster>
