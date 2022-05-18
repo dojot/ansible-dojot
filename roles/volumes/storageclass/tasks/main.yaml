@@ -9,9 +9,8 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'storageclass.yaml.j2') | from_yaml }}"
-  when: (dojot_storage_class_name == "local-storage") and
-        ('master_nodes' in group_names)
+  - "{{ lookup('template', 'local-storageclass.yaml.j2') | from_yaml }}"
+  when: ('master_nodes' in group_names)
 
 - name: Create StorageClass NFS
   k8s:

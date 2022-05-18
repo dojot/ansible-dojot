@@ -88,15 +88,15 @@ server:
     accessModes:
       - ReadWriteOnce
     size: 1Gi
-    mountPath: /data
-    storageClass: "{{ dojot_storage_class_name }}"
+    mountPath: {{ dojot_volume_directory }}/prometheus
+    storageClass: local-storage
     finalizers:
       - kubernetes.io/pvc-protection
     selector:
       matchLabels:
         app: prometheus
         prometheus: k8s
-    namespace: "{{dojot_monitoring_namespace}}"
+    namespace: "{{ dojot_monitoring_namespace }}"
 
   resources:
     limits:

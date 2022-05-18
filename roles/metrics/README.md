@@ -163,7 +163,6 @@ Available metrics:
 
 ## How to view and access data in grafana?
 
-
 * If you are using dojot in a local cluster, just access the grafana service through the URL http://localhost:3000 and prometheus via the URL http://localhost:9090.
 
 * However, if you do not have local access to the cluster, to access the services of prometheus and grafana, simply open an ``SSH`` tunnel using the ``IP`` of the service. To get the ``IP`` of the services run the commands below and search for ``Endpoints`` from the command output:
@@ -179,6 +178,28 @@ kubectl describe service prometheus-server -n dojot-monitoring
 ```
 
 * After that, just open an ssh tunnel with the endpoint obtained, for example:
+
+## How to deploy monitoring solution?
+
+Initially, it is necessary to deploy the volumes that will be used by the services to store and obtain log data, metrics and others. So, run the command below to deploy the volumes:
+
+```
+ansible-playbook -K -k -u dojot -i inventories/example_local/ volume-monitoring.yaml
+```
+
+Now that the volumes are available, we can deploy the monitoring services by running the command below:
+
+```
+ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy-monitoring.yaml
+```
+
+# Observation
+
+At this moment, the dojot user has the possibility to choose between two storage classes (local-storage and NFS). However, due to the warning provided in the Prometheus documentation regarding the form of storage, Prometheus, in particular, will use local-storage statically, without the possibility of using NFS due to this incompatibility.
+
+Note made in the Prometheus documentation:
+
+``CAUTION``: Non-POSIX compliant filesystems are not supported for Prometheus' local storage as unrecoverable corruptions may happen. NFS filesystems (including AWS's EFS) are not supported. NFS could be POSIX-compliant, but most implementations are not. It is strongly recommended to use a local filesystem for reliability.
 
 # Prometheus
 

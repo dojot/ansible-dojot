@@ -55,13 +55,13 @@ persistence:
   accessModes:
   - ReadWriteOnce
   size: 10Gi 
-  storageClassName: {{ dojot_storage_class_name }}
+  storageClassName: "{{ dojot_storage_class_name }}"
   finalizers:
     - kubernetes.io/pvc-protection
   labels:
     app: grafana
   name: grafana
-  namespace: dojot-monitoring
+  namespace: "{{dojot_monitoring_namespace}}"
 
 adminUser: admin
 adminPassword: admin
