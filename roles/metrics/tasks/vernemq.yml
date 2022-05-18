@@ -1,0 +1,14 @@
+## This role is responsible for deploying verneMq for metrics
+
+- name: dojot - verneMQ Metrics
+  when: optional['vernemq-metrics']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'vernemq/z_vernemq-serviceMonitor.yaml.j2') | from_yaml }}"

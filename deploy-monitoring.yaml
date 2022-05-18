@@ -1,0 +1,8 @@
+# Metrics (Prometheus, Grafana, Loki, Promtail and Node Exporter)
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  gather_facts: true
+  tags:
+    - metrics
+  roles:
+    - role: metrics

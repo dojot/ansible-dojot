@@ -55,13 +55,13 @@ persistence:
   accessModes:
   - ReadWriteOnce
   size: 10Gi 
-  storageClassName: {{ dojot_storage_class_name }}
+  storageClassName: "{{ dojot_storage_class_name }}"
   finalizers:
     - kubernetes.io/pvc-protection
   labels:
     app: grafana
   name: grafana
-  namespace: dojot-monitoring
+  namespace: "{{dojot_monitoring_namespace}}"
 
 adminUser: admin
 adminPassword: admin
@@ -181,11 +181,26 @@ dashboards:
       gnetId: 15596
       revision: 0
       datasource: Prometheus
+    postgres:
+      gnetId: 9628
+      revision: 7
+      datasource: Prometheus
+    RabbitMQ-Overview:
+      gnetId: 10991
+      revision: 0
+      datasource: Prometheus
+    RabbitMQ-Quorum-Queues-Raft:
+      gnetId: 11340
+      revision: 0
+      datasource: Prometheus
+    RabbitMQ-Stream:
+      gnetId: 14798
+      revision: 0
+      datasource: Prometheus
     overview-stats:
       gnetId: 15593
       revision: 0
       datasource: Prometheus
-
 
 grafana.ini:
   paths:
