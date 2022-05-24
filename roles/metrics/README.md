@@ -135,12 +135,33 @@ Note: influxdb is not initialized by default, if you want to use and monitor it,
 Available metrics:
 
 * Query metrics for MongoDB;
-* Health metrics for MongoDb;
+* Health metrics for MongoDB;
 * Resource Metrics;
 * Dashboard Row;
 
-## How to view and access data in grafana?
+## Postgres Exporter
 
+Postgres-Exporter is used to get metrics from ``Postgres`` service.
+
+Available metrics:
+
+* General Counters, CPU, Memory and File Descriptor Stats
+* Settings;
+* Database Stats;
+
+## RabbitMQ Exporter
+
+RabbitMQ-Exporter is used to get metrics from ``RabbitMQ`` service.
+
+Available metrics:
+
+* Logs;
+* Stream publishers and receiveds;
+* Nodes;
+* Queue Messages;
+* Memory available and outhers;
+
+## How to view and access data in grafana?
 
 * If you are using dojot in a local cluster, just access the grafana service through the URL http://localhost:3000 and prometheus via the URL http://localhost:9090.
 
@@ -158,11 +179,33 @@ kubectl describe service prometheus-server -n dojot-monitoring
 
 * After that, just open an ssh tunnel with the endpoint obtained, for example:
 
+## How to deploy monitoring solution?
+
+Initially, it is necessary to deploy the volumes that will be used by the services to store and obtain log data, metrics and others. So, run the command below to deploy the volumes:
+
+```
+ansible-playbook -K -k -u dojot -i inventories/example_local/ volume-monitoring.yaml
+```
+
+Now that the volumes are available, we can deploy the monitoring services by running the command below:
+
+```
+ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy-monitoring.yaml
+```
+
+# Observation
+
+At this moment, the dojot user has the possibility to choose between two storage classes (local-storage and NFS). However, due to the warning provided in the Prometheus documentation regarding the form of storage, Prometheus, in particular, will use local-storage statically, without the possibility of using NFS due to this incompatibility.
+
+Note made in the Prometheus documentation:
+
+``CAUTION``: Non-POSIX compliant filesystems are not supported for Prometheus' local storage as unrecoverable corruptions may happen. NFS filesystems (including AWS's EFS) are not supported. NFS could be POSIX-compliant, but most implementations are not. It is strongly recommended to use a local filesystem for reliability.
+
 # Prometheus
 
 ssh -L <portlocal>:<endpoint_service_prometheus>:9090 <user_cluster>@<ip_cluster>
 
-Example: 
+Example:
 
 ssh -L 9090:10.200.40.100:9090 myuser@11:210.44.110
 

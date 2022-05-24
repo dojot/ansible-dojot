@@ -88,15 +88,15 @@ server:
     accessModes:
       - ReadWriteOnce
     size: 1Gi
-    mountPath: /data
-    storageClass: "{{ dojot_storage_class_name }}"
+    mountPath: {{ dojot_volume_directory }}/prometheus
+    storageClass: local-storage
     finalizers:
       - kubernetes.io/pvc-protection
     selector:
       matchLabels:
         app: prometheus
         prometheus: k8s
-    namespace: "{{dojot_monitoring_namespace}}"
+    namespace: "{{ dojot_monitoring_namespace }}"
 
   resources:
     limits:
@@ -158,6 +158,20 @@ serverFiles:
             - mongodb-exporter-prometheus-mongodb-exporter.{{dojot_monitoring_namespace}}.svc.cluster.local:9216
         scrape_interval: 5m
         scrape_timeout: 30s
+
+      - job_name: postgres-exporter
+        static_configs:
+          - targets:
+            - postgres-exporter-prometheus-postgres-exporter.{{dojot_monitoring_namespace}}.svc.cluster.local:80
+        scrape_interval: 5m
+        scrape_timeout: 30s
+
+      - job_name: rabbitmq-exporter
+        static_configs:
+          - targets:
+            - rabbitmq-exporter-prometheus-rabbitmq-exporter.{{dojot_monitoring_namespace}}.svc.cluster.local:9419
+        scrape_interval: 5m
+        scrape_timeout: 1m
 
       - job_name: 'kubernetes-apiservers'
 

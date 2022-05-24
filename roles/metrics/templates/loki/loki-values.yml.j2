@@ -21,7 +21,7 @@ persistence:
   accessModes:
   - ReadWriteOnce
   size: 10Gi
-  storageClassName: {{ dojot_storage_class_name }}
+  storageClassName: "{{ dojot_storage_class_name }}"
 {% if dojot_storage_class_name == "local-storage" %}
   selector:
     matchLabels:
