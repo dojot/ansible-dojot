@@ -63,8 +63,10 @@ persistence:
   name: grafana
   namespace: "{{dojot_monitoring_namespace}}"
 
-adminUser: admin
-adminPassword: admin
+admin:
+  existingSecret: "grafana-secret"
+  userKey: username
+  passwordKey: password
 
 datasources:
   datasources.yaml:
