@@ -3,6 +3,14 @@
     name: grafana
     repo_url: "https://grafana.github.io/helm-charts"
 
+- name: Including Secret
+  kubernetes.core.k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  loop:
+    - "{{ lookup('template', 'grafana/secrets-grafana.yml.j2') | from_yaml }}"
+
 - name: Metrics | Grafana | Deploy Grafana chart with values loaded from template
   kubernetes.core.helm:
     chart_ref: grafana/grafana
