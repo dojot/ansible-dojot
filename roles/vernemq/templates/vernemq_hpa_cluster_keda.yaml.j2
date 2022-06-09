@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: vernemqcluster-scaledobject
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: dojot
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    name: vernemq-k8s
+    kind: StatefulSet
+  minReplicaCount: 1
+  maxReplicaCount: 30
+  triggers:
+  - type: cpu
+    metricType: Utilization
+    metadata:
+      value: "80"

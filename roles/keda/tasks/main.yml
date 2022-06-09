@@ -1,0 +1,11 @@
+- name: Add stable chart repo keda
+  kubernetes.core.helm_repository:
+    name: kedacore
+    repo_url: "https://kedacore.github.io/charts"
+
+- name: Deploy latest version of Keda chart inside keda namespace
+  kubernetes.core.helm:
+    name: keda
+    chart_ref: kedacore/keda
+    release_namespace: keda
+    create_namespace: true
