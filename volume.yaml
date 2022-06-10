@@ -23,15 +23,6 @@
     - role: volumes/kafka-ws
       tags:
         - kafka-ws
-    - role: volumes/influxdb
-      tags:
-        - influxdb
-    - role: volumes/influxdb-chronograf
-      tags:
-        - influxdb-chronograf
-    - role: volumes/certificate-acl
-      tags:
-        - certificate-acl
 
 - hosts: kafka_nodes
   gather_facts: true
@@ -58,6 +49,22 @@
     - role: volumes/x509-identity-mgmt
       tags:
         - x509-identity-mgmt
+    - role: volumes/certificate-acl
+      tags:
+        - certificate-acl
+
+- hosts: database_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - volumes
+  roles:
+    - role: volumes/influxdb
+      tags:
+        - influxdb
+    - role: volumes/influxdb-chronograf
+      tags:
+        - influxdb-chronograf
 
 - hosts: master_nodes
   gather_facts: true
@@ -66,6 +73,8 @@
     - volumes
   roles:
     - role: volumes/storageclass
+      tags:
+        - storageclass
     - role: volumes/kong
       tags:
         - kong

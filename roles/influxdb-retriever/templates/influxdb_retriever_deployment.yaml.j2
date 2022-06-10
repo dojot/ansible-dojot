@@ -25,6 +25,8 @@ spec:
         env:
         - name: RETRIEVER_LOG_CONSOLE_LEVEL
           value: "{{ dojot_influxdb_retriever_log_level }}"
+        - name: RETRIEVER_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
         readinessProbe:
           httpGet:
             path: /ready
@@ -49,7 +51,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: dojot.components/dojot
+              - key: dojot.components/database
                 operator: In
                 values:
                 - "enabled"

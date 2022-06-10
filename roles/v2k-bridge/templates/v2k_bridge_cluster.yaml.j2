@@ -41,7 +41,9 @@ spec:
         - name: V2K_APP_USER_CONFIG_FILE
           value: "default.conf"
         - name: V2K_APP_HOSTNAME
-          value: "v2k-bridge"
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: V2K_PRODUCER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: V2K_MQTT_PORT

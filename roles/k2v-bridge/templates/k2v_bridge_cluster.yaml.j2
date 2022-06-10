@@ -41,7 +41,9 @@ spec:
         - name: K2V_APP_USER_CONFIG_FILE
           value: "default.conf"
         - name: K2V_APP_HOSTNAME
-          value: "k2v-bridge"
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
         - name: K2V_PRODUCER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: K2V_MQTT_PORT

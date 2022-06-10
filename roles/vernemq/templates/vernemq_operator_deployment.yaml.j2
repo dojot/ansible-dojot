@@ -41,3 +41,14 @@ spec:
         runAsNonRoot: true
         runAsUser: 65534
       serviceAccountName: vmq-operator
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/vernemq
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

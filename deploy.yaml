@@ -33,6 +33,7 @@
     - role: minio-files
       tags:
         - minio-files
+        - 100k
 
 # Deploy Zookeeper to the environment
 # TODO: Add possibility of using an external Zookeeper by setting config variables
@@ -144,6 +145,7 @@
     - role: device-manager
       tags:
         - device-manager
+        - 100k
 
     - role: history
       tags:
