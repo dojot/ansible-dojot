@@ -29,15 +29,17 @@ kubeStateMetrics:
     cpu: 10m
     memory: 32Mi
 
+{% if dojot_enable_node_affinity %}
   affinity:
-  podAntiAffinity:
+  nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-    - labelSelector:
-        matchExpressions:
-        - key: dojot.components/dojot
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/monitoring
           operator: In
           values:
-          - enabled
+          - "enabled"
+{% endif %}
 
 nodeExporter:
   enabled: true
@@ -72,15 +74,17 @@ server:
     scrape_timeout: 10s
     evaluation_interval: 1m
 
+{% if dojot_enable_node_affinity %}
   affinity:
-  podAntiAffinity:
+  nodeAffinity:
     requiredDuringSchedulingIgnoredDuringExecution:
-    - labelSelector:
-        matchExpressions:
-        - key: dojot.components/dojot
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/monitoring
           operator: In
           values:
-          - enabled
+          - "enabled"
+{% endif %}
 
   persistentVolume:
     type: pvc
@@ -134,9 +138,9 @@ serverFiles:
         scrape_interval: 5m
         scrape_timeout: 30s
 
-      - job_name: 'vernemq'
+      - job_name: 'vernemq-k8s'
         static_configs:
-          - targets: ['vernemq-k8s.{{ dojot_namespace }}.svc.cluster.local:8888']
+          - targets: ['vernemq-k8s-service.{{ dojot_namespace }}.svc.cluster.local:8888']
         scrape_interval: 5s
         scrape_timeout: 5s
 
