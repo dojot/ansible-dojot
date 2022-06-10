@@ -35,6 +35,11 @@ spec:
         # https://github.com/dojot/vmq-operator/commit/8060622dbdb4a6203feee4d43fd93549a4ad4108
         image: dojot/vmq-operator-dojot:{{ dojot_verne_operator_version }}
         name: vmq-operator
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
       nodeSelector:
         beta.kubernetes.io/os: linux
       securityContext:

@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: k2vbridge-scaledobject
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: dojot
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    name: k2v-bridge
+    kind: StatefulSet
+  minReplicaCount: 1
+  maxReplicaCount: 21
+  triggers:
+  - type: cpu
+    metricType: Utilization
+    metadata:
+      value: "80"

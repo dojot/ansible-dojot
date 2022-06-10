@@ -31,6 +31,11 @@ spec:
       port: 1888
       websocket: true
     plugins: []
+  resources:
+    limits:
+      cpu: 500m
+    requests:
+      cpu: 200m
   sidecarBaseImage: dojot/cert-sidecar
   sidecarEnv:
     - name: CERT_SC_APP_SIDECAR_TO
@@ -53,6 +58,11 @@ spec:
       value: "cabundle.crt"
     - name: CERT_SC_CRON_CABUNDLE
       value: "true"
+  sidecarResources:
+    limits:
+      cpu: 500m
+    requests:
+      cpu: 200m
   serviceAccountName: vernemq-k8s
 {% if dojot_enable_node_affinity %}
   nodeSelector:
