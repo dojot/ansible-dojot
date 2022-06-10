@@ -92,6 +92,15 @@
   roles:
     - role: kafka
 
+# Deploy Keda to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - keda
+    - 100k
+  roles:
+    - role: keda
+
 # Deploy VerneMQ to the environment
 # TODO: Add possibility of using an external VerneMQ by setting config variables
 # TODO: Support a HA cluster
