@@ -12,3 +12,4 @@
   loop:
   - "{{ lookup('template', 'k2v_bridge_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'k2v_bridge_cluster.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'k2v_bridge_keda.yaml.j2') | from_yaml }}"
