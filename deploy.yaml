@@ -96,6 +96,15 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
+    - helm
+    - 100k
+  roles:
+    - role: helm
+
+# Deploy Keda to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
     - keda
     - 100k
   roles:
