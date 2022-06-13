@@ -18,9 +18,10 @@ podPortName: grafana
 
 service:
   enabled: true
-  type: ClusterIP
+  type: NodePort
   port: 80
   targetPort: 3000
+  nodePort: "{{ dojot_nodeports.metrics }}"
   portName: service
 
 initChownData:
@@ -39,22 +40,24 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+{% if dojot_enable_node_affinity %}
 affinity:
-podAntiAffinity:
+nodeAffinity:
   requiredDuringSchedulingIgnoredDuringExecution:
-  - labelSelector:
-      matchExpressions:
-      - key: dojot.components/dojot
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: dojot.components/monitoring
         operator: In
         values:
-        - enabled
+        - "enabled"
+{% endif %}
 
 persistence:
   type: pvc
   enabled: true
   accessModes:
   - ReadWriteOnce
-  size: 10Gi 
+  size: 10Gi
   storageClassName: "{{ dojot_storage_class_name }}"
   finalizers:
     - kubernetes.io/pvc-protection

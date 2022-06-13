@@ -6,7 +6,7 @@
     path: "{{ dojot_volume_directory }}/influxdb-chronograf"
     state: directory
   when: (dojot_storage_class_name == "local-storage") and
-        ('dojot_nodes' in group_names)
+        ('database_nodes' in group_names)
 
 - name: Create influxdb chronograf volume
   k8s:

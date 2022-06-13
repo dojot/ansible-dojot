@@ -1,7 +1,7 @@
 ---
-- name: Metrics | Locust | include Locust tasks
-  include_tasks: locust.yml
-  tags: locust
+- name: Metrics | Monitoring Basic | include Monitoring Basic tasks
+  include_tasks: basic.yml
+  tags: basic
 
 - name: Metrics | Helm | Include helm tasks
   include_tasks: helm.yml
@@ -12,6 +12,10 @@
   include_tasks: prometheus.yml
   tags: prometheus
 
+- name: Metrics | Locust | include Locust tasks
+  include_tasks: locust.yml
+  tags: locust
+
 - name: Metrics | Loki | Include loki tasks
   include_tasks: loki.yml
   tags: loki
@@ -19,6 +23,10 @@
 - name: Metrics | Promtail | Include promtail tasks
   include_tasks: promtail.yml
   tags: promtail
+
+- name: Metrics | Secrets | Include Secrets grafana tasks
+  include_tasks: secrets.yml
+  tags: secrets
 
 - name: Metrics | Grafana | Include Grafana tasks
   include_tasks: grafana.yml

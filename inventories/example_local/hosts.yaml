@@ -49,16 +49,25 @@ all:
       children:
         dojot_nodes:
           hosts:
-            worker_host: #host for dojot related services volumes (apigw; influxdb; kafka_ws; minio; mongodb; postgres; prometheus;)
+            worker_host: #host for dojot related services volumes (apigw; kafka_ws; minio; mongodb; postgres;)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
         kafka_nodes:
           hosts:
-            worker_host: #host for kafka related services volumes (kafka; zookeeper;)
+            worker_host: #host for kafka related services volumes (kafka; zookeeper)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
         x509_nodes:
           hosts:
-            worker_host: #host for x509 related services volumes (x509;)
+            worker_host: #host for x509 related services volumes (x509; certificate ACL)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
+        database_nodes:
+          hosts:
+            worker_host: #host for influxDB related services volumes (influxDB; retriever; storer; chronograf)
+            # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
+        monitoring_nodes:
+          hosts:
+            worker_host: #host for x509 related services volumes (grafana; prometheus; loki)
+            # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
+
 
     apigw_nodes:
       hosts:
