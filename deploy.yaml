@@ -96,6 +96,18 @@
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags:
+<<<<<<< HEAD
+=======
+    - helm
+    - 100k
+  roles:
+    - role: helm
+
+# Deploy Keda to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+>>>>>>> dojot/release/v0.8.0
     - keda
     - 100k
   roles:
