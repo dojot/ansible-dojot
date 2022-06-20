@@ -10,10 +10,10 @@ spec:
     apiVersion: apps/v1
     name: v2k-bridge
     kind: StatefulSet
-  minReplicaCount: 1
-  maxReplicaCount: 21
+  minReplicaCount: {{ dojot_bridges_replicas }}
+  maxReplicaCount: {{ dojot_v2k_max_replicas }}
   triggers:
   - type: cpu
     metricType: Utilization
     metadata:
-      value: "80"
+      value: "{{ value_metric_trigger_cpu }}"

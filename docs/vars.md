@@ -19,7 +19,11 @@ before deploying dojot
 * *dojot_booststrap*: Defines if packages required for the deployment should be installed. Defaults to **true**.
 
 * *dojot_vernemq_replicas*: Set number of replicas for VerneMQ. Defaults to **1**.
+* *dojot_vernemq_max_replicas*: Set number max of replicas for VerneMQ. Defaults to **30**.
 * *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**.
+* *dojot_v2k_max_replicas*: Set number max of replicas for V2K. Defaults to **21**.
+* *dojot_k2v_max_replicas*: Set number max of replicas for K2V. Defaults to **21**.
+* *value_metric_trigger_cpu*: Keda HPA cpu usage metric trigger. Defaults to **80**.
 * *dojot_fixed_nodeports_enabled*: Set whether dojot's nodeport services will be fixed. Defaults to **false**.
 * *dojot_nodeports*: Range of fixed ports for dojot services with external access.
 * *dojot_enable_node_affinity*: Enables node affinity for all services. Beware that you must configure your nodes to match the labels in the files. Default to **false**.
