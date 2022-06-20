@@ -10,10 +10,10 @@ spec:
     apiVersion: apps/v1
     name: vernemq-k8s
     kind: StatefulSet
-  minReplicaCount: 1
-  maxReplicaCount: 30
+  minReplicaCount: {{ dojot_vernemq_replicas }}
+  maxReplicaCount: {{ dojot_vernemq_max_replicas }}
   triggers:
   - type: cpu
     metricType: Utilization
     metadata:
-      value: "80"
+      value: "{{ value_metric_trigger_cpu }}"

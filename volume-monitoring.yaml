@@ -1,5 +1,5 @@
 ---
-- hosts: dojot_nodes
+- hosts: monitoring_nodes
   gather_facts: true
   any_errors_fatal: true
   tags:

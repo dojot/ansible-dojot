@@ -5,7 +5,7 @@
   file:
     path: "{{ dojot_volume_directory }}/influxdb"
     state: directory
-  when: ('dojot_nodes' in group_names)
+  when: ('database_nodes' in group_names)
 
 - name: Create influxdb volume
   k8s:

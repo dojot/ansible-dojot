@@ -7,7 +7,7 @@
     state: directory
     mode: "2775"
   when: (dojot_storage_class_name == "local-storage") and
-        ('dojot_nodes' in group_names)
+        ('monitoring_nodes' in group_names)
 
 - name: Create grafana volume
   k8s:
