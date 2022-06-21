@@ -1,6 +1,6 @@
 # This files has the default values for dojot File-MGMT variables
 
-dojot_file_mgmt_version: "{{ dojot_version }}"
+dojot_file_mgmt_version: "{{ dojot_backend_version }}"
 dojot_kafka_port: 9092
 
 dojot_minio_files_access_key: '9HEODSF6WQN5EZ39DM7Z'

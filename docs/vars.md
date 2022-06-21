@@ -6,7 +6,8 @@ before deploying dojot
 ## Mandatory Variables
 
 * *dojot_namespace*: Defines the namespace where dojot will be deployed.
-* *dojot_version*: Sets the dojot version that will be used for all the modules.
+* *dojot_backend_version*: Sets the dojot version that will be used for backend modules.
+* *dojot_frontend_version*: Sets the dojot version that will be used for frontend modules.
 * *dojot_domain_name*: Defines the domain name for the dojot infrastructure.
 * *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes **(local-storage or nfs)**.
 
@@ -91,14 +92,14 @@ before deploying dojot
 * *dojot_auth_email_host*: SMTP email server associated with the account that sends the registration e-mail.
 * *dojot_auth_email_user*: E-Mail account used as sender of the registration e-mail for new users.
 * *dojot_auth_email_passwd*: Access password for the e-mail account.
-* *dojot_auth_version*: Version of the auth container. Defaults to **dojot_version**.
+* *dojot_auth_version*: Version of the auth container. Defaults to **dojot_backend_version**.
 
 ### - Device Manager
 
 * *dojot_devm_crypto_pass*: Cryptography Password configuration for the device manager. Defaults to **dojotdojot**.
 * *dojot_devm_crypto_iv*: Cryptography IV configurations for the device manager. Defaults to **"1234567890123456"**.
 * *dojot_devm_crypto_salt*: Cryptography salt for the device manager. Defaults to **dojot**.
-* *dojot_devm_version*: Version of the device manager container. Defaults to **dojot_version**.
+* *dojot_devm_version*: Version of the device manager container. Defaults to **dojot_backend_version**.
 
 ### - Kafka
 
@@ -112,45 +113,45 @@ before deploying dojot
 
 ### - Flowbroker
 
-* *dojot_flowbroker_version*: Version of the flowbroker container. Defaults to **dojot_version**.
-* *dojot_flowbroker_context_manager_version*: Version of the context manager container. Defaults to **dojot_version**.
+* *dojot_flowbroker_version*: Version of the flowbroker container. Defaults to **dojot_backend_version**.
+* *dojot_flowbroker_context_manager_version*: Version of the context manager container. Defaults to **dojot_backend_version**.
 
 ### - GUI
 
-* *dojot_gui_version*: Version of the GUI container. Defaults to **dojot_version**.
+* *dojot_gui_version*: Version of the GUI container. Defaults to **dojot_frontend_version**.
 
 ### - GUI V2
 
 * *dojot_guiv2_enabled*: Defines whether the GUI V2 will be deployed or not. Defaults to **false**.
-* *dojot_guiv2_version*: Version of the GUI V2 container. Defaults to **dojot_version**.
+* *dojot_guiv2_version*: Version of the GUI V2 container. Defaults to **dojot_frontend_version**.
 * *dojot_guiv2_image*: Image to be used in GUI V2 deployment. Defaults to **dojot/gui-v2**.
 
 ### - History
 
-* *dojot_history_version*: Version of the history container. Defaults to **dojot_version**.
+* *dojot_history_version*: Version of the history container. Defaults to **dojot_backend_version**.
 
 ### - IoTAgent Mosca
 
-* *dojot_iotagent_mosca_version*: Version of the IoT Agent Mosca container. Defaults to **dojot_version**.
+* *dojot_iotagent_mosca_version*: Version of the IoT Agent Mosca container. Defaults to **dojot_backend_version**.
 * *dojot_insecure_mqtt*: Defines wheter or not the agent accepts insecure mqtt connections. Defaults to **true**.
 
 ### - Persister
 
-* *dojot_persister_version*: Version of the persister container. Defaults to **dojot_version**.
+* *dojot_persister_version*: Version of the persister container. Defaults to **dojot_backend_version**.
 
 ### - x509 Identity Management
 
 * *dojot_x509_identity_management_volume_size*: Size of the x509 Identity Management volumes that are created. Defaults to **10Mi**.
 * *dojot_psql_ejbca_user*: EJBCA PostgreSQL database user. Defaults to **ejbca**.
 * *dojot_psql_ejbca_passwd*: EJBCA PostgreSQL database password. Defaults to **ejbca**.
-* *dojot_x509_identity_mgmt_version*: Version of the x509 Identity Management container. Defaults to **dojot_version**.
+* *dojot_x509_identity_mgmt_version*: Version of the x509 Identity Management container. Defaults to **dojot_backend_version**.
 * *dojot_x509_identity_mgmt_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
-* *dojot_x509_ejbca_version*: Version of the x509 EJBCA container. Defaults to **dojot_version**.
+* *dojot_x509_ejbca_version*: Version of the x509 EJBCA container. Defaults to **dojot_backend_version**.
 * *dojot_x509_ejbca_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
 
 ### - Kafka Loopback
 
-* *dojot_loopback_version*: Version of the Kafka loopback container. Defaults to **dojot_version**.
+* *dojot_loopback_version*: Version of the Kafka loopback container. Defaults to **dojot_backend_version**.
 
 ### - Dojot InfluxDB
 
@@ -167,19 +168,19 @@ before deploying dojot
 
 ### - Dojot InfluxDB Storer
 
-* *dojot_influxdb_storer_version*: InfluxDB Storer container version. Defaults to **dojot_version**.
+* *dojot_influxdb_storer_version*: InfluxDB Storer container version. Defaults to **dojot_backend_version**.
 * *dojot_influxdb_storer_log_level*: InfluxDB Storer log level. Defaults to **info**.
 
 
 ### - Dojot InfluxDB Retriever
 
-* *dojot_influxdb_retriever_version*: InfluxDB Retriever container version. Defaults to **dojot_version**.
+* *dojot_influxdb_retriever_version*: InfluxDB Retriever container version. Defaults to **dojot_backend_version**.
 * *dojot_influxdb_retriever_log_level*: InfluxDB Retriever log level. Defaults to **info**.
 
 
 ### - Kafka WS
 
-* *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_version**.
+* *dojot_kafka_ws_version*: Version of the Kafka WS container. Defaults to **dojot_backend_version**.
 * *dojot_kafka_ws_volume_size*: Size of the Kafka WS volumes that are created. Defaults to **5Mi**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 * *dojot_kafka_ws_port*: Port that will be used by the Kafka WS service. Defaults to **8080**.
@@ -189,20 +190,20 @@ before deploying dojot
 
 ### - Certificate ACL
 
-* *dojot_certificate_acl_version*: Version of the Certificate ACL container. Defaults to **dojot_version**.
+* *dojot_certificate_acl_version*: Version of the Certificate ACL container. Defaults to **dojot_backend_version**.
 * *dojot_certificate_acl_volume_size*: Size of the Certificate ACL volumes that are created. Defaults to **5Mi**.
 * *dojot_certificate_acl_redis_port*: Port that will be used to communicate with Redis. Defaults to **6379**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
 ### - HTTP Agent
 
-* *dojot_http_agent_version*: Version of the HTTP Agent container. Defaults to **dojot_version**.
+* *dojot_http_agent_version*: Version of the HTTP Agent container. Defaults to **dojot_backend_version**.
 * *dojot_http_agent_port*: Port that will be used to communicate with HTTP Agent. Defaults to **8080**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
 ### - File MGMT
 
-* *dojot_file_mgmt_version*: Version of the File MGMT container. Defaults to **dojot_version**.
+* *dojot_file_mgmt_version*: Version of the File MGMT container. Defaults to **dojot_backend_version**.
 * *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 * *dojot_minio_files_access_key*: MinIO access key.
 * *dojot_minio_files_secret_key*: MinIO secret key.
