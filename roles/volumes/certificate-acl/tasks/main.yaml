@@ -7,7 +7,7 @@
     state: directory
     mode: "2775"
   when: (dojot_storage_class_name == "local-storage") and
-        ('dojot_nodes' in group_names)
+        ('x509_nodes' in group_names)
 
 - name: Create Certificate ACL volume
   k8s:

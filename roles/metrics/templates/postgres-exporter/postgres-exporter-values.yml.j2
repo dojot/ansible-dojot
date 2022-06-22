@@ -324,15 +324,17 @@ config:
             usage: "HISTOGRAM"
             description: "Idle time of server processes"
 
+{% if dojot_enable_node_affinity %}
 affinity:
-podAntiAffinity:
-  requiredDuringSchedulingIgnoredDuringExecution:
-  - labelSelector:
-      matchExpressions:
-      - key: dojot.components/dojot
-        operator: In
-        values:
-        - enabled
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/monitoring
+          operator: In
+          values:
+          - "enabled"
+{% endif %}
 
 livenessProbe:
   initialDelaySeconds: 0

@@ -6,7 +6,7 @@
     path: "{{ dojot_volume_directory }}/prometheus"
     state: directory
     mode: "2775"
-  when: ('dojot_nodes' in group_names)
+  when: ('monitoring_nodes' in group_names)
 
 - name: Create prometheus volume
   k8s:

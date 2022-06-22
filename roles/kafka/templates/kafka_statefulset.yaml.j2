@@ -47,6 +47,8 @@ spec:
               value: "262144000"
             - name: KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS
               value: "30000"
+            - name: KAFKA_NUM_PARTITIONS
+              value: "{{ dojot_bridges_replicas }}"
           volumeMounts:
             - mountPath: /var/lib/kafka/data
               name: kafka-volume

@@ -46,3 +46,27 @@
         labels:
           dojot.components/vernemq: "enabled"
   loop: "{{ dojot_vernemq_nodenames if dojot_vernemq_nodenames is iterable else [] }}"
+
+- name: Label database nodes
+  when: dojot_database_nodenames|length > 0
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item }}"
+        labels:
+          dojot.components/database: "enabled"
+  loop: "{{ dojot_database_nodenames if dojot_database_nodenames is iterable else [] }}"
+
+- name: Label monitoring nodes
+  when: dojot_monitoring_nodenames|length > 0
+  k8s:
+    definition:
+      apiversion: v1
+      kind: Node
+      metadata:
+        name: "{{ item }}"
+        labels:
+          dojot.components/monitoring: "enabled"
+  loop: "{{ dojot_monitoring_nodenames if dojot_monitoring_nodenames is iterable else [] }}"

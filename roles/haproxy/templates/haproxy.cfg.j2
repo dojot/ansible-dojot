@@ -75,3 +75,13 @@ listen metrics
 {% for node in groups['metrics_nodes'] | default([]) %}
         server metrics-{{ loop.index }} {{ node }}:{{ dojot_nodeports.metrics }} check inter 1000ms fall 3 rise 5
 {% endfor %}
+
+listen http_agent
+        mode tcp
+        option tcplog
+        bind *:3000
+        balance leastconn
+
+{% for node in groups['http_agent_nodes'] | default([]) %}
+        server http_agent-{{ loop.index }} {{ node }}:{{ dojot_nodeports.agent.https }} check inter 1000ms fall 3 rise 5
+{% endfor %}
