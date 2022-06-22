@@ -1,1 +1,1 @@
-dojot_k2v_version: "{{ dojot_version }}"
+dojot_k2v_version: "{{ dojot_backend_version }}"

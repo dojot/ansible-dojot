@@ -1,6 +1,6 @@
 ---
 # Defines defaults values for GUI V2 role variables
 
-dojot_guiv2_version: "{{ dojot_version }}"
+dojot_guiv2_version: "{{ dojot_frontend_version }}"
 
 dojot_guiv2_image: "dojot/gui-v2"

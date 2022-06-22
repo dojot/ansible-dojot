@@ -1,6 +1,6 @@
 # Default variables value for Kafka WS service
 
-dojot_kafka_ws_version: "{{ dojot_version }}"
+dojot_kafka_ws_version: "{{ dojot_backend_version }}"
 dojot_kafka_ws_volume_size: 5Mi
 
 dojot_kafka_port: 9092
