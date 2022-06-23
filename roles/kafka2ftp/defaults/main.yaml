@@ -1,1 +1,1 @@
-dojot_kafka2ftp_version: "{{ dojot_version }}"
+dojot_kafka2ftp_version: "{{ dojot_backend_version }}"
