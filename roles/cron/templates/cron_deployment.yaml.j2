@@ -19,7 +19,7 @@ spec:
         app: dojot
     spec:
       containers:
-      - image: dojot/cron:{{ dojot_version }}
+      - image: dojot/cron:{{ dojot_backend_version }}
         name: cron
         env:
         - name: KAFKA_HOSTS
