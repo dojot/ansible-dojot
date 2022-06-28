@@ -55,6 +55,8 @@ spec:
           value: "false"
         - name: HTTP_AGENT_PRODUCER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: HTTP_AGENT_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
         - name: HTTP_AGENT_APP_USER_CONFIG_FILE
           value: "default.conf"
         - name: HTTP_AGENT_HTTPS_CA
