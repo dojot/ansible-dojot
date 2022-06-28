@@ -10,7 +10,7 @@ before deploying dojot
 * *dojot_frontend_version*: Sets the dojot version that will be used for frontend modules.
 * *dojot_domain_name*: Defines the domain name for the dojot infrastructure.
 * *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes **(local-storage or nfs)**.
-
+* *dojot_metrics_server_namespace*: Defines the namespace where metrics server will be deployed.
 ## Optional Variables
 
 ### - Dojot

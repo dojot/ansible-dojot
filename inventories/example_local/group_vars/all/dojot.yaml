@@ -42,6 +42,9 @@ dojot_x509_ejbca_replicas: 1
 # Keda HPA cpu usage metric trigger
 value_metric_trigger_cpu: 80
 
+# Metrics Server namespace
+dojot_metrics_server_namespace: dojot-metrics-server
+
 # Enable Kafka WS TLS support, the service must have a configured volume with the certificates inside
 dojot_kafka_ws_enable_tls: false
 # Enable Kong (apigw) TLS support, the service must have a configured volume with the certificates inside
