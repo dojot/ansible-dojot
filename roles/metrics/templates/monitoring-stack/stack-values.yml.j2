@@ -1,0 +1,596 @@
+namespaceOverride: "dojot-monitoring"
+
+defaultRules:
+  create: true
+  rules:
+    alertmanager: true
+    etcd: true
+    configReloaders: true
+    general: true
+    k8s: true
+    kubeApiserverAvailability: true
+    kubeApiserverBurnrate: true
+    kubeApiserverHistogram: true
+    kubeApiserverSlos: true
+    kubelet: true
+    kubeProxy: true
+    kubePrometheusGeneral: true
+    kubePrometheusNodeRecording: true
+    kubernetesApps: true
+    kubernetesResources: true
+    kubernetesStorage: true
+    kubernetesSystem: true
+    kubeScheduler: true
+    kubeStateMetrics: true
+    network: true
+    node: true
+    nodeExporterAlerting: true
+    nodeExporterRecording: true
+    prometheus: true
+    prometheusOperator: true
+
+  appNamespacesTarget: ".*"
+
+global:
+  rbac:
+    create: true
+
+alertmanager:
+  enabled: false
+
+grafana:
+  enabled: true
+  namespaceOverride: "dojot-monitoring"
+  defaultDashboardsEnabled: true
+  defaultDashboardsTimezone: utc
+  adminPassword: prom-operator
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  persistence:
+    type: pvc
+    enabled: true
+    accessModes:
+    - ReadWriteOnce
+    size: 10Gi
+    storageClassName: local-storage
+    finalizers:
+      - kubernetes.io/pvc-protection
+    labels:
+      app: grafana
+    name: grafana
+    namespace: dojot-monitoring
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'default'
+        orgId: 1
+        folder: 'monitoring'
+        type: file
+        disableDeletion: false
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      system-metrics:
+        gnetId: 16454
+        revision: 0
+        datasource: Prometheus
+      container-metrics:
+        gnetId: 16453
+        revision: 0
+        datasource: Prometheus
+      dojot-100k:
+        gnetId: 16397
+        revision: 0
+        datasource: Prometheus
+      k8s-pods-metrics:
+        gnetId: 747
+        revision: 0
+        datasource: Prometheus
+      k8s-cluster-monitoring:
+        gnetId: 315
+        revision: 0
+        datasource: Prometheus
+      locust:
+        gnetId: 15701
+        revision: 0
+        datasource: Prometheus
+      vmq-cluster:
+        gnetId: 15696
+        revision: 0
+        datasource: Prometheus
+      vmq-node:
+        gnetId: 15695
+        revision: 0
+        datasource: Prometheus
+      k8s-memory-namespace:
+        gnetId: 13421
+        revision: 0
+        datasource: Prometheus
+      kafka-stats:
+        gnetId: 15965
+        revision: 0
+        datasource: Prometheus
+      vernemq:
+        gnetId: 15598
+        revision: 0
+        datasource: Prometheus
+      kong-dash:
+        gnetId: 7424
+        revision: 5
+        datasource: Prometheus
+      influxdb:
+        gnetId: 15594
+        revision: 0
+        datasource: Prometheus
+      mongodb:
+        gnetId: 15596
+        revision: 0
+        datasource: Prometheus
+      postgres:
+        gnetId: 9628
+        revision: 7
+        datasource: Prometheus
+      RabbitMQ-Overview:
+        gnetId: 10991
+        revision: 0
+        datasource: Prometheus
+      overview-stats:
+        gnetId: 15593
+        revision: 0
+        datasource: Prometheus
+      locust-for-prometheus:
+        gnetId: 12081
+        revision: 0
+        datasource: Prometheus
+
+  rbac:
+    pspEnabled: false
+
+  ingress:
+    enabled: false
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+
+      annotations: {}
+      multicluster:
+        global:
+          enabled: false
+        etcd:
+          enabled: false
+      provider:
+        allowUiUpdates: false
+    datasources:
+      enabled: true
+      defaultDatasourceEnabled: true
+
+      uid: prometheus
+      url: http://prometheus-stack-kube-prom-prometheus.dojot-monitoring.svc.cluster.local:9090
+
+      annotations: {}
+
+      createPrometheusReplicasDatasources: false
+      label: grafana_datasource
+      labelValue: "1"
+
+  service:
+    portName: http-web
+
+  serviceMonitor:
+    enabled: true
+    path: "/metrics"
+    scheme: http
+    scrapeTimeout: 30s
+
+kubeApiServer:
+  enabled: true
+  tlsConfig:
+    serverName: kubernetes
+    insecureSkipVerify: false
+  serviceMonitor:
+    interval: ""
+    proxyUrl: ""
+    jobLabel: component
+    selector:
+      matchLabels:
+        component: apiserver
+        provider: kubernetes
+
+
+kubelet:
+  enabled: true
+  namespace: kube-system
+
+  serviceMonitor:
+    interval: ""
+    https: true
+    cAdvisor: true
+    probes: true
+    resource: false
+    resourcePath: "/metrics/resource/v1alpha1"
+
+    cAdvisorRelabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+
+    probesRelabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+
+    resourceRelabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+
+    relabelings:
+      - sourceLabels: [__metrics_path__]
+        targetLabel: metrics_path
+
+kubeControllerManager:
+  enabled: true
+  service:
+    port: null
+    targetPort: null
+  serviceMonitor:
+    enabled: true
+
+coreDns:
+  enabled: true
+  service:
+    port: 9153
+    targetPort: 9153
+
+  serviceMonitor:
+    interval: ""
+
+kubeDns:
+  enabled: false
+  service:
+    dnsmasq:
+      port: 10054
+      targetPort: 10054
+    skydns:
+      port: 10055
+      targetPort: 10055
+
+  serviceMonitor:
+    interval: ""
+
+kubeEtcd:
+  enabled: true
+  service:
+    enabled: true
+    port: 2379
+    targetPort: 2379
+  serviceMonitor:
+    enabled: true
+    interval: ""
+    proxyUrl: ""
+    scheme: http
+    insecureSkipVerify: false
+    serverName: ""
+    caFile: ""
+    certFile: ""
+    keyFile: ""
+
+kubeScheduler:
+  enabled: true
+  service:
+    enabled: true
+  serviceMonitor:
+    enabled: true
+    interval: ""
+
+kubeProxy:
+  enabled: true
+  service:
+    enabled: true
+    port: 10249
+    targetPort: 10249
+
+  serviceMonitor:
+    enabled: true
+    interval: ""
+
+kubeStateMetrics:
+  enabled: true
+
+kube-state-metrics:
+  namespaceOverride:  "dojot-monitoring"
+  rbac:
+    create: true
+  releaseLabel: true
+  prometheus:
+    monitor:
+      enabled: true
+      interval: ""
+      scrapeTimeout: ""
+
+  selfMonitor:
+    enabled: false
+
+nodeExporter:
+  enabled: true
+
+prometheus-node-exporter:
+  namespaceOverride:  "dojot-monitoring"
+  podLabels:
+    jobLabel: node-exporter
+  extraArgs:
+    - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+    - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+  service:
+    portName: http-metrics
+  prometheus:
+    monitor:
+      enabled: true
+      jobLabel: jobLabel
+      interval: ""
+      scrapeTimeout: ""
+  rbac:
+    pspEnabled: false
+
+
+prometheusOperator:
+  enabled: true
+  tls:
+    enabled: true
+    tlsMinVersion: VersionTLS13
+    internalPort: 10250
+
+  admissionWebhooks:
+    failurePolicy: Fail
+    enabled: true
+    patch:
+      enabled: true
+      image:
+        repository: k8s.gcr.io/ingress-nginx/kube-webhook-certgen
+        tag: v1.1.1
+        pullPolicy: IfNotPresent
+      resources: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/monitoring
+                operator: In
+                values:
+                - "enabled"
+
+      securityContext:
+        runAsGroup: 2000
+        runAsNonRoot: true
+        runAsUser: 2000
+
+    certManager:
+      enabled: false
+
+  serviceAccount:
+    create: true
+
+  service:
+
+    externalTrafficPolicy: Cluster
+    type: ClusterIP
+
+  kubeletService:
+    enabled: true
+    namespace: kube-system
+
+  serviceMonitor:
+    interval: ""
+    scrapeTimeout: ""
+    selfMonitor: true
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: dojot.components/monitoring
+            operator: In
+            values:
+            - "enabled"
+
+  securityContext:
+    fsGroup: 65534
+    runAsGroup: 65534
+    runAsNonRoot: true
+    runAsUser: 65534
+
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+
+  image:
+    repository: quay.io/prometheus-operator/prometheus-operator
+    tag: v0.57.0
+    sha: ""
+    pullPolicy: IfNotPresent
+
+  prometheusConfigReloader:
+    image:
+      repository: quay.io/prometheus-operator/prometheus-config-reloader
+      tag: v0.57.0
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 50Mi
+      limits:
+        cpu: 200m
+        memory: 50Mi
+
+  thanosImage:
+    repository: quay.io/thanos/thanos
+    tag: v0.25.2
+
+prometheus:
+
+  enabled: true
+
+  serviceAccount:
+    create: true
+
+  thanosService:
+    enabled: false
+
+  thanosServiceMonitor:
+    enabled: false
+    interval: ""
+
+  thanosServiceExternal:
+    enabled: false
+
+  service:
+
+    port: 9090
+    targetPort: 9090
+    type: ClusterIP
+
+  servicePerReplica:
+    enabled: false
+
+  podDisruptionBudget:
+    enabled: false
+
+  thanosIngress:
+    enabled: false
+
+  ingress:
+    enabled: false
+
+  ingressPerReplica:
+    enabled: false
+
+  serviceMonitor:
+    interval: ""
+    selfMonitor: true
+
+  prometheusSpec:
+    scrapeInterval: "1m"
+    scrapeTimeout: "10s"
+    evaluationInterval: "1m"
+
+    image:
+      repository: quay.io/prometheus/prometheus
+      tag: v2.36.1
+
+    retention: 10d
+    retentionSize: ""
+    walCompression: false
+    paused: false
+    replicas: 1
+    shards: 1
+    logLevel: info
+    logFormat: logfmt
+    routePrefix: /
+    podMetadata: {}
+
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: dojot.components/monitoring
+              operator: In
+              values:
+              - "enabled"
+
+    resources:
+      limits:
+        cpu: 100m
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+          storageClassName: local-storage
+          selector:
+            matchLabels:
+              app: prometheus
+              prometheus: k8s
+
+    additionalScrapeConfigs:
+
+      - job_name: kafka-exporter
+        static_configs:
+          - targets:
+            - kafka-exporter-prometheus-kafka-exporter.dojot-monitoring.svc.cluster.local:9308
+        scrape_interval: 5m
+        scrape_timeout: 30s
+
+      - job_name: 'vernemq-k8s'
+        static_configs:
+          - targets: ['vernemq-k8s-service.dojot.svc.cluster.local:8888']
+        scrape_interval: 5s
+        scrape_timeout: 5s
+
+      - job_name: 'kong'
+        static_configs:
+          - targets: ['kong.dojot.svc.cluster.local:8001']
+        scrape_interval: 5s
+        scrape_timeout: 5s
+
+      - job_name: 'influxdb'
+        static_configs:
+          - targets: ['influxdb.dojot.svc.cluster.local:8086']
+        scrape_interval: 5s
+        scrape_timeout: 5s
+
+      - job_name: mongodb-exporter
+        static_configs:
+          - targets:
+            - mongodb-exporter-prometheus-mongodb-exporter.dojot-monitoring.svc.cluster.local:9216
+        scrape_interval: 5m
+        scrape_timeout: 30s
+
+      - job_name: postgres-exporter
+        static_configs:
+          - targets:
+            - postgres-exporter-prometheus-postgres-exporter.dojot-monitoring.svc.cluster.local:80
+        scrape_interval: 5m
+        scrape_timeout: 30s
+
+      - job_name: rabbitmq-exporter
+        static_configs:
+          - targets:
+            - rabbitmq-exporter-prometheus-rabbitmq-exporter.dojot-monitoring.svc.cluster.local:9419
+        scrape_interval: 5m
+        scrape_timeout: 1m
+
+    securityContext:
+      runAsGroup: 2000
+      runAsNonRoot: true
+      runAsUser: 1000
+      fsGroup: 2000
+
+    priorityClassName: ""
+    initContainers: []
+    portName: "http-web"
+
+thanosRuler:
+  enabled: false
