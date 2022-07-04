@@ -1,0 +1,14 @@
+- name: Add stable chart repo Metrics Server
+  when: "{{ dojot_metrics_server_enabled }}"
+  kubernetes.core.helm_repository:
+    name: metrics-server
+    repo_url: "https://kubernetes-sigs.github.io/metrics-server/"
+
+- name: Deploy Metrics Server chart
+  when: "{{ dojot_metrics_server_enabled }}"
+  kubernetes.core.helm:
+    chart_ref: metrics-server/metrics-server
+    chart_version: 3.8.2
+    release_name: metrics-server
+    release_namespace: "{{ dojot_metrics_server_namespace }}"
+    create_namespace: true

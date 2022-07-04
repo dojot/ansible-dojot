@@ -10,7 +10,7 @@ before deploying dojot
 * *dojot_frontend_version*: Sets the dojot version that will be used for frontend modules.
 * *dojot_domain_name*: Defines the domain name for the dojot infrastructure.
 * *dojot_storage_class_name*: Defines the name of the storage class used by the dojot volumes **(local-storage or nfs)**.
-
+* *dojot_metrics_server_namespace*: Defines the namespace where metrics server will be deployed.
 ## Optional Variables
 
 ### - Dojot
@@ -18,7 +18,7 @@ before deploying dojot
 * *dojot_kubeconfig_file_path*: Path to the kubeconfig file that will be used to access the kubernetes API endpoints. If not set will use the default environment that is accessible by the node.
 * *dojot_kubernetes_rbac*: This variable controls the creation of RBAC rules for dojot. Default value is **true**.
 * *dojot_booststrap*: Defines if packages required for the deployment should be installed. Defaults to **true**.
-
+* *dojot_metrics_server_enabled*: Enable metrics server for use just in cluster k8s.
 * *dojot_vernemq_replicas*: Set number of replicas for VerneMQ. Defaults to **1**.
 * *dojot_vernemq_max_replicas*: Set number max of replicas for VerneMQ. Defaults to **30**.
 * *dojot_bridges_replicas*: Set number of replicas for K2V, V2K and Loopback, and also modifies the number of partitions in Kafka topics. Defaults to **1**.

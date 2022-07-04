@@ -102,6 +102,15 @@
   roles:
     - role: helm
 
+# Deploy Metrics Server to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - metrics-server
+    - 100k
+  roles:
+    - role: metrics-server
+
 # Deploy Keda to the environment
 - hosts: dojot-k8s[0]
   any_errors_fatal: true

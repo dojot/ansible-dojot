@@ -1,7 +1,7 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_backend_version: v0.8.0-rc.2
-dojot_frontend_version: v0.8.0-rc.2
+dojot_backend_version: v0.8.0-rc.3
+dojot_frontend_version: v0.8.0-rc.4
 dojot_domain_name: localhost
 
 # Parameters used when active HTTPS in NGINX
@@ -41,6 +41,12 @@ dojot_x509_ejbca_replicas: 1
 
 # Keda HPA cpu usage metric trigger
 value_metric_trigger_cpu: 80
+
+# Metrics Server namespace
+dojot_metrics_server_namespace: dojot-metrics-server
+
+# Enable metrics server for use just in cluster k8s
+dojot_metrics_server_enabled: false
 
 # Enable Kafka WS TLS support, the service must have a configured volume with the certificates inside
 dojot_kafka_ws_enable_tls: false
