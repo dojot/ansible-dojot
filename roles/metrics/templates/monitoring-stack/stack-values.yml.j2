@@ -91,7 +91,7 @@ grafana:
         revision: 0
         datasource: Prometheus
       dojot-100k:
-        gnetId: 16397
+        gnetId: 16565
         revision: 0
         datasource: Prometheus
       k8s-pods-metrics:
@@ -181,15 +181,23 @@ grafana:
 
       uid: prometheus
       url: http://prometheus-stack-kube-prom-prometheus.dojot-monitoring.svc.cluster.local:9090
-
-      annotations: {}
-
       createPrometheusReplicasDatasources: false
       label: grafana_datasource
       labelValue: "1"
 
+    additionalDataSources:
+      - name: loki
+        acess: proxy
+        editable: true
+        url: http://loki.dojot-monitoring.svc.cluster.local:3100
+
   service:
     portName: http-web
+    enabled: true
+    type: NodePort
+    port: 80
+    targetPort: 3000
+    nodePort: 30003
 
   serviceMonitor:
     enabled: true
