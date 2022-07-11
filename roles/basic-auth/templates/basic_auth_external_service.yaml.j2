@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dojot
+  name: basic-auth-external-service
+  namespace: {{ dojot_namespace }}
+spec:
+  selector:
+    name: basic-auth
+    app: dojot
+  ports:
+    - name: basic-auth
+      port: {{ dojot_basic_auth_port }}
+      protocol: TCP
+{% if dojot_fixed_nodeports_enabled %}
+      nodePort: {{ dojot_nodeports.basic_auth }}
+{% endif %}
+  type: NodePort
