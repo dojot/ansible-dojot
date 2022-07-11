@@ -274,3 +274,8 @@
       tags:
         - file-mgmt
         - 100k
+
+    - role: basic-auth
+      tags:
+        - basic-auth
+        - 100k
