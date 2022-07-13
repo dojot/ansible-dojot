@@ -1,4 +1,4 @@
-namespaceOverride: "dojot-monitoring"
+namespaceOverride: "{{ dojot_monitoring_namespace }}"
 
 defaultRules:
   create: true
@@ -40,7 +40,7 @@ alertmanager:
 
 grafana:
   enabled: true
-  namespaceOverride: "dojot-monitoring"
+  namespaceOverride: "{{ dojot_monitoring_namespace }}"
   defaultDashboardsEnabled: true
   defaultDashboardsTimezone: utc
   adminPassword: prom-operator
@@ -59,13 +59,13 @@ grafana:
     accessModes:
     - ReadWriteOnce
     size: 10Gi
-    storageClassName: local-storage
+    storageClassName: "{{ dojot_storage_class_name }}"
     finalizers:
       - kubernetes.io/pvc-protection
     labels:
       app: grafana
     name: grafana
-    namespace: dojot-monitoring
+    namespace: "{ dojot_monitoring_namespace }}"
 
   dashboardProviders:
     dashboardproviders.yaml:
@@ -197,7 +197,7 @@ grafana:
     type: NodePort
     port: 80
     targetPort: 3000
-    nodePort: 30003
+    nodePort: "{{ dojot_nodeports.metrics }}"
 
   serviceMonitor:
     enabled: true
@@ -318,7 +318,7 @@ kubeStateMetrics:
   enabled: true
 
 kube-state-metrics:
-  namespaceOverride:  "dojot-monitoring"
+  namespaceOverride:  "{{ dojot_monitoring_namespace }}"
   rbac:
     create: true
   releaseLabel: true
@@ -335,7 +335,7 @@ nodeExporter:
   enabled: true
 
 prometheus-node-exporter:
-  namespaceOverride:  "dojot-monitoring"
+  namespaceOverride:  "{{ dojot_monitoring_namespace }}"
   podLabels:
     jobLabel: node-exporter
   extraArgs:
@@ -536,7 +536,7 @@ prometheus:
           resources:
             requests:
               storage: 1Gi
-          storageClassName: local-storage
+          storageClassName: "{{ dojot_storage_class_name }}"
           selector:
             matchLabels:
               app: prometheus
