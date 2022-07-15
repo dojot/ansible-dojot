@@ -12,4 +12,16 @@
   loop:
   - "{{ lookup('template', 'k2v_bridge_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'k2v_bridge_cluster.yaml.j2') | from_yaml }}"
+
+- name: dojot - k2v-bridge-keda (Kafka to verne bridge) Objects
+  when: optional['keda']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
   - "{{ lookup('template', 'k2v_bridge_keda.yaml.j2') | from_yaml }}"
