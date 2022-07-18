@@ -8,7 +8,7 @@
   when: dojot_helm_install | bool
   tags: helm
 
-- name: Metrics | Prometheus | include Prometheus tasks
+- name: Metrics | monitoring-stack | include monitoring-stack tasks
   include_tasks: monitoring-stack.yml
   tags: prometheus-stack
 
