@@ -288,3 +288,4 @@ before deploying dojot
 * *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to **true**.
 * *optional[mosca]*: Defines whether IotAgent Mosca will be enabled. It will only be enabled if IotAgent VerneMQ is disabled. Defaults to **false**.
 * *optional[lwm2m]*: Defines whether IotAgent Lwm2m will be enabled. Defaults to **false**.
+* *optional[keda]*: Defines whether Keda will be enabled. Defaults to **false**.

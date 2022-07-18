@@ -101,6 +101,7 @@
     - 100k
   roles:
     - role: helm
+      when: optional['keda']
 
 # Deploy Metrics Server to the environment
 - hosts: dojot-k8s[0]
@@ -119,6 +120,7 @@
     - 100k
   roles:
     - role: keda
+      when: optional['keda']
 
 # Deploy VerneMQ to the environment
 # TODO: Add possibility of using an external VerneMQ by setting config variables
