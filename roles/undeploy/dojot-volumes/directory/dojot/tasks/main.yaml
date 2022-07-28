@@ -1,6 +1,6 @@
 ---
 
-- name: Remove X509 volume directory
+- name: Remove Dojot volume directory
   become: yes
   file:
     path: "{{ dojot_volume_directory }}/{{item.path}}"

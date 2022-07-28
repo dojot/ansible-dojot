@@ -1,6 +1,6 @@
 ---
 
-- name: Remove volume directory
+- name: Remove Monitoring volume directory
   become: yes
   file:
     path: "{{ dojot_volume_directory }}/{{item.path}}"
