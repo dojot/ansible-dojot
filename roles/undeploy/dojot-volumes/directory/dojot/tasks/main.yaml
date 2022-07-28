@@ -11,4 +11,3 @@
     - { path: 'minio-files' }
     - { path: 'mongodb' }
     - { path: 'postgres' }
-  when: (dojot_storage_class_name == "local-storage")

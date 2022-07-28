@@ -9,4 +9,3 @@
     - { path: 'prometheus' }
     - { path: 'grafana' }
     - { path: 'loki' }
-  when: (dojot_storage_class_name == "local-storage")

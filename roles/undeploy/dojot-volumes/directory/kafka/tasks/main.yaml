@@ -9,4 +9,3 @@
     - { path: 'kafka' }
     - { path: 'kafka_ws' }
     - { path: 'zookeeper' }
-  when: (dojot_storage_class_name == "local-storage")

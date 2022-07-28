@@ -9,4 +9,3 @@
     - { path: 'x509-identity-mgmt' }
     - { path: 'ejbca' }
     - { path: 'certificate_acl' }
-  when: (dojot_storage_class_name == "local-storage")

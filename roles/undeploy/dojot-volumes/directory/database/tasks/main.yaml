@@ -8,4 +8,3 @@
   loop:
     - { path: 'influxdb' }
     - { path: 'influxdb-chronograf' }
-  when: (dojot_storage_class_name == "local-storage")
