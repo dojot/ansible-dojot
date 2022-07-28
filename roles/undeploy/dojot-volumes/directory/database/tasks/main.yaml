@@ -1,0 +1,11 @@
+---
+
+- name: Remove Database volume directory
+  become: yes
+  file:
+    path: "{{ dojot_volume_directory }}/{{item.path}}"
+    state: absent
+  loop:
+    - { path: 'influxdb' }
+    - { path: 'influxdb-chronograf' }
+  when: (dojot_storage_class_name == "local-storage")

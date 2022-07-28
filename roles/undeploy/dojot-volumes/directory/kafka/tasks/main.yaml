@@ -1,0 +1,12 @@
+---
+
+- name: Remove Kafka volume directory
+  become: yes
+  file:
+    path: "{{ dojot_volume_directory }}/{{item.path}}"
+    state: absent
+  loop:
+    - { path: 'kafka' }
+    - { path: 'kafka_ws' }
+    - { path: 'zookeeper' }
+  when: (dojot_storage_class_name == "local-storage")
