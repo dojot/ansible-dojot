@@ -1,0 +1,93 @@
+---
+# Dojot stack ----------------------------------
+
+# Delete dojot deployment
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - dojot
+  roles:
+    - role: undeploy/dojot
+
+# Delete dojot pv
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - dojot-volumes
+  roles:
+    - role: undeploy/dojot-volumes
+
+# Delete dojot nodes volume directory
+- hosts: dojot_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - dojot-volumes
+  roles:
+    - role: undeploy/dojot-volumes/directory/dojot
+
+# Delete kafka nodes volume directory
+- hosts: kafka_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - dojot-volumes
+  roles:
+    - role: undeploy/dojot-volumes/directory/kafka
+
+# Delete x509 nodes volume directory
+- hosts: x509_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - dojot-volumes
+  roles:
+    - role: undeploy/dojot-volumes/directory/x509
+
+# Delete database nodes volume directory
+- hosts: database_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - dojot-volumes
+  roles:
+    - role: undeploy/dojot-volumes/directory/database
+
+# Monitoring stack -----------------------------
+
+# Delete monitoring deployment
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - monitoring
+  roles:
+    - role: undeploy/monitoring
+
+# Delete monitoring pv
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - monitoring-volumes
+  roles:
+    - role: undeploy/monitoring-volumes
+
+# Delete monitoring nodes volume directory
+- hosts: monitoring_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - monitoring-volumes
+  roles:
+    - role: undeploy/monitoring-volumes/directory

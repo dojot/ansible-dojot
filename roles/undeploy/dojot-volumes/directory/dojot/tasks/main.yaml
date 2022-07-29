@@ -1,0 +1,13 @@
+---
+
+- name: Remove Dojot volume directory
+  become: yes
+  file:
+    path: "{{ dojot_volume_directory }}/{{item.path}}"
+    state: absent
+  loop:
+    - { path: 'kong' }
+    - { path: 'minio' }
+    - { path: 'minio-files' }
+    - { path: 'mongodb' }
+    - { path: 'postgres' }

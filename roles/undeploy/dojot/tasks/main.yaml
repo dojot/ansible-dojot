@@ -1,0 +1,245 @@
+---
+
+- name: Delete kafka-server StatefulSet
+  k8s:
+    api_version: v1
+    kind: StatefulSet
+    namespace: "dojot"
+    name: "kafka-server"
+    state: absent
+
+- name: Get the StatefulSet in the dojot namespace
+  k8s_info:
+    kind: StatefulSet
+    namespace: dojot
+  register: pod_list
+
+- name:  Delete StatefulSet
+  k8s:
+    state: absent
+    api_version: v1
+    kind: StatefulSet
+    namespace: dojot
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Deployments in the dojot namespace
+  k8s_info:
+    kind: Deployment
+    namespace: dojot
+  register: pod_list
+
+- name:  Delete Deployments
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Deployment
+    namespace: dojot
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Jobs in the dojot namespace
+  k8s_info:
+    kind: Job
+    namespace: dojot
+  register: pod_list
+
+- name:  Delete Jobs
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Job
+    namespace: dojot
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Services in the dojot namespace
+  k8s_info:
+    kind: Service
+    namespace: dojot
+  register: pod_list
+
+- name:  Delete Services
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Service
+    namespace: dojot
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Pods in the dojot namespace
+  k8s_info:
+    kind: Pod
+    namespace: dojot
+  register: pod_list
+
+- name:  Delete Pods
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Pod
+    namespace: dojot
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the PVC's in the dojot namespace
+  k8s_info:
+    kind: pvc
+    namespace: dojot
+  register: pod_list
+
+- name: Delete PVC's
+  k8s:
+    state: absent
+    api_version: v1
+    kind: pvc
+    namespace: dojot
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Delete dojot CRDs
+  k8s:
+    api_version: v1
+    kind: CustomResourceDefinition
+    name: vernemqs.vernemq.com
+    state: absent
+
+- name: Disassociate dojot old PV's
+  command: "{{ item }}"
+  with_items:
+    - "kubectl patch pv pv-certificate-acl -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-influxdb -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-influxdb-chronograf -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-influxdb-chronograf -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-kafka -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-kafka-ws -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-kong -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-minio -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-minio-files -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-mongo -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-postgres -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-x509-ejbca -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-x509-identity-mgmt -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-zk-data -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-zk-log -p '{\"spec\":{\"claimRef\": null}}'"
+
+# Keda -------------------------------------------------------
+- name: Get the Deployments in the keda namespace
+  k8s_info:
+    kind: Deployment
+    namespace: keda
+  register: pod_list
+
+- name:  Delete Deployments
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Deployment
+    namespace: keda
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Services in the keda namespace
+  k8s_info:
+    kind: Service
+    namespace: keda
+  register: pod_list
+
+- name:  Delete Services
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Service
+    namespace: keda
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the ReplicaSets in the keda namespace
+  k8s_info:
+    kind: ReplicaSet
+    namespace: keda
+  register: pod_list
+
+- name:  Delete ReplicaSets
+  k8s:
+    state: absent
+    api_version: v1
+    kind: ReplicaSet
+    namespace: keda
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+
+- name: Delete keda CRDs
+  k8s:
+    api_version: v1
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+    state: absent
+  with_items:
+     - "scaledjobs.keda.sh"
+     - "clustertriggerauthentications.keda.sh"
+     - "scaledobjects.keda.sh"
+     - "triggerauthentications.keda.sh"
+  when: optional['keda']
+
+- name: Uninstall Keda helm service
+  kubernetes.core.helm:
+    release_state: absent
+    release_name: "keda"
+    release_namespace: keda
+  when: optional['keda']
+
+# Metrics Server -----------------------------------------------
+- name: Get the Deployments in the dojot-metrics-server namespace
+  k8s_info:
+    kind: Deployment
+    namespace: dojot-metrics-server
+  register: pod_list
+
+- name:  Delete Deployments
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Deployment
+    namespace: dojot-metrics-server
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Services in the dojot-metrics-server namespace
+  k8s_info:
+    kind: Service
+    namespace: dojot-metrics-server
+  register: pod_list
+
+- name:  Delete Services
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Service
+    namespace: dojot-metrics-server
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the ReplicaSets in the dojot-metrics-server namespace
+  k8s_info:
+    kind: ReplicaSet
+    namespace: dojot-metrics-server
+  register: pod_list
+
+- name:  Delete ReplicaSets
+  k8s:
+    state: absent
+    api_version: v1
+    kind: ReplicaSet
+    namespace: dojot-metrics-server
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Uninstall dojot metrics server helm service
+  kubernetes.core.helm:
+    release_state: absent
+    release_name: "metrics-server"
+    release_namespace: dojot-metrics-server
+  when: "{{ dojot_metrics_server_enabled }}"
