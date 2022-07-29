@@ -8,9 +8,9 @@
   when: dojot_helm_install | bool
   tags: helm
 
-- name: Metrics | Prometheus | include Prometheus tasks
-  include_tasks: prometheus.yml
-  tags: prometheus
+- name: Metrics | monitoring-stack | include monitoring-stack tasks
+  include_tasks: monitoring-stack.yml
+  tags: prometheus-stack
 
 - name: Metrics | Locust | include Locust tasks
   include_tasks: locust.yml
@@ -23,14 +23,6 @@
 - name: Metrics | Promtail | Include promtail tasks
   include_tasks: promtail.yml
   tags: promtail
-
-- name: Metrics | Secrets | Include Secrets grafana tasks
-  include_tasks: secrets.yml
-  tags: secrets
-
-- name: Metrics | Grafana | Include Grafana tasks
-  include_tasks: grafana.yml
-  tags: grafana
 
 - name: Metrics | Alertmanager | include Alertmanager tasks
   include_tasks: alertmanager.yml

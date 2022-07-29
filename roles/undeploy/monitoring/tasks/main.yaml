@@ -1,0 +1,108 @@
+---
+
+- name: Get the StatefulSet in the dojot-monitoring namespace
+  k8s_info:
+    kind: StatefulSet
+    namespace: dojot-monitoring
+  register: pod_list
+
+- name:  Delete StatefulSet
+  k8s:
+    state: absent
+    api_version: v1
+    kind: StatefulSet
+    namespace: dojot-monitoring
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Deployments in the dojot-monitoring namespace
+  k8s_info:
+    kind: Deployment
+    namespace: dojot-monitoring
+  register: pod_list
+
+- name:  Delete Deployments
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Deployment
+    namespace: dojot-monitoring
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Services in the dojot-monitoring namespace
+  k8s_info:
+    kind: Service
+    namespace: dojot-monitoring
+  register: pod_list
+
+- name:  Delete Services
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Service
+    namespace: dojot-monitoring
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the PVC's in the dojot-monitoring namespace
+  k8s_info:
+    kind: pvc
+    namespace: dojot-monitoring
+  register: pod_list
+
+- name:  Delete PVC's
+  k8s:
+    state: absent
+    api_version: v1
+    kind: pvc
+    namespace: dojot-monitoring
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Uninstall helm services
+  kubernetes.core.helm:
+    release_state: absent
+    release_name: "{{ item }}"
+    release_namespace: dojot-monitoring
+  with_items:
+    - "promtail"
+    - "prometheus-stack"
+    - "loki"
+    - "alertmanager"
+    - "kafka-exporter"
+    - "mongodb-exporter"
+    - "postgres-exporter"
+    - "rabbitmq-exporter"
+
+- name: Remove Helm repositories
+  kubernetes.core.helm_repository:
+    repo_state: absent
+    repo_name: "{{ item }}"
+  with_items:
+    - "prometheus-community"
+    - "grafana"
+
+- name: Delete monitoring CRD's (Custom Resource Definition)
+  k8s:
+    api_version: v1
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "alertmanagerconfigs.monitoring.coreos.com"
+    - "alertmanagers.monitoring.coreos.com"
+    - "podmonitors.monitoring.coreos.com"
+    - "probes.monitoring.coreos.com"
+    - "prometheuses.monitoring.coreos.com"
+    - "prometheusrules.monitoring.coreos.com"
+    - "servicemonitors.monitoring.coreos.com"
+    - "thanosrulers.monitoring.coreos.com"
+
+- name: Disassociate dojot old PV's
+  command: "{{ item }}"
+  with_items:
+    - "kubectl patch pv pv-prometheus -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-grafana -p '{\"spec\":{\"claimRef\": null}}'"
+    - "kubectl patch pv pv-loki -p '{\"spec\":{\"claimRef\": null}}'"
+

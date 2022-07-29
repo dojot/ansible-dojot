@@ -1,0 +1,11 @@
+---
+
+- name: Remove X509 volume directory
+  become: yes
+  file:
+    path: "{{ dojot_volume_directory }}/{{item.path}}"
+    state: absent
+  loop:
+    - { path: 'x509-identity-mgmt' }
+    - { path: 'ejbca' }
+    - { path: 'certificate_acl' }
