@@ -1,0 +1,12 @@
+---
+
+- name: Delete monitoring PV's (Persistent Volume)
+  k8s:
+    api_version: v1
+    kind: PersistentVolume
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "pv-grafana"
+    - "pv-prometheus"
+    - "pv-loki"

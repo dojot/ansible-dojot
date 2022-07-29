@@ -1,0 +1,3 @@
+dojot_basic_auth_version: "{{ dojot_backend_version }}"
+dojot_basic_auth_port: 3000
+dojot_kafka_port: 9092

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: basic-auth
+    app: dojot
+  name: basic-auth
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: basic-auth
+  template:
+    metadata:
+      labels:
+        name: basic-auth
+        app: dojot
+    spec:
+      containers:
+      - image: dojot/device-basic-authentication:{{ dojot_basic_auth_version }}
+        name: basic-auth
+        env:
+        - name: BASIC_AUTH_LOG_CONSOLE_LEVEL
+          value: info
+        - name: BASIC_AUTH_LOG_VERBOSE
+          value: "true"
+        - name: BASIC_AUTH_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: BASIC_AUTH_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

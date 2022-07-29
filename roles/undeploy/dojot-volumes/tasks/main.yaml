@@ -1,0 +1,23 @@
+---
+
+- name: Delete dojot PV's (Persistent Volume)
+  k8s:
+    api_version: v1
+    kind: PersistentVolume
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "pv-certificate-acl"
+    - "pv-influxdb"
+    - "pv-influxdb-chronograf"
+    - "pv-kafka"
+    - "pv-kafka-ws"
+    - "pv-kong"
+    - "pv-minio"
+    - "pv-minio-files"
+    - "pv-mongo"
+    - "pv-postgres"
+    - "pv-x509-ejbca"
+    - "pv-x509-identity-mgmt"
+    - "pv-zk-data"
+    - "pv-zk-log"
