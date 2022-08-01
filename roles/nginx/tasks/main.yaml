@@ -66,7 +66,6 @@
     - mqtts
     - http_agent
     - influxdb_web
-    - basic_auth
 
 - name: Copy mqtt config files
   when: "{{ dojot_insecure_mqtt }}"
