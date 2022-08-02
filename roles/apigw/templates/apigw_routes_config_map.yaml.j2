@@ -185,8 +185,6 @@ data:
         createEndpoint "backstage_graphql" "http://backstage:3005/"  '"/graphql"' "false"
         addAuthToEndpoint "backstage_graphql"
 
-        echo "API Gateway Paths configured"
-
         echo ""
         echo ""
         echo "- add global correlation-id plugin"
@@ -200,3 +198,9 @@ data:
         # service: file-mgmt
         createEndpoint "file-mgmt" "http://file-mgmt:7000"  '"/file-mgmt"' "true"
         addAuthToEndpoint "file-mgmt"
+
+        # service: basic-auth
+        createEndpoint  "basic-auth" "http://basic-auth:3000" '"/basic-auth/v1/devices/(.*)/basic-credentials"' "false"
+        addAuthToEndpoint "basic-auth"
+
+        echo "API Gateway Paths configured"
