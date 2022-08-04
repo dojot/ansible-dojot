@@ -11,9 +11,9 @@ spec:
     port: {{ dojot_http_agent_port }}
     targetPort: {{ dojot_http_agent_port }}
     protocol: TCP
+  - name: http-agent-unsecure
+    port: {{ dojot_http_agent_unsecure_port }}
+    targetPort: {{ dojot_http_agent_unsecure_port }}    
   selector:
     name: http-agent
     app: dojot
-  topologyKeys:
-    - "kubernetes.io/hostname"
-  sessionAffinity: ClientIP
