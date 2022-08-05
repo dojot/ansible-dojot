@@ -22,6 +22,9 @@ dojot_auth_email_enabled: false
 # Allow the usage of insecure MQTT
 dojot_insecure_mqtt: 'true'
 
+# Allow the usage of unsecure Agent HTTP
+dojot_enable_http_agent_unsecure: false
+
 ## Service Replicas ##
 # Number of replicas for VerneMQ
 dojot_vernemq_replicas: 1
