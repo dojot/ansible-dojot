@@ -11,7 +11,7 @@ dojot_certbot_admin_email: email@example.com
 dojot_certbot_certs_domain: example.com
 
 # Parameters used when active HTTPS in NGINX with Self Signed Certificate
-# If dojot_enable_https_self_signed_certificate_nginx = true, is necessary to set up dojot_server_name_nginx 
+# If dojot_enable_https_self_signed_certificate_nginx = true, is necessary to set up dojot_server_name_nginx
 dojot_enable_https_self_signed_certificate_nginx: false
 dojot_server_name_nginx: server_name
 dojot_server_ip_nginx: "{{ dojot_domain_name }}"
