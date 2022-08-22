@@ -40,6 +40,9 @@ before deploying dojot
 * *dojot_certbot_admin_email*: Certbot admin email.
 * *dojot_certbot_certs_domain*: Certbot certs domain
 
+* *dojot_enable_https_self_signed_certificate_nginx*: Active Self Signed Certificate HTTPS in NGINX. If dojot_enable_https_self_signed_certificate_nginx = true, is necessary to set up dojot_server_name_nginx . Defaults to **false**
+* *dojot_server_name_nginx*: Server Name NGINX
+* *dojot_server_ip_nginx*: Server IP NGINX. Defaults to **dojot_domain_name**
 
 ### - Zookeeper
 

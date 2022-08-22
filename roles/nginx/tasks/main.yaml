@@ -36,6 +36,9 @@
 - include_tasks: config_https.yaml
   when: dojot_enable_https_nginx
 
+- include_tasks: self-signed-certificate-nginx.yaml
+  when: dojot_enable_https_self_signed_certificate_nginx
+
 - name: Delete default http config file
   become: yes
   file:

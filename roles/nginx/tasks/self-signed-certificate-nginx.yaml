@@ -1,0 +1,43 @@
+- name:  Installation OPENSSL
+  become: yes
+  package:
+    name:
+      - openssl
+    state: present
+
+- name: Create certificate directory
+  become: yes
+  file:
+    path: /etc/nginx/certificate
+    state: directory
+
+- name: Create directory certificate
+  become: yes
+  ansible.builtin.command: >-
+    openssl req -x509 -nodes -newkey rsa:2048 -days 365  \
+      -keyout /etc/nginx/certificate/dojot-nginx-certificate.key -out /etc/nginx/certificate/dojot-nginx-certificate.crt -subj '/CN=dojot_CPQD' \
+      -addext 'subjectAltName=DNS:{{ dojot_server_name_nginx }},IP:{{ dojot_server_ip_nginx }}'
+
+- name: Creates stream directory
+  become: yes
+  file:
+    path: /etc/nginx/stream-conf.d
+    state: directory
+
+- name: Copy stream config files - https
+  become: yes
+  template:
+    src: "{{ item }}.conf.j2"
+    dest: "/etc/nginx/stream-conf.d/dojot_{{ item }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  loop:
+    - apigw_https_self_signed_certificate
+
+- name: restart nginx
+  become: yes
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
