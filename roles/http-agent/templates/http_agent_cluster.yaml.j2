@@ -61,6 +61,12 @@ spec:
           value: "default.conf"
         - name: HTTP_AGENT_HTTPS_CA
           value: /certs/cabundle.crt
+{% if dojot_enable_http_agent_unsecure %}
+        - name: HTTP_AGENT_SECURITY_UNSECURE_MODE
+          value: "true"
+        - name: HTTP_AGENT_SECURITY_AUTHORIZATION_MODE
+          value: "params"
+{% endif %}          
         volumeMounts:
         - mountPath: /certs
           name: http-agent-certs
@@ -68,6 +74,8 @@ spec:
           listeners:
           - address: 0.0.0.0
             port: {{ dojot_http_agent_port }}
+          - address: 0.0.0.0
+            port: {{ dojot_http_agent_unsecure_port }}            
             websocket: true
           plugins: []
       volumes:

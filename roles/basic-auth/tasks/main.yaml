@@ -10,5 +10,4 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'basic_auth_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'basic_auth_external_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'basic_auth_deployment.yaml.j2') | from_yaml }}"

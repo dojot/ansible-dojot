@@ -64,6 +64,7 @@ For [`Kubernetes`](https://kubernetes.io/) we have several specific dashboards f
 * k8s statefulsets;
 * k8s usemethod cluster;
 * k8s usemethod node.
+* General metrics k8s - Kube-prometheus-stack;
 
 ## Apache Kafka Exporter
 
@@ -163,21 +164,13 @@ Available metrics:
 
 ## How to view and access data in grafana?
 
-* If you are using dojot in a local cluster, just access the grafana service through the URL http://localhost:3000 and prometheus via the URL http://localhost:9090.
+* If the balancer is already being used in the cluster, grafana has a port configured ``8080``. So just access the browser with the balancer IP and the mentioned port to access grafana.
 
-* However, if you do not have local access to the cluster, to access the services of prometheus and grafana, simply open an ``SSH`` tunnel using the ``IP`` of the service. To get the ``IP`` of the services run the commands below and search for ``Endpoints`` from the command output:
+http://<ip-balancer>:8080
 
-```
-kubectl describe service grafana -n dojot-monitoring
-```
+Example:
 
-and
-
-```
-kubectl describe service prometheus-server -n dojot-monitoring
-```
-
-* After that, just open an ssh tunnel with the endpoint obtained, for example:
+http://196.10.100.103:8080
 
 ## How to deploy monitoring solution?
 
@@ -200,23 +193,6 @@ At this moment, the dojot user has the possibility to choose between two storage
 Note made in the Prometheus documentation:
 
 ``CAUTION``: Non-POSIX compliant filesystems are not supported for Prometheus' local storage as unrecoverable corruptions may happen. NFS filesystems (including AWS's EFS) are not supported. NFS could be POSIX-compliant, but most implementations are not. It is strongly recommended to use a local filesystem for reliability.
-
-# Prometheus
-
-ssh -L <portlocal>:<endpoint_service_prometheus>:9090 <user_cluster>@<ip_cluster>
-
-Example:
-
-ssh -L 9090:10.200.40.100:9090 myuser@11:210.44.110
-
-# Grafana
-
-ssh -L <portlocal>:<endpoint_service_prometheus>:3000 <user_cluster>:<ip_cluster>
-
-Example:
-
-ssh -L 3000:10.200.40.100:3000 myuser@11:210.44.110
-
 
 # User and password to access grafana
 
