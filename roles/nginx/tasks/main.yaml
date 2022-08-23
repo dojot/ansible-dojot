@@ -36,6 +36,9 @@
 - include_tasks: config_https.yaml
   when: dojot_enable_https_nginx
 
+- include_tasks: self-signed-certificate-nginx.yaml
+  when: dojot_enable_https_self_signed_certificate_nginx
+
 - name: Delete default http config file
   become: yes
   file:
@@ -66,7 +69,6 @@
     - mqtts
     - http_agent
     - influxdb_web
-    - basic_auth
 
 - name: Copy mqtt config files
   when: "{{ dojot_insecure_mqtt }}"
