@@ -129,3 +129,4 @@ Authors:
 * Leonardo Mariano
 * Jonaphael Aristil
 * Luis Antonio Dias de Sa Júnior
+* Daniela Machado Petito
