@@ -1,5 +1,0 @@
-# Default variable values for the history service
-
-dojot_history_version: "{{ dojot_backend_version }}"
-
-dojot_kafka_port: 9092
