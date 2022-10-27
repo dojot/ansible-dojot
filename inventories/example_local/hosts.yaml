@@ -49,7 +49,7 @@ all:
       children:
         dojot_nodes:
           hosts:
-            worker_host: #host for dojot related services volumes (apigw; kafka_ws; minio; mongodb; postgres;)
+            worker_host: #host for dojot related services volumes (apigw; kafka_ws; mongodb; postgres;)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
         kafka_nodes:
           hosts:
@@ -68,7 +68,6 @@ all:
             worker_host: #host for x509 related services volumes (grafana; prometheus; loki)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
 
-
     apigw_nodes:
       hosts:
         APIGW_HOST_ADDRESS: #change to the host of API GW worker node on k8s
@@ -78,9 +77,6 @@ all:
     http_agent_nodes:
       hosts:
         HTTP_AGENT_HOST_ADDRESS: #change to the host of HTTP Agent worker node on k8s
-    lwm2m_nodes:
-      hosts:
-        LWM2M_HOST_ADDRESS: #change to the host of LWM2M worker node on k8s
     metrics_nodes:
       hosts:
         METRICS_HOST_ADDRESS: #change to the host of Metrics worker node on k8s

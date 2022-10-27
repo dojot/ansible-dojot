@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    name: keycloak
+    app: dojot
+  name: keycloak
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: keycloak
+  template:
+    metadata:
+      labels:
+        name: keycloak
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: keycloak
+        image: dojot/keycloak:{{ dojot_keycloak_version }}
+        livenessProbe:
+          httpGet:
+            path: /auth
+            port: 8080
+          failureThreshold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 15
+          successThreshold: 1
+          timeoutSeconds: 3
+        env:
+        - name: DB_ADDR
+          value: postgres
+        - name: DB_DATABASE
+          value: keycloak
+        - name: DB_PASSWORD
+          value: keycloak
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: keycloak
+        - name: DB_VENDOR
+          value: postgres
+        - name: DOJOT_ADMIN_PASSWORD
+          value: admin
+        - name: DOJOT_CUSTOM_REALM_REP_FILE
+          value: /opt/dojot/customRealmRepresentation.json
+        - name: DOJOT_KAFKA_SERVERS
+          value: kafka-server:9092
+        - name: DOJOT_REALM_SSL_MODE
+          value: NONE
+        - name: DOJOT_ROOT_URL
+          value: "http://{{ dojot_domain_name }}"
+        - name: DOJOT_SECRETS_PATH
+          value: /secrets/
+        - name: JAVA_OPTS_APPEND
+          value: -Dkeycloak.profile.feature.impersonation=disabled -Dkeycloak.profile.feature.upload_scripts=enabled
+        - name: KEYCLOAK_FRONTEND_URL
+          value: "http://{{ dojot_domain_name }}/auth"
+        - name: KEYCLOAK_LOGLEVEL
+          value: INFO
+        - name: KEYCLOAK_PASSWORD
+          value: master
+        - name: KEYCLOAK_USER
+          value: master
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
+        - name: ROOT_LOGLEVEL
+          value: INFO
+        volumeMounts:
+        - name: keycloak-volume
+          mountPath: /opt/dojot/
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
+  volumeClaimTemplates:
+  - metadata:
+      name: keycloak-volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: {{ dojot_storage_class_name }}
+      resources:
+        requests:
+          storage: {{ dojot_keycloak_volume_size }}
+      selector:
+        matchLabels:
+          app: dojot
+          name: keycloak
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

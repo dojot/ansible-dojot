@@ -36,6 +36,20 @@ spec:
             secretKeyRef:
               name: minio-files-secrets
               key: MINIO_SECRET_KEY
+        - name: FILEMGMT_KEYCLOAK_TENANTS_URL
+          value: "http://keycloak-proxy:8081/api/v1/tenant"
+        - name: FILEMGMT_KEYCLOAK_URL
+          value: "http://keycloak:8080"
+        - name: FILEMGMT_KEYCLOAK_CLIENT_ID
+          value: "dojot-file-mgmt"
+        - name: FILEMGMT_KEYCLOAK_CLIENT_SECRET_FILE
+          value: "dojot-file-mgmt"
+        - name: FILEMGMT_LOG_CONSOLE_LEVEL
+          value: "info"
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
         ports:
         - containerPort: 7000
         livenessProbe:
@@ -46,6 +60,10 @@ spec:
           periodSeconds: 30
           failureThreshold: 3
           timeoutSeconds: 20
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

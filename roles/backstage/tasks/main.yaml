@@ -12,3 +12,5 @@
   loop:
   - "{{ lookup('template', 'backstage_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'backstage_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'backstage_redis_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'backstage_redis_service.yaml.j2') | from_yaml }}"

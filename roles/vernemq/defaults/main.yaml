@@ -1,3 +1,5 @@
 dojot_verne_version: "{{ dojot_backend_version }}"
 
-dojot_verne_operator_version: 202206091125
+dojot_verne_operator_version: 202210201450
+
+dojot_kafka_port: 9092

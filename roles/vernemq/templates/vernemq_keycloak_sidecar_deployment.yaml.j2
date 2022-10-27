@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: iotagent-mqtt-keycloak-sidecar
+    app: dojot
+  name: iotagent-mqtt-keycloak-sidecar
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: iotagent-mqtt-keycloak-sidecar
+  template:
+    metadata:
+      labels:
+        name: iotagent-mqtt-keycloak-sidecar
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: iotagent-mqtt-keycloak-sidecar
+        #image: dojot/keycloak-microservice-sidecar:{{ dojot_backend_version }}
+        image: marianoleonardo/keycloak-microservice-sidecar:temporary-solution
+        env:
+        - name: HOSTNAME
+          value: iotagent-mqtt-keycloak-sidecar-1
+        - name: KEYCLOAKMICROSERVICESIDECAR_CONSUMER_GROUP_ID
+          value: dojot-iotagent-mqtt-sidecar
+        - name: KEYCLOAKMICROSERVICESIDECAR_KEYCLOAK_CLIENT_ID
+          value: dojot-iotagent-mqtt-sidecar
+        - name: KEYCLOAKMICROSERVICESIDECAR_KEYCLOAK_CLIENT_SECRET_FILE
+          value: dojot-iotagent-mqtt-sidecar
+        - name: KEYCLOAKMICROSERVICESIDECAR_KEYCLOAK_TENANTS_URL
+          value: http://keycloak-proxy:8081/api/v1/tenant
+        - name: KEYCLOAKMICROSERVICESIDECAR_KEYCLOAK_URL
+          value: http://keycloak:8080
+        - name: KEYCLOAKMICROSERVICESIDECAR_LOGGER_CONSOLE_LEVEL
+          value: info
+        - name: KEYCLOAKMICROSERVICESIDECAR_PROXY_AUTH_MODE
+          value: legacy
+        - name: KEYCLOAKMICROSERVICESIDECAR_PROXY_PORT
+          value: "3000"
+        - name: KEYCLOAKMICROSERVICESIDECAR_PROXY_TOKEN_INSERT
+          value: keycloak
+        - name: KEYCLOAKMICROSERVICESIDECAR_SERVER_URL
+          value: http://certificate-acl:3000
+        - name: KEYCLOAKMICROSERVICESIDECAR_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: KEYCLOAKMICROSERVICESIDECAR_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/vernemq
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

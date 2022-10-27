@@ -68,17 +68,11 @@ before deploying dojot
 * *dojot_psql_auth_passwd*: Password for accessing the auth database. Defaults to **auth**.
 * *dojot_psql_devm_user*: Username for accessing the devm database. Defaults to **devm**.
 * *dojot_psql_devm_passwd*: Password for accessing the devm database. Defaults to **devm**.
+* *dojot_psql_keycloak_user*: Username for accessing the keycloak database. Defaults to **keycloak**.
+* *dojot_psql_keycloak_passwd*: Password for accessing the keycloak database. Defaults to **keycloak**.
+* *dojot_psql_keycloak_db*:Name of the database created to be used by the keycloak service. Defaults to **keycloak**.
 * *dojot_psql_port*: PostgreSQL port configured for acessing the database by the dojot services. Defaults to **5432**.
 * *dojot_psql_volume_size*: Size of the persistent volume that will be created for the PostgreSQL volume. Defaults to **2G**.
-
-
-### - MongoDB
-
-* *dojot_mongodb_super_user*: Super user name for accessing MongoDB. Defaults to **mongodb**.
-* *dojot_mongodb_super_passwd*: Super user password for accessing MongoDB. Defaults to **mongodb**.
-* *dojot_mongodb_version*: Container version for the mongodb container. Defaults to **3.4**.
-* *dojot_mongodb_port*: MongoDB access port. Defaults to **27017**.
-* *dojot_mongodb_volume_size*: Size of the persistent volume that will be created for the mongoDB volume. Defaults to **2G**.
 
 ### - API Gateway
 
@@ -88,14 +82,6 @@ before deploying dojot
 * *dojot_apigw_version*: Version of the api gateway container 'dojot/kong' used by this deployment. Default value **v0.2.1-static**.
 * *dojot_apigw_volume_size*: Size of the persistent volume that will be created for Kong certificates directory. Defaults to **5Mi**.
 * *dojot_apigw_enable_mutual_tls*: Enables mutual TLS communication. You must enable Kong volumes if this is true. Defaults to **false**.
-
-### - Auth
-
-* *dojot_auth_email_enabled*: This configuration enables auth to send emails to users when a new account is created, enabling this requires email parameters to be set. Defaults to: **false**.
-* *dojot_auth_email_host*: SMTP email server associated with the account that sends the registration e-mail.
-* *dojot_auth_email_user*: E-Mail account used as sender of the registration e-mail for new users.
-* *dojot_auth_email_passwd*: Access password for the e-mail account.
-* *dojot_auth_version*: Version of the auth container. Defaults to **dojot_backend_version**.
 
 ### - Device Manager
 
@@ -114,34 +100,6 @@ before deploying dojot
 
 * *dojot_rabbitmq_version*: Version of the RabbitMQ container used on this deployment. Defaults to **3.7-alpine**.
 
-### - Flowbroker
-
-* *dojot_flowbroker_version*: Version of the flowbroker container. Defaults to **dojot_backend_version**.
-* *dojot_flowbroker_context_manager_version*: Version of the context manager container. Defaults to **dojot_backend_version**.
-
-### - GUI
-
-* *dojot_gui_version*: Version of the GUI container. Defaults to **dojot_frontend_version**.
-
-### - GUI V2
-
-* *dojot_guiv2_enabled*: Defines whether the GUI V2 will be deployed or not. Defaults to **false**.
-* *dojot_guiv2_version*: Version of the GUI V2 container. Defaults to **dojot_frontend_version**.
-* *dojot_guiv2_image*: Image to be used in GUI V2 deployment. Defaults to **dojot/gui-v2**.
-
-### - History
-
-* *dojot_history_version*: Version of the history container. Defaults to **dojot_backend_version**.
-
-### - IoTAgent Mosca
-
-* *dojot_iotagent_mosca_version*: Version of the IoT Agent Mosca container. Defaults to **dojot_backend_version**.
-* *dojot_insecure_mqtt*: Defines wheter or not the agent accepts insecure mqtt connections. Defaults to **true**.
-
-### - Persister
-
-* *dojot_persister_version*: Version of the persister container. Defaults to **dojot_backend_version**.
-
 ### - x509 Identity Management
 
 * *dojot_x509_identity_management_volume_size*: Size of the x509 Identity Management volumes that are created. Defaults to **10Mi**.
@@ -151,10 +109,6 @@ before deploying dojot
 * *dojot_x509_identity_mgmt_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
 * *dojot_x509_ejbca_version*: Version of the x509 EJBCA container. Defaults to **dojot_backend_version**.
 * *dojot_x509_ejbca_replicas*: Number of replicas. Beware that you must configure a volume if you want more than one instance. Defaults to **1**.
-
-### - Kafka Loopback
-
-* *dojot_loopback_version*: Version of the Kafka loopback container. Defaults to **dojot_backend_version**.
 
 ### - Dojot InfluxDB
 
@@ -213,7 +167,6 @@ before deploying dojot
 * *dojot_minio_files_volume_size*: Size of the File Mgmt volumes that are created. Defaults to **2Gi**.
 * *dojot_minio_bucket_suffix*: MinIO bucket suffix of the File Mgmt. Defaults to **cpqd.dojot**.
 
-
 ### - MinIO Files
 
 * *dojot_minio_files_access_key*: MinIO access key.
@@ -222,6 +175,17 @@ before deploying dojot
 * *dojot_minio_files_api_port*: API Port of the MinIO. Defaults to **9000**.
 * *dojot_minio_files_cluster_size*: Size of the MinIO Files cluster. Defaults to **1**.
 * *dojot_minio_files_volume_size*: Size of the MinIO Files volumes that are created. Defaults to **2Gi**.
+
+### - GUI-NX
+
+* *dojot_gui_nx_version*: Version of the GUI-NX components. Defaults to **dojot_frontend_version**.
+* *dojot_common_nx_port*: API Port of common_nx service. Defaults to **80**.
+* *dojot_container_nx_port*: API Port of container_nx service. Defaults to **80**.
+* *dojot_dashboard_nx_port*: API Port of dashboard_nx service. Defaults to **80**.
+* *dojot_devices_nx_port*: API Port of devices_nx service. Defaults to **80**.
+* *dojot_home_nx_port*: API Port of home_nx service. Defaults to **80**.
+* *dojot_security_nx_port*: API Port of security_nx service. Defaults to **80**.
+* *dojot_templates_nx_port*: API Port of templates_nx service. Defaults to **80**.
 
 ### - Metrics and Logging
 
@@ -283,12 +247,9 @@ before deploying dojot
 
 ### - Optional Services
 
-* *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to **false**.
-* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **false**.
-* *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **false**.
-* *optional[history]*: Defines whether History service will be enabled. Defaults to **true**.
-* *optional[persister]*: Defines whether Persister service will be enabled. Defaults to **true**.
+* *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to **true**.
+* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
+* *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
+* *optional[influxdb_chronograf]*: Defines whether Influxdb Chronograf service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
 * *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to **true**.
-* *optional[mosca]*: Defines whether IotAgent Mosca will be enabled. It will only be enabled if IotAgent VerneMQ is disabled. Defaults to **false**.
-* *optional[lwm2m]*: Defines whether IotAgent Lwm2m will be enabled. Defaults to **false**.
 * *optional[keda]*: Defines whether Keda will be enabled. Defaults to **false**.

@@ -8,9 +8,6 @@
     - role: volumes/kong
       tags:
         - kong
-    - role: volumes/minio
-      tags:
-        - minio
     - role: volumes/minio-files
       tags:
         - minio-files
@@ -23,6 +20,9 @@
     - role: volumes/kafka-ws
       tags:
         - kafka-ws
+    - role: volumes/keycloak
+      tags:
+        - keycloak
 
 - hosts: kafka_nodes
   gather_facts: true
@@ -78,9 +78,6 @@
     - role: volumes/kong
       tags:
         - kong
-    - role: volumes/minio
-      tags:
-        - minio
     - role: volumes/minio-files
       tags:
         - minio-files
@@ -114,3 +111,6 @@
     - role: volumes/certificate-acl
       tags:
         - certificate-acl
+    - role: volumes/keycloak
+      tags:
+        - keycloak
