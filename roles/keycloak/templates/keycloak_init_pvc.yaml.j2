@@ -7,12 +7,10 @@ metadata:
     app: dojot
     name: keycloak-init
 spec:
-{% if dojot_storage_class_name == "local-storage" %}
   selector:
     matchLabels:
       app: dojot
       name: keycloak-init
-{% endif %}
   accessModes:
     - ReadWriteOnce
   storageClassName: {{ dojot_storage_class_name }}

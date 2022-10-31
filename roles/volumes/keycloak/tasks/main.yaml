@@ -6,8 +6,7 @@
     path: "{{ dojot_volume_directory }}/keycloak/init"
     state: directory
     mode: "2775"
-  when: (dojot_storage_class_name == "local-storage") and
-        ('dojot_nodes' in group_names)
+  when: ('dojot_nodes' in group_names)
 
 - name: Create Keycloak volume
   k8s:
@@ -21,5 +20,4 @@
   loop:
     - "{{ lookup('template', 'keycloak.yaml.j2') | from_yaml }}"
     - "{{ lookup('template', 'keycloak_init.yaml.j2') | from_yaml }}"
-  when: (dojot_storage_class_name == "local-storage") and
-        ('master_nodes' in group_names)
+  when: ('master_nodes' in group_names)

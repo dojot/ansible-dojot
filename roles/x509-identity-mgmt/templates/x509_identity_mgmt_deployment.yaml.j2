@@ -31,9 +31,9 @@ spec:
         - name: NODE_ENV
           value: "production"
         - name: X509IDMGMT_KAFKA_PRODUCER_METADATA_BROKER_LIST
-          value: "kafka-server:9092"
+          value: "kafka-server:{{ dojot_kafka_port }}"
         - name: X509IDMGMT_KAFKA_CONSUMER_METADATA_BROKER_LIST
-          value: "kafka-server:9092"
+          value: "kafka-server:{{ dojot_kafka_port }}"
         - name: X509IDMGMT_CERTIFICATE_BELONGSTO_APPLICATION
           value: "[\"vernemq-k8s\", \"v2k-bridge\", \"k2v-bridge\", \"http-agent\"]"
         - name: X509IDMGMT_KEYCLOAK_URL

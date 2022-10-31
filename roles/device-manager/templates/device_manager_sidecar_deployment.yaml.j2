@@ -21,8 +21,7 @@ spec:
       restartPolicy: Always
       containers:
       - name: device-manager-sidecar
-        #image: dojot/keycloak-microservice-sidecar:{{ dojot_backend_version }}
-        image: marianoleonardo/keycloak-microservice-sidecar:temporary-solution
+        image: dojot/keycloak-microservice-sidecar:{{ dojot_backend_version }}
         env:
         - name: HOSTNAME
           value: device-manager-sidecar-1

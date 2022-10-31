@@ -9,3 +9,5 @@ dojot_keycloak_version: "{{ dojot_backend_version }}"
 dojot_keycloak_port: 8080
 
 dojot_keycloak_proxy_port: 8081
+
+dojot_kafka_port: 9092
