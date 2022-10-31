@@ -7,8 +7,8 @@ data:
     kong-config.sh: |
 
         #!/bin/sh
-
         kong="http://kong:8001"
+        dojot_domain_name={{ dojot_domain_name }}
 
         # check if kong is started
         if curl --output /dev/null --silent --head --fail "$kong"; then
@@ -26,15 +26,21 @@ data:
         echo ""
         echo ""
         echo "- addAuthToEndpoint: ServiceName=${1}"
-        curl  -sS  -X POST \
+
+        allowed_iss_url="https?://{{ dojot_domain_name }}:?(%d*)/auth/realms/(.+)"
+
+        curl -sS -X POST \
+            --url ${kong}/services/"${1}"/plugins \
+            --data "name=jwt-keycloak" \
+            --data-urlencode "config.allowed_iss=${allowed_iss_url}"
+
+        curl -sS -X POST \
             --url ${kong}/services/"${1}"/plugins/ \
             --data "name=pepkong" \
-            --data "config.pdpUrl=http://auth:5000/pdp"
+            --data "config.resource=${1}"
 
-        curl  -sS  -X POST \
-            --url ${kong}/services/"${1}"/plugins/ \
-            --data "name=jwt"
         }
+
 
         # add a Service
         # that is the name Kong uses to refer to the upstream APIs
@@ -85,73 +91,26 @@ data:
         createRoute "${1}" "${1}_route" "${3}" "${4}"
         }
 
-        # service: gui
-        createEndpoint "gui" "http://gui:80"  '"/"' "false"
-
-        # service: gui-v2
-        createEndpoint "gui-v2" "http://gui-v2:80"  '"/v2"' "true"
-
-        # service: data-broker
-        createEndpoint  "data-broker" "http://data-broker:80"  '"/device/(.*)/latest", "/subscription"' "false"
-        addAuthToEndpoint "data-broker"
-        createEndpoint "data-streams" "http://data-broker:80"  '"/stream"' "true"
-        addAuthToEndpoint "data-streams"
-        createEndpoint "ws-http" "http://data-broker:80"  '"/socket.io"' "false"
 
         # service: device-manager
-        createEndpoint "device-manager" "http://device-manager:5000"  '"/device", "/template"' "false"
-        addAuthToEndpoint "device-manager"
+        createEndpoint "device-manager-template" "http://device-manager-sidecar:5000"  '"/template"' "false"
+        addAuthToEndpoint "device-manager-template"
 
-        # service: image-manager
-        createEndpoint "image" "http://image-manager:5000"  '"/fw-image"' "true"
-        addAuthToEndpoint "image"
+        createEndpoint "device-manager-devices" "http://device-manager-sidecar:5000"  '"/device"' "false"
+        addAuthToEndpoint "device-manager-devices"
 
-        # service: auth
-        createEndpoint "auth-permissions-service" "http://auth:5000/pap"  '"/auth/pap"' "true"
-        addAuthToEndpoint "auth-permissions-service"
-
-        createEndpoint "auth-service" "http://auth:5000"  '"/auth"' "true"
-        echo ""
-        echo ""
-        echo "- add plugin rate-limiting in auth-service"
-        curl  -s  -sS -X POST \
-            --url ${kong}/services/auth-service/plugins/ \
-            --data "name=rate-limiting" \
-            --data "config.minute=5" \
-            --data "config.hour=40" \
-            --data "config.policy=local"
-
-        createEndpoint "auth-revoke" "http://auth:5000"  '"/auth/revoke"' "false"
-        # rate plugin limit to avoid brute-force atacks
-        echo ""
-        echo ""
-        echo "- add plugin request-termination in auth-revoke"
-        curl  -s  -sS -X POST \
-            --url ${kong}/services/auth-revoke/plugins/ \
-            --data "name=request-termination" \
-            --data "config.status_code=403" \
-            --data "config.message=Not authorized"
-
-        createEndpoint "user-service" "http://auth:5000/user"  '"/auth/user"' "true"
-        addAuthToEndpoint "user-service"
-
-        # service: flowbroker
-        createEndpoint "flows" "http://flowbroker:80"  '"/flows"' "true"
-        addAuthToEndpoint "flows"
-        createEndpoint "flowsIcons" "http://flowbroker:80/icons"  '"/flows/icons"' "true"
-        createEndpoint "flowsRedImages" "http://flowbroker:80/red/images"  '"/flows/red/images"' "true"
-
-        # service: history
-        createEndpoint "history" "http://history:8000"  '"/history"' "true"
-        addAuthToEndpoint "history"
-
-        # service: ejbca
-        createEndpoint "ejbca-paths" "http://ejbca:5583/"  '"/sign", "/ca", "/user"' "false"
-        addAuthToEndpoint "ejbca-paths"
+        # service: keycloak
+        createEndpoint "keycloak" "http://keycloak:8080/auth"  '"/auth"' "true"
 
         # service: data-manager
-        createEndpoint "data-manager" "http://data-manager:3000/"  '"/export", "/import"' "false"
-        addAuthToEndpoint "data-manager"
+        createEndpoint "data-manager-import" "http://data-manager:3000/"  '"/import"' "false"
+        addAuthToEndpoint "data-manager-import"
+
+        createEndpoint "data-manager-export" "http://data-manager:3000/"  '"/export"' "false"
+        addAuthToEndpoint "data-manager-export"
+
+        # service: backstage
+        createEndpoint "backstage" "http://backstage:3005"  '"/backstage"' "false"
 
         # service: cron
         createEndpoint "cron" "http://cron:5000/"  '"/cron"' "false"
@@ -162,9 +121,9 @@ data:
         addAuthToEndpoint "x509-identity-mgmt"
 
         # service: influxdb-retriever
-        createEndpoint "influxdb-retriever" "http://influxdb-retriever:3000/tss"  '"/tss"' "true"
+        createEndpoint "influxdb-retriever" "http://influxdb-retriever:4000/tss"  '"/tss"' "true"
         addAuthToEndpoint "influxdb-retriever"
-        createEndpoint "influxdb-retriever-api-docs" "http://influxdb-retriever:3000/tss/v1/api-docs"  '"/tss/v1/api-docs"' "true"
+        createEndpoint "influxdb-retriever-api-docs" "http://influxdb-retriever:4000/tss/v1/api-docs"  '"/tss/v1/api-docs"' "true"
 
         # service: kafka-ws
         KAFKAWS_PROTOCOL=http
@@ -172,18 +131,41 @@ data:
         KAFKAWS_PROTOCOL=https
 {% endif %}
         createEndpoint "kafka-ws" "$KAFKAWS_PROTOCOL://kafka-ws:8080/"  '"/kafka-ws"' "false"
+
         curl -sS -X PATCH \
             --url ${kong}/services/kafka-ws \
             --data "read_timeout=300000" \
             --data "write_timeout=300000" \
             --data "connect_timeout=300000"
+
         createEndpoint "kafka-ws-ticket" "$KAFKAWS_PROTOCOL://kafka-ws:8080/"  '"/kafka-ws/v[0-9]+/ticket"' "false"
         addAuthToEndpoint "kafka-ws-ticket"
 
-        # service: backstage
-        createEndpoint "backstage_graphql_auth" "http://backstage:3005/"  '"/graphql-auth"' "false"
-        createEndpoint "backstage_graphql" "http://backstage:3005/"  '"/graphql"' "false"
-        addAuthToEndpoint "backstage_graphql"
+        # service: file-mgmt
+        createEndpoint "file-mgmt" "http://file-mgmt:7000"  '"/file-mgmt"' "true"
+        addAuthToEndpoint "file-mgmt"
+
+        # service: minio-files
+        createEndpoint "minio-files" "http://minio-files:9000"  '"/minio-files"' "true"
+
+        # service: basic-auth
+        createEndpoint  "basic-auth" "http://basic-auth:3000" '"/basic-auth/v1/devices/(.*)/basic-credentials"' "false"
+        addAuthToEndpoint "basic-auth"
+
+        # service: http-agent
+        createEndpoint "http-agent" "http://http-agent:3001"  '"/http-agent/v1/unsecure/incoming-messages(.*)"' "false"
+
+        # services: GUI-NX
+        createEndpoint "container-nx" "http://container-nx:80" '"/v2"' "true"
+        createEndpoint "common-nx" "http://common-nx:80" '"/mfe/common"' "true"
+        createEndpoint "home-nx" "http://home-nx:80" '"/mfe/home"' "true"
+        createEndpoint "dashboard-nx" "http://dashboard-nx:80" '"/mfe/dashboard"' "true"
+        createEndpoint "devices-nx" "http://devices-nx:80" '"/mfe/devices"' "true"
+        createEndpoint "templates-nx" "http://templates-nx:80" '"/mfe/templates"' "true"
+        createEndpoint "security-nx" "http://security-nx:80" '"/mfe/security"' "true"
+
+
+        echo "API Gateway Paths configured"
 
         echo ""
         echo ""
@@ -195,15 +177,3 @@ data:
             --data "config.generator=uuid" \
             --data "config.echo_downstream=false"
 
-        # service: file-mgmt
-        createEndpoint "file-mgmt" "http://file-mgmt:7000"  '"/file-mgmt"' "true"
-        addAuthToEndpoint "file-mgmt"
-
-        # service: basic-auth
-        createEndpoint  "basic-auth" "http://basic-auth:3000" '"/basic-auth/v1/devices/(.*)/basic-credentials"' "false"
-        addAuthToEndpoint "basic-auth"
-
-        # service: http-agent
-        createEndpoint "http-agent" "http://http-agent:3001"  '"/http-agent/v1/unsecure/incoming-messages(.*)"' "false"
-
-        echo "API Gateway Paths configured"

@@ -30,6 +30,18 @@ spec:
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: BASIC_AUTH_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: BASIC_AUTH_URL_DEVICE
+          value: "http://device-manager-sidecar:5000/device"
+        - name: BASIC_AUTH_URL_DEVICES
+          value: "http://device-manager-sidecar:5000/device"
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
       restartPolicy: Always
 {% if dojot_enable_node_affinity %}
       affinity:

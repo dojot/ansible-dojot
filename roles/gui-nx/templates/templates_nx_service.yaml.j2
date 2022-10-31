@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: templates-nx
+  name: templates-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_templates_nx_port }}
+    targetPort: {{ dojot_templates_nx_port }}
+  selector:
+    name: templates-nx
+    app: dojot

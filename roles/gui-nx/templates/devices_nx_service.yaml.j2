@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: devices-nx
+  name: devices-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_devices_nx_port }}
+    targetPort: {{ dojot_devices_nx_port }}
+  selector:
+    name: devices-nx
+    app: dojot

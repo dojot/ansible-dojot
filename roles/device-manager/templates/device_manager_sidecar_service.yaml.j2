@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: device-manager-sidecar
+  name: device-manager-sidecar
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    name: device-manager-sidecar
+    app: dojot

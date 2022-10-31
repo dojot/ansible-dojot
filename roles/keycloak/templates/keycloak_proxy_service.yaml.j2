@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: keycloak-proxy
+  name: keycloak-proxy
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_keycloak_proxy_port }}
+    targetPort: {{ dojot_keycloak_proxy_port }}
+  selector:
+    name: keycloak-proxy
+    app: dojot

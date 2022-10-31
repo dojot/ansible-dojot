@@ -1,0 +1,23 @@
+---
+
+- name: Create Keycloak directory if it does not exists
+  become: true
+  file:
+    path: "{{ dojot_volume_directory }}/keycloak/init"
+    state: directory
+    mode: "2775"
+  when: ('dojot_nodes' in group_names)
+
+- name: Create Keycloak volume
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+    - "{{ lookup('template', 'keycloak.yaml.j2') | from_yaml }}"
+    - "{{ lookup('template', 'keycloak_init.yaml.j2') | from_yaml }}"
+  when: ('master_nodes' in group_names)

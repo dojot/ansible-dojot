@@ -1,3 +1,5 @@
 ---
 # Define defaults values for backstage role variables
 kong_url: 'http://kong'
+
+backstage_redis_port: 6379

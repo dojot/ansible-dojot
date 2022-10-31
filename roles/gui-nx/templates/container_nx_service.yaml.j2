@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: container-nx
+  name: container-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_container_nx_port }}
+    targetPort: {{ dojot_container_nx_port }}
+  selector:
+    name: container-nx
+    app: dojot

@@ -12,6 +12,11 @@ spec:
       containers:
       - name: kong-route-config
         image: dojot/byrnedo-alpine-curl
+        env:
+        - name: DOJOT_DOMAIN_NAME
+          value: "{{ dojot_domain_name }}"
+        - name: DOJOT_KONG_ROUTE_ALLOW_ONLY_HTTPS
+          value: "false"
         volumeMounts:
         - mountPath: /config_file
           name: kong-route-config

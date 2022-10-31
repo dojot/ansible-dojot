@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: keycloak-proxy
+    app: dojot
+  name: keycloak-proxy
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: keycloak-proxy
+  template:
+    metadata:
+      labels:
+        name: keycloak-proxy
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: keycloak-proxy
+        image: dojot/keycloak-proxy:{{ dojot_keycloak_version }}
+        env:
+        - name: KEYCLOAKPROXY_KEYCLOAK_PROXY_ID
+          value: keycloak-proxy
+        - name: KEYCLOAKPROXY_KEYCLOAK_PROXY_PASSWORD_FILE
+          value: KEYCLOAK_PROXY_USER
+        - name: KEYCLOAKPROXY_KEYCLOAK_PROXY_SECRET_FILE
+          value: KEYCLOAK_PROXY
+        - name: KEYCLOAKPROXY_KEYCLOAK_PROXY_USERNAME
+          value: user-keycloak-proxy
+        - name: KEYCLOAKPROXY_KEYCLOAK_REALM
+          value: master
+        - name: KEYCLOAKPROXY_KEYCLOAK_URI
+          value: http://keycloak:8080
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

@@ -95,7 +95,7 @@ spec:
         - name: CERT_SC_LOG_CONSOLE_LEVEL
           value: "info"
         - name: CERT_SC_CERTS_CRL
-          value: "false"  
+          value: "false"
         - name: CERT_SC_CERTS_HOSTNAMES
           value: "[\"v2k-bridge\"]"
         - name: CERT_SC_CERTS_FILES_BASEPATH
@@ -105,13 +105,19 @@ spec:
         - name: CERT_SC_CERTS_FILES_CERT
           value: "v2k-bridge.crt"
         - name: CERT_SC_CERTS_FILES_KEY
-          value: "v2k-bridge.key"     
+          value: "v2k-bridge.key"
         volumeMounts:
         - mountPath: /certs
-          name: v2k-certs  
+          name: v2k-certs
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
       volumes:
       - name: v2k-certs
-        emptyDir: {}           
+        emptyDir: {}
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

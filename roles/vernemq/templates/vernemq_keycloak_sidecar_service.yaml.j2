@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: iotagent-mqtt-keycloak-sidecar
+  name: iotagent-mqtt-keycloak-sidecar
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    name: iotagent-mqtt-keycloak-sidecar
+    app: dojot

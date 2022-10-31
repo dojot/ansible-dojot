@@ -23,13 +23,37 @@
         - nfs-provisioner
         - 100k
 
-# Minio
+# Secrets
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   roles:
-    - role: minio
+    - role: secrets
       tags:
-        - minio
+        - secrets
+        - 100k
+
+# Keycloak configurations
+- hosts: dojot_nodes
+  any_errors_fatal: true
+  tags:
+        - keycloak
+        - 100k
+  roles:
+    - role: keycloak/confs
+
+# Keycloak
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+        - keycloak
+        - 100k
+  roles:
+    - role: keycloak
+
+# Minio-files
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
     - role: minio-files
       tags:
         - minio-files
@@ -112,15 +136,6 @@
   roles:
     - role: metrics-server
 
-# Deploy Metrics Server to the environment
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - metrics-server
-    - 100k
-  roles:
-    - role: metrics-server
-
 # Deploy Keda to the environment
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
@@ -142,56 +157,26 @@
   roles:
     - role: vernemq
 
-# Deploy RabbitMQ to the environment
-# TODO: Add possibility of using an external RabbitMQ by setting config variables
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - rabbitmq
-  roles:
-    - role: rabbitmq
-
 # Deploy Dojot Components to the Environment
 # Deploy the dojot services
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
   tags: dojot-components
   roles:
-    - role: image-manager
-      tags:
-        - image-manager
 
     - role: apigw
       tags:
         - apigw
         - 100k
 
-    - role: auth
-      tags:
-        - auth
-        - 100k
-
     - role: backstage
       tags:
         - backstage
-
-    - role: data-broker
-      tags:
-        - data-broker
-        - 100k
 
     - role: device-manager
       tags:
         - device-manager
         - 100k
-
-    - role: history
-      tags:
-        - history
-
-    - role: persister
-      tags:
-        - persister
 
     - role: influxdb-storer
       tags:
@@ -207,26 +192,6 @@
       tags:
         - influxdb-chronograf
         - 100k
-
-    - role: gui
-      tags:
-        - gui
-
-    - role: gui-v2
-      tags:
-        - gui-v2
-
-    - role: iotagent-mosca
-      tags:
-        - iotagent-mosca
-
-    - role: iotagent-lwm2m
-      tags:
-        - iotagent-lwm2m
-
-    - role: flowbroker
-      tags:
-        - flowbroker
 
     - role: data-manager
       tags:
@@ -244,16 +209,6 @@
     - role: k2v-bridge
       tags:
         - k2v-bridge
-        - 100k
-
-    - role: kafka2ftp
-      tags:
-        - kafka2ftp
-
-    - role: kafka-loopback
-      tags:
-        - kafka-loopback
-        - never
         - 100k
 
     - role: kafka-ws
@@ -289,4 +244,9 @@
     - role: basic-auth
       tags:
         - basic-auth
+        - 100k
+
+    - role: gui-nx
+      tags:
+        - gui-nx
         - 100k

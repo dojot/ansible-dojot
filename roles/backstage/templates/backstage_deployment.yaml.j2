@@ -24,6 +24,36 @@ spec:
         env:
         - name: LOCAL_URL
           value: {{ kong_url }}
+        - name: BS_SESSION_SECRET
+          value: XeQNTdxLl8UGiOpgyEvm
+        - name: BS_LOG_CONSOLE_LEVEL
+          value: 'info'
+        - name: BS_BASE_URL
+          value: "http://{{ dojot_domain_name }}"
+        - name: BS_GRAPHQL_SECURE
+          value: "false"
+        - name: BS_GRAPHQL_SSL_CA
+          value: "/certs/ca.crt"
+        - name: BS_GRAPHQL_BASE_URL
+          value: http://kong:8000
+        - name: BS_SESSION_DOMAIN
+          value: "{{ dojot_domain_name }}"
+        - name: BS_SESSION_COOKIE_HTTPS
+          value: "false"
+        - name: BS_KEYCLOAK_EXTERNAL_URL
+          value: "http://{{ dojot_domain_name }}/auth"
+        - name: BS_KEYCLOAK_INTERNAL_URL
+          value: "http://{{ dojot_domain_name }}/auth"
+        - name: BS_KEYCLOAK_SECURE
+          value: "false"
+        - name: BS_KEYCLOAK_SSL_CA
+          value: "/certs/ca.crt"
+        - name: BS_PROXY_TARGET
+          value: "http://kong:8000"
+        - name: BS_PROXY_SECURE
+          value: "false"
+        - name: BS_USE_INFLUXDB
+          value: "true"
       restartPolicy: Always
 {% if dojot_enable_node_affinity %}
       affinity:

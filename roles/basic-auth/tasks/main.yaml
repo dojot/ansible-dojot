@@ -6,7 +6,7 @@
     definition: "{{ item }}"
   register: result
   until: result.failed == 0
-  retries: 1
+  retries: 30
   delay: 10
   loop:
   - "{{ lookup('template', 'basic_auth_service.yaml.j2') | from_yaml }}"

@@ -62,9 +62,15 @@ spec:
             secretKeyRef:
               name: kong-secret
               key: db
+        - name: KONG_PROXY_LISTEN
+          value: 0.0.0.0:8000, 0.0.0.0:8443 ssl
 {% if dojot_apigw_enable_mutual_tls %}
         # NOTE: you must create the volume and pass the certificates to it
         # NOTE: the certificate files' owner UID must be 100 and the permission must be 400
+        - name: KONG_LUA_SSL_TRUSTED_CERTIFICATE
+          value: "/certs/ca-certificates.crt"
+        - name: DOJOT_PLUGIN_SSL_VERIFY
+          value: true
         - name: KONG_SSL_CERT_KEY
           value: "/certs/kong.key"
         - name: KONG_SSL_CERT

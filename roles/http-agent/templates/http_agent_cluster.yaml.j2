@@ -43,6 +43,9 @@ spec:
         volumeMounts:
         - mountPath: /certs
           name: http-agent-certs
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
 
       - name: http-agent
         image: dojot/http-agent:{{ dojot_http_agent_version }}
@@ -66,21 +69,27 @@ spec:
           value: "true"
         - name: HTTP_AGENT_SECURITY_AUTHORIZATION_MODE
           value: "params"
-{% endif %}          
+{% endif %}
         volumeMounts:
         - mountPath: /certs
           name: http-agent-certs
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
         config:
           listeners:
           - address: 0.0.0.0
             port: {{ dojot_http_agent_port }}
           - address: 0.0.0.0
-            port: {{ dojot_http_agent_unsecure_port }}            
+            port: {{ dojot_http_agent_unsecure_port }}
             websocket: true
           plugins: []
       volumes:
       - name: http-agent-certs
         emptyDir: {}
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:
