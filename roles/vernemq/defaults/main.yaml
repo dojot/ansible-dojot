@@ -1,3 +1,3 @@
 dojot_verne_version: "{{ dojot_backend_version }}"
 
-dojot_verne_operator_version: 202206091125
+dojot_verne_operator_version: v0.8.0-202210261310
