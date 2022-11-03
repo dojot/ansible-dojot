@@ -8,15 +8,15 @@ all:
     # If you are using ansible in a control node (outside of master) you should uncomment
     # master_host declaration (lines 11...14) and then change the lines 34 and 40
     # pointing to "master_host"
-    # master_host:
-    #     ansible_host: MASTER_HOST_ADDRESS #change to the host of master node on k8s
-    #     ansible_python.version.major: 3
-    #     ansible_python_interpreter: /usr/bin/python3
+    master_host:
+        ansible_host: 192.168.15.50 #change to the host of master node on k8s
+        ansible_python.version.major: 3
+        ansible_python_interpreter: /usr/bin/python3
     worker_host:
-        ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
+        ansible_host: 192.168.15.50 #change to the host of worker node on k8s
         ansible_python_interpreter: /usr/bin/python3
     nginx:
-        ansible_host: NGINX_HOST_ADDRESS #change to the host of NGINX
+        ansible_host: 192.168.15.50 #change to the host of NGINX
         ansible_python_interpreter: /usr/bin/python3
     haproxy:
         ansible_host: HAPROXY_HOST_ADDRESS #change to the host of NGINX
@@ -24,20 +24,20 @@ all:
     nfs_host:
         ansible_host: NFS-SERVER_HOST_ADDRESS #change to the host of NFS Server
     k3s_host:
-        ansible_host: K3S_HOST_ADDRESS #change to the host of K3S Server
+        ansible_host: 192.168.15.50 #change to the host of K3S Server
         ansible_python_interpreter: /usr/bin/python3
 
   children:
     #host where dojot will be deployed
     dojot-k8s:
       hosts:
-        localhost:
+        master_host:
     #hosts that will be part of the k8s cluster
     k8s-nodes:
       children:
         master_nodes:
           hosts:
-            localhost:
+            master_host:
         worker_nodes:
           hosts:
             worker_host:
@@ -71,17 +71,17 @@ all:
 
     apigw_nodes:
       hosts:
-        APIGW_HOST_ADDRESS: #change to the host of API GW worker node on k8s
+        192.168.15.50: #change to the host of API GW worker node on k8s
     mqtt_nodes:
       hosts:
-        MQTT_HOST_ADDRESS: #change to the host of MQTT worker node on k8s
+        192.168.15.50: #change to the host of MQTT worker node on k8s
     http_agent_nodes:
       hosts:
-        HTTP_AGENT_HOST_ADDRESS: #change to the host of HTTP Agent worker node on k8s
+        192.168.15.50: #change to the host of HTTP Agent worker node on k8s
     lwm2m_nodes:
       hosts:
-        LWM2M_HOST_ADDRESS: #change to the host of LWM2M worker node on k8s
+        192.168.15.50: #change to the host of LWM2M worker node on k8s
     metrics_nodes:
       hosts:
-        METRICS_HOST_ADDRESS: #change to the host of Metrics worker node on k8s
+        192.168.15.50: #change to the host of Metrics worker node on k8s
 

@@ -2,10 +2,10 @@
 #Some optional services that can be enabled or not on deployment
 optional:
   #InfluxDB Services
-  influxdb: false
-  influxdb_storer: false #It will only be enabled if InfluxDB is enabled as well
-  influxdb_retriever: false #It will only be enabled if InfluxDB is enabled as well
-  influxdb_chronograf: false #It will only be enabled if InfluxDB is enabled as well
+  influxdb: true
+  influxdb_storer: true #It will only be enabled if InfluxDB is enabled as well
+  influxdb_retriever: true #It will only be enabled if InfluxDB is enabled as well
+  influxdb_chronograf: true #It will only be enabled if InfluxDB is enabled as well
   #MongoDB Services
   history: true
   persister: true
@@ -15,3 +15,4 @@ optional:
   lwm2m: false
   #AutoScailing
   keda: false
+  vault: true

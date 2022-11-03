@@ -17,11 +17,37 @@
     - 100k
   roles:
     - role: dojot-basic
+      tags:
+        - dojot-basic
     - role: nfs-provisioner
       when: dojot_storage_class_name == "nfs"
       tags:
         - nfs-provisioner
         - 100k
+
+# Deploy Vault to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+  roles:
+    - role: vault/consul
+    - role: vault/vault
+    - role: vault/external-secrets
+      when: optional['vault']
+
+# Deploy Vault to the environment
+- hosts: master_nodes
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+  roles:
+    - role: vault/confs
+      tags:
+        - vault_confs
+      when: optional['vault']
 
 # Minio
 - hosts: dojot-k8s[0]

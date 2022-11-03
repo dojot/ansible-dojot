@@ -2,7 +2,7 @@
 dojot_namespace: dojot
 dojot_backend_version: development
 dojot_frontend_version: development
-dojot_domain_name: localhost
+dojot_domain_name: 192.168.15.50
 
 # Parameters used when active HTTPS in NGINX
 # If dojot_enable_https_nginx = true, is necessary public IP and domain in NGINX server
@@ -63,7 +63,7 @@ dojot_kafka_ws_enable_tls: false
 dojot_apigw_enable_mutual_tls: false
 
 # Enables fixed nodeports
-dojot_fixed_nodeports_enabled: false
+dojot_fixed_nodeports_enabled: true
 
 # Fixed nodeports to use. It's used if dojot_fixed_nodeports_enabled is true
 dojot_nodeports:
@@ -83,6 +83,9 @@ dojot_nodeports:
     https: 30011
   minio: 30012
   influxdb: 30013
+  postgres: 30014
+  vault:
+    http: 30015
 
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.

@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: consul-consul-client
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: client
+spec:
+  selector:
+    matchLabels:
+      app: consul
+      chart: consul-helm
+      release: consul
+      component: client
+      hasDNS: "true"
+  template:
+    metadata:
+      labels:
+        app: consul
+        chart: consul-helm
+        release: consul
+        component: client
+        hasDNS: "true"
+      annotations:
+        "consul.hashicorp.com/connect-inject": "false"
+        "consul.hashicorp.com/config-checksum": 5dd4d8fea1a7c545b34d63a069afd3b6a14459242ed6dcaff6254034084d4bf6
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccountName: consul-consul-client
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 100
+
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: consul-consul-client-config
+        - name: extra-config
+          emptyDir: {}
+        - name: consul-data
+          emptyDir:
+            medium: "Memory"
+      containers:
+        - name: consul
+          image: "hashicorp/consul:1.13.1"
+          env:
+            - name: ADVERTISE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: NODE
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: HOST_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: CONSUL_DISABLE_PERM_MGMT
+              value: "true"
+            
+          command:
+            - "/bin/sh"
+            - "-ec"
+            - |
+              CONSUL_FULLNAME="consul-consul"
+
+              cp /consul/config/extra-from-values.json /consul/extra-config/extra-from-values.json
+              [ -n "${HOST_IP}" ] && sed -Ei "s|HOST_IP|${HOST_IP?}|g" /consul/extra-config/extra-from-values.json
+              [ -n "${POD_IP}" ] && sed -Ei "s|POD_IP|${POD_IP?}|g" /consul/extra-config/extra-from-values.json
+              [ -n "${HOSTNAME}" ] && sed -Ei "s|HOSTNAME|${HOSTNAME?}|g" /consul/extra-config/extra-from-values.json
+
+              exec /usr/local/bin/docker-entrypoint.sh consul agent \
+                -node="${NODE}" \
+                -advertise="${ADVERTISE_IP}" \
+                -bind=0.0.0.0 \
+                -client=0.0.0.0 \
+                -node-meta=host-ip:${HOST_IP} \
+                -node-meta=pod-name:${HOSTNAME} \
+                -hcl='leave_on_terminate = true' \
+                -hcl='ports { grpc = 8502 }' \
+                -config-dir=/consul/config \
+                -datacenter=vault-kubernetes-tutorial \
+                -data-dir=/consul/data \
+                -retry-join="${CONSUL_FULLNAME}-server-0.${CONSUL_FULLNAME}-server.${NAMESPACE}.svc:8301" \
+                -config-file=/consul/extra-config/extra-from-values.json \
+                -domain=consul
+          volumeMounts:
+            - name: data
+              mountPath: /consul/data
+            - name: config
+              mountPath: /consul/config
+            - name: extra-config
+              mountPath: /consul/extra-config
+            - mountPath: /consul/login
+              name: consul-data
+              readOnly: true
+          ports:
+            - containerPort: 8500
+              hostPort: 8500
+              name: http
+            - containerPort: 8502
+              hostPort: 8502
+              name: grpc
+            - containerPort: 8301
+              protocol: "TCP"
+              name: serflan-tcp
+            - containerPort: 8301
+              protocol: "UDP"
+              name: serflan-udp
+            - containerPort: 8600
+              name: dns-tcp
+              protocol: "TCP"
+            - containerPort: 8600
+              name: dns-udp
+              protocol: "UDP"
+          readinessProbe:
+            # NOTE(mitchellh): when our HTTP status endpoints support the
+            # proper status codes, we should switch to that. This is temporary.
+            exec:
+              command:
+                - "/bin/sh"
+                - "-ec"
+                - |
+                  curl http://127.0.0.1:8500/v1/status/leader \
+                  2>/dev/null | grep -E '".+"'
+          resources:
+            limits:
+              cpu: 100m
+              memory: 100Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          securityContext:
+            null

@@ -1,4 +1,29 @@
 ## This role is responsible for deploying Minio for dojot
+- name: Minio-files | Secret Vault
+  when: optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'minio_files_external_secrets.yaml') | from_yaml }}"
+
+- name: Minio-files | Secret Kubernetes
+  when: not optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'minio_files_secrets.yaml.j2') | from_yaml }}"
 
 - name: dojot - Minio-files Objects
   k8s:
@@ -10,6 +35,5 @@
   retries: 30
   delay: 10
   loop:
-  - "{{ lookup('template', 'minio_files_secrets.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'minio_files_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'minio_files_statefulset.yaml.j2') | from_yaml }}"

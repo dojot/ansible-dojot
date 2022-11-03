@@ -1,4 +1,29 @@
 ## This role is responsible for deploying Kong for dojot
+- name: API Gateway | Secret Vault
+  when: optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'apigw_external_secrets.yaml') | from_yaml }}"
+
+- name: API Gateway | Secret Kubernetes
+  when: not optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'apigw_secrets.yaml.j2') | from_yaml }}"
 
 - name: dojot - API Gateway Objects
   k8s:
@@ -12,7 +37,6 @@
   loop:
   - "{{ lookup('template', 'apigw_internal_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_external_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'apigw_secrets.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_migration_job.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_migration_up_job.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'apigw_routes_config_map.yaml.j2') | from_yaml }}"

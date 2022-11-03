@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: consul-consul-server-config
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+data:
+  server.json: |
+    {
+      "bind_addr": "0.0.0.0",
+      "bootstrap_expect": 1,
+      "client_addr": "0.0.0.0",
+      "connect": {
+        "enabled": true
+      },
+      "datacenter": "vault-kubernetes-tutorial",
+      "data_dir": "/consul/data",
+      "domain": "consul",
+      "ports": {
+        "serf_lan": 8301,
+        "grpc": 8503
+      },
+      "recursors": [],
+      "retry_join": ["consul-consul-server.dojot.svc:8301"],
+      "server": true
+    }
+  extra-from-values.json: |-
+    {}
+
+  ui-config.json: |-
+    {
+      "ui_config": {
+        "enabled": true
+      }
+    }
+  central-config.json: |-
+    {
+      "enable_central_service_config": true
+    }

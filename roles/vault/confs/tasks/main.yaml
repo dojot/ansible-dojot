@@ -1,0 +1,130 @@
+- name: VAULT | Inicialize a Vault using kubectl
+  register: task_result
+  until: task_result.rc == 0
+  retries: 30
+  delay: 10
+  shell: "if [ ! -s {{ ansible_facts.user_dir }}/.cluster-keys.yaml ]; then kubectl exec -n {{ dojot_namespace }} vault-0 -- vault operator init -key-shares=5 -key-threshold=3 -format=yaml > .cluster-keys.yaml; fi"
+  ignore_errors: true
+  when: ('master_nodes' in group_names)
+
+- name: VAULT | Create secret from file with key shard and root_token
+  shell: "cat .cluster-keys.yaml | head -7 | tail -1 | sed 's/- //g' > shard1; \
+  cat .cluster-keys.yaml | head -8 | tail -1 | sed 's/- //g' > shard2; \
+  cat .cluster-keys.yaml | head -9 | tail -1 | sed 's/- //g' > shard3; \
+  cat .cluster-keys.yaml | grep root_token | awk -F: '{print $2}' | sed 's/ //g' > root_token"
+  when: ('master_nodes' in group_names)
+
+- name: VAULT | Create secret kubernetes with the key shard
+  shell: "kubectl delete secret dojot-key-vault -n {{ dojot_namespace }}; \
+  kubectl create secret generic dojot-key-vault -n {{ dojot_namespace }} --from-file={{ ansible_facts.user_dir }}/shard1 --from-file={{ ansible_facts.user_dir }}/shard2 --from-file={{ ansible_facts.user_dir }}/shard3 --from-file={{ ansible_facts.user_dir }}/root_token"
+  when: ('master_nodes' in group_names)
+
+- name: VAULT | Get key shard 1
+  shell: "kubectl get secrets -n {{ dojot_namespace }} dojot-key-vault -o jsonpath='{.data.shard1}' | base64 -d"
+  register: shard1
+
+- name: VAULT | Get key shard 2
+  shell: "kubectl get secrets -n {{ dojot_namespace }} dojot-key-vault -o jsonpath='{.data.shard2}' | base64 -d"
+  register: shard2
+
+- name: VAULT | Get key shard 3
+  shell: "kubectl get secrets -n {{ dojot_namespace }} dojot-key-vault -o jsonpath='{.data.shard3}' | base64 -d"
+  register: shard3
+
+- name: VAULT | Get root_token
+  shell: "kubectl get secrets -n {{ dojot_namespace }} dojot-key-vault -o jsonpath='{.data.root_token}' | base64 -d"
+  register: root_token
+
+- name: VAULT | CronJob Unseal
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'vault_cron_job.yaml') | from_yaml }}"
+
+- name: VAULT | Vault Login
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 20
+  ignore_errors: true
+  command: "{{ item }}"
+  with_items:
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault login {{ root_token.stdout }}"
+  when: ('master_nodes' in group_names)
+
+
+- name: VAULT | Vault Enable KV
+  ignore_errors: true
+  command: "{{ item }}"
+  with_items:
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault secrets enable -version=2 -path=secret/ kv"
+  when: ('master_nodes' in group_names)
+
+- name: VAULT | Vault Create Policy
+  ignore_errors: true
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 20
+  command: "{{ item }}"
+  with_items:
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault policy write dojot-policy /vault/config-policy/policy.hcl"
+  when: ('master_nodes' in group_names)
+
+- name: Copy Kubernetes Config File in Vault
+  template:
+    src: "kubernetes_config.sh"
+    dest: "{{ ansible_facts.user_dir }}"
+    mode: 0755
+
+- name: VAULT | Enable Kubernetes auth
+  ignore_errors: true
+  command: "{{ item }}"
+  with_items:
+    - "kubectl cp {{ ansible_facts.user_dir }}/kubernetes_config.sh dojot/vault-0:/tmp"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault auth enable kubernetes"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- /tmp/kubernetes_config.sh"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault write auth/kubernetes/role/k8s-role \
+    bound_service_account_names=* \
+    bound_service_account_namespaces=* \
+    policies=dojot-policy \
+    ttl=24h"
+
+- name: VAULT | Secret Store
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 20
+  loop:
+  - "{{ lookup('template', 'vault_secret_store.yaml') | from_yaml }}"
+
+- name: VAULT | Limpeza arquivos temporários
+  ignore_errors: true
+  command: "{{ item }}"
+  with_items:
+    - rm -f {{ ansible_facts.user_dir }}/shard*
+    - rm -f {{ ansible_facts.user_dir }}/root_token
+    - rm -f {{ ansible_facts.user_dir }}/kubernetes_config.sh
+
+
+- name: VAULT | Insert secrets
+  ignore_errors: true
+  command: "{{ item }}"
+  with_items:
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/postgres user=postgres password=postgres"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/mongodb user=mongodb password=mongodb"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/influxdb admin-token=dojot@token_default admin-password=dojot@password"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/kong user=kong password=kong db=kong"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/devm user=devm password=devm crypto_pass=kamehameHA crypto_iv=1234567890123456 cpypro_salt=shuriken"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/minio-files MINIO_ACCESS_KEY='9HEODSF6WQN5EZ39DM7Z' MINIO_SECRET_KEY='fT5nAgHR9pkj0yYsBdc4p+PPq6ArjshcPdz0HA6W'"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/x509-ejbca user=ejbca password=ejbca"
