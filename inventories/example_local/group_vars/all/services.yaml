@@ -6,13 +6,8 @@ optional:
   influxdb_storer: true #It will only be enabled if InfluxDB is enabled as well
   influxdb_retriever: true #It will only be enabled if InfluxDB is enabled as well
   influxdb_chronograf: true #It will only be enabled if InfluxDB is enabled as well
-  #MongoDB Services
-  history: true
-  persister: true
   #IotAgents
-  vernemq: true #You cannot use Mosca together with Vernemq.
-  mosca: false  #If These two variables are set to true, iotagent Vernemq will have priority
-  lwm2m: false
+  vernemq: true
   #AutoScailing
   keda: false
   vault: true

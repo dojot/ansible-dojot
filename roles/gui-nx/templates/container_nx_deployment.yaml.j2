@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: container-nx
+    app: dojot
+  name: container-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: container-nx
+  template:
+    metadata:
+      labels:
+        name: container-nx
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+        - image: dojot/container-nx:{{ dojot_gui_nx_version }}
+          name: container-nx
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

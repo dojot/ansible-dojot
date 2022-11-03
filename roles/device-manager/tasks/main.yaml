@@ -39,3 +39,6 @@
   - "{{ lookup('template', 'device_manager_redis_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'device_manager_redis_deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'device_manager_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'device_manager_sidecar_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'device_manager_sidecar_service.yaml.j2') | from_yaml }}"
+

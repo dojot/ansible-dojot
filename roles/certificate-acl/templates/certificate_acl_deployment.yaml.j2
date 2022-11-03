@@ -47,13 +47,23 @@ spec:
           value: "kafka-server:{{ dojot_kafka_port }}"
         - name: CERTIFICATE_ACL_REDIS_HOST
           value: certificate-acl-redis
+        - name: CERTIFICATE_ACL_KEYCLOAK_CLIENT_SECRET_FILE
+          value: "dojot-certificate-acl"
+        - name: CERTIFICATE_ACL_KEYCLOAK_URL
+          value: "http://keycloak:8080"
         volumeMounts:
         - name: certificate-acl
           mountPath: /opt/certificate-acl/certs
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
       volumes:
       - name: certificate-acl
         persistentVolumeClaim:
           claimName: certificate-acl
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

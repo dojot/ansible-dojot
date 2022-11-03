@@ -62,10 +62,6 @@
   loop:
     - apigw
     - apigw_secure
-    - coap
-    - coaps
-    - file_server
-    - file_servers
     - mqtts
     - http_agent
     - influxdb_web

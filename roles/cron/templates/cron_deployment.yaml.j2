@@ -23,13 +23,29 @@ spec:
         name: cron
         env:
         - name: KAFKA_HOSTS
-          value: {{ kafka_host }}
+          value: "{{ kafka_host }}"
         - name: CRON_PRODUCER_METADATA_BROKER_LIST
           value: "{{ kafka_host }}"
         - name: CRON_CONSUMER_METADATA_BROKER_LIST
           value: "{{ kafka_host }}"
         - name: CRON_APP_USER_CONFIG_FILE
           value: "default.conf"
+        - name: CRON_KEYCLOAK_URL
+          value: "http://keycloak:8080"
+        - name: CRON_KEYCLOAK_CLIENT_ID
+          value: "dojot-cron"
+        - name: CRON_KEYCLOAK_CLIENT_SECRET_FILE
+          value: "dojot-cron"
+        - name: CRON_LOGGER_CONSOLE_LEVEL
+          value: "info"
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
       restartPolicy: Always
 {% if dojot_enable_node_affinity %}
       affinity:

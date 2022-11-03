@@ -8,9 +8,6 @@
     - role: volumes/kong
       tags:
         - kong
-    - role: volumes/minio
-      tags:
-        - minio
     - role: volumes/minio-files
       tags:
         - minio-files
@@ -23,6 +20,9 @@
     - role: volumes/kafka-ws
       tags:
         - kafka-ws
+    - role: volumes/keycloak
+      tags:
+        - keycloak
 
     - role: volumes/consul
       tags:
@@ -84,9 +84,6 @@
     - role: volumes/kong
       tags:
         - kong
-    - role: volumes/minio
-      tags:
-        - minio
     - role: volumes/minio-files
       tags:
         - minio-files
@@ -126,3 +123,7 @@
         - consul
         - vault
       when: optional['vault']
+
+    - role: volumes/keycloak
+      tags:
+        - keycloak

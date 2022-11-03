@@ -1,0 +1,16 @@
+---
+dojot_gui_nx_version: "{{ dojot_frontend_version }}"
+
+dojot_common_nx_port: 80
+
+dojot_container_nx_port: 80
+
+dojot_dashboard_nx_port: 80
+
+dojot_devices_nx_port: 80
+
+dojot_home_nx_port: 80
+
+dojot_security_nx_port: 80
+
+dojot_templates_nx_port: 80

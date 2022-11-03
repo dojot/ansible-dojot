@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: dashboard-nx
+  name: dashboard-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_dashboard_nx_port }}
+    targetPort: {{ dojot_dashboard_nx_port }}
+  selector:
+    name: dashboard-nx
+    app: dojot

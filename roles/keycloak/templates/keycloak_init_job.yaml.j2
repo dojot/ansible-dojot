@@ -1,0 +1,50 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    name: keycloak-init
+    app: dojot
+  name: keycloak-init
+  namespace: {{ dojot_namespace }}
+spec:
+  template:
+    metadata:
+      labels:
+        name: keycloak-init
+        app: dojot
+      name: keycloak-init
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: keycloak-init
+        image: dojot/docker5gmedia-appropriate-curl-jq
+        env:
+        - name: KEYCLOAK_MASTER_PASSWORD
+          value: master
+        - name: KEYCLOAK_MASTER_USER
+          value: master
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+        - name: keycloak-init
+          mountPath: "/opt"
+        command: ["/opt/keycloak.config.sh"]
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
+      - name: keycloak-init
+        persistentVolumeClaim:
+          claimName: keycloak-init
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

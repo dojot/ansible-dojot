@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: home-nx
+  name: home-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_home_nx_port }}
+    targetPort: {{ dojot_home_nx_port }}
+  selector:
+    name: home-nx
+    app: dojot

@@ -27,6 +27,20 @@ spec:
           value: "{{ dojot_influxdb_retriever_log_level }}"
         - name: RETRIEVER_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: RETRIEVER_KEYCLOAK_URI
+          value: "http://keycloak:8080"
+        - name: RETRIEVER_KEYCLOAK_CLIENT_ID
+          value: "dojot-influxdb-retriever"
+        - name: RETRIEVER_KEYCLOAK_CLIENT_SECRET_FILE
+          value: "dojot-influxdb-retriever"
+        - name: RETRIEVER_SYNC_DEVICES
+          value: "http://device-manager-sidecar:5000/device"
+        - name: RETRIEVER_SYNC_CRON_EXPRESSION
+          value: "* */3 * * *"
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
         readinessProbe:
           httpGet:
             path: /ready
@@ -45,6 +59,10 @@ spec:
           periodSeconds: 15
           successThreshold: 1
           timeoutSeconds: 3
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

@@ -1,1 +1,0 @@
-dojot_loopback_version: "{{ dojot_backend_version }}"

@@ -1,0 +1,19 @@
+## This role is responsible for deploying Kafka for dojot
+
+- name: Copy Keycloak config file
+  become: yes
+  template:
+    src: customRealmRepresentation.json.j2
+    dest: "{{ dojot_volume_directory }}/keycloak/customRealmRepresentation.json"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Copy Keycloak-Init config file
+  become: yes
+  template:
+    src: keycloak.config.sh.j2
+    dest: "{{ dojot_volume_directory }}/keycloak/init/keycloak.config.sh"
+    owner: root
+    group: root
+    mode: 0755

@@ -19,6 +19,10 @@ dojot_psql_auth_passwd: auth
 dojot_psql_devm_user: devm
 dojot_psql_devm_passwd: devm
 
+dojot_psql_keycloak_user: keycloak
+dojot_psql_keycloak_passwd: keycloak
+dojot_psql_keycloak_db: keycloak
+
 # Name of the default db created by postgres
 dojot_psql_default_db: postgres
 

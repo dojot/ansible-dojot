@@ -82,12 +82,6 @@ cp -r inventories/example_local inventories/SETUP_NAME
 ansible-playbook -K -i inventories/SETUP_NAME DEPLOYMENT_FILENAME.yaml
 ```
 
-* The dojot services are acessible on the Node Ports that were set by Kubernetes, to verify what ports are configured, execute:
-
-```bash
-kubectl get service -n dojot kong iotagent-mosca
-```
-
 ## Inventory Variables
 
 A reference of the variables that have to be set on the inventory

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: common-nx
+  name: common-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: {{ dojot_common_nx_port }}
+    targetPort: {{ dojot_common_nx_port }}
+  selector:
+    name: common-nx
+    app: dojot
