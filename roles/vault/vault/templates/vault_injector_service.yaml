@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: vault-agent-injector
     app.kubernetes.io/instance: vault
-    app.kubernetes.io/managed-by: Helm  
+    app.kubernetes.io/managed-by: Helm
 spec:
   ports:
   - name: https
