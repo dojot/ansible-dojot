@@ -76,6 +76,8 @@ dojot_nodeports:
   agent:
     https: 30006
   influxdb: 30007
+  vault:
+    http: 30008
 
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.
