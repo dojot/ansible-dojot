@@ -10,4 +10,4 @@ optional:
   vernemq: true
   #AutoScailing
   keda: false
-  vault: true
+  vault: false
