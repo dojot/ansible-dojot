@@ -15,7 +15,6 @@ spec:
       app.kubernetes.io/name: vault-agent-injector
       app.kubernetes.io/instance: vault
       component: webhook
-  
   template:
     metadata:
       labels:
@@ -23,7 +22,6 @@ spec:
         app.kubernetes.io/instance: vault
         component: webhook
     spec:
-      
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -32,10 +30,8 @@ spec:
                   app.kubernetes.io/name: vault-agent-injector
                   app.kubernetes.io/instance: "vault"
                   component: webhook
-              topologyKey: kubernetes.io/hostname  
-      
+              topologyKey: kubernetes.io/hostname
       serviceAccountName: "vault-agent-injector"
-      
       securityContext:
         runAsNonRoot: true
         runAsGroup: 1000

@@ -74,7 +74,7 @@ spec:
                   fieldPath: status.podIP
             - name: CONSUL_DISABLE_PERM_MGMT
               value: "true"
-            
+
           command:
             - "/bin/sh"
             - "-ec"
