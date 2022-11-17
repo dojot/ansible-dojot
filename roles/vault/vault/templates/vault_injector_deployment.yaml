@@ -43,7 +43,7 @@ spec:
         fsGroup: 1000
       hostNetwork: false
       containers:
-        - name: sidecar-injector          
+        - name: sidecar-injector
           image: "hashicorp/vault-k8s:1.0.0"
           imagePullPolicy: "IfNotPresent"
           securityContext:
@@ -82,7 +82,6 @@ spec:
               value: "map"
             - name: AGENT_INJECT_TEMPLATE_CONFIG_EXIT_ON_RETRY_FAILURE
               value: "true"
-            
             - name: POD_NAME
               valueFrom:
                 fieldRef:

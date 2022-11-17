@@ -1,5 +1,31 @@
 ## This role is responsible for deploying the Backstage Service for dojot
 
+- name: Backstage | Secret Vault
+  when: optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'backstage_external_secrets.yaml') | from_yaml }}"
+
+- name: Backstage | Secret Kubernetes
+  when: not optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'backstage_secret.yaml.j2') | from_yaml }}"
+
 - name: dojot - Backstage Objects
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"

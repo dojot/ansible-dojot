@@ -10,3 +10,198 @@
   until: result.failed == 0
   retries: 30
   delay: 10
+
+- name:  Installation OPENSSL
+  become: yes
+  package:
+    name:
+      - openssl
+    state: present
+
+- name: Create secret directory
+  ignore_errors: true
+  local_action: command mkdir {{ playbook_dir }}/inventories/secrets
+
+- name: Create secret file
+  local_action: command touch {{ playbook_dir }}/inventories/secrets/{{item.file}}
+  loop:
+    - { file: '.backstage_secret' }
+    - { file: '.devm_password' }
+    - { file: '.dojot_secret' }
+    - { file: '.influxdb_password' }
+    - { file: '.kafka_ws_secret' }
+    - { file: '.keycloak_password' }
+    - { file: '.kong_password' }
+    - { file: '.MINIO_ACCESS_KEY' }
+    - { file: '.MINIO_SECRET_KEY' }
+    - { file: '.mongodb_password' }
+    - { file: '.postgres_password' }
+    - { file: '.x509_ejbca_password' }
+
+- name: Generate postgres random secret
+  command: /usr/bin/openssl rand -hex 8
+  register: postgres_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.postgres_password
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.postgres_password -type f -size +0
+  register: file_postgres_secret
+
+- name: Copy postgres_secret to secret file
+  local_action: copy content="{{ postgres_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.postgres_password"
+  when: not file_postgres_secret.stdout and not optional['vault']
+
+- name: Generate mondodb random secret
+  command: /usr/bin/openssl rand -base64 45
+  register: mondodb_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.mongodb_password
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.mongodb_password -type f -size +0
+  register: file_mongodb_secret
+
+- name: Copy mongodb_secret to secret file
+  local_action: copy content="{{ mondodb_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.mongodb_password"
+  when: not file_mongodb_secret.stdout and not optional['vault']
+
+- name: Generate influxdb random secret
+  command: /usr/bin/openssl rand -base64 45
+  register: influxdb_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.influxdb_password
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.influxdb_password -type f -size +0
+  register: file_influxdb_secret
+
+- name: Copy influxdb_secret to secret file
+  local_action: copy content="{{ influxdb_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.influxdb_password"
+  when: not file_influxdb_secret.stdout and not optional['vault']
+
+- name: Generate kong random secret
+  command: /usr/bin/openssl rand -hex 8
+  register: kong_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.kong_password
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.kong_password -type f -size +0
+  register: file_kong_secret
+
+- name: Copy kong_secret to secret file
+  local_action: copy content="{{ kong_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.kong_password"
+  when: not file_kong_secret.stdout and not optional['vault']
+
+- name: Generate devm random secret
+  command: /usr/bin/openssl rand -hex 8
+  register: devm_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.devm_password
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.devm_password -type f -size +0
+  register: file_devm_secret
+
+- name: Copy devm_secret to secret file
+  local_action: copy content="{{ devm_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.devm_password"
+  when: not file_devm_secret.stdout and not optional['vault']
+
+- name: Generate minio-files random secret -- MINIO_ACCESS_KEY
+  command: /usr/bin/openssl rand -base64 45
+  register: minio_files_access_key
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.MINIO_ACCESS_KEY
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.MINIO_ACCESS_KEY -type f -size +0
+  register: file_minio_access
+
+- name: Copy file_minio_access to secret file
+  local_action: copy content="{{ minio_files_access_key.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.MINIO_ACCESS_KEY"
+  when: not file_minio_access.stdout and not optional['vault']
+
+- name: Generate minio-files random secret -- MINIO_SECRET_KEY
+  command: /usr/bin/openssl rand -base64 45
+  register: minio_files_secret_key
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.MINIO_SECRET_KEY
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.MINIO_SECRET_KEY -type f -size +0
+  register: file_minio_secret
+
+- name: Copy minio_files_secret_key to secret file
+  local_action: copy content="{{ minio_files_secret_key.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.MINIO_SECRET_KEY"
+  when: not file_minio_secret.stdout and not optional['vault']
+
+- name: Generate x509-ejbca random secret
+  command: /usr/bin/openssl rand -hex 8
+  register: x509_ejbca_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.x509_ejbca_password
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.x509_ejbca_password -type f -size +0
+  register: file_x509_ejbca_secret
+
+- name: Copy x509_ejbca_secret to secret file
+  local_action: copy content="{{ x509_ejbca_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.x509_ejbca_password"
+  when: not file_x509_ejbca_secret.stdout and not optional['vault']
+
+- name: Generate keycloak random secret
+  command: /usr/bin/openssl rand -hex 8
+  register: keycloak_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.keycloak_password
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.keycloak_password -type f -size +0
+  register: file_keycloak_secret
+
+- name: Copy keycloak_secret to secret file
+  local_action: copy content="{{ keycloak_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.keycloak_password"
+  when: not file_keycloak_secret.stdout and not optional['vault']
+
+- name: Generate dojot-secrets random secret
+  command: /usr/bin/openssl rand -base64 45
+  register: dojot_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.dojot_secret
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.dojot_secret -type f -size +0
+  register: file_dojot_secret
+
+- name: Copy dojot_secret to secret file
+  local_action: copy content="{{ dojot_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.dojot_secret"
+  when: not file_dojot_secret.stdout and not optional['vault']
+
+- name: Generate backstage random secret
+  command: /usr/bin/openssl rand -hex 8
+  register: backstage_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.backstage_secret
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.backstage_secret -type f -size +0
+  register: file_backstage_secret
+
+- name: Copy backstage_secret to secret file
+  local_action: copy content="{{ backstage_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.backstage_secret"
+  when: not file_backstage_secret.stdout and not optional['vault']
+
+- name: Generate kafka-ws random secret
+  command: /usr/bin/openssl rand -base64 45
+  register: kafka_ws_secret
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.kafka_ws_secret
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.kafka_ws_secret -type f -size +0
+  register: file_kafka_ws_secret
+
+- name: Copy kafka-ws_secret to secret file
+  local_action: copy content="{{ kafka_ws_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.kafka_ws_secret"
+  when: not file_kafka_ws_secret.stdout and not optional['vault']

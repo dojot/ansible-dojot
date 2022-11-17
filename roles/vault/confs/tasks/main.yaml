@@ -2,7 +2,7 @@
   register: task_result
   until: task_result.rc == 0
   retries: 30
-  delay: 10
+  delay: 30
   shell: "if [ ! -s {{ ansible_facts.user_dir }}/.cluster-keys.yaml ]; then kubectl exec -n {{ dojot_namespace }} vault-0 -- vault operator init -key-shares=5 -key-threshold=3 -format=yaml > .cluster-keys.yaml; fi"
   ignore_errors: true
   when: ('master_nodes' in group_names)
@@ -51,13 +51,12 @@
   register: result
   until: result.failed == 0
   retries: 30
-  delay: 20
+  delay: 40
   ignore_errors: true
   command: "{{ item }}"
   with_items:
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault login {{ root_token.stdout }}"
   when: ('master_nodes' in group_names)
-
 
 - name: VAULT | Vault Enable KV
   ignore_errors: true
@@ -104,7 +103,7 @@
   register: result
   until: result.failed == 0
   retries: 30
-  delay: 20
+  delay: 40
   loop:
   - "{{ lookup('template', 'vault_secret_store.yaml') | from_yaml }}"
 
@@ -112,19 +111,57 @@
   ignore_errors: true
   command: "{{ item }}"
   with_items:
-    - rm -f {{ ansible_facts.user_dir }}/shard*
+    - rm -f {{ ansible_facts.user_dir }}/shard1
+    - rm -f {{ ansible_facts.user_dir }}/shard2
+    - rm -f {{ ansible_facts.user_dir }}/shard3
     - rm -f {{ ansible_facts.user_dir }}/root_token
     - rm -f {{ ansible_facts.user_dir }}/kubernetes_config.sh
 
+- name: VAULT | Insert database secrets
+  ignore_errors: true
+  command: "{{ item }}"
+# - debug:
+#     msg: "If error occurs, it means that you already have this secrets. Please ignore."
+  with_items:
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/postgres user=postgres password={{ postgres_secret.stdout_lines[0] }} db=postgres"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/mongodb user=mongodb password={{ postgres_secret.stdout_lines[0] }}"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/influxdb admin-token=dojot@token_default admin-password={{ influxdb_secret.stdout_lines[0] }}"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/kong user=kong password={{ kong_secret.stdout_lines[0] }} db=kong"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/devm user=devm password={{ devm_secret.stdout_lines[0] }} crypto_pass=kamehameHA crypto_iv=1234567890123456 crypto_salt=shuriken"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/x509-ejbca user=ejbca password={{ x509_ejbca_secret.stdout_lines[0] }}"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/keycloak user=keycloak password={{ keycloak_secret.stdout_lines[0] }} db=keycloak"
 
 - name: VAULT | Insert secrets
   ignore_errors: true
   command: "{{ item }}"
+#  debug: "If error occurs, it means that you already have this secrets. Please ignore."
   with_items:
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/postgres user=postgres password=postgres"
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/mongodb user=mongodb password=mongodb"
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/influxdb admin-token=dojot@token_default admin-password=dojot@password"
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/kong user=kong password=kong db=kong"
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/devm user=devm password=devm crypto_pass=kamehameHA crypto_iv=1234567890123456 cpypro_salt=shuriken"
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/minio-files MINIO_ACCESS_KEY='9HEODSF6WQN5EZ39DM7Z' MINIO_SECRET_KEY='fT5nAgHR9pkj0yYsBdc4p+PPq6ArjshcPdz0HA6W'"
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put secret/x509-ejbca user=ejbca password=ejbca"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/minio-files MINIO_ACCESS_KEY={{ minio_files_access_key.stdout_lines[0] }} MINIO_SECRET_KEY={{ minio_files_secret_key.stdout_lines[0] }}"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/dojot-secrets dojot-basic-auth={{ dojot_secret.stdout_lines[0] }} \
+    dojot-cert-support={{ dojot_secret.stdout_lines[0] }} \
+    dojot-certificate-acl={{ dojot_secret.stdout_lines[0] }} \
+    dojot-cron={{ dojot_secret.stdout_lines[0] }} \
+    dojot-device-manager-sidecar={{ dojot_secret.stdout_lines[0] }} \
+    dojot-file-mgmt={{ dojot_secret.stdout_lines[0] }} \
+    dojot-http-agent={{ dojot_secret.stdout_lines[0] }} \
+    dojot-influxdb-retriever={{ dojot_secret.stdout_lines[0] }} \
+    dojot-iotagent-mqtt-sidecar={{ dojot_secret.stdout_lines[0] }} \
+    dojot-x509-identity-mgmt={{ dojot_secret.stdout_lines[0] }} \
+    KEYCLOAK_PROXY={{ dojot_secret.stdout_lines[0] }} \
+    KEYCLOAK_PROXY_USER={{ dojot_secret.stdout_lines[0] }}"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/backstage BS_SESSION_SECRET={{ backstage_secret.stdout_lines[0] }}"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/kafka-ws KAFKA_WS_TICKET_SECRET={{ kafka_ws_secret.stdout_lines[0] }}"
+
+
+- name: VAULT | Changes CronJob Vault Unseal
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 30
+  ignore_errors: true
+  command: "{{ item }}"
+  with_items:
+    - "kubectl -n {{ dojot_namespace }} patch cronjobs vault-unseal-cronjob -p '{\"spec\":{\"schedule\": \"0/30 * * * *\"}}'"
+    - "kubectl -n {{ dojot_namespace }} patch cronjobs vault-unseal-cronjob -p '{\"spec\":{\"jobTemplate\":{\"spec\":{\"parallelism\":1,\"completions\":1}}}}'"
+  when: ('master_nodes' in group_names)
+

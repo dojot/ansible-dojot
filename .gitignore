@@ -18,3 +18,6 @@ pyvenv.cfg
 # Ignore ansible collections files
 collections/*
 !collections/requirements.yml
+
+# Python virtual environment files
+secrets/

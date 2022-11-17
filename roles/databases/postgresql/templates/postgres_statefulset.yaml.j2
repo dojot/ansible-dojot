@@ -34,7 +34,10 @@ spec:
                 name: postgres-secret
                 key: password
           - name: POSTGRES_DB
-            value: {{ dojot_psql_default_db }}
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: db
         volumeMounts:
           - name: postgres-init
             mountPath: /docker-entrypoint-initdb.d/

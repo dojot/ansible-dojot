@@ -25,6 +25,7 @@
   loop:
   - "{{ lookup('template', 'postgres_secret.yaml.j2') | from_yaml }}"
 
+
 - name: PostgreSQL | dojot - PostgreSQL Objects
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
@@ -36,7 +37,7 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'postgres_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'postgres_init_config_map.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'postgres_statefulset.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'postgres_init_config_map.yaml.j2') | from_yaml }}"
 
 

@@ -22,3 +22,19 @@
     - "pv-x509-identity-mgmt"
     - "pv-zk-data"
     - "pv-zk-log"
+    - "pv-consul-server"
+
+- name: Delete Credencial Vault
+  file:
+    path: "{{ ansible_facts.user_dir }}/{{item.file}}"
+    state: absent
+  loop:
+    - { file: '.cluster-keys.yaml' }
+    - { file: 'shard1' }
+    - { file: 'shard2' }
+    - { file: 'shard3' }
+  when: optional['vault']
+
+- name: Delete secrets directory
+  ignore_errors: true
+  local_action: command rm -rf {{ playbook_dir }}/inventories/secrets

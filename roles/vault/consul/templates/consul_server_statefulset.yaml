@@ -151,4 +151,4 @@ spec:
         resources:
           requests:
             storage: 10Gi
-        storageClassName: local-storage
+        storageClassName: {{ dojot_storage_class_name }}

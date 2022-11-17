@@ -22,12 +22,12 @@ spec:
     server: {{ hostvars.nfs_host.ansible_host }}
     path: {{ dojot_volume_directory }}/consul
 {% endif %}
-#  nodeAffinity:
-    #required:
-      #nodeSelectorTerms:
-      #- matchExpressions:
-        #- key: dojot.components/dojot
-          #operator: In
-          #values:
-          #- "enabled"
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/dojot
+          operator: In
+          values:
+          - "enabled"
 
