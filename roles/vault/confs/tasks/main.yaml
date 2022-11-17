@@ -120,8 +120,6 @@
 - name: VAULT | Insert database secrets
   ignore_errors: true
   command: "{{ item }}"
-# - debug:
-#     msg: "If error occurs, it means that you already have this secrets. Please ignore."
   with_items:
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/postgres user=postgres password={{ postgres_secret.stdout_lines[0] }} db=postgres"
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/mongodb user=mongodb password={{ postgres_secret.stdout_lines[0] }}"
@@ -134,7 +132,6 @@
 - name: VAULT | Insert secrets
   ignore_errors: true
   command: "{{ item }}"
-#  debug: "If error occurs, it means that you already have this secrets. Please ignore."
   with_items:
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/minio-files MINIO_ACCESS_KEY={{ minio_files_access_key.stdout_lines[0] }} MINIO_SECRET_KEY={{ minio_files_secret_key.stdout_lines[0] }}"
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/dojot-secrets dojot-basic-auth={{ dojot_secret.stdout_lines[0] }} \

@@ -44,7 +44,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.postgres_password
   local_action: command find {{ playbook_dir }}/inventories/secrets/.postgres_password -type f -size +0
   register: file_postgres_secret
 
@@ -58,7 +57,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.mongodb_password
   local_action: command find {{ playbook_dir }}/inventories/secrets/.mongodb_password -type f -size +0
   register: file_mongodb_secret
 
@@ -72,7 +70,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.influxdb_password
   local_action: command find {{ playbook_dir }}/inventories/secrets/.influxdb_password -type f -size +0
   register: file_influxdb_secret
 
@@ -86,7 +83,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.kong_password
   local_action: command find {{ playbook_dir }}/inventories/secrets/.kong_password -type f -size +0
   register: file_kong_secret
 
@@ -100,7 +96,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.devm_password
   local_action: command find {{ playbook_dir }}/inventories/secrets/.devm_password -type f -size +0
   register: file_devm_secret
 
@@ -114,7 +109,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.MINIO_ACCESS_KEY
   local_action: command find {{ playbook_dir }}/inventories/secrets/.MINIO_ACCESS_KEY -type f -size +0
   register: file_minio_access
 
@@ -128,7 +122,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.MINIO_SECRET_KEY
   local_action: command find {{ playbook_dir }}/inventories/secrets/.MINIO_SECRET_KEY -type f -size +0
   register: file_minio_secret
 
@@ -142,7 +135,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.x509_ejbca_password
   local_action: command find {{ playbook_dir }}/inventories/secrets/.x509_ejbca_password -type f -size +0
   register: file_x509_ejbca_secret
 
@@ -156,7 +148,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.keycloak_password
   local_action: command find {{ playbook_dir }}/inventories/secrets/.keycloak_password -type f -size +0
   register: file_keycloak_secret
 
@@ -170,7 +161,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.dojot_secret
   local_action: command find {{ playbook_dir }}/inventories/secrets/.dojot_secret -type f -size +0
   register: file_dojot_secret
 
@@ -184,7 +174,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.backstage_secret
   local_action: command find {{ playbook_dir }}/inventories/secrets/.backstage_secret -type f -size +0
   register: file_backstage_secret
 
@@ -198,7 +187,6 @@
 
 - name: Checking if secret file exist
   ignore_errors: true
-  #local_action: command ls {{ playbook_dir }}/inventories/secrets/.kafka_ws_secret
   local_action: command find {{ playbook_dir }}/inventories/secrets/.kafka_ws_secret -type f -size +0
   register: file_kafka_ws_secret
 

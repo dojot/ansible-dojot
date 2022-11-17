@@ -1,7 +1,6 @@
 ---
 # K3s version (kubernetes version)
 # See: https://github.com/k3s-io/k3s/releases
-#k3s_release_version: 1.19.16
 k3s_release_version: 1.21.14
 
 # Directory to hold state. Defaults to '/var/lib/rancher/k3s'
