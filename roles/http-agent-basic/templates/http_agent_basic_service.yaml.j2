@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dojot
+  name: http-agent-basic
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - name: http-agent-unsecure
+    port: {{ dojot_http_agent_unsecure_port }}
+    targetPort: {{ dojot_http_agent_unsecure_port }}
+  selector:
+    name: http-agent-basic
+    app: dojot
