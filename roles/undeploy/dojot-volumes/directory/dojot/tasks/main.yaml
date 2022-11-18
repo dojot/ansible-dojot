@@ -11,3 +11,4 @@
     - { path: 'minio-files' }
     - { path: 'mongodb' }
     - { path: 'postgres' }
+    - { path: 'consul' }

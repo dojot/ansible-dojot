@@ -2,7 +2,7 @@
 
 # Define credentials for the mongo super user
 dojot_mongodb_super_user: mongodb
-dojot_mongodb_super_passwd: mongodb
+dojot_mongodb_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.mongodb_password') }}"
 
 # Version of the mongo DB container for dojot
 dojot_mongodb_version: 3.2

@@ -1,7 +1,7 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_backend_version: development
-dojot_frontend_version: development
+dojot_backend_version: dev-alpha.2
+dojot_frontend_version: dev-alpha.2
 dojot_domain_name: localhost
 
 # Parameters used when active HTTPS in NGINX
@@ -73,6 +73,8 @@ dojot_nodeports:
   agent:
     https: 30006
   influxdb: 30007
+  vault:
+    http: 30008
 
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.

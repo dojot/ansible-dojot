@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-consul-server
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: server
+  # annotations:
+  #   # This must be set in addition to publishNotReadyAddresses due
+  #   # to an open issue where it may not work:
+  #   # https://github.com/kubernetes/kubernetes/issues/58662
+  #   service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  clusterIP: None
+  # We want the servers to become available even if they're not ready
+  # since this DNS is also used for join operations.
+  publishNotReadyAddresses: true
+  ports:
+    - name: http
+      port: 8500
+      targetPort: 8500
+    - name: grpc
+      port: 8503
+      targetPort: 8503
+    - name: serflan-tcp
+      protocol: "TCP"
+      port: 8301
+      targetPort: 8301
+    - name: serflan-udp
+      protocol: "UDP"
+      port: 8301
+      targetPort: 8301
+    - name: serfwan-tcp
+      protocol: "TCP"
+      port: 8302
+      targetPort: 8302
+    - name: serfwan-udp
+      protocol: "UDP"
+      port: 8302
+      targetPort: 8302
+    - name: server
+      port: 8300
+      targetPort: 8300
+    - name: dns-tcp
+      protocol: "TCP"
+      port: 8600
+      targetPort: dns-tcp
+    - name: dns-udp
+      protocol: "UDP"
+      port: 8600
+      targetPort: dns-udp
+  selector:
+    app: consul
+    release: "consul"
+    component: server

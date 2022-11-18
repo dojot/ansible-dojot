@@ -1,0 +1,16 @@
+---
+- name: External Secrets | Add external secrets helm repository
+  kubernetes.core.helm_repository:
+    name: external-secrets
+    repo_url: "https://charts.external-secrets.io"
+
+- name: External Secrets | Deploy external secrets chart with values loaded from template
+  when: optional['vault']
+  kubernetes.core.helm:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    chart_ref: external-secrets/external-secrets
+    chart_version: 0.6.0
+    release_name: external-secrets
+    release_namespace: "{{ dojot_namespace }}"
+    create_namespace: true
+    values: "{{ lookup('template', 'values.yaml.j2') | from_yaml }}"

@@ -69,7 +69,10 @@ spec:
           value: "true"
           # NOTE: The KAFKA_WS_TICKET_SECRET should be unique for each environment
         - name: KAFKA_WS_TICKET_SECRET
-          value: "{{ dojot_kafka_ws_ticket_secret }}"
+          valueFrom:
+            secretKeyRef:
+              name: kafka-ws-secret
+              key: KAFKA_WS_TICKET_SECRET
         volumeMounts:
         - name: kafka-ws
           mountPath: /opt/kafka-ws/certs

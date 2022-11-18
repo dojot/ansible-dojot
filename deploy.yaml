@@ -21,6 +21,10 @@
     - basic-http
   roles:
     - role: dojot-basic
+      tags:
+        - dojot-basic
+        - basic-mqtt
+        - basic-http
     - role: nfs-provisioner
       when: dojot_storage_class_name == "nfs"
       tags:
@@ -28,6 +32,47 @@
         - 100k
         - basic-mqtt
         - basic-http
+
+# Install Helm
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - helm
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: helm
+
+# Deploy Vault to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: vault/consul
+      when: optional['vault']
+    - role: vault/vault
+      when: optional['vault']
+    - role: vault/external-secrets
+      when: optional['vault']
+
+# Deploy Vault to the environment
+- hosts: master_nodes
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: vault/confs
+      tags:
+        - vault_confs
+      when: optional['vault']
 
 # Secrets
 - hosts: dojot-k8s[0]
@@ -39,52 +84,6 @@
         - 100k
         - basic-mqtt
         - basic-http
-
-# Keycloak configurations
-- hosts: dojot_nodes
-  any_errors_fatal: true
-  tags:
-        - keycloak
-        - 100k
-        - basic-mqtt
-        - basic-http
-  roles:
-    - role: keycloak/confs
-
-# Keycloak
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-        - keycloak
-        - 100k
-        - basic-mqtt
-        - basic-http
-  roles:
-    - role: keycloak
-
-# Minio-files
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  roles:
-    - role: minio-files
-      tags:
-        - minio-files
-        - 100k
-
-# Deploy Zookeeper to the environment
-# TODO: Add possibility of using an external Zookeeper by setting config variables
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - zookeeper
-    - kafka
-    - 100k
-    - basic-mqtt
-    - basic-http
-  roles:
-    - role: zookeeper
-      when: not dojot_zk_use_external
-
 
 # Deploy PostgreSQL to the environment
 # TODO: Add possibility of using an external PostgreSQL by setting DB config variables
@@ -126,6 +125,51 @@
   roles:
     - role: databases/mongodb
 
+# Keycloak configurations
+- hosts: dojot_nodes
+  any_errors_fatal: true
+  tags:
+    - keycloak
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: keycloak/confs
+
+# Keycloak
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - keycloak
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: keycloak
+
+# Minio-files
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  roles:
+    - role: minio-files
+      tags:
+        - minio-files
+        - 100k
+
+# Deploy Zookeeper to the environment
+# TODO: Add possibility of using an external Zookeeper by setting config variables
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - zookeeper
+    - kafka
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: zookeeper
+      when: not dojot_zk_use_external
+
 # Deploy Kafka to the environment
 # TODO: Add possibility of using an external Kafka by setting config variables
 # TODO: Support a HA cluster
@@ -138,18 +182,6 @@
     - basic-http
   roles:
     - role: kafka
-
-# Deploy Keda to the environment
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - helm
-    - 100k
-    - basic-mqtt
-    - basic-http
-  roles:
-    - role: helm
-      when: optional['keda']
 
 # Deploy Metrics Server to the environment
 - hosts: dojot-k8s[0]

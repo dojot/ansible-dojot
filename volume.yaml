@@ -24,6 +24,12 @@
       tags:
         - keycloak
 
+    - role: volumes/consul
+      tags:
+        - consul
+        - vault
+      when: optional['vault']
+
 - hosts: kafka_nodes
   gather_facts: true
   any_errors_fatal: true
@@ -111,6 +117,13 @@
     - role: volumes/certificate-acl
       tags:
         - certificate-acl
+
+    - role: volumes/consul
+      tags:
+        - consul
+        - vault
+      when: optional['vault']
+
     - role: volumes/keycloak
       tags:
         - keycloak

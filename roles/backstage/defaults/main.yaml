@@ -3,3 +3,5 @@
 kong_url: 'http://kong'
 
 backstage_redis_port: 6379
+
+dojot_bs_session_secret: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.backstage_secret') }}"

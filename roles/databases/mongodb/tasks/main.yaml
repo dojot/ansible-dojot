@@ -1,4 +1,18 @@
-- name: dojot - MongoDB Objects
+- name: MongoDB | Secret Vault
+  when: optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'mongodb_external_secrets.yaml') | from_yaml }}"
+
+- name: MongoDB | Secret Kubernetes
+  when: not optional['vault']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present
@@ -9,5 +23,16 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'mongodb_secret.yaml.j2') | from_yaml }}"
+
+- name: MongoDB | dojot - MongoDB Objects
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
   - "{{ lookup('template', 'mongodb_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'mongodb_statefulset.yaml.j2') | from_yaml }}"
