@@ -17,11 +17,48 @@
     - 100k
   roles:
     - role: dojot-basic
+      tags:
+        - dojot-basic
     - role: nfs-provisioner
       when: dojot_storage_class_name == "nfs"
       tags:
         - nfs-provisioner
         - 100k
+
+# Install Helm
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - helm
+    - 100k
+  roles:
+    - role: helm
+
+# Deploy Vault to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+  roles:
+    - role: vault/consul
+      when: optional['vault']
+    - role: vault/vault
+      when: optional['vault']
+    - role: vault/external-secrets
+      when: optional['vault']
+
+# Deploy Vault to the environment
+- hosts: master_nodes
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+  roles:
+    - role: vault/confs
+      tags:
+        - vault_confs
+      when: optional['vault']
 
 # Secrets
 - hosts: dojot-k8s[0]
@@ -31,6 +68,40 @@
       tags:
         - secrets
         - 100k
+
+# Deploy PostgreSQL to the environment
+# TODO: Add possibility of using an external PostgreSQL by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - postgresql
+    - 100k
+  roles:
+    - role: databases/postgresql
+
+
+# Deploy InfluxDB to the environment
+# TODO: Add possibility of using an external InfluxDB by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - influxdb
+    - 100k
+  roles:
+    - role: databases/influxdb
+
+# Deploy MongoDB to the environment
+# TODO: Add possibility of using an external MongoDB by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - mongodb
+    - 100k
+  roles:
+    - role: databases/mongodb
 
 # Keycloak configurations
 - hosts: dojot_nodes
@@ -71,41 +142,6 @@
     - role: zookeeper
       when: not dojot_zk_use_external
 
-
-# Deploy PostgreSQL to the environment
-# TODO: Add possibility of using an external PostgreSQL by setting DB config variables
-# TODO: Support a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - postgresql
-    - 100k
-  roles:
-    - role: databases/postgresql
-
-
-# Deploy InfluxDB to the environment
-# TODO: Add possibility of using an external InfluxDB by setting DB config variables
-# TODO: Support a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - influxdb
-    - 100k
-  roles:
-    - role: databases/influxdb
-
-# Deploy MongoDB to the environment
-# TODO: Add possibility of using an external MongoDB by setting DB config variables
-# TODO: Support a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - mongodb
-    - 100k
-  roles:
-    - role: databases/mongodb
-
 # Deploy Kafka to the environment
 # TODO: Add possibility of using an external Kafka by setting config variables
 # TODO: Support a HA cluster
@@ -116,16 +152,6 @@
     - 100k
   roles:
     - role: kafka
-
-# Deploy Keda to the environment
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - helm
-    - 100k
-  roles:
-    - role: helm
-      when: optional['keda']
 
 # Deploy Metrics Server to the environment
 - hosts: dojot-k8s[0]

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul-consul-ui
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: consul
+    chart: consul-helm
+    heritage: Helm
+    release: consul
+    component: ui
+spec:
+  selector:
+    app: consul
+    release: "consul"
+    component: server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8500

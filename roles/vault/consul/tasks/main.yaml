@@ -1,0 +1,24 @@
+- name:  dojot - Consul
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'consul_server_configmap.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_server_rolebinding.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_server_role.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_server_serviceaccount.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_server_service.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_server_statefulset.yaml') | from_yaml }}"
+
+  - "{{ lookup('template', 'consul_client_configmap.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_client_daemonset.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_client_rolebinding.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_client_role.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'consul_client_serviceaccount.yaml') | from_yaml }}"
+
+  - "{{ lookup('template', 'consul_ui_service.yaml') | from_yaml }}"

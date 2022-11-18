@@ -1,3 +1,29 @@
+- name: x509 EJBCA | Secret Vault
+  when: optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'x509_ejbca_external_secrets.yaml') | from_yaml }}"
+
+- name: x509 EJBCA | Secret Kubernetes
+  when: not optional['vault']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'x509_ejbca_secrets.yaml.j2') | from_yaml }}"
+
 - name: dojot - x509 EJBCA Objects
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"

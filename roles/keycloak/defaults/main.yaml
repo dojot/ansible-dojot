@@ -11,3 +11,7 @@ dojot_keycloak_port: 8080
 dojot_keycloak_proxy_port: 8081
 
 dojot_kafka_port: 9092
+
+dojot_psql_keycloak_user: keycloak
+dojot_psql_keycloak_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.keycloak_password') }}"
+dojot_psql_keycloak_db: keycloak

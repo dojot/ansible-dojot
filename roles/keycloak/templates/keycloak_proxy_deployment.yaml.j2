@@ -22,6 +22,24 @@ spec:
       containers:
       - name: keycloak-proxy
         image: dojot/keycloak-proxy:{{ dojot_keycloak_version }}
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9000
+          failureThresold: 1
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 9000
+          failureThresold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 3
         env:
         - name: KEYCLOAKPROXY_KEYCLOAK_PROXY_ID
           value: keycloak-proxy

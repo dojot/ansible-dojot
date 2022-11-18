@@ -5,7 +5,7 @@ dojot_devm_version: "{{ dojot_backend_version }}"
 dojot_kafka_port: 9092
 
 dojot_psql_devm_user: devm
-dojot_psql_devm_passwd: devm
+dojot_psql_devm_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.devm_password') }}"
 
 dojot_devm_crypto_pass: kamehameHA
 dojot_devm_crypto_iv: "1234567890123456"

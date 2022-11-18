@@ -1,0 +1,29 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: vault-unseal-cronjob
+  namespace: {{ dojot_namespace }}
+spec:
+  schedule: "* * * * *"
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      completions: 6
+      parallelism: 3
+      template:
+        metadata:
+          labels:
+            app: vault-unseal-cronjob
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: vault-policy-config
+              image: "ghcr.io/omegion/vault-unseal:v0.1.0"
+              imagePullPolicy: IfNotPresent
+              args:
+                - unseal
+                - --address={{ vault_url }}
+                - --shard={{ shard1.stdout }}
+                - --shard={{ shard2.stdout }}
+                - --shard={{ shard3.stdout }}
+

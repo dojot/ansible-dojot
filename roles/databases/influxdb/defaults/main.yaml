@@ -2,7 +2,7 @@ dojot_influxdb_version: v2.0.2
 dojot_influxdb_port: 8086
 dojot_influxdb_user: dojot
 dojot_influxdb_token: dojot@token_default
-dojot_influxdb_passwd: dojot@password
+dojot_influxdb_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.influxdb_password') }}"
 dojot_influxdb_organization_name: admin
 dojot_influxdb_bucket: devices
 # this retention is only for the organization `dojot_influxdb_organization_name` created when starting influxdb.
