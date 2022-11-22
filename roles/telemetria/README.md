@@ -48,10 +48,6 @@ The environment variables must be filled after the client and users are included
 
 * client_secret -> Secret generated after creating the client. Ex: mTl2HE6l1qXxNDoW5mMvepFOQhOCelCV
 
-group_keyclock -> Group that can be created to include users. Ex: grafana
+* group_keyclock -> Group that can be created to include users. Ex: grafana
 
-group_visibility -> User visibility can be, Admin, Viewer or Editor. Ex: Admin
-
-**User**: ``admin``
-
-**Password**: ``admin``
+* group_visibility -> User visibility can be, Admin, Viewer or Editor. Ex: Admin

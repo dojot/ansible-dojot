@@ -11,5 +11,5 @@ optional:
   #AutoScailing
   keda: false
   #Monitoring
-  telemetria: true
-  metrics: true
+  telemetria: false
+  metrics: false

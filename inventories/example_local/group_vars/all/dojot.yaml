@@ -26,7 +26,7 @@ dojot_guiv2_enabled: true
 dojot_auth_email_enabled: false
 
 # Allow the usage of insecure MQTT
-dojot_insecure_mqtt: 'true'
+dojot_insecure_mqtt: "true"
 
 # Allow the usage of unsecure Agent HTTP
 dojot_enable_http_agent_unsecure: false
@@ -76,6 +76,7 @@ dojot_nodeports:
   agent:
     https: 30006
   influxdb: 30007
+  telemetria: 30009
 
 ## Node affinity
 # Note: you must label your nodes accordingly when node affinity is enabled, otherwise you might run into problems.
