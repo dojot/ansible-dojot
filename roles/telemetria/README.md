@@ -22,7 +22,7 @@ http://196.10.100.103:30009
 
 ## How to deploy Telemetry solution?
 
-Initially, it is necessary to enable the ````telemetry``` option with ``true`` in the ``services.yaml`` file and after that just run the commands below:
+Initially, it is necessary to enable the ```telemetry``` option with ``true`` in the ``services.yaml`` file and after that just run the commands below:
 
 ```
 ansible-playbook -K -k -u dojot -i inventories/example_local/ volume.yaml
@@ -34,7 +34,23 @@ And:
 ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy-monitoring.yaml
 ```
 
-# User and password to access grafana
+# How to use Grafana with Keycloak
+
+The first step is to access keycloak and create a ``client``. Then in the users section it is necessary to add a new group to create and add users.
+
+Note: The username and email fields are mandatory when adding a new user.
+
+Note 2: The email can be generic, for example, project@123, user@user and etc.
+
+The environment variables must be filled after the client and users are included in the Keycloak for the deployment to be carried out:
+
+* client_id -> Customer name created in Keycloak. Ex: grafana
+
+* client_secret -> Secret generated after creating the client. Ex: mTl2HE6l1qXxNDoW5mMvepFOQhOCelCV
+
+group_keyclock -> Group that can be created to include users. Ex: grafana
+
+group_visibility -> User visibility can be, Admin, Viewer or Editor. Ex: Admin
 
 **User**: ``admin``
 
