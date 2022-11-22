@@ -3,11 +3,6 @@
   include_tasks: basic.yml
   tags: basic
 
-- name: Metrics | Helm | Include helm tasks
-  include_tasks: helm.yml
-  when: dojot_helm_install | bool
-  tags: helm
-
 - name: Metrics | monitoring-stack | include monitoring-stack tasks
   include_tasks: monitoring-stack.yml
   tags: prometheus-stack
@@ -39,7 +34,3 @@
 - name: Metrics | postgres-exporter | include postgres-exporter tasks
   include_tasks: postgres.yml
   tags: postgres-exporter
-
-- name: Metrics | rabbitmq-exporter | include rabbitmq-exporter tasks
-  include_tasks: rabbitmq.yml
-  tags: rabbitmq-exporter

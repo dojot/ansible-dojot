@@ -1,4 +1,5 @@
 - name: dojot - Create dojot-monitoring namespace
+  when: optional['metrics']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

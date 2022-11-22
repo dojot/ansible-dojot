@@ -1,12 +1,12 @@
 ---
 # roles/metrics/tasks/helm.yml
-- name: Dojot | Helm | Create download directory
+- name: Metrics | Helm | Create download directory
   file:
     state: directory
     mode: "u=rwx,go=x"
     dest: "{{ dojot_helm_download_dir }}"
 
-- name: Dojot | Helm | Download sha256sum file
+- name: Metrics | Helm | Download sha256sum file
   get_url:
     url: "{{ dojot_helm_mirror }}/{{ dojot_helm_redistributable_filename }}.sha256"
     dest: "{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256"
@@ -14,12 +14,12 @@
     validate_certs: yes
     mode: "u=rw,go=r"
 
-- name: Dojot | Helm | Read sha256sum file
+- name: Metrics | Helm | Read sha256sum file
   slurp:
     src: "{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}.sha256"
   register: helm_sha256sum
 
-- name: Dojot | Helm | Download Helm
+- name: Metrics | Helm | Download Helm
   get_url:
     url: "{{ dojot_helm_mirror }}/{{ dojot_helm_redistributable_filename }}"
     dest: "{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}"
@@ -28,8 +28,8 @@
     validate_certs: yes
     mode: "u=rw,go=r"
 
-- name: Dojot | Helm | Create the Helm installation directory
-  become: yes
+- name: Metrics | Helm | Create the Helm installation directory
+  become: true
   file:
     state: directory
     owner: root
@@ -37,8 +37,8 @@
     mode: "u=rwx,go=x"
     dest: "{{ dojot_helm_install_dir }}"
 
-- name: Dojot | Helm | Install Helm
-  become: yes
+- name: Metrics | Helm | Install Helm
+  become: true
   unarchive:
     src: "{{ dojot_helm_download_dir }}/{{ dojot_helm_redistributable_filename }}"
     remote_src: yes
@@ -50,8 +50,8 @@
     mode: "o-w"
     creates: "{{ dojot_helm_install_dir }}/helm"
 
-- name: Dojot | Helm | Create Helm symlink to OS path
-  become: yes
+- name: Metrics | Helm | Create Helm symlink to OS path
+  become: true
   file:
     src: "{{ dojot_helm_install_dir }}/helm"
     dest: "/usr/local/bin/helm"
@@ -60,7 +60,7 @@
     group: root
     mode: "u=rwx,go=rx"
 
-- name: Dojot | Helm | Install Helm diff plugin for better idempotency
+- name: Metrics | Helm | Install Helm diff plugin for better idempotency
   kubernetes.core.helm_plugin:
     plugin_path: https://github.com/databus23/helm-diff
     state: present

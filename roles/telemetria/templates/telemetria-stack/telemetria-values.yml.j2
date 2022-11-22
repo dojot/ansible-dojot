@@ -1,0 +1,220 @@
+nameOverride: "telemetria"
+namespaceOverride: "{{ dojot_telemetria_namespace }}"
+
+defaultRules:
+  create: true
+  rules:
+    alertmanager: false
+    etcd: false
+    configReloaders: true
+    general: false
+    k8s: false
+    kubeApiserverAvailability: false
+    kubeApiserverBurnrate: false
+    kubeApiserverHistogram: false
+    kubeApiserverSlos: false
+    kubelet: false
+    kubeProxy: false
+    kubePrometheusGeneral: false
+    kubePrometheusNodeRecording: false
+    kubernetesApps: false
+    kubernetesResources: false
+    kubernetesStorage: false
+    kubernetesSystem: false
+    kubeScheduler: false
+    kubeStateMetrics: false
+    network: false
+    node: false
+    nodeExporterAlerting: false
+    nodeExporterRecording: false
+    prometheus: false
+    prometheusOperator: false
+
+  appNamespacesTarget: ".*"
+
+global:
+  rbac:
+    create: true
+
+alertmanager:
+  enabled: false
+
+grafana:
+  enabled: true
+  namespaceOverride: "{{ dojot_telemetria_namespace }}"
+  defaultDashboardsEnabled: false
+  defaultDashboardsTimezone: utc
+#  adminPassword: admin
+
+  grafana.ini:
+    auth.generic_oauth:
+      enabled: true
+      name: Keyclock
+      allow_sign_up: true
+      tls_skip_verify_insecure: true
+      login_attribute_path: preferred_username
+      scopes: "{{ scopes }}"
+      auth_url: http://{{ dojot_domain_name }}/auth/realms/admin/protocol/openid-connect/auth
+      token_url: http://{{ dojot_domain_name }}/auth/realms/admin/protocol/openid-connect/token
+      api_url: http://{{ dojot_domain_name }}/auth/realms/admin/protocol/openid-connect/userinfo
+      client_id: "{{ client_id }}"
+      client_secret: "{{ client_secret }}"
+#      role_attribute_strict: true
+      role_attribute_path: contains(realm_access.roles[*], 'grafana') && 'Admin' #contains(groups[*], '{{group_keyclock}}') && '{{group_visibility}}'
+    server:
+      root_url: http://{{ dojot_domain_name }}:30008
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  persistence:
+    type: pvc
+    enabled: true
+    accessModes:
+    - ReadWriteOnce
+    size: 8Gi
+    storageClassName: "{{ dojot_storage_class_name }}"
+    finalizers:
+      - kubernetes.io/pvc-protection
+    labels:
+      app: telemetria-grafana
+    name: telemetria-grafana
+    namespace: "{ dojot_telemetria_namespace }}"
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'telemetria'
+        orgId: 1
+        folder: 'telemetria'
+        type: file
+        disableDeletion: true
+        editable: false
+        options:
+          path: /var/lib/grafana/dashboards/telemetria
+
+  dashboards:
+    telemetria:
+      system-metrics:
+        gnetId: 16454
+        revision: 0
+        datasource: Prometheus
+
+  rbac:
+    pspEnabled: false
+
+  ingress:
+    enabled: false
+
+  sidecar:
+    dashboards:
+      enabled: true
+      label: grafana_dashboard
+      labelValue: "1"
+
+      annotations: {}
+      multicluster:
+        global:
+          enabled: true
+        etcd:
+          enabled: false
+      provider:
+        allowUiUpdates: false
+
+    datasources:
+      enabled: true
+      defaultDatasourceEnabled: false
+      label: grafana_datasource
+      labelValue: "1"
+
+  additionalDataSources:
+    - name: Postgres
+      type: postgres
+      acess: proxy
+      url: http://postgres.dojot.svc.cluster.local:5432
+      database: dojot_devm
+      user: postgres
+      secureJsonData:
+        password: "postgres"
+      jsonData:
+        sslmode: "disable"
+        maxOpenConns: 0
+        maxIdleConns: 2
+        connMaxLifetime: 14400
+        postgresVersion: 903
+        timescaledb: false
+      readOnly: false
+      editable: true
+    - name: InfluxDB
+      type: influxdb
+      access: proxy
+      url: http://influxdb.dojot.svc.cluster.local:8086
+      secureJsonData:
+        token: token
+      jsonData:
+        version: Flux
+        organization: admin
+        defaultBucket: devices
+      readOnly: false
+      editable: true
+  service:
+    portName: http-web
+    enabled: true
+    type: NodePort
+    port: 8088
+    targetPort: 3000
+    nodePort: "{{ dojot_nodeports.telemetria }}"
+
+  serviceMonitor:
+    enabled: true
+    path: "/metrics"
+    scheme: http
+    scrapeTimeout: 30s
+
+kubeApiServer:
+  enabled: false
+
+kubelet:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+coreDns:
+  enabled: false
+
+kubeDns:
+  enabled: false
+
+kubeEtcd:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: false
+
+  selfMonitor:
+    enabled: false
+
+nodeExporter:
+  enabled: false
+
+prometheusOperator:
+  enabled: false
+
+prometheus:
+  enabled: false
+
+thanosRuler:
+  enabled: false

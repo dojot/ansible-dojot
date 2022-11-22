@@ -91,3 +91,35 @@
     - monitoring-volumes
   roles:
     - role: undeploy/monitoring-volumes/directory
+
+# Telemetria stack -----------------------------
+
+# Delete monitoring deployment
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - telemetria
+  roles:
+    - role: undeploy/telemetria
+
+# Delete telemetria pv
+- hosts: master_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - telemetria-volumes
+  roles:
+    - role: undeploy/telemetria-volumes
+
+# Delete monitoring nodes volume directory
+- hosts: telemetria_data_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - telemetria-volumes
+  roles:
+    - role: undeploy/telemetria-volumes/directory

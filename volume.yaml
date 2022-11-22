@@ -66,6 +66,36 @@
       tags:
         - influxdb-chronograf
 
+- hosts: monitoring_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - volumes
+  roles:
+    - role: volumes/prometheus
+      when: optional['metrics']
+      tags:
+        - prometheus
+    - role: volumes/loki
+      when: optional['metrics']
+      tags:
+        - loki
+    - role: volumes/grafana
+      when: optional['metrics']
+      tags:
+        - grafana
+
+- hosts: telemetria_data_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - volumes
+  roles:
+    - role: volumes/telemetria-grafana
+      when: optional['telemetria']
+      tags:
+        - telemetria-grafana
+
 - hosts: master_nodes
   gather_facts: true
   any_errors_fatal: true
@@ -114,3 +144,19 @@
     - role: volumes/keycloak
       tags:
         - keycloak
+    - role: volumes/prometheus
+      when: optional['metrics']
+      tags:
+        - prometheus
+    - role: volumes/loki
+      when: optional['metrics']
+      tags:
+        - loki
+    - role: volumes/grafana
+      when: optional['metrics']
+      tags:
+        - grafana
+    - role: volumes/telemetria-grafana
+      when: optional['telemetria']
+      tags:
+        - telemetria-grafana

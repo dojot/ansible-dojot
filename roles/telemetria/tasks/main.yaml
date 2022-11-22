@@ -1,0 +1,8 @@
+---
+- name: Telemetria | Telemetria Basic | include Telemetria Namespace tasks
+  include_tasks: telemetria-namespace.yml
+  tags: telemetria-namespace
+
+- name: Telemetria | telemetria-stack | include telemetria-stack tasks
+  include_tasks: telemetria-stack.yml
+  tags: telemetria-stack
