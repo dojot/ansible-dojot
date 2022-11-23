@@ -1,5 +1,5 @@
 ---
-# roles/metrics/tasks/helm.yml
+# roles/helm/tasks/helm.yml
 - name: Dojot | Helm | Create download directory
   file:
     state: directory
