@@ -76,6 +76,8 @@ dojot_nodeports:
   agent:
     https: 30006
   influxdb: 30007
+  vault:
+    http: 30008
   telemetria: 30009
 
 ## Node affinity

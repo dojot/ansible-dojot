@@ -10,6 +10,7 @@ optional:
   vernemq: true
   #AutoScailing
   keda: false
+  vault: false
   #Monitoring
   telemetria: false
   metrics: false
