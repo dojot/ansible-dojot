@@ -59,10 +59,9 @@ grafana:
       api_url: http://{{ dojot_domain_name }}/auth/realms/admin/protocol/openid-connect/userinfo
       client_id: "{{ client_id }}"
       client_secret: "{{ client_secret }}"
-#      role_attribute_strict: true
-      role_attribute_path: contains(realm_access.roles[*], 'grafana') && 'Admin' #contains(groups[*], '{{group_keyclock}}') && '{{group_visibility}}'
+      role_attribute_path: contains(realm_access.roles[*], '{{group_keycloak}}') && '{{group_visibility}}'
     server:
-      root_url: http://{{ dojot_domain_name }}:30008
+      root_url: http://{{ dojot_domain_name }}:30009
 
   resources:
     limits:
@@ -101,8 +100,8 @@ grafana:
 
   dashboards:
     telemetria:
-      system-metrics:
-        gnetId: 16454
+      telemetria:
+        gnetId: 17464
         revision: 0
         datasource: Prometheus
 
@@ -134,10 +133,10 @@ grafana:
       labelValue: "1"
 
   additionalDataSources:
-    - name: Postgres
+    - name: PostgreSQL
       type: postgres
       acess: proxy
-      url: http://postgres.dojot.svc.cluster.local:5432
+      url: postgres.dojot.svc.cluster.local:5432
       database: dojot_devm
       user: postgres
       secureJsonData:

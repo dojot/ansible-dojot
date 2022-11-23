@@ -23,8 +23,8 @@ client_id: grafana
 
 client_secret: mTl2HE6l1qXxNDoW5mMvepFOQhOCelCV
 
-scopes: openid email profile roles
+scopes: openid email profile groups
 
-group_keyclock: grafana
+group_keycloak: Admin
 
 group_visibility: Admin
