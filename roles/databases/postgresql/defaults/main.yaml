@@ -3,28 +3,24 @@ dojot_psql_version: 9.5.21-alpine
 
 # Define credentials for the postgres super user
 dojot_psql_super_user: postgres
-dojot_psql_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets//.POSTGRES_PASSWORD') }}"
+dojot_psql_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"
+# Name of the default db created by postgres
+dojot_psql_default_db: postgres
 
 dojot_psql_kong_user: kong
-dojot_psql_kong_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets//.KONG_PASSWORD') }}"
+dojot_psql_kong_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.kong_password') }}"
 dojot_psql_kong_db: kong
 
 dojot_psql_ejbca_user: ejbca
-dojot_psql_ejbca_passwd: ejbca
+dojot_psql_ejbca_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.x509_ejbca_password') }}"
 dojot_psql_ejbca_db: ejbca
 
-dojot_psql_auth_user: auth
-dojot_psql_auth_passwd: auth
-
 dojot_psql_devm_user: devm
-dojot_psql_devm_passwd: devm
+dojot_psql_devm_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.devm_password') }}"
 
 dojot_psql_keycloak_user: keycloak
-dojot_psql_keycloak_passwd: keycloak
+dojot_psql_keycloak_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.keycloak_password') }}"
 dojot_psql_keycloak_db: keycloak
-
-# Name of the default db created by postgres
-dojot_psql_default_db: postgres
 
 # Port to be used with the postgreSQL DB
 dojot_psql_port: 5432

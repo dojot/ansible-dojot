@@ -245,6 +245,10 @@ before deploying dojot
 * *velero_backup_namespaces*: Backups settings. Defaults to `dojot` and `dojot-monitoring`. See [velero.yaml](../inventories/example_local/group_vars/all/velero.yaml) to more details.
 * *velero_prometheus_monitoring*: Whether active the monitoring. Must have Prometheus Operator installed and working. Defaults to `true`.
 
+### - Hashicorp Vault
+
+* *vault_url*: URL Vault. Defaults to `http://vault.{{ dojot_namespace }}.svc.cluster.local:8200`.
+
 ### - Optional Services
 
 * *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to **true**.
@@ -253,3 +257,4 @@ before deploying dojot
 * *optional[influxdb_chronograf]*: Defines whether Influxdb Chronograf service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
 * *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to **true**.
 * *optional[keda]*: Defines whether Keda will be enabled. Defaults to **false**.
+* *optional[vault]*: Defines whether Vault will be enabled. Defaults to **false**.

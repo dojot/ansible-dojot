@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-agent-basic
+  namespace: {{ dojot_namespace }}
+
+spec:
+  serviceName: "http-agent-basic"
+  selector:
+    matchLabels:
+      name: http-agent-basic
+  template:
+    metadata:
+      labels:
+        app: dojot
+        name: http-agent-basic
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: http-agent-basic
+        image: dojot/http-agent:{{ dojot_http_agent_version }}
+        env:
+        - name: HOSTNAME
+          value: http-agent-basic
+        - name: HTTP_AGENT_LOG_CONSOLE_LEVEL
+          value: "info"
+        - name: HTTP_AGENT_LOG_VERBOSE
+          value: "false"
+        - name: HTTP_AGENT_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: HTTP_AGENT_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: HTTP_AGENT_APP_USER_CONFIG_FILE
+          value: "default.conf"
+        - name: HTTP_AGENT_SECURITY_UNSECURE_MODE_ONLY
+          value: "true"
+        - name: HTTP_AGENT_SECURITY_UNSECURE_MODE
+          value: "true"
+        - name: HTTP_AGENT_SECURITY_AUTHORIZATION_MODE
+          value: "basic-auth"
+        - name: HTTP_AGENT_REDIS_HOST
+          value: http-agent-redis-basic
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+        config:
+          listeners:
+          - address: 0.0.0.0
+            port: {{ dojot_http_agent_unsecure_port }}
+            websocket: true
+          plugins: []
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}
+

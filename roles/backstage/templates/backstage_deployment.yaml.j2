@@ -24,8 +24,16 @@ spec:
         env:
         - name: LOCAL_URL
           value: {{ kong_url }}
+        - name: BS_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
         - name: BS_SESSION_SECRET
-          value: XeQNTdxLl8UGiOpgyEvm
+          valueFrom:
+            secretKeyRef:
+              name: backstage-secret
+              key: BS_SESSION_SECRET
         - name: BS_LOG_CONSOLE_LEVEL
           value: 'info'
         - name: BS_BASE_URL

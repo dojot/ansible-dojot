@@ -6,6 +6,8 @@
   tags:
     - bootstrap
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: k8s-api-bootstrap
 
@@ -15,13 +17,62 @@
   tags:
     - bootstrap
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: dojot-basic
+      tags:
+        - dojot-basic
+        - basic-mqtt
+        - basic-http
     - role: nfs-provisioner
       when: dojot_storage_class_name == "nfs"
       tags:
         - nfs-provisioner
         - 100k
+        - basic-mqtt
+        - basic-http
+
+# Install Helm
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - helm
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: helm
+
+# Deploy Vault to the environment
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: vault/consul
+      when: optional['vault']
+    - role: vault/vault
+      when: optional['vault']
+    - role: vault/external-secrets
+      when: optional['vault']
+
+# Deploy Vault to the environment
+- hosts: master_nodes
+  any_errors_fatal: true
+  tags:
+    - vault
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: vault/confs
+      tags:
+        - vault_confs
+      when: optional['vault']
 
 # Secrets
 - hosts: dojot-k8s[0]
@@ -31,6 +82,47 @@
       tags:
         - secrets
         - 100k
+        - basic-mqtt
+        - basic-http
+
+# Deploy PostgreSQL to the environment
+# TODO: Add possibility of using an external PostgreSQL by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - postgresql
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: databases/postgresql
+
+# Deploy InfluxDB to the environment
+# TODO: Add possibility of using an external InfluxDB by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - influxdb
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: databases/influxdb
+
+# Deploy MongoDB to the environment
+# TODO: Add possibility of using an external MongoDB by setting DB config variables
+# TODO: Support a HA cluster
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags:
+    - mongodb
+    - 100k
+    - basic-mqtt
+    - basic-http
+  roles:
+    - role: databases/mongodb
 
 # Keycloak configurations
 - hosts: dojot_nodes
@@ -38,6 +130,8 @@
   tags:
     - keycloak
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: keycloak/confs
 
@@ -47,6 +141,8 @@
   tags:
     - keycloak
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: keycloak
 
@@ -67,42 +163,11 @@
     - zookeeper
     - kafka
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: zookeeper
       when: not dojot_zk_use_external
-
-# Deploy PostgreSQL to the environment
-# TODO: Add possibility of using an external PostgreSQL by setting DB config variables
-# TODO: Support a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - postgresql
-    - 100k
-  roles:
-    - role: databases/postgresql
-
-# Deploy InfluxDB to the environment
-# TODO: Add possibility of using an external InfluxDB by setting DB config variables
-# TODO: Support a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - influxdb
-    - 100k
-  roles:
-    - role: databases/influxdb
-
-# Deploy MongoDB to the environment
-# TODO: Add possibility of using an external MongoDB by setting DB config variables
-# TODO: Support a HA cluster
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - mongodb
-    - 100k
-  roles:
-    - role: databases/mongodb
 
 # Deploy Kafka to the environment
 # TODO: Add possibility of using an external Kafka by setting config variables
@@ -112,18 +177,10 @@
   tags:
     - kafka
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: kafka
-
-# Deploy Helm to the environment
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags:
-    - helm
-    - 100k
-  roles:
-    - role: helm
-      when: optional['keda' or 'telemetria' or 'metrics']
 
 # Deploy Metrics Server to the environment
 - hosts: dojot-k8s[0]
@@ -131,6 +188,8 @@
   tags:
     - metrics-server
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: metrics-server
 
@@ -140,6 +199,8 @@
   tags:
     - keda
     - 100k
+    - basic-mqtt
+    - basic-http
   roles:
     - role: keda
       when: optional['keda']
@@ -152,8 +213,128 @@
   tags:
     - vernemq
     - 100k
+    - basic-mqtt
   roles:
     - role: vernemq
+
+# Deploy Dojot Components to the Environment
+# Deploy the dojot services
+- hosts: dojot-k8s[0]
+  any_errors_fatal: true
+  tags: dojot-components
+  roles:
+    - role: apigw
+      tags:
+        - apigw
+        - 100k
+        - basic-mqtt
+        - basic-http
+
+    - role: backstage
+      tags:
+        - backstage
+        - basic-mqtt
+        - basic-http
+
+    - role: device-manager
+      tags:
+        - device-manager
+        - 100k
+        - basic-mqtt
+        - basic-http
+
+    - role: influxdb-storer
+      tags:
+        - influxdb-storer
+        - 100k
+        - basic-mqtt
+        - basic-http
+
+    - role: influxdb-retriever
+      tags:
+        - influxdb-retriever
+        - 100k
+        - basic-mqtt
+        - basic-http
+
+    - role: influxdb-chronograf
+      tags:
+        - influxdb-chronograf
+        - 100k
+        - basic-mqtt
+        - basic-http
+
+    - role: data-manager
+      tags:
+        - data-manager
+
+    - role: cron
+      tags:
+        - cron
+
+    - role: v2k-bridge
+      tags:
+        - v2k-bridge
+        - 100k
+        - basic-mqtt
+
+    - role: k2v-bridge
+      tags:
+        - k2v-bridge
+        - 100k
+        - basic-mqtt
+
+    - role: kafka-ws
+      tags:
+        - kafka-ws
+        - 100k
+
+    - role: x509-identity-mgmt
+      tags:
+        - x509-identity-mgmt
+        - 100k
+        - basic-mqtt
+
+    - role: x509-ejbca
+      tags:
+        - x509-ejbca
+        - 100k
+        - basic-mqtt
+
+    - role: certificate-acl
+      tags:
+        - certificate-acl
+        - 100k
+        - basic-mqtt
+
+    - role: http-agent
+      tags:
+        - http-agent
+        - 100k
+
+    - role: http-agent-basic
+      tags:
+        - http-agent-basic
+        - 100k
+        - basic-http
+
+    - role: file-mgmt
+      tags:
+        - file-mgmt
+        - 100k
+
+    - role: basic-auth
+      tags:
+        - basic-auth
+        - 100k
+        - basic-http
+
+    - role: gui-nx
+      tags:
+        - gui-nx
+        - 100k
+        - basic-mqtt
+        - basic-http
 
 # Deploy Telemetria to the environment
 - hosts: dojot-k8s[0]
@@ -175,96 +356,3 @@
   roles:
     - role: metrics
       when: optional['metrics']
-
-# Deploy Dojot Components to the Environment
-# Deploy the dojot services
-- hosts: dojot-k8s[0]
-  any_errors_fatal: true
-  tags: dojot-components
-  roles:
-    - role: apigw
-      tags:
-        - apigw
-        - 100k
-
-    - role: backstage
-      tags:
-        - backstage
-
-    - role: device-manager
-      tags:
-        - device-manager
-        - 100k
-
-    - role: influxdb-storer
-      tags:
-        - influxdb-storer
-        - 100k
-
-    - role: influxdb-retriever
-      tags:
-        - influxdb-retriever
-        - 100k
-
-    - role: influxdb-chronograf
-      tags:
-        - influxdb-chronograf
-        - 100k
-
-    - role: data-manager
-      tags:
-        - data-manager
-
-    - role: cron
-      tags:
-        - cron
-
-    - role: v2k-bridge
-      tags:
-        - v2k-bridge
-        - 100k
-
-    - role: k2v-bridge
-      tags:
-        - k2v-bridge
-        - 100k
-
-    - role: kafka-ws
-      tags:
-        - kafka-ws
-        - 100k
-
-    - role: x509-identity-mgmt
-      tags:
-        - x509-identity-mgmt
-        - 100k
-
-    - role: x509-ejbca
-      tags:
-        - x509-ejbca
-        - 100k
-
-    - role: certificate-acl
-      tags:
-        - certificate-acl
-        - 100k
-
-    - role: http-agent
-      tags:
-        - http-agent
-        - 100k
-
-    - role: file-mgmt
-      tags:
-        - file-mgmt
-        - 100k
-
-    - role: basic-auth
-      tags:
-        - basic-auth
-        - 100k
-
-    - role: gui-nx
-      tags:
-        - gui-nx
-        - 100k

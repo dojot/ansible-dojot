@@ -1,6 +1,5 @@
 dojot_http_agent_version: "{{ dojot_backend_version }}"
 dojot_http_agent_port: 3000
-dojot_http_agent_unsecure_port: 3001
 
 dojot_kafka_port: 9092
 

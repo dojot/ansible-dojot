@@ -1,0 +1,29 @@
+- name:  dojot - Vault
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'vault_conf_policy_configmap.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_clusterrolebinding.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_configmap.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_discovery_rolebinding.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_discovery_role.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_ha_active_service.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_ha_standby_service.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_headless_service.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_serviceaccount.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_service.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_service_external.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_server_statefulset.yaml') | from_yaml }}"
+
+  - "{{ lookup('template', 'vault_agent_injector.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_injector_clusterrolebinding.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_injector_clusterrole.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_injector_deployment.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_injector_mutating_webhook.yaml') | from_yaml }}"
+  - "{{ lookup('template', 'vault_injector_service.yaml') | from_yaml }}"

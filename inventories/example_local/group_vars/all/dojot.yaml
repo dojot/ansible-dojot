@@ -1,7 +1,7 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_backend_version: development
-dojot_frontend_version: development
+dojot_backend_version: dev-alpha.2
+dojot_frontend_version: dev-alpha.2
 dojot_domain_name: localhost
 
 # Parameters used when active HTTPS in NGINX
@@ -27,9 +27,6 @@ dojot_auth_email_enabled: false
 
 # Allow the usage of insecure MQTT
 dojot_insecure_mqtt: "true"
-
-# Allow the usage of unsecure Agent HTTP
-dojot_enable_http_agent_unsecure: false
 
 ## Service Replicas ##
 # Number of replicas for VerneMQ

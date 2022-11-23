@@ -1,4 +1,30 @@
 ## This role is responsible for deploying InfluxDB for dojot
+- name: InfluxDB | Secret Vault
+  when: optional['vault'] and optional['influxdb']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'influxdb_external_secrets.yaml') | from_yaml }}"
+
+- name: InfluxDB | Secret Kubernetes
+  when: not optional['vault'] and optional['influxdb']
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'influxdb_secret.yaml.j2') | from_yaml }}"
+
 - name: dojot - InfluxDB Objects
   when: optional['influxdb']
   k8s:
@@ -13,8 +39,6 @@
   - "{{ lookup('template', 'influxdb_statefulset.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'influxdb_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'influxdb_external_service.yaml.j2') | from_yaml }}"
-  - "{{ lookup('template', 'influxdb_secret.yaml.j2') | from_yaml }}"
-
 
 - name: dojot - InfluxDB Jobs
   when: optional['influxdb']

@@ -35,13 +35,22 @@ spec:
         - name: DB_ADDR
           value: postgres
         - name: DB_DATABASE
-          value: keycloak
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-secret
+              key: user
         - name: DB_PASSWORD
-          value: keycloak
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-secret
+              key: password
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-secret
+              key: db
         - name: DB_PORT
           value: "5432"
-        - name: DB_USER
-          value: keycloak
         - name: DB_VENDOR
           value: postgres
         - name: DOJOT_ADMIN_PASSWORD
