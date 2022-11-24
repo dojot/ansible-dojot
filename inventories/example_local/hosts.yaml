@@ -2,9 +2,9 @@
 all:
   hosts:
     localhost:
-        ansible_connection: local
-        ansible_python.version.major: 3
-        ansible_python_interpreter: /usr/bin/python3
+      ansible_connection: local
+      ansible_python.version.major: 3
+      ansible_python_interpreter: /usr/bin/python3
     # If you are using ansible in a control node (outside of master) you should uncomment
     # master_host declaration (lines 11...14) and then change the lines 34 and 40
     # pointing to "master_host"
@@ -13,19 +13,19 @@ all:
     #     ansible_python.version.major: 3
     #     ansible_python_interpreter: /usr/bin/python3
     worker_host:
-        ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
-        ansible_python_interpreter: /usr/bin/python3
+      ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
+      ansible_python_interpreter: /usr/bin/python3
     nginx:
-        ansible_host: NGINX_HOST_ADDRESS #change to the host of NGINX
-        ansible_python_interpreter: /usr/bin/python3
+      ansible_host: NGINX_HOST_ADDRESS #change to the host of NGINX
+      ansible_python_interpreter: /usr/bin/python3
     haproxy:
-        ansible_host: HAPROXY_HOST_ADDRESS #change to the host of NGINX
-        ansible_python_interpreter: /usr/bin/python3
+      ansible_host: HAPROXY_HOST_ADDRESS #change to the host of NGINX
+      ansible_python_interpreter: /usr/bin/python3
     nfs_host:
-        ansible_host: NFS-SERVER_HOST_ADDRESS #change to the host of NFS Server
+      ansible_host: NFS-SERVER_HOST_ADDRESS #change to the host of NFS Server
     k3s_host:
-        ansible_host: K3S_HOST_ADDRESS #change to the host of K3S Server
-        ansible_python_interpreter: /usr/bin/python3
+      ansible_host: K3S_HOST_ADDRESS #change to the host of K3S Server
+      ansible_python_interpreter: /usr/bin/python3
 
   children:
     #host where dojot will be deployed
@@ -66,6 +66,10 @@ all:
         monitoring_nodes:
           hosts:
             worker_host: #host for x509 related services volumes (grafana; prometheus; loki)
+            # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
+        telemetria_data_nodes:
+          hosts:
+            worker_host: #host for x509 related services volumes (telemetria-grafana)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
 
     apigw_nodes:
