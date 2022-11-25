@@ -44,12 +44,11 @@ grafana:
   namespaceOverride: "{{ dojot_telemetria_namespace }}"
   defaultDashboardsEnabled: false
   defaultDashboardsTimezone: utc
-#  adminPassword: admin
 
   grafana.ini:
     auth.generic_oauth:
       enabled: true
-      name: Keyclock
+      name: Keycloak
       allow_sign_up: true
       tls_skip_verify_insecure: true
       login_attribute_path: preferred_username
@@ -103,7 +102,7 @@ grafana:
       telemetria:
         gnetId: 17464
         revision: 0
-        datasource: Prometheus
+        datasource: influxdb
 
   rbac:
     pspEnabled: false
@@ -136,7 +135,7 @@ grafana:
     - name: PostgreSQL
       type: postgres
       acess: proxy
-      url: postgres.dojot.svc.cluster.local:5432
+      url: postgres.{{ dojot_namespace }}.svc.cluster.local:5432
       database: dojot_devm
       user: postgres
       secureJsonData:
@@ -153,7 +152,7 @@ grafana:
     - name: InfluxDB
       type: influxdb
       access: proxy
-      url: http://influxdb.dojot.svc.cluster.local:8086
+      url: http://influxdb.{{ dojot_namespace }}.svc.cluster.local:8086
       secureJsonData:
         token: token
       jsonData:

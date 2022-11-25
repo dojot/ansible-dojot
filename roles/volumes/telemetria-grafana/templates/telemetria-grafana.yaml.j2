@@ -11,8 +11,15 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "{{ dojot_storage_class_name }}"
+{% if dojot_storage_class_name == "local-storage" %}
   local:
     path: {{ dojot_volume_directory }}/telemetria/telemetria-grafana
+{% endif %}
+{% if dojot_storage_class_name == "nfs" %}
+  nfs:
+    server: {{ hostvars.nfs_host.ansible_host }}
+    path: {{ dojot_volume_directory }}/telemetria/telemetria-grafana
+{% endif %}
   nodeAffinity:
     required:
       nodeSelectorTerms:
