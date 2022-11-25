@@ -5,7 +5,7 @@
     name: prometheus-community
     repo_url: "https://prometheus-community.github.io/helm-charts"
 
-- name: Metrics | Telemetria-Stack | Deploy Telemetria-stack chart with values loaded from template
+- name: Telemetria | Telemetria-Stack | Deploy Telemetria-stack chart with values loaded from template
   when: optional['telemetria']
   kubernetes.core.helm:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"

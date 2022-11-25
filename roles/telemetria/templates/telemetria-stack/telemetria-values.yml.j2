@@ -137,9 +137,9 @@ grafana:
       acess: proxy
       url: postgres.{{ dojot_namespace }}.svc.cluster.local:5432
       database: dojot_devm
-      user: postgres
+      user: "{{dojot_psql_super_user}}"
       secureJsonData:
-        password: "postgres"
+        password: "{{dojot_psql_super_passwd}}"
       jsonData:
         sslmode: "disable"
         maxOpenConns: 0
@@ -154,7 +154,7 @@ grafana:
       access: proxy
       url: http://influxdb.{{ dojot_namespace }}.svc.cluster.local:8086
       secureJsonData:
-        token: token
+        token: "{{dojot_influxdb_token}}"
       jsonData:
         version: Flux
         organization: admin
