@@ -53,9 +53,9 @@ grafana:
       tls_skip_verify_insecure: true
       login_attribute_path: preferred_username
       scopes: "{{ scopes }}"
-      auth_url: http://{{ dojot_domain_name }}/auth/realms/admin/protocol/openid-connect/auth
-      token_url: http://{{ dojot_domain_name }}/auth/realms/admin/protocol/openid-connect/token
-      api_url: http://{{ dojot_domain_name }}/auth/realms/admin/protocol/openid-connect/userinfo
+      auth_url: http://{{ dojot_domain_name }}/auth/realms/{{user_realm}}/protocol/openid-connect/auth
+      token_url: http://{{ dojot_domain_name }}/auth/realms/{{user_realm}}/protocol/openid-connect/token
+      api_url: http://{{ dojot_domain_name }}/auth/realms/{{user_realm}}/protocol/openid-connect/userinfo
       client_id: "{{ client_id }}"
       client_secret: "{{ client_secret }}"
       role_attribute_path: contains(realm_access.roles[*], '{{group_keycloak}}') && '{{group_visibility}}'
