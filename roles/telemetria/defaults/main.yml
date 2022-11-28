@@ -30,3 +30,10 @@ scopes: openid email profile groups
 group_keycloak: Admin
 
 group_visibility: Admin
+
+dojot_psql_super_user: postgres
+dojot_psql_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"
+# Name of the default db created by postgres
+dojot_psql_default_db: postgres
+
+dojot_influxdb_token: dojot@token_default

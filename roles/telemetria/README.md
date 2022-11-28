@@ -14,11 +14,11 @@ As the inclusion of services (Prometheus, Loki, Promtail and Grafana) is under d
 
 * If the balancer is already being used in the cluster, grafana has a port configured ``30009``. So just access the browser with the balancer IP and the mentioned port to access grafana.
 
-http://<ip-balancer>:30009
+http://<ip-balancer>:8088
 
 Example:
 
-http://196.10.100.103:30009
+http://196.10.100.103:8088
 
 ## How to deploy Telemetry solution?
 

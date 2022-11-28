@@ -1,5 +1,4 @@
 ---
-
 - name: Add an Apt signing key for nginx
   become: yes
   apt_key:
@@ -65,6 +64,7 @@
     - mqtts
     - http_agent
     - influxdb_web
+    - telemetria
 
 - name: Copy mqtt config files
   when: "{{ dojot_insecure_mqtt }}"

@@ -72,7 +72,6 @@
     repo_state: absent
     repo_name: "{{ item }}"
   with_items:
-    - "prometheus-community"
     - "grafana"
 
 - name: Delete telemetria CRD's (Custom Resource Definition)

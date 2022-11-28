@@ -88,18 +88,18 @@ grafana:
     dashboardproviders.yaml:
       apiVersion: 1
       providers:
-      - name: 'telemetria'
+      - name: 'dojot-telemetria'
         orgId: 1
         folder: 'telemetria'
         type: file
         disableDeletion: true
         editable: false
         options:
-          path: /var/lib/grafana/dashboards/telemetria
+          path: /var/lib/grafana/dashboards/dojot-telemetria
 
   dashboards:
-    telemetria:
-      telemetria:
+    dojot-telemetria:
+      telemetria-dash:
         gnetId: 17464
         revision: 0
         datasource: influxdb
@@ -161,11 +161,12 @@ grafana:
         defaultBucket: devices
       readOnly: false
       editable: true
+
   service:
     portName: http-web
     enabled: true
     type: NodePort
-    port: 8088
+    port: 3000
     targetPort: 3000
     nodePort: "{{ dojot_nodeports.telemetria }}"
 

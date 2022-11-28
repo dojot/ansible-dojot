@@ -100,7 +100,7 @@
     - role: volumes/telemetria-grafana
       when: optional['telemetria']
       tags:
-        - telemetria-grafana
+        - telemetria
 
 - hosts: master_nodes
   gather_facts: true
@@ -176,4 +176,4 @@
     - role: volumes/telemetria-grafana
       when: optional['telemetria']
       tags:
-        - telemetria-grafana
+        - telemetria
