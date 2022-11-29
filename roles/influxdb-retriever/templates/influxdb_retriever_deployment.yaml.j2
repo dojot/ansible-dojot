@@ -36,7 +36,11 @@ spec:
         - name: RETRIEVER_SYNC_DEVICES
           value: "http://device-manager-sidecar:5000/device"
         - name: RETRIEVER_SYNC_CRON_EXPRESSION
-          value: "*/3 * * *"
+          value: "0 0 */3 * * *"
+        - name: RETRIEVER_CONSUMER_TOPIC_METADATA_REFRESH_INTERVAL_MS
+          value: "6000"
+        - name: RETRIEVER_TOPIC_AUTO_OFFSET_RESET
+          value: "earliest"
         volumeMounts:
         - name: dojot-secrets-volume
           mountPath: "/secrets"
