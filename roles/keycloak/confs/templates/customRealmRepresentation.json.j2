@@ -107,6 +107,30 @@
                 "clientRole": false,
                 "containerId": "bea9700a-4561-4075-a089-ce49cfd39516",
                 "attributes": {}
+            },
+            {
+                "id": "ab1aaba2-ea14-4d47-935d-82d5da25dce7",
+                "name": "Admin",
+                "composite": false,
+                "clientRole": false,
+                "containerId": "admin",
+                "attributes": {}
+            },
+            {
+                "id": "7a6804af-5db5-48c8-ac77-f333d8dbf699",
+                "name": "Editor",
+                "composite": false,
+                "clientRole": false,
+                "containerId": "admin",
+                "attributes": {}
+            },
+            {
+                "id": "ed4cfd39-ae3f-425c-a4d4-8dacf9029ca6",
+                "name": "Viewer",
+                "composite": false,
+                "clientRole": false,
+                "containerId": "admin",
+                "attributes": {}
             }
         ],
         "client": {
@@ -484,7 +508,7 @@
                     "en"
                 ]
             },
-            "credentials": [                
+            "credentials": [
             ],
             "disableableCredentialTypes": [],
             "requiredActions": [
@@ -2517,6 +2541,67 @@
             }
         },
         {
+            "clientId": "grafana",
+            "rootUrl": "http://{{ dojot_domain_name }}",
+            "adminUrl": "http://{{ dojot_domain_name }}:8088",
+            "surrogateAuthRequired": false,
+            "enabled": true,
+            "alwaysDisplayInConsole": false,
+            "clientAuthenticatorType": "client-secret",
+            "redirectUris": [
+                "http://{{ dojot_domain_name }}:8088/*"
+            ],
+            "webOrigins": [
+                "http://{{ dojot_domain_name }}:8088"
+            ],
+            "notBefore": 0,
+            "bearerOnly": false,
+            "consentRequired": false,
+            "standardFlowEnabled": true,
+            "implicitFlowEnabled": false,
+            "directAccessGrantsEnabled": true,
+            "serviceAccountsEnabled": false,
+            "publicClient": true,
+            "frontchannelLogout": false,
+            "protocol": "openid-connect",
+            "attributes": {
+                "backchannel.logout.session.required": "true",
+                "backchannel.logout.revoke.offline.tokens": "false"
+            },
+            "authenticationFlowBindingOverrides": {},
+            "fullScopeAllowed": true,
+            "nodeReRegistrationTimeout": -1,
+            "protocolMappers": [
+                {
+                "id": "3f700ec4-14db-4119-bcd2-3fec7fc88bb7",
+                "name": "roles",
+                "protocol": "openid-connect",
+                "protocolMapper": "oidc-usermodel-realm-role-mapper",
+                "consentRequired": false,
+                "config": {
+                    "id.token.claim": "true",
+                    "access.token.claim": "true",
+                    "claim.name": "roles",
+                    "multivalued": "true",
+                    "userinfo.token.claim": "true"
+                }
+                }
+            ],
+            "defaultClientScopes": [
+                "web-origins",
+                "profile",
+                "roles",
+                "groups",
+                "email"
+            ],
+            "optionalClientScopes": [
+                "address",
+                "phone",
+                "offline_access",
+                "microprofile-jwt"
+            ]
+        },
+        {
             "id": "01bb7c4d-5505-4c69-8bb8-a9f284e91e60",
             "clientId": "dojot-iotagent-mqtt-sidecar",
             "rootUrl": "http://{{ dojot_domain_name }}/",
@@ -2897,6 +2982,16 @@
                     }
                 }
             ]
+        },
+        {
+            "id": "754ef285-60c6-4cac-87b6-5425a61d805b",
+            "name": "groups",
+            "description": "groups",
+            "protocol": "openid-connect",
+            "attributes": {
+                "include.in.token.scope": "true",
+                "display.on.consent.screen": "true"
+            }
         },
         {
             "id": "eac107aa-bdd8-44f0-8b40-87b80f0208a1",

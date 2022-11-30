@@ -37,7 +37,7 @@ config:
   datasource:
     host: postgres
     user: postgres
-    password: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets//.POSTGRES_PASSWORD') }}"
+    password: "{{dojot_psql_super_passwd}}"
     port: "5432"
     database: postgres
     sslmode: disable

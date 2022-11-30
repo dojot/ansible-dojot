@@ -185,11 +185,11 @@ grafana:
       label: grafana_datasource
       labelValue: "1"
 
-    additionalDataSources:
-      - name: loki
-        acess: proxy
-        editable: true
-        url: http://loki.dojot-monitoring.svc.cluster.local:3100
+  additionalDataSources:
+    - name: Loki
+      acess: proxy
+      editable: true
+      url: http://loki.dojot-monitoring.svc.cluster.local:3100
 
   service:
     portName: http-web

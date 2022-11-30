@@ -58,9 +58,9 @@ grafana:
       api_url: http://{{ dojot_domain_name }}/auth/realms/{{user_realm}}/protocol/openid-connect/userinfo
       client_id: "{{ client_id }}"
       client_secret: "{{ client_secret }}"
-      role_attribute_path: contains(realm_access.roles[*], '{{group_keycloak}}') && '{{group_visibility}}'
+      role_attribute_path: "contains(roles[*], 'Admin') && 'Admin' || contains(roles[*], 'Editor') && 'Editor' || contains(roles[*], 'Viewer') && 'Viewer'"
     server:
-      root_url: http://{{ dojot_domain_name }}:30009
+      root_url: http://{{ dojot_domain_name }}:8088
 
   resources:
     limits:
@@ -88,21 +88,21 @@ grafana:
     dashboardproviders.yaml:
       apiVersion: 1
       providers:
-      - name: 'dojot-telemetria'
+      - name: 'default'
         orgId: 1
-        folder: 'telemetria'
+        folder: 'Dojot'
         type: file
-        disableDeletion: true
-        editable: false
+        disableDeletion: false
+        editable: true
         options:
-          path: /var/lib/grafana/dashboards/dojot-telemetria
+          path: /var/lib/grafana/dashboards/default
 
   dashboards:
-    dojot-telemetria:
-      telemetria-dash:
-        gnetId: 17464
+    default:
+      Telemetria:
+        gnetId: 17518
         revision: 0
-        datasource: influxdb
+        datasource: InfluxDB
 
   rbac:
     pspEnabled: false
@@ -127,7 +127,7 @@ grafana:
 
     datasources:
       enabled: true
-      defaultDatasourceEnabled: false
+      defaultDatasourceEnabled: true
       label: grafana_datasource
       labelValue: "1"
 
@@ -135,6 +135,7 @@ grafana:
     - name: PostgreSQL
       type: postgres
       acess: proxy
+      uid: postgres
       url: postgres.{{ dojot_namespace }}.svc.cluster.local:5432
       database: dojot_devm
       user: "{{dojot_psql_super_user}}"
@@ -149,9 +150,11 @@ grafana:
         timescaledb: false
       readOnly: false
       editable: true
+
     - name: InfluxDB
       type: influxdb
       access: proxy
+      uid: influxdb
       url: http://influxdb.{{ dojot_namespace }}.svc.cluster.local:8086
       secureJsonData:
         token: "{{dojot_influxdb_token}}"

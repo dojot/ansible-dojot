@@ -23,13 +23,9 @@ user_realm: admin
 
 client_id: grafana
 
-client_secret: mTl2HE6l1qXxNDoW5mMvepFOQhOCelCV
+client_secret:
 
-scopes: openid email profile groups
-
-group_keycloak: Admin
-
-group_visibility: Admin
+scopes: profile
 
 dojot_psql_super_user: postgres
 dojot_psql_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"

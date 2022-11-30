@@ -5,16 +5,18 @@ dojot_monitoring_namespace: dojot-monitoring
 dojot_helm_install: true
 
 # Helm version number
-dojot_helm_version: '3.7.2'
+dojot_helm_version: "3.7.2"
 
 # The OS of the Helm redistributable
-dojot_helm_os: 'linux'
+dojot_helm_os: "linux"
 
 # The CPU architecture of the Helm executable to install
-dojot_helm_architecture: 'amd64'
+dojot_helm_architecture: "amd64"
 
 # Mirror to download Helm from
-dojot_helm_mirror: 'https://get.helm.sh'
+dojot_helm_mirror: "https://get.helm.sh"
 
 # Directory where Helm should be installed
-dojot_helm_install_dir: '/usr/local/share/helm'
+dojot_helm_install_dir: "/usr/local/share/helm"
+
+dojot_psql_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"
