@@ -36,18 +36,18 @@ ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy-monitoring.
 
 # How to use Grafana with Keycloak
 
-The first step is to access keycloak and create a ``client``. Then in the users section it is necessary to add a new group to create and add users.
+The first step is to access keycloak and create a ``Users``. Then in the users section it is necessary to add a new group to create and add users.
 
 Note: The username and email fields are mandatory when adding a new user.
 
 Note 2: The email can be generic, for example, project@123, user@user and etc.
 
-The environment variables must be filled after the client and users are included in the Keycloak for the deployment to be carried out:
+* Set a password: Set a password that needs to be at least 8 characters long, with at least one: uppercase character, special character and number character.
+
+* Define in Role Mappings the visibility for your user, between: Admin, Editor or Viewer.
+
+The environment variables must be modified if a client other than grafana is included and if a secret is created.
 
 * client_id -> Customer name created in Keycloak. Ex: grafana
 
-* client_secret -> Secret generated after creating the client. Ex: mTl2HE6l1qXxNDoW5mMvepFOQhOCelCV
-
-* group_keyclock -> Group that can be created to include users. Ex: grafana
-
-* group_visibility -> User visibility can be, Admin, Viewer or Editor. Ex: Admin
+* client_secret -> We left this variable blank so that it is not necessary to start the whole system and then have to restart the telemetry deployment to include the secret but we left the variable because it is necessary for grafana.ini and also to provide more security options. Ex: mTl2HE6l1qXxNDoW5mMvepFOQhOCelCV

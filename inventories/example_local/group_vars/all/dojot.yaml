@@ -1,13 +1,7 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-<<<<<<< HEAD
-dojot_telemetria_namespace: dojot-telemetria
 dojot_backend_version: dev-alpha.3
 dojot_frontend_version: dev-alpha.3
-=======
-dojot_backend_version: dev-alpha.3
-dojot_frontend_version: dev-alpha.3
->>>>>>> d6c651c4e5bff2a11b1055627615dcb626aa8adb
 dojot_domain_name: localhost
 
 # Parameters used when active HTTPS in NGINX
