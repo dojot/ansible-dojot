@@ -2,7 +2,7 @@
 
 ## About
 
-This readme contains the necessary steps to deploy  [`Grafana`](https://grafana.com/grafana/) for telemetry using keyclock for authentication
+This readme contains the necessary steps to deploy  [`Grafana`](https://grafana.com/grafana/) for telemetry using keycloak for authentication
 
 ## Disclaimer
 
