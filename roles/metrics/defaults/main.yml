@@ -18,5 +18,3 @@ dojot_helm_mirror: "https://get.helm.sh"
 
 # Directory where Helm should be installed
 dojot_helm_install_dir: "/usr/local/share/helm"
-
-dojot_psql_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"

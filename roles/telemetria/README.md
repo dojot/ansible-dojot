@@ -25,18 +25,18 @@ http://196.10.100.103:8088
 Initially, it is necessary to enable the ```telemetry``` option with ``true`` in the ``services.yaml`` file and after that just run the commands below:
 
 ```
-ansible-playbook -K -k -u dojot -i inventories/example_local/ volume.yaml
+ansible-playbook -K -k -u dojot -i inventories/example_local/ volume.yaml -t telemetria
 ```
 
 And:
 
 ```
-ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy-monitoring.yaml
+ansible-playbook -K -k -u dojot -i inventories/example_local/ deploy.yaml -t telemetria
 ```
 
 # How to use Grafana with Keycloak
 
-The first step is to access keycloak and create a ``Users``. Then in the users section it is necessary to add a new group to create and add users.
+The first step is to access keycloak and create a ``Users``.
 
 Note: The username and email fields are mandatory when adding a new user.
 

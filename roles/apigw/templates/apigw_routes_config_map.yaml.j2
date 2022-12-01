@@ -112,9 +112,6 @@ data:
         # service: backstage
         createEndpoint "backstage" "http://backstage:3005"  '"/backstage"' "false"
 
-        #telemetria
-        createEndpoint "telemetria-grafana" "http://telemetria-stack-grafana.dojot-telemetria.svc.cluster.local:3000/login" '"/telemetria"' "true"
-
         # service: cron
         createEndpoint "cron" "http://cron:5000/"  '"/cron"' "false"
         addAuthToEndpoint "cron"
