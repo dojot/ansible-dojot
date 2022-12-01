@@ -13,8 +13,15 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: {{ dojot_storage_class_name }}
+{% if dojot_storage_class_name == "local-storage" %}
   local:
     path: {{ dojot_volume_directory }}/kong/audit
+{% endif %}
+{% if dojot_storage_class_name == "nfs" %}
+  nfs:
+    server: {{ hostvars.nfs_host.ansible_host }}
+    path: {{ dojot_volume_directory }}/kong/audit
+{% endif %}
   nodeAffinity:
     required:
       nodeSelectorTerms:
