@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-kong-audit
+  labels:
+    type: local
+    app: dojot
+    name: kong-audit
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ dojot_storage_class_name }}
+  local:
+    path: {{ dojot_volume_directory }}/kong/audit
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/dojot
+          operator: In
+          values:
+          - "enabled"

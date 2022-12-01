@@ -1,1 +1,3 @@
 dojot_v2k_version: "{{ dojot_backend_version }}"
+
+dojot_kafka_port: 9092

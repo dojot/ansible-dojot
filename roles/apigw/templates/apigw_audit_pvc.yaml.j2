@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kong-audit
+  namespace: {{ dojot_namespace }}
+  labels:
+    app: dojot
+    name: kong-audit
+spec:
+{% if dojot_storage_class_name == "local-storage" %}
+  selector:
+    matchLabels:
+      app: dojot
+      name: kong-audit
+{% endif %}
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ dojot_storage_class_name }}
+  resources:
+    requests:
+      storage: 10Gi
