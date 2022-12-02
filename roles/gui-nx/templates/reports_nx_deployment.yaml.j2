@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: reports-nx
+    app: dojot
+  name: reports-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: reports-nx
+  template:
+    metadata:
+      labels:
+        name: reports-nx
+        app: dojot
+    spec:
+      containers:
+        - image: dojot/reports-nx:{{ dojot_gui_nx_version }}
+          name: reports-nx
+      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

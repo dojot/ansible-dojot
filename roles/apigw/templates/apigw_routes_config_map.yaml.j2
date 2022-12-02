@@ -155,6 +155,10 @@ data:
         # service: http-agent
         createEndpoint "http-agent" "http://http-agent-basic:3001"  '"/http-agent/v1/unsecure/incoming-messages(.*)"' "false"
 
+        # service: report-manager
+        createEndpoint "report-manager" "http://report-manager:3791"  '"/report-manager"' "true"
+        addAuthToEndpoint "report-manager"
+
         # services: GUI-NX
         createEndpoint "container-nx" "http://container-nx:80" '"/v2"' "true"
         createEndpoint "common-nx" "http://common-nx:80" '"/mfe/common"' "true"
@@ -163,7 +167,7 @@ data:
         createEndpoint "devices-nx" "http://devices-nx:80" '"/mfe/devices"' "true"
         createEndpoint "templates-nx" "http://templates-nx:80" '"/mfe/templates"' "true"
         createEndpoint "security-nx" "http://security-nx:80" '"/mfe/security"' "true"
-
+        createEndpoint "reports-nx" "http://reports-nx:80" '"/mfe/reports"' "true"
 
         echo "API Gateway Paths configured"
 
@@ -177,3 +181,21 @@ data:
             --data "config.generator=uuid" \
             --data "config.echo_downstream=false"
 
+        echo ""
+        echo ""
+        echo "*********************AUDIT*******************************"
+
+        curl -sS -X POST \
+        --url ${kong}/services/device-manager-devices/plugins/ \
+        --data "name=file-log"  \
+        --data "config.path=/home/kong/device.log"
+
+        curl -sS -X POST \
+        --url ${kong}/services/device-manager-template/plugins/ \
+        --data "name=file-log"  \
+        --data "config.path=/home/kong/template.log"
+
+        curl -sS -X POST \
+        --url ${kong}/services/x509-identity-mgmt/plugins/ \
+        --data "name=file-log"  \
+        --data "config.path=/home/kong/x509-identity-mgmt.log"
