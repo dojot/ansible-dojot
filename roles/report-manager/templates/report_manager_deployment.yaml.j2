@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: report-manager
+    app: dojot
+  name: report-manager
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: report-manager
+  template:
+    metadata:
+      labels:
+        name: report-manager
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/report-manager:{{ dojot_report_manager_version }}
+        name: report-manager
+        env:
+        - name: HOSTNAME
+          value: report-manager
+        - name: REPORT_MANAGER_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: REPORT_MANAGER_REDIS_HOST
+          value: report-manager-redis
+        - name: REPORT_MANAGER_POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: user
+        - name: REPORT_MANAGER_POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: REPORT_MANAGER_REDIS_HOST
+          value: report-manager-redis
+        - name: REPORT_MANAGER_KEYCLOAK_CLIENT_SECRET_FILE
+          value: "dojot-report-manager"
+        - name: REPORT_MANAGER_KEYCLOAK_URL
+          value: "http://keycloak:8080"
+        livenessProbe:
+          exec:
+            command:
+              - curl
+              - -f
+              - http://localhost:9000/health
+          failureThreshold: 3
+          periodSeconds: 30
+          timeoutSeconds: 20
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

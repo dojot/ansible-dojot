@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: report-manager-redis
+  name: report-manager-redis
+  namespace: {{ dojot_namespace }}
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+  selector:
+    name: report-manager-redis
+    app: dojot

@@ -344,3 +344,11 @@
         - 100k
         - basic-mqtt
         - basic-http
+
+    - role: report-manager
+      tags:
+        - gui-nx
+        - 100k
+        - basic-mqtt
+        - basic-http
+        - report-manager
