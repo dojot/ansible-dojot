@@ -186,6 +186,17 @@ before deploying dojot
 * *dojot_home_nx_port*: API Port of home_nx service. Defaults to **80**.
 * *dojot_security_nx_port*: API Port of security_nx service. Defaults to **80**.
 * *dojot_templates_nx_port*: API Port of templates_nx service. Defaults to **80**.
+* *dojot_reports_nx_port*: API Port of reports_nx service. Defaults to **80**.
+
+### - REPORT-MANAGER
+
+* *dojot_report_manager_version*: Version of the REPORT-MANAGER components. Defaults to **dojot_backend_version**.
+* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
+
+### - DEVICE-MANAGER-BATCH
+
+* *dojot_device_manager_batch_version*: Version of the DEVICE-MANAGER-BATCH components. Defaults to **dojot_backend_version**.
+* *dojot_kafka_port*: Port that will be used to communicate with Kafka. Defaults to **9092**.
 
 ### - Metrics and Logging
 
