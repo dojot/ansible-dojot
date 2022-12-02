@@ -1,8 +1,4 @@
 # Default variable values for the device-manager service
 
 dojot_device_manager_batch_version: "{{ dojot_backend_version }}"
-
 dojot_kafka_port: 9092
-
-dojot_psql_device_manager_batch_user: postgres
-dojot_psql_device_manager_batch_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"

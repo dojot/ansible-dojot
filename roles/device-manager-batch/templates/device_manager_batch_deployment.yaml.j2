@@ -28,12 +28,12 @@ spec:
         - name: DBUSER
           valueFrom:
             secretKeyRef:
-              name: device-manager-batch-secret
+              name: postgres-secret
               key: user
         - name: DBPASS
           valueFrom:
             secretKeyRef:
-              name: device-manager-batch-secret
+              name: postgres-secret
               key: password
         - name: DEVICEMANAGERBATCH_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
