@@ -245,6 +245,13 @@
         - basic-mqtt
         - basic-http
 
+    - role: device-manager-batch
+      tags:
+        - device-manager-batch
+        - 100k
+        - basic-mqtt
+        - basic-http
+
     - role: influxdb-storer
       tags:
         - influxdb-storer

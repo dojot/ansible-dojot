@@ -1,8 +1,8 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
-dojot_backend_version: dev-alpha.2
-dojot_frontend_version: dev-alpha.2
-dojot_domain_name: localhost
+dojot_backend_version: development
+dojot_frontend_version: development
+dojot_domain_name: 192.168.15.56
 
 # Parameters used when active HTTPS in NGINX
 # If dojot_enable_https_nginx = true, is necessary public IP and domain in NGINX server

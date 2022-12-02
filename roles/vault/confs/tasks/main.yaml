@@ -139,6 +139,7 @@
     dojot-certificate-acl={{ dojot_secret.stdout_lines[0] }} \
     dojot-cron={{ dojot_secret.stdout_lines[0] }} \
     dojot-device-manager-sidecar={{ dojot_secret.stdout_lines[0] }} \
+    dojot-device-manager-batch={{ dojot_secret.stdout_lines[0] }} \
     dojot-file-mgmt={{ dojot_secret.stdout_lines[0] }} \
     dojot-http-agent={{ dojot_secret.stdout_lines[0] }} \
     dojot-influxdb-retriever={{ dojot_secret.stdout_lines[0] }} \

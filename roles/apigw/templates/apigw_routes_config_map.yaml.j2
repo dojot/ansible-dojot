@@ -164,6 +164,9 @@ data:
         createEndpoint "templates-nx" "http://templates-nx:80" '"/mfe/templates"' "true"
         createEndpoint "security-nx" "http://security-nx:80" '"/mfe/security"' "true"
 
+        # service: device-manager-batch
+        createEndpoint "device-manager-batch" "http://device-manager-batch:8089" '"/device-manager-batch"' "true"
+        addAuthToEndpoint "device-manager-batch"
 
         echo "API Gateway Paths configured"
 
