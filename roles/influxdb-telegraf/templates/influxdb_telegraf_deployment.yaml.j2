@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: influxdb-telegraf
+    app: dojot
+  name: influxdb-telegraf
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: influxdb-telegraf
+  template:
+    metadata:
+      labels:
+        name: influxdb-telegraf
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/telegraf:{{ dojot_influxdb_telegraf_version }}
+        name: influxdb-telegraf
+        env:
+        - name: TELEGRAF_DATA_BATCH_SIZE
+          value: "10000"
+        - name: TELEGRAF_DATA_BUFFER_LIMIT
+          value: "20000"
+        - name: TELEGRAF_DATA_FLUSH_INTERVAL
+          value: "3s"
+        - name: TELEGRAF_DATA_READ_INTERVAL
+          value: "3s"
+        - name: TELEGRAF_DEBUG
+          value: "false"
+        - name: TELEGRAF_DEFAULT_RETENTION
+          value: "604800"
+        - name: TELEGRAF_INFLUXDB_BUCKET_NAME
+          value: "devices"
+        - name: TELEGRAF_INFLUXDB_TOKEN
+          value: "dojot@token_default"
+        - name: TELEGRAF_INFLUXDB_URL
+          value: "http://influxdb:8086"
+        - name: TELEGRAF_KAFKA_ACTUATE_TOPIC
+          value: "^.+dojot.device-manager.device.actuation"
+        - name: TELEGRAF_KAFKA_BROKER
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: TELEGRAF_KAFKA_CONSUMER_GROUP
+          value: "influxdb-telegraf"
+        - name: TELEGRAF_KAFKA_DATA_MAX_BUFFER
+          value: "10000"
+        - name: TELEGRAF_KAFKA_DATA_OFFSET
+          value: "oldest"
+        - name: TELEGRAF_KAFKA_DATA_TOPIC
+          value: "^.+device-data"
+        - name: TELEGRAF_KAFKA_DATA_TOPIC_REFRESH_INTERVAL
+          value: 180s
+        - name: TELEGRAF_KAFKA_TENANCY_OFFSET
+          value: "oldest"
+        - name: TELEGRAF_KAFKA_TENANCY_TOPIC
+          value: "dojot-management.dojot.tenancy"
+        - name: TELEGRAF_TENANCY_INTERVAL
+          value: "120s"
+        volumeMounts:
+          - name: configs
+            mountPath: /etc/telegraf/
+      volumes:
+      - name: configs
+        projected:
+          sources:
+          - configMap:
+              name: data-agent
+          - configMap:
+              name: tenancy-agent
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/database
+                operator: In
+                values:
+                - "enabled"
+{% endif %}
