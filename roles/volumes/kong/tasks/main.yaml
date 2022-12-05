@@ -4,8 +4,15 @@
   file:
     path: "{{ dojot_volume_directory }}/kong"
     state: directory
-  when: (dojot_storage_class_name == "local-storage") and
-        ('dojot_nodes' in group_names)
+  when: ('dojot_nodes' in group_names)
+
+- name: Create kong/audit directory if it does not exists
+  become: true
+  file:
+    path: "{{ dojot_volume_directory }}/kong/audit"
+    state: directory
+    mode: "777"
+  when: ('dojot_nodes' in group_names)
 
 - name: Create kong volume
   k8s:
@@ -20,3 +27,16 @@
   - "{{ lookup('template', 'apigw.yaml.j2') | from_yaml }}"
   when: (dojot_storage_class_name == "local-storage") and
         ('master_nodes' in group_names)
+
+- name: Create kong/audit volume
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+  - "{{ lookup('template', 'apigw_audit.yaml.j2') | from_yaml }}"
+  when: ('master_nodes' in group_names)

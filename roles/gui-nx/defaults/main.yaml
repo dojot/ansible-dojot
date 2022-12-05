@@ -11,6 +11,8 @@ dojot_devices_nx_port: 80
 
 dojot_home_nx_port: 80
 
+dojot_reports_nx_port: 80
+
 dojot_security_nx_port: 80
 
 dojot_templates_nx_port: 80

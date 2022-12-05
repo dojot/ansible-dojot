@@ -89,7 +89,12 @@ spec:
         volumeMounts:
         - name: kong
           mountPath: /certs
+        - name: kong-audit
+          mountPath: /home/kong
       volumes:
       - name: kong
         persistentVolumeClaim:
           claimName: kong
+      - name: kong-audit
+        persistentVolumeClaim:
+          claimName: kong-audit
