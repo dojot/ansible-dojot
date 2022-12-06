@@ -1,0 +1,4 @@
+dojot_influxdb_telegraf_version: "{{ dojot_backend_version }}"
+dojot_influxdb_telegraf_log_level: info
+
+dojot_kafka_port: 9092

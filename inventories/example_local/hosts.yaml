@@ -61,7 +61,7 @@ all:
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
         database_nodes:
           hosts:
-            worker_host: #host for influxDB related services volumes (influxDB; retriever; storer; chronograf)
+            worker_host: #host for influxDB related services volumes (influxDB; retriever; telegraf; chronograf)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
         monitoring_nodes:
           hosts:
