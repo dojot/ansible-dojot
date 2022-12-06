@@ -119,14 +119,8 @@ before deploying dojot
 * *dojot_influxdb_passwd*: InfluxDB admin password. Defaults to **dojot@password**.
 * *dojot_influxdb_organization_name*: InfluxDB organization name. Defaults to **admin**.
 * *dojot_influxdb_bucket*: InfluxDB bucket name. Defaults to **devices**.
-* *dojot_influxdb_retention*: InfluxDB data retention period for *dojot_influxdb_organization_name*, for other retentions it is necessary to use an environment variable in the influxdb-storer. Valid units are nanoseconds (ns), microseconds (us or µs), milliseconds (ms), seconds (s), minutes (m), hours (h), days (d),  weeks (w) and 0 is infinite retention. It is considered only the first time that InfluxDB is started. Defaults to **7d**.
+* *dojot_influxdb_retention*: InfluxDB data retention period for *dojot_influxdb_organization_name*, for other retentions it is necessary to use an environment variable in the influxdb-telegraf. Valid units are nanoseconds (ns), microseconds (us or µs), milliseconds (ms), seconds (s), minutes (m), hours (h), days (d),  weeks (w) and 0 is infinite retention. It is considered only the first time that InfluxDB is started. Defaults to **7d**.
 * *dojot_influxdb_volume_size*: Size of the InfluxDB volumes that are created. Defaults to **2Gi**.
-
-
-### - Dojot InfluxDB Storer
-
-* *dojot_influxdb_storer_version*: InfluxDB Storer container version. Defaults to **dojot_backend_version**.
-* *dojot_influxdb_storer_log_level*: InfluxDB Storer log level. Defaults to **info**.
 
 
 ### - Dojot InfluxDB Retriever
@@ -263,7 +257,7 @@ before deploying dojot
 ### - Optional Services
 
 * *optional[influxdb]*: Defines whether InfluxDB will be enabled. Defaults to **true**.
-* *optional[influxdb_storer]*: Defines whether InfluxDB Storer service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
+* *optional[influxdb_telegraf]*: Defines whether InfluxDB Telegraf service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
 * *optional[influxdb_retriever]*: Defines whether InfluxDB Retriever service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
 * *optional[influxdb_chronograf]*: Defines whether Influxdb Chronograf service will be enabled. It will only be enabled if InfluxDB is enabled as well. Defaults to **true**.
 * *optional[vernemq]*: Defines whether IotAgent VerneMQ will be enabled. Defaults to **true**.

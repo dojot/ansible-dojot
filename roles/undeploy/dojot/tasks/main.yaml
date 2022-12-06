@@ -14,6 +14,21 @@
     name: "{{ item }}"
   loop: "{{ cronjob_list | json_query('resources[*].metadata.name') }}"
 
+- name: Get the ConfigMap in the dojot namespace
+  k8s_info:
+    kind: ConfigMap
+    namespace: "{{ dojot_namespace }}"
+  register: configmap_list
+
+- name:  Delete ConfigMap
+  k8s:
+    state: absent
+    api_version: v1
+    kind: ConfigMap
+    namespace: "{{ dojot_namespace }}"
+    name: "{{ item }}"
+  loop: "{{ configmap_list | json_query('resources[*].metadata.name') }}"
+
 - name: Delete kafka-server StatefulSet
   k8s:
     api_version: v1
