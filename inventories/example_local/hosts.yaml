@@ -84,6 +84,6 @@ all:
     metrics_nodes:
       hosts:
         METRICS_HOST_ADDRESS: #change to the host of Metrics worker node on k8s
-   telemetria_nodes:
+    telemetria_nodes:
       hosts:
         TELEMETRIA_HOST_ADDRESS: #change to the host of Telemetria worker node on k8s

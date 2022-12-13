@@ -12,7 +12,7 @@ As the inclusion of services (Prometheus, Loki, Promtail and Grafana) is under d
 
 ## How to view and access data in grafana?
 
-* If the balancer is already being used in the cluster, grafana has a port configured ``30009``. So just access the browser with the balancer IP and the mentioned port to access grafana.
+* If the balancer is already being used in the cluster, grafana has a port configured ``8088``. So just access the browser with the balancer IP and the mentioned port to access grafana.
 
 http://<ip-balancer>:8088
 

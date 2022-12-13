@@ -161,6 +161,7 @@
     - 'kubectl patch pv pv-keycloak-init -p ''{"spec":{"claimRef": null}}'''
     - 'kubectl patch pv pv-keycloak -p ''{"spec":{"claimRef": null}}'''
     - 'kubectl patch pv pv-kong -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-kong-audit -p ''{"spec":{"claimRef": null}}'''
     - 'kubectl patch pv pv-minio-files -p ''{"spec":{"claimRef": null}}'''
     - 'kubectl patch pv pv-mongo -p ''{"spec":{"claimRef": null}}'''
     - 'kubectl patch pv pv-postgres -p ''{"spec":{"claimRef": null}}'''
