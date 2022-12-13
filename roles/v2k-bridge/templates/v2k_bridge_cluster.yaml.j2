@@ -51,6 +51,8 @@ spec:
               fieldPath: metadata.name
         - name: V2K_PRODUCER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: V2K_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
         - name: V2K_MQTT_PORT
           value: "9883"
         - name: V2K_MQTT_CA
@@ -64,6 +66,9 @@ spec:
         volumeMounts:
         - mountPath: /certs
           name: v2k-certs
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
       - name: v2k-sidecar
         image: dojot/cert-sidecar:{{ dojot_v2k_version }}
         readinessProbe:

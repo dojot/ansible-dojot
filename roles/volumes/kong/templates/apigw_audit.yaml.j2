@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-kong-audit
+  labels:
+    type: local
+    app: dojot
+    name: kong-audit
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ dojot_storage_class_name }}
+{% if dojot_storage_class_name == "local-storage" %}
+  local:
+    path: {{ dojot_volume_directory }}/kong/audit
+{% endif %}
+{% if dojot_storage_class_name == "nfs" %}
+  nfs:
+    server: {{ hostvars.nfs_host.ansible_host }}
+    path: {{ dojot_volume_directory }}/kong/audit
+{% endif %}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/dojot
+          operator: In
+          values:
+          - "enabled"

@@ -3,9 +3,10 @@
 optional:
   #InfluxDB Services
   influxdb: true
-  influxdb_storer: true #It will only be enabled if InfluxDB is enabled as well
   influxdb_retriever: true #It will only be enabled if InfluxDB is enabled as well
   influxdb_chronograf: true #It will only be enabled if InfluxDB is enabled as well
+  influxdb_telegraf: true #It will only be enabled if InfluxDB is enabled as well
+
   #IotAgents
   vernemq: true
   #AutoScailing

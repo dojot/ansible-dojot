@@ -144,6 +144,9 @@
     dojot-influxdb-retriever={{ dojot_secret.stdout_lines[0] }} \
     dojot-iotagent-mqtt-sidecar={{ dojot_secret.stdout_lines[0] }} \
     dojot-x509-identity-mgmt={{ dojot_secret.stdout_lines[0] }} \
+    dojot-report-manager={{ dojot_secret.stdout_lines[0] }} \
+    dojot-v2k-bridge={{ dojot_secret.stdout_lines[0] }} \
+    dojot-device-manager-batch={{ dojot_secret.stdout_lines[0] }} \
     KEYCLOAK_PROXY={{ dojot_secret.stdout_lines[0] }} \
     KEYCLOAK_PROXY_USER={{ dojot_secret.stdout_lines[0] }}"
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/backstage BS_SESSION_SECRET={{ backstage_secret.stdout_lines[0] }}"

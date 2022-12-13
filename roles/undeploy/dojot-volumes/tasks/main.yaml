@@ -14,6 +14,7 @@
     - "pv-keycloak-init"
     - "pv-keycloak"
     - "pv-kong"
+    - "pv-kong-audit"
     - "pv-minio-files"
     - "pv-mongo"
     - "pv-postgres"

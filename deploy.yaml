@@ -243,9 +243,9 @@
         - basic-mqtt
         - basic-http
 
-    - role: influxdb-storer
+    - role: influxdb-telegraf
       tags:
-        - influxdb-storer
+        - influxdb-telegraf
         - 100k
         - basic-mqtt
         - basic-http
@@ -356,3 +356,10 @@
   roles:
     - role: metrics
       when: optional['metrics']
+    - role: report-manager
+      tags:
+        - gui-nx
+        - 100k
+        - basic-mqtt
+        - basic-http
+        - report-manager

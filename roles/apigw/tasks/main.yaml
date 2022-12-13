@@ -54,6 +54,7 @@
   delay: 10
   loop:
   - "{{ lookup('template', 'apigw_pvc.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'apigw_audit_pvc.yaml.j2') | from_yaml }}"
 
 
 - name: dojot - Gather the number of the node port for the ApiGW
