@@ -1,4 +1,4 @@
-- name: Metrics | Alertmanager | Add alertmanager helm repository
+- name: Metrics | Alertmanager | Add prometheus helm repository
   when: optional['metrics']
   kubernetes.core.helm_repository:
     name: prometheus-community
