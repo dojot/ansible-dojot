@@ -12,5 +12,5 @@
     chart_ref: prometheus-community/kube-prometheus-stack
     chart_version: 41.6.0
     release_name: telemetria-stack
-    release_namespace: "{{ dojot_telemetria_namespace }}"
+    release_namespace: "{{ dojot_namespace }}"
     values: "{{ lookup('template', 'telemetria-stack/telemetria-values.yml.j2') | from_yaml }}"

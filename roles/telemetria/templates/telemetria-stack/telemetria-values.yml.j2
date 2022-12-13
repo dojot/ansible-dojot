@@ -1,5 +1,5 @@
 nameOverride: "telemetria"
-namespaceOverride: "{{ dojot_telemetria_namespace }}"
+namespaceOverride: "{{ dojot_namespace }}"
 
 defaultRules:
   create: true
@@ -41,7 +41,7 @@ alertmanager:
 
 grafana:
   enabled: true
-  namespaceOverride: "{{ dojot_telemetria_namespace }}"
+  namespaceOverride: "{{ dojot_namespace }}"
   defaultDashboardsEnabled: false
   defaultDashboardsTimezone: utc
 
@@ -82,7 +82,7 @@ grafana:
     labels:
       app: telemetria-grafana
     name: telemetria-grafana
-    namespace: "{ dojot_telemetria_namespace }}"
+    namespace: "{ dojot_namespace }}"
 
   dashboardProviders:
     dashboardproviders.yaml:
@@ -97,12 +97,8 @@ grafana:
         options:
           path: /var/lib/grafana/dashboards/default
 
-  dashboards:
-    default:
-      Telemetria:
-        gnetId: 17518
-        revision: 0
-        datasource: InfluxDB
+  dashboardsConfigMaps:
+    default: "telemetria-dashboard"
 
   rbac:
     pspEnabled: false
@@ -127,9 +123,11 @@ grafana:
 
     datasources:
       enabled: true
-      defaultDatasourceEnabled: true
+      defaultDatasourceEnabled: false
       label: grafana_datasource
       labelValue: "1"
+
+  envFromSecret: "postgres-secret"
 
   additionalDataSources:
     - name: PostgreSQL
@@ -138,9 +136,9 @@ grafana:
       uid: postgres
       url: postgres.{{ dojot_namespace }}.svc.cluster.local:5432
       database: dojot_devm
-      user: "{{dojot_psql_super_user}}"
+      user: "${user}"
       secureJsonData:
-        password: "{{dojot_psql_super_passwd}}"
+        password: "${password}"
       jsonData:
         sslmode: "disable"
         maxOpenConns: 0
@@ -169,7 +167,7 @@ grafana:
     portName: http-web
     enabled: true
     type: NodePort
-    port: 3000
+    port: 88
     targetPort: 3000
     nodePort: "{{ dojot_nodeports.telemetria }}"
 

@@ -3,6 +3,10 @@
   include_tasks: basic.yml
   tags: basic
 
+- name: Dashboard | monitoring-dashboard | include monitoring-dashboard tasks
+  include_tasks: monitoring-dashboard.yml
+  tags: monitoring-dashboard
+
 - name: Metrics | monitoring-stack | include monitoring-stack tasks
   include_tasks: monitoring-stack.yml
   tags: prometheus-stack

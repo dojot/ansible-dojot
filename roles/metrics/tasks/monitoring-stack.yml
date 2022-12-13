@@ -10,7 +10,7 @@
   kubernetes.core.helm:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     chart_ref: prometheus-community/kube-prometheus-stack
-    chart_version: 41.6.0
+    chart_version: 37.2.0
     release_name: prometheus-stack
     release_namespace: "{{ dojot_monitoring_namespace }}"
     values: "{{ lookup('template', 'monitoring-stack/stack-values.yml.j2') | from_yaml }}"

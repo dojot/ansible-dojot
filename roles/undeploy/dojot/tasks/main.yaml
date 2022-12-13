@@ -5,7 +5,7 @@
     namespace: "{{ dojot_namespace }}"
   register: cronjob_list
 
-- name:  Delete CronJob
+- name: Delete CronJob
   k8s:
     state: absent
     api_version: v1
@@ -28,7 +28,7 @@
     namespace: dojot
   register: pod_list
 
-- name:  Delete StatefulSet
+- name: Delete StatefulSet
   k8s:
     state: absent
     api_version: v1
@@ -43,7 +43,7 @@
     namespace: dojot
   register: pod_list
 
-- name:  Delete Deployments
+- name: Delete Deployments
   k8s:
     state: absent
     api_version: v1
@@ -58,7 +58,7 @@
     namespace: dojot
   register: pod_list
 
-- name:  Delete Jobs
+- name: Delete Jobs
   k8s:
     state: absent
     api_version: v1
@@ -73,7 +73,7 @@
     namespace: dojot
   register: pod_list
 
-- name:  Delete Services
+- name: Delete Services
   k8s:
     state: absent
     api_version: v1
@@ -88,7 +88,7 @@
     namespace: dojot
   register: pod_list
 
-- name:  Delete Pods
+- name: Delete Pods
   k8s:
     state: absent
     api_version: v1
@@ -103,7 +103,7 @@
     namespace: dojot
   register: daemon_set_list
 
-- name:  Delete DaemonSet
+- name: Delete DaemonSet
   k8s:
     state: absent
     api_version: v1
@@ -138,22 +138,23 @@
   ignore_errors: true
   command: "{{ item }}"
   with_items:
-    - "kubectl patch pv pv-certificate-acl -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-influxdb -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-influxdb-chronograf -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-kafka -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-kafka-ws -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-keycloak-init -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-keycloak -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-kong -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-minio-files -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-mongo -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-postgres -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-x509-ejbca -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-x509-identity-mgmt -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-zk-data -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-zk-log -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-consul-server -p '{\"spec\":{\"claimRef\": null}}'"
+    - 'kubectl patch pv pv-certificate-acl -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-influxdb -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-influxdb-chronograf -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-kafka -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-kafka-ws -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-keycloak-init -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-keycloak -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-kong -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-minio-files -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-mongo -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-postgres -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-x509-ejbca -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-x509-identity-mgmt -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-zk-data -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-zk-log -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-consul-server -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-telemetria-grafana -p ''{"spec":{"claimRef": null}}'''
 
 - name: Uninstall External Secrets helm service
   kubernetes.core.helm:
@@ -167,10 +168,42 @@
     path: "{{ ansible_facts.user_dir }}/{{item.file}}"
     state: absent
   loop:
-    - { file: 'shard1' }
-    - { file: 'shard2' }
-    - { file: 'shard3' }
+    - { file: "shard1" }
+    - { file: "shard2" }
+    - { file: "shard3" }
   when: optional['vault']
+
+# Telemetria -------------------------------------------------
+- name: Uninstall helm services
+  kubernetes.core.helm:
+    release_state: absent
+    release_name: "{{ item }}"
+    release_namespace: "{{dojot_namespace}}"
+  with_items:
+    - "grafana"
+
+- name: Remove Helm repositories
+  kubernetes.core.helm_repository:
+    repo_state: absent
+    repo_name: "{{ item }}"
+  with_items:
+    - "grafana"
+
+- name: Delete telemetria CRD's (Custom Resource Definition)
+  k8s:
+    api_version: v1
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "alertmanagerconfigs.monitoring.coreos.com"
+    - "alertmanagers.monitoring.coreos.com"
+    - "podmonitors.monitoring.coreos.com"
+    - "probes.monitoring.coreos.com"
+    - "prometheuses.monitoring.coreos.com"
+    - "prometheusrules.monitoring.coreos.com"
+    - "servicemonitors.monitoring.coreos.com"
+    - "thanosrulers.monitoring.coreos.com"
 
 # Keda -------------------------------------------------------
 - name: Keda | Get the Deployments in the keda namespace
@@ -218,7 +251,6 @@
     name: "{{ item }}"
   loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
 
-
 - name: Keda | Delete keda CRDs
   k8s:
     api_version: v1
@@ -226,10 +258,10 @@
     name: "{{ item }}"
     state: absent
   with_items:
-     - "scaledjobs.keda.sh"
-     - "clustertriggerauthentications.keda.sh"
-     - "scaledobjects.keda.sh"
-     - "triggerauthentications.keda.sh"
+    - "scaledjobs.keda.sh"
+    - "clustertriggerauthentications.keda.sh"
+    - "scaledobjects.keda.sh"
+    - "triggerauthentications.keda.sh"
   when: optional['keda']
 
 - name: Keda | Uninstall Keda helm service

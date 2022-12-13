@@ -2,7 +2,7 @@
 - name: Remove Telemetria volume directory
   become: yes
   file:
-    path: "{{ dojot_volume_directory }}/telemetria/{{item.path}}"
+    path: "{{ dojot_volume_directory }}/{{item.path}}"
     state: absent
   loop:
     - { path: "telemetria-grafana" }

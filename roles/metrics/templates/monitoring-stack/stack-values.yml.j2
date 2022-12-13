@@ -80,24 +80,11 @@ grafana:
         options:
           path: /var/lib/grafana/dashboards/default
 
+  dashboardsConfigMaps:
+    default: "monitoring-dashboard"
+
   dashboards:
-    default:
-      system-metrics:
-        gnetId: 16454
-        revision: 0
-        datasource: Prometheus
-      container-metrics:
-        gnetId: 17147
-        revision: 0
-        datasource: Prometheus
-      dojot-100k:
-        gnetId: 16565
-        revision: 0
-        datasource: Prometheus
-      k8s-pods-metrics:
-        gnetId: 17149
-        revision: 0
-        datasource: Prometheus
+    monitoring:
       k8s-cluster-monitoring:
         gnetId: 315
         revision: 0
@@ -110,44 +97,16 @@ grafana:
         gnetId: 15696
         revision: 0
         datasource: Prometheus
-      vmq-node:
-        gnetId: 15695
-        revision: 0
-        datasource: Prometheus
+#      vmq-node:
+#        gnetId: 15695
+#        revision: 0
+#        datasource: Prometheus
       k8s-memory-namespace:
         gnetId: 13421
         revision: 0
         datasource: Prometheus
-      kafka-stats:
-        gnetId: 15965
-        revision: 0
-        datasource: Prometheus
       vernemq:
         gnetId: 15598
-        revision: 0
-        datasource: Prometheus
-      kong-dash:
-        gnetId: 7424
-        revision: 5
-        datasource: Prometheus
-      influxdb:
-        gnetId: 17148
-        revision: 0
-        datasource: Prometheus
-      mongodb:
-        gnetId: 15596
-        revision: 0
-        datasource: Prometheus
-      postgres:
-        gnetId: 17151
-        revision: 7
-        datasource: Prometheus
-      RabbitMQ-Overview:
-        gnetId: 10991
-        revision: 0
-        datasource: Prometheus
-      overview-stats:
-        gnetId: 17150
         revision: 0
         datasource: Prometheus
       locust-for-prometheus:
@@ -444,7 +403,7 @@ prometheusOperator:
     resources:
       limits:
         cpu: 200m
-        memory: 50Mi
+        memory: 128Mi
       requests:
         cpu: 200m
         memory: 50Mi
@@ -529,7 +488,7 @@ prometheus:
     resources:
       limits:
         cpu: 100m
-        memory: 64Mi
+        memory: 128Mi
       requests:
         cpu: 10m
         memory: 32Mi

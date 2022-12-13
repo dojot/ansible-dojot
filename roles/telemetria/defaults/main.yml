@@ -1,6 +1,3 @@
-# Namespace that will be created for monitoring specifics services
-dojot_telemetria_namespace: dojot-telemetria
-
 # Whether to install helm3 binary or not
 dojot_helm_install: true
 
@@ -26,10 +23,5 @@ client_id: grafana
 client_secret:
 
 scopes: profile
-
-dojot_psql_super_user: postgres
-dojot_psql_super_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"
-# Name of the default db created by postgres
-dojot_psql_default_db: postgres
 
 dojot_influxdb_token: dojot@token_default

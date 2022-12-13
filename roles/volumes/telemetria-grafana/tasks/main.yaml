@@ -2,11 +2,10 @@
 - name: Create telemetria-grafana directory if it does not exists
   become: true
   file:
-    path: "{{ dojot_volume_directory }}/telemetria/telemetria-grafana"
+    path: "{{ dojot_volume_directory }}/telemetria-grafana"
     state: directory
     mode: "2775"
-  when: (dojot_storage_class_name == "local-storage") and
-    ('telemetria_data_nodes' in group_names)
+  when: ('master_nodes' in group_names)
 
 - name: Create telemetria-grafana volume
   k8s:
@@ -19,5 +18,4 @@
   delay: 10
   loop:
     - "{{ lookup('template', 'telemetria-grafana.yaml.j2') | from_yaml }}"
-  when: (dojot_storage_class_name == "local-storage") and
-    ('master_nodes' in group_names)
+  when: ('master_nodes' in group_names)

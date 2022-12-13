@@ -94,7 +94,7 @@
 
 # Telemetria stack -----------------------------
 
-# Delete monitoring deployment
+# Delete Telemetria deployment
 - hosts: master_nodes
   gather_facts: true
   any_errors_fatal: true
@@ -102,7 +102,7 @@
     - never
     - telemetria
   roles:
-    - role: undeploy/telemetria
+    - role: undeploy/dojot-volumes/directory/telemetria
 
 # Delete telemetria pv
 - hosts: master_nodes
@@ -112,7 +112,7 @@
     - never
     - telemetria-volumes
   roles:
-    - role: undeploy/telemetria-volumes
+    - role: undeploy/dojot-volumes/directory/telemetria
 
 # Delete monitoring nodes volume directory
 - hosts: telemetria_data_nodes
@@ -122,4 +122,4 @@
     - never
     - telemetria-volumes
   roles:
-    - role: undeploy/telemetria-volumes/directory
+    - role: undeploy/dojot-volumes/directory/telemetria
