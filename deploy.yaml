@@ -336,6 +336,14 @@
         - basic-mqtt
         - basic-http
 
+    - role: report-manager
+      tags:
+        - gui-nx
+        - 100k
+        - basic-mqtt
+        - basic-http
+        - report-manager
+
 # Deploy Telemetria to the environment
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
@@ -356,10 +364,3 @@
   roles:
     - role: metrics
       when: optional['metrics']
-    - role: report-manager
-      tags:
-        - gui-nx
-        - 100k
-        - basic-mqtt
-        - basic-http
-        - report-manager

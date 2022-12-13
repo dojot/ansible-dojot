@@ -100,7 +100,7 @@
   any_errors_fatal: true
   tags:
     - never
-    - telemetria
+    - dojot
   roles:
     - role: undeploy/dojot-volumes/directory/telemetria
 
@@ -110,16 +110,16 @@
   any_errors_fatal: true
   tags:
     - never
-    - telemetria-volumes
+    - dojot-volumes
   roles:
     - role: undeploy/dojot-volumes/directory/telemetria
 
-# Delete monitoring nodes volume directory
+# Delete telemetria nodes volume directory
 - hosts: telemetria_data_nodes
   gather_facts: true
   any_errors_fatal: true
   tags:
     - never
-    - telemetria-volumes
+    - dojot-volumes
   roles:
     - role: undeploy/dojot-volumes/directory/telemetria

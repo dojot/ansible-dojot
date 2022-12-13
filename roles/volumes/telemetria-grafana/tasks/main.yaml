@@ -5,7 +5,7 @@
     path: "{{ dojot_volume_directory }}/telemetria-grafana"
     state: directory
     mode: "2775"
-  when: ('master_nodes' in group_names)
+  when: ('telemetria_data_nodes' in group_names)
 
 - name: Create telemetria-grafana volume
   k8s:
@@ -18,4 +18,4 @@
   delay: 10
   loop:
     - "{{ lookup('template', 'telemetria-grafana.yaml.j2') | from_yaml }}"
-  when: ('master_nodes' in group_names)
+  when: ('telemetria_data_nodes' in group_names)

@@ -1,5 +1,5 @@
 - name: Config Map Dashboards Grafana | Monitoring
-  when: not optional['vault']
+  when: not optional['vault'] and optional['metrics']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

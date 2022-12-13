@@ -1,4 +1,4 @@
-- name: Metrics | Prometheus | Add prometheus helm repository
+- name: Metrics | Kafka-exporter | Add prometheus helm repository
   when: optional['metrics']
   kubernetes.core.helm_repository:
     name: prometheus-community

@@ -9,9 +9,9 @@ all:
     # master_host declaration (lines 11...14) and then change the lines 34 and 40
     # pointing to "master_host"
     # master_host:
-    #     ansible_host: MASTER_HOST_ADDRESS #change to the host of master node on k8s
-    #     ansible_python.version.major: 3
-    #     ansible_python_interpreter: /usr/bin/python3
+    #   ansible_host: MASTER_HOST_ADDRESS #change to the host of master node on k8s
+    #   ansible_python.version.major: 3
+    #   ansible_python_interpreter: /usr/bin/python3
     worker_host:
       ansible_host: WORKER_HOST_ADDRESS #change to the host of worker node on k8s
       ansible_python_interpreter: /usr/bin/python3
