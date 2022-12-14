@@ -33,11 +33,13 @@ rbac:
 serviceAccount:
   create: false
 
+envFromSecret: "postgres-secret"
+
 config:
   datasource:
     host: postgres
     user: postgres
-    password: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.postgres_password') }}"
+    password: "${password}"
     port: "5432"
     database: postgres
     sslmode: disable
