@@ -83,36 +83,6 @@ grafana:
   dashboardsConfigMaps:
     default: "monitoring-dashboard"
 
-  dashboards:
-    monitoring:
-      k8s-cluster-monitoring:
-        gnetId: 315
-        revision: 0
-        datasource: Prometheus
-      locust:
-        gnetId: 15701
-        revision: 0
-        datasource: Prometheus
-      vmq-cluster:
-        gnetId: 15696
-        revision: 0
-        datasource: Prometheus
-#      vmq-node:
-#        gnetId: 15695
-#        revision: 0
-#        datasource: Prometheus
-      k8s-memory-namespace:
-        gnetId: 13421
-        revision: 0
-        datasource: Prometheus
-      vernemq:
-        gnetId: 15598
-        revision: 0
-        datasource: Prometheus
-      locust-for-prometheus:
-        gnetId: 12081
-        revision: 0
-        datasource: Prometheus
 
   rbac:
     pspEnabled: false
@@ -139,16 +109,16 @@ grafana:
       defaultDatasourceEnabled: true
 
       uid: prometheus
-      url: http://prometheus-stack-kube-prom-prometheus.dojot-monitoring.svc.cluster.local:9090
+      url: http://monitoring-stack-kube-prom-prometheus.dojot-monitoring.svc.cluster.local:9090
       createPrometheusReplicasDatasources: false
       label: grafana_datasource
       labelValue: "1"
 
-  additionalDataSources:
-    - name: Loki
-      acess: proxy
-      editable: true
-      url: http://loki.dojot-monitoring.svc.cluster.local:3100
+    additionalDataSources:
+      - name: Loki
+        acess: proxy
+        editable: true
+        url: http://loki.dojot-monitoring.svc.cluster.local:3100
 
   service:
     portName: http-web

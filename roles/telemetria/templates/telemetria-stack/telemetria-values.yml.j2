@@ -112,7 +112,6 @@ grafana:
       label: grafana_dashboard
       labelValue: "1"
 
-      annotations: {}
       multicluster:
         global:
           enabled: true
@@ -167,7 +166,7 @@ grafana:
       editable: true
 
   service:
-    portName: http-web
+    portName: http-telemetria
     enabled: true
     type: NodePort
     port: 88
