@@ -115,7 +115,7 @@
     - role: undeploy/dojot-volumes/directory/telemetria
 
 # Delete telemetria nodes volume directory
-- hosts: telemetria_data_nodes
+- hosts: dojot_nodes
   gather_facts: true
   any_errors_fatal: true
   tags:

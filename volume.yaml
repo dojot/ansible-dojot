@@ -30,6 +30,11 @@
         - vault
       when: optional['vault']
 
+    - role: volumes/telemetria-grafana
+      when: optional['telemetria']
+      tags:
+        - telemetria
+
 - hosts: kafka_nodes
   gather_facts: true
   any_errors_fatal: true
@@ -90,17 +95,6 @@
       when: optional['metrics']
       tags:
         - grafana
-
-- hosts: telemetria_data_nodes
-  gather_facts: true
-  any_errors_fatal: true
-  tags:
-    - volumes
-  roles:
-    - role: volumes/telemetria-grafana
-      when: optional['telemetria']
-      tags:
-        - telemetria
 
 - hosts: master_nodes
   gather_facts: true
