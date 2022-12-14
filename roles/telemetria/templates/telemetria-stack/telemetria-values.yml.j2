@@ -128,6 +128,9 @@ grafana:
       labelValue: "1"
 
   envFromSecret: "postgres-secret"
+  envFromSecrets: 
+    - name: "influxdb-secret"
+      optional: true
 
   additionalDataSources:
     - name: PostgreSQL
@@ -155,7 +158,7 @@ grafana:
       uid: influxdb
       url: http://influxdb.{{ dojot_namespace }}.svc.cluster.local:8086
       secureJsonData:
-        token: "{{dojot_influxdb_token}}"
+        token: "${admin-token}"
       jsonData:
         version: Flux
         organization: admin

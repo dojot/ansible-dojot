@@ -23,5 +23,3 @@ client_id: grafana
 client_secret:
 
 scopes: profile
-
-dojot_influxdb_token: dojot@token_default
