@@ -1,5 +1,5 @@
 ---
-- name: Create telemetria-grafana directory if it does not exists
+- name: Telemetria | Create telemetria-grafana directory if it does not exists
   become: true
   file:
     path: "{{ dojot_volume_directory }}/telemetria-grafana"
@@ -7,7 +7,7 @@
     mode: "2775"
   when: ('dojot_nodes' in group_names)
 
-- name: Create telemetria-grafana volume
+- name: Telemetria | Create telemetria-grafana volume
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     state: present

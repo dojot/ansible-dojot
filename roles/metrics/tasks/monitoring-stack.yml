@@ -5,7 +5,7 @@
     name: prometheus-community
     repo_url: "https://prometheus-community.github.io/helm-charts"
 
-- name: Metrics | monitoring-stack | Deploy kube-prometheus-stack chart with values loaded from template
+- name: Metrics | Monitoring-stack | Deploy kube-prometheus-stack chart with values loaded from template
   when: optional['metrics']
   kubernetes.core.helm:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"

@@ -1,4 +1,4 @@
-- name: Config Map Dashboards Grafana | Telemetria
+- name: Telemetria | Config Map Dashboards Grafana
   when: optional['telemetria']
   k8s:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"

@@ -79,21 +79,21 @@
     release_name: "{{ item }}"
     release_namespace: "{{ dojot_monitoring_namespace }}"
   with_items:
-  - "promtail"
-  - "prometheus-stack"
-  - "loki"
-  - "alertmanager"
-  - "kafka-exporter"
-  - "mongodb-exporter"
-  - "postgres-exporter"
+    - "promtail"
+    - "prometheus-stack"
+    - "loki"
+    - "alertmanager"
+    - "kafka-exporter"
+    - "mongodb-exporter"
+    - "postgres-exporter"
 
 - name: Remove Helm repositories
   kubernetes.core.helm_repository:
     repo_state: absent
     repo_name: "{{ item }}"
   with_items:
-  - "prometheus-community"
-  - "grafana"
+    - "prometheus-community"
+    - "grafana"
 
 - name: Delete monitoring CRD's (Custom Resource Definition)
   k8s:
@@ -102,19 +102,19 @@
     name: "{{ item }}"
     state: absent
   with_items:
-  - "alertmanagerconfigs.monitoring.coreos.com"
-  - "alertmanagers.monitoring.coreos.com"
-  - "podmonitors.monitoring.coreos.com"
-  - "probes.monitoring.coreos.com"
-  - "prometheuses.monitoring.coreos.com"
-  - "prometheusrules.monitoring.coreos.com"
-  - "servicemonitors.monitoring.coreos.com"
-  - "thanosrulers.monitoring.coreos.com"
+    - "alertmanagerconfigs.monitoring.coreos.com"
+    - "alertmanagers.monitoring.coreos.com"
+    - "podmonitors.monitoring.coreos.com"
+    - "probes.monitoring.coreos.com"
+    - "prometheuses.monitoring.coreos.com"
+    - "prometheusrules.monitoring.coreos.com"
+    - "servicemonitors.monitoring.coreos.com"
+    - "thanosrulers.monitoring.coreos.com"
 
 - name: Disassociate dojot old PV's
   ignore_errors: true
   command: "{{ item }}"
   with_items:
-  - 'kubectl patch pv pv-prometheus -p ''{"spec":{"claimRef": null}}'''
-  - 'kubectl patch pv pv-grafana -p ''{"spec":{"claimRef": null}}'''
-  - 'kubectl patch pv pv-loki -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-prometheus -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-grafana -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-loki -p ''{"spec":{"claimRef": null}}'''

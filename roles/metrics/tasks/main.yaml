@@ -3,7 +3,7 @@
   include_tasks: basic.yml
   tags: basic
 
-- name: Dashboard | monitoring-dashboard | include monitoring-dashboard tasks
+- name: Metrics | Monitoring-Dashboard | Include monitoring-dashboard tasks
   include_tasks: monitoring-dashboard.yml
   tags: monitoring-dashboard
 
@@ -35,10 +35,10 @@
   include_tasks: mongodb.yml
   tags: mongodb-exporter
 
-- name: Metrics | Secret Postgres | include Secrets Postgres tasks
+- name: Metrics | Secret Postgres | Include Secrets Postgres tasks
   include_tasks: postgres-secret.yml
   tags: postgres-secret
 
-- name: Metrics | postgres-exporter | include postgres-exporter tasks
+- name: Metrics | Postgres-Exporter | Include postgres-exporter tasks
   include_tasks: postgres.yml
   tags: postgres-exporter
