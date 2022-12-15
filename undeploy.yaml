@@ -60,6 +60,16 @@
   roles:
     - role: undeploy/dojot-volumes/directory/database
 
+# Delete telemetria nodes volume directory
+- hosts: dojot_nodes
+  gather_facts: true
+  any_errors_fatal: true
+  tags:
+    - never
+    - dojot-volumes
+  roles:
+    - role: undeploy/dojot-volumes/directory/telemetria
+
 # Monitoring stack -----------------------------
 
 # Delete monitoring deployment
@@ -92,34 +102,3 @@
   roles:
     - role: undeploy/monitoring-volumes/directory
 
-# Telemetria stack -----------------------------
-
-# Delete Telemetria deployment
-- hosts: master_nodes
-  gather_facts: true
-  any_errors_fatal: true
-  tags:
-    - never
-    - dojot
-  roles:
-    - role: undeploy/dojot-volumes/directory/telemetria
-
-# Delete telemetria pv
-- hosts: master_nodes
-  gather_facts: true
-  any_errors_fatal: true
-  tags:
-    - never
-    - dojot-volumes
-  roles:
-    - role: undeploy/dojot-volumes/directory/telemetria
-
-# Delete telemetria nodes volume directory
-- hosts: dojot_nodes
-  gather_facts: true
-  any_errors_fatal: true
-  tags:
-    - never
-    - dojot-volumes
-  roles:
-    - role: undeploy/dojot-volumes/directory/telemetria

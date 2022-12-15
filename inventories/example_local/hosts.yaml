@@ -67,10 +67,6 @@ all:
           hosts:
             worker_host: #host for x509 related services volumes (grafana; prometheus; loki)
             # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
-        telemetria_data_nodes:
-          hosts:
-            worker_host: #host for x509 related services volumes (telemetria-grafana)
-            # nfs_host: #host for dojot related services volumes. If you are using NFS volume with NFS SERVER you should uncomment this line and comment the line above.
 
     apigw_nodes:
       hosts:
