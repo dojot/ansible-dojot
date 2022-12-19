@@ -1,0 +1,21 @@
+---
+- name: Telemetria | Create telemetria-grafana directory if it does not exists
+  become: true
+  file:
+    path: "{{ dojot_volume_directory }}/telemetria-grafana"
+    state: directory
+    mode: "2775"
+  when: ('dojot_nodes' in group_names)
+
+- name: Telemetria | Create telemetria-grafana volume
+  k8s:
+    kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
+    state: present
+    definition: "{{ item }}"
+  register: result
+  until: result.failed == 0
+  retries: 30
+  delay: 10
+  loop:
+    - "{{ lookup('template', 'telemetria-grafana.yaml.j2') | from_yaml }}"
+  when: ('master_nodes' in group_names)

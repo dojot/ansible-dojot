@@ -1,12 +1,12 @@
 # Nodenames of dojot worker nodes that will be labeled
-dojot_dojot_nodenames:   # Nodes that will receive the label for the rest of the services
+dojot_dojot_nodenames: # Nodes that will receive the label for the rest of the services
   - k8s-worker-nodename
 # - k8s-worker2-nodename #If you want you can add multiple nodes to receive the same label
 
-dojot_kafka_nodenames:   # Nodes that will receive the label for Kafka, Zookeeper and Kafka Loopback services
+dojot_kafka_nodenames: # Nodes that will receive the label for Kafka, Zookeeper and Kafka Loopback services
   - k8s-worker-nodename
 
-dojot_x509_nodenames:    # Nodes that will receive the label for x509 and Certificate ACL services
+dojot_x509_nodenames: # Nodes that will receive the label for x509 and Certificate ACL services
   - k8s-worker-nodename
 
 dojot_vernemq_nodenames: # Nodes that will receive the label for VerneMQ, K2V and V2K services
@@ -16,4 +16,7 @@ dojot_database_nodenames: # Nodes that will receive the label for InfluxDB, Retr
   - k8s-worker-nodename
 
 dojot_monitoring_nodenames: # Nodes that will receive the label for monitoring services
+  - k8s-worker-nodename
+
+dojot_telemetria_nodenames: # Nodes that will receive the label for telemetria services
   - k8s-worker-nodename

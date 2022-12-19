@@ -1,0 +1,8 @@
+---
+- name: Dashboard | telemetria-dashboard | include telemetria-dashboard tasks
+  include_tasks: telemetria-dashboard.yml
+  tags: telemetria-dashboard
+
+- name: Telemetria | telemetria-stack | include telemetria-stack tasks
+  include_tasks: telemetria-stack.yml
+  tags: telemetria-stack
