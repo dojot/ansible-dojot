@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: device-manager-batch
+    app: dojot
+  name: device-manager-batch
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: device-manager-batch
+  template:
+    metadata:
+      labels:
+        name: device-manager-batch
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: dojot/device-manager-batch:{{ dojot_device_manager_batch_version }}
+        name: device-manager-batch
+        env:
+        - name: DEVICEMANAGERBATCH_DATABASE_HOST
+          value: postgres
+        - name: DEVICEMANAGERBATCH_DATABASE_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: user
+        - name: DEVICEMANAGERBATCH_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: DEVICEMANAGERBATCH_CONSUMER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: DEVICEMANAGERBATCH_PRODUCER_METADATA_BROKER_LIST
+          value: "kafka-server:{{ dojot_kafka_port }}"
+        - name: DEVICEMANAGERBATCH_KEYCLOAK_CLIENT_ID
+          value: dojot-device-manager-batch
+        - name: DEVICEMANAGERBATCH_KEYCLOAK_CLIENT_SECRET_FILE
+          value: dojot-device-manager-batch
+        - name: DEVICEMANAGERBATCH_KEYCLOAK_TENANTS_URL
+          value: http://keycloak-proxy:8081/api/v1/tenant
+        - name: DEVICEMANAGERBATCH_KEYCLOAK_URL
+          value: http://keycloak:8080
+        - name: HOSTNAME
+          value: device-manager-batch
+        volumeMounts:
+        - name: dojot-secrets-volume
+          mountPath: "/secrets"
+          readOnly: true
+      volumes:
+      - name: dojot-secrets-volume
+        secret:
+          secretName: dojot-secrets
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}
