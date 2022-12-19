@@ -1,11 +1,13 @@
 ---
 # roles/metrics/tasks/loki.yml
 - name: Metrics | Loki | Add grafana helm repository
+  when: optional['metrics']
   kubernetes.core.helm_repository:
     name: grafana
     repo_url: "https://grafana.github.io/helm-charts"
 
 - name: Metrics | Loki | Deploy Loki chart with values loaded from template
+  when: optional['metrics']
   kubernetes.core.helm:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     chart_ref: grafana/loki

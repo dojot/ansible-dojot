@@ -80,80 +80,9 @@ grafana:
         options:
           path: /var/lib/grafana/dashboards/default
 
-  dashboards:
-    default:
-      system-metrics:
-        gnetId: 16454
-        revision: 0
-        datasource: Prometheus
-      container-metrics:
-        gnetId: 17147
-        revision: 0
-        datasource: Prometheus
-      dojot-100k:
-        gnetId: 16565
-        revision: 0
-        datasource: Prometheus
-      k8s-pods-metrics:
-        gnetId: 17149
-        revision: 0
-        datasource: Prometheus
-      k8s-cluster-monitoring:
-        gnetId: 315
-        revision: 0
-        datasource: Prometheus
-      locust:
-        gnetId: 15701
-        revision: 0
-        datasource: Prometheus
-      vmq-cluster:
-        gnetId: 15696
-        revision: 0
-        datasource: Prometheus
-      vmq-node:
-        gnetId: 15695
-        revision: 0
-        datasource: Prometheus
-      k8s-memory-namespace:
-        gnetId: 13421
-        revision: 0
-        datasource: Prometheus
-      kafka-stats:
-        gnetId: 15965
-        revision: 0
-        datasource: Prometheus
-      vernemq:
-        gnetId: 15598
-        revision: 0
-        datasource: Prometheus
-      kong-dash:
-        gnetId: 7424
-        revision: 5
-        datasource: Prometheus
-      influxdb:
-        gnetId: 17148
-        revision: 0
-        datasource: Prometheus
-      mongodb:
-        gnetId: 15596
-        revision: 0
-        datasource: Prometheus
-      postgres:
-        gnetId: 17151
-        revision: 7
-        datasource: Prometheus
-      RabbitMQ-Overview:
-        gnetId: 10991
-        revision: 0
-        datasource: Prometheus
-      overview-stats:
-        gnetId: 17150
-        revision: 0
-        datasource: Prometheus
-      locust-for-prometheus:
-        gnetId: 12081
-        revision: 0
-        datasource: Prometheus
+  dashboardsConfigMaps:
+    default: "monitoring-dashboard"
+
 
   rbac:
     pspEnabled: false
@@ -180,13 +109,13 @@ grafana:
       defaultDatasourceEnabled: true
 
       uid: prometheus
-      url: http://prometheus-stack-kube-prom-prometheus.dojot-monitoring.svc.cluster.local:9090
+      url: http://monitoring-stack-kube-prom-prometheus.dojot-monitoring.svc.cluster.local:9090
       createPrometheusReplicasDatasources: false
       label: grafana_datasource
       labelValue: "1"
 
     additionalDataSources:
-      - name: loki
+      - name: Loki
         acess: proxy
         editable: true
         url: http://loki.dojot-monitoring.svc.cluster.local:3100
@@ -444,7 +373,7 @@ prometheusOperator:
     resources:
       limits:
         cpu: 200m
-        memory: 50Mi
+        memory: 128Mi
       requests:
         cpu: 200m
         memory: 50Mi
@@ -529,7 +458,7 @@ prometheus:
     resources:
       limits:
         cpu: 100m
-        memory: 64Mi
+        memory: 128Mi
       requests:
         cpu: 10m
         memory: 32Mi
@@ -588,13 +517,6 @@ prometheus:
             - postgres-exporter-prometheus-postgres-exporter.dojot-monitoring.svc.cluster.local:80
         scrape_interval: 5m
         scrape_timeout: 30s
-
-      - job_name: rabbitmq-exporter
-        static_configs:
-          - targets:
-            - rabbitmq-exporter-prometheus-rabbitmq-exporter.dojot-monitoring.svc.cluster.local:9419
-        scrape_interval: 5m
-        scrape_timeout: 1m
 
     securityContext:
       runAsGroup: 2000
