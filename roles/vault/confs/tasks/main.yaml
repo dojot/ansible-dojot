@@ -3,15 +3,15 @@
   until: task_result.rc == 0
   retries: 30
   delay: 30
-  shell: "if [ ! -s {{ ansible_facts.user_dir }}/.cluster-keys.yaml ]; then kubectl exec -n {{ dojot_namespace }} vault-0 -- vault operator init -key-shares=5 -key-threshold=3 -format=yaml > .cluster-keys.yaml; fi"
+  shell: "if [ ! -s {{ ansible_facts.user_dir }}/.cluster-keys.yaml ]; then kubectl exec -n {{ dojot_namespace }} vault-0 -- vault operator init -key-shares=5 -key-threshold=3 -format=yaml >  {{ ansible_facts.user_dir }}/.cluster-keys.yaml; fi"
   ignore_errors: true
   when: ('master_nodes' in group_names)
 
 - name: VAULT | Create secret from file with key shard and root_token
-  shell: "cat .cluster-keys.yaml | head -7 | tail -1 | sed 's/- //g' > shard1; \
-  cat .cluster-keys.yaml | head -8 | tail -1 | sed 's/- //g' > shard2; \
-  cat .cluster-keys.yaml | head -9 | tail -1 | sed 's/- //g' > shard3; \
-  cat .cluster-keys.yaml | grep root_token | awk -F: '{print $2}' | sed 's/ //g' > root_token"
+  shell: "cat  {{ ansible_facts.user_dir }}/.cluster-keys.yaml | head -7 | tail -1 | sed 's/- //g' > shard1; \
+  cat  {{ ansible_facts.user_dir }}/.cluster-keys.yaml | head -8 | tail -1 | sed 's/- //g' > shard2; \
+  cat  {{ ansible_facts.user_dir }}/.cluster-keys.yaml | head -9 | tail -1 | sed 's/- //g' > shard3; \
+  cat  {{ ansible_facts.user_dir }}/.cluster-keys.yaml | grep root_token | awk -F: '{print $2}' | sed 's/ //g' > root_token"
   when: ('master_nodes' in group_names)
 
 - name: VAULT | Create secret kubernetes with the key shard
