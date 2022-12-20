@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: rabbitmq
+    app: dojot
+  name: rabbitmq
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: rabbitmq
+  template:
+    metadata:
+      labels:
+        name: rabbitmq
+        app: dojot
+    spec:
+      restartPolicy: Always
+      containers:
+      - image: rabbitmq:{{ dojot_rabbitmq_version }}
+        name: rabbitmq
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}

@@ -351,6 +351,22 @@
         - basic-http
         - report-manager
 
+    - role: rabbitmq
+      tags:
+        - gui-nx
+        - 100k
+        - basic-mqtt
+        - basic-http
+        - flowbroker
+
+    - role: flowbroker
+      tags:
+        - gui-nx
+        - 100k
+        - basic-mqtt
+        - basic-http
+        - flowbroker
+
 # Deploy Telemetria to the environment
 - hosts: dojot-k8s[0]
   any_errors_fatal: true
