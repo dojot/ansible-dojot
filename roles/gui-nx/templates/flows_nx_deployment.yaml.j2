@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    name: flows-nx
+    app: dojot
+  name: flows-nx
+  namespace: {{ dojot_namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dojot
+      name: flows-nx
+  template:
+    metadata:
+      labels:
+        name: flows-nx
+        app: dojot
+    spec:
+      containers:
+        - image: dojot/flows-nx:{{ dojot_gui_nx_version }}
+          name: templates-nx
+      restartPolicy: Always
+{% if dojot_enable_node_affinity %}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dojot.components/dojot
+                operator: In
+                values:
+                - "enabled"
+{% endif %}
