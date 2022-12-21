@@ -345,24 +345,19 @@
 
     - role: report-manager
       tags:
-        - gui-nx
-        - 100k
         - basic-mqtt
         - basic-http
         - report-manager
 
     - role: rabbitmq
       tags:
-        - gui-nx
-        - 100k
         - basic-mqtt
         - basic-http
         - flowbroker
+        - rabbitmq
 
     - role: flowbroker
       tags:
-        - gui-nx
-        - 100k
         - basic-mqtt
         - basic-http
         - flowbroker
