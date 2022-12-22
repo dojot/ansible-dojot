@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-telemetria-grafana
+  labels:
+    app: telemetria-grafana
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "{{ dojot_storage_class_name }}"
+{% if dojot_storage_class_name == "local-storage" %}
+  local:
+    path: {{ dojot_volume_directory }}/telemetria-grafana
+{% endif %}
+{% if dojot_storage_class_name == "nfs" %}
+  nfs:
+    server: {{ hostvars.nfs_host.ansible_host }}
+    path: {{ dojot_volume_directory }}/telemetria-grafana
+{% endif %}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: dojot.components/telemetria
+          operator: In
+          values:
+          - "enabled"

@@ -1,0 +1,16 @@
+upstream telemetria_backend {
+    zone telemetria_backend 256k;
+    least_conn;
+{% for node in groups['telemetria_nodes'] | default([]) %}
+    server {{ node }}:{{ dojot_nodeports.telemetria }};
+{% endfor %}
+}
+
+server {
+    listen 8088;
+    proxy_pass telemetria_backend;
+    proxy_timeout 10m;
+    proxy_connect_timeout 5s;
+    proxy_buffer_size 16k;
+    ssl_session_cache shared:SSL:1m;
+}

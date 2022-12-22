@@ -16,3 +16,5 @@ dojot_reports_nx_port: 80
 dojot_security_nx_port: 80
 
 dojot_templates_nx_port: 80
+
+dojot_flows_nx_port: 80

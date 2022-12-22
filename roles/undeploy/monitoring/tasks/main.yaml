@@ -1,62 +1,75 @@
----
-
 - name: Get the StatefulSet in the dojot-monitoring namespace
   k8s_info:
     kind: StatefulSet
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
   register: pod_list
 
-- name:  Delete StatefulSet
+- name: Delete StatefulSet
   k8s:
     state: absent
     api_version: v1
     kind: StatefulSet
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
     name: "{{ item }}"
   loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
 
 - name: Get the Deployments in the dojot-monitoring namespace
   k8s_info:
     kind: Deployment
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
   register: pod_list
 
-- name:  Delete Deployments
+- name: Delete Deployments
   k8s:
     state: absent
     api_version: v1
     kind: Deployment
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
     name: "{{ item }}"
   loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
 
 - name: Get the Services in the dojot-monitoring namespace
   k8s_info:
     kind: Service
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
   register: pod_list
 
-- name:  Delete Services
+- name: Delete Services
   k8s:
     state: absent
     api_version: v1
     kind: Service
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
+    name: "{{ item }}"
+  loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
+
+- name: Get the Pods in the dojot-monitoring namespace
+  k8s_info:
+    kind: Pod
+    namespace: "{{ dojot_monitoring_namespace }}"
+  register: pod_list
+
+- name: Delete Pods
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Pod
+    namespace: "{{ dojot_monitoring_namespace }}"
     name: "{{ item }}"
   loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
 
 - name: Get the PVC's in the dojot-monitoring namespace
   k8s_info:
     kind: pvc
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
   register: pod_list
 
-- name:  Delete PVC's
+- name: Delete PVC's
   k8s:
     state: absent
     api_version: v1
     kind: pvc
-    namespace: dojot-monitoring
+    namespace: "{{ dojot_monitoring_namespace }}"
     name: "{{ item }}"
   loop: "{{ pod_list | json_query('resources[*].metadata.name') }}"
 
@@ -64,7 +77,7 @@
   kubernetes.core.helm:
     release_state: absent
     release_name: "{{ item }}"
-    release_namespace: dojot-monitoring
+    release_namespace: "{{ dojot_monitoring_namespace }}"
   with_items:
     - "promtail"
     - "prometheus-stack"
@@ -73,7 +86,6 @@
     - "kafka-exporter"
     - "mongodb-exporter"
     - "postgres-exporter"
-    - "rabbitmq-exporter"
 
 - name: Remove Helm repositories
   kubernetes.core.helm_repository:
@@ -100,9 +112,9 @@
     - "thanosrulers.monitoring.coreos.com"
 
 - name: Disassociate dojot old PV's
+  ignore_errors: true
   command: "{{ item }}"
   with_items:
-    - "kubectl patch pv pv-prometheus -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-grafana -p '{\"spec\":{\"claimRef\": null}}'"
-    - "kubectl patch pv pv-loki -p '{\"spec\":{\"claimRef\": null}}'"
-
+    - 'kubectl patch pv pv-prometheus -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-grafana -p ''{"spec":{"claimRef": null}}'''
+    - 'kubectl patch pv pv-loki -p ''{"spec":{"claimRef": null}}'''

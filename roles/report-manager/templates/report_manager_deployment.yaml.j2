@@ -25,25 +25,25 @@ spec:
         env:
         - name: HOSTNAME
           value: report-manager
-        - name: REPORT_MANAGER_CONSUMER_METADATA_BROKER_LIST
+        - name: REPORTMANAGER_CONSUMER_METADATA_BROKER_LIST
           value: "kafka-server:{{ dojot_kafka_port }}"
-        - name: REPORT_MANAGER_REDIS_HOST
+        - name: REPORTMANAGER_REDIS_HOST
           value: report-manager-redis
-        - name: REPORT_MANAGER_POSTGRES_USER
+        - name: REPORTMANAGER_POSTGRES_USER
           valueFrom:
             secretKeyRef:
               name: postgres-secret
               key: user
-        - name: REPORT_MANAGER_POSTGRES_PASSWORD
+        - name: REPORTMANAGER_POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: postgres-secret
               key: password
-        - name: REPORT_MANAGER_REDIS_HOST
+        - name: REPORTMANAGER_REDIS_HOST
           value: report-manager-redis
-        - name: REPORT_MANAGER_KEYCLOAK_CLIENT_SECRET_FILE
+        - name: REPORTMANAGER_KEYCLOAK_CLIENT_SECRET_FILE
           value: "dojot-report-manager"
-        - name: REPORT_MANAGER_KEYCLOAK_URL
+        - name: REPORTMANAGER_KEYCLOAK_URL
           value: "http://keycloak:8080"
         readinessProbe:
           exec:

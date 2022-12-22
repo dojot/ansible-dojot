@@ -3,20 +3,20 @@
   until: task_result.rc == 0
   retries: 30
   delay: 30
-  shell: "if [ ! -s {{ ansible_facts.user_dir }}/.cluster-keys.yaml ]; then kubectl exec -n {{ dojot_namespace }} vault-0 -- vault operator init -key-shares=5 -key-threshold=3 -format=yaml > .cluster-keys.yaml; fi"
+  shell: "if [ ! -s {{ ansible_facts.user_dir }}/.cluster-keys.yaml ]; then kubectl exec -n {{ dojot_namespace }} vault-0 -- vault operator init -key-shares=5 -key-threshold=3 -format=yaml > {{ ansible_facts.user_dir }}/.cluster-keys.yaml; fi"
   ignore_errors: true
   when: ('master_nodes' in group_names)
 
 - name: VAULT | Create secret from file with key shard and root_token
-  shell: "cat .cluster-keys.yaml | head -7 | tail -1 | sed 's/- //g' > shard1; \
-  cat .cluster-keys.yaml | head -8 | tail -1 | sed 's/- //g' > shard2; \
-  cat .cluster-keys.yaml | head -9 | tail -1 | sed 's/- //g' > shard3; \
-  cat .cluster-keys.yaml | grep root_token | awk -F: '{print $2}' | sed 's/ //g' > root_token"
+  shell: "cat  {{ ansible_facts.user_dir }}/.cluster-keys.yaml | head -7 | tail -1 | sed 's/- //g' > shard1; \
+  cat {{ ansible_facts.user_dir }}/.cluster-keys.yaml | head -8 | tail -1 | sed 's/- //g' > shard2; \
+  cat {{ ansible_facts.user_dir }}/.cluster-keys.yaml | head -9 | tail -1 | sed 's/- //g' > shard3; \
+  cat {{ ansible_facts.user_dir }}/.cluster-keys.yaml | grep root_token | awk -F: '{print $2}' | sed 's/ //g' > root_token"
   when: ('master_nodes' in group_names)
 
 - name: VAULT | Create secret kubernetes with the key shard
   shell: "kubectl delete secret dojot-key-vault -n {{ dojot_namespace }}; \
-  kubectl create secret generic dojot-key-vault -n {{ dojot_namespace }} --from-file={{ ansible_facts.user_dir }}/shard1 --from-file={{ ansible_facts.user_dir }}/shard2 --from-file={{ ansible_facts.user_dir }}/shard3 --from-file={{ ansible_facts.user_dir }}/root_token"
+  kubectl create secret generic dojot-key-vault -n {{ dojot_namespace }} --from-file=shard1 --from-file=shard2 --from-file=shard3 --from-file=root_token"
   when: ('master_nodes' in group_names)
 
 - name: VAULT | Get key shard 1
@@ -139,6 +139,7 @@
     dojot-certificate-acl={{ dojot_secret.stdout_lines[0] }} \
     dojot-cron={{ dojot_secret.stdout_lines[0] }} \
     dojot-device-manager-sidecar={{ dojot_secret.stdout_lines[0] }} \
+    dojot-device-manager-batch={{ dojot_secret.stdout_lines[0] }} \
     dojot-file-mgmt={{ dojot_secret.stdout_lines[0] }} \
     dojot-http-agent={{ dojot_secret.stdout_lines[0] }} \
     dojot-influxdb-retriever={{ dojot_secret.stdout_lines[0] }} \
@@ -147,6 +148,7 @@
     dojot-report-manager={{ dojot_secret.stdout_lines[0] }} \
     dojot-v2k-bridge={{ dojot_secret.stdout_lines[0] }} \
     dojot-device-manager-batch={{ dojot_secret.stdout_lines[0] }} \
+    dojot-flowbroker={{ dojot_secret.stdout_lines[0] }} \
     KEYCLOAK_PROXY={{ dojot_secret.stdout_lines[0] }} \
     KEYCLOAK_PROXY_USER={{ dojot_secret.stdout_lines[0] }}"
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/backstage BS_SESSION_SECRET={{ backstage_secret.stdout_lines[0] }}"

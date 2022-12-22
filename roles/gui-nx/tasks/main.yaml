@@ -18,6 +18,7 @@
   - "{{ lookup('template', 'devices_nx_deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'templates_nx_deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'security_nx_deployment.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'flows_nx_deployment.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'container_nx_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'common_nx_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'home_nx_service.yaml.j2') | from_yaml }}"
@@ -26,3 +27,4 @@
   - "{{ lookup('template', 'devices_nx_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'templates_nx_service.yaml.j2') | from_yaml }}"
   - "{{ lookup('template', 'security_nx_service.yaml.j2') | from_yaml }}"
+  - "{{ lookup('template', 'flows_nx_service.yaml.j2') | from_yaml }}"

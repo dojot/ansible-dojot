@@ -1,6 +1,7 @@
 ---
 # roles/metrics/tasks/promtail.yml
 - name: Metrics | Promtail | Deploy Promtail chart with values loaded from template
+  when: optional['metrics']
   kubernetes.core.helm:
     kubeconfig: "{{ dojot_kubeconfig_file_path | default(omit) }}"
     chart_ref: grafana/promtail
