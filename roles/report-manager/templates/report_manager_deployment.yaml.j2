@@ -45,6 +45,12 @@ spec:
           value: "dojot-report-manager"
         - name: REPORT_MANAGER_KEYCLOAK_URL
           value: "http://keycloak:8080"
+        readinessProbe:
+          exec:
+            command:
+              - curl
+              - -f
+              - http://localhost:9000/health
         livenessProbe:
           exec:
             command:

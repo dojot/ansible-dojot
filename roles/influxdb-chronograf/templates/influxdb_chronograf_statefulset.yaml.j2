@@ -22,6 +22,28 @@ spec:
       containers:
       - image: chronograf:{{ dojot_influxdb_chronograf_version }}
         name: influxdb-chronograf
+        readinessProbe:
+          exec:
+            command:
+              - curl
+              - -f
+              - http://localhost:8888
+          failureThresold: 1
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          exec:
+            command:
+              - curl
+              - -f
+              - http://localhost:8888
+          failureThresold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 3
         env:
         - name: INFLUXDB_URL
           value: http://influxdb:8086
