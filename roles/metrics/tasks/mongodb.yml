@@ -9,6 +9,6 @@
   kubernetes.core.helm:
     name: mongodb-exporter
     chart_ref: prometheus-community/prometheus-mongodb-exporter
-    chart_version: 3.1.1
+    chart_version: 3.1.2
     release_namespace: "{{ dojot_monitoring_namespace }}"
     values: "{{ lookup('template', 'mongodb-exporter/mongodb-exporter-values.yml.j2') | from_yaml }}"

@@ -65,7 +65,7 @@ grafana:
     labels:
       app: grafana
     name: grafana
-    namespace: "{ dojot_monitoring_namespace }}"
+    namespace: "{{ dojot_monitoring_namespace }}"
 
   dashboardProviders:
     dashboardproviders.yaml:
@@ -109,16 +109,17 @@ grafana:
       defaultDatasourceEnabled: true
 
       uid: prometheus
-      url: http://monitoring-stack-kube-prom-prometheus.dojot-monitoring.svc.cluster.local:9090
+      url: http://monitoring-stack-kube-prom-prometheus.{{ dojot_monitoring_namespace }}.svc.cluster.local:9090
       createPrometheusReplicasDatasources: false
       label: grafana_datasource
       labelValue: "1"
 
-    additionalDataSources:
-      - name: Loki
-        acess: proxy
-        editable: true
-        url: http://loki.dojot-monitoring.svc.cluster.local:3100
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      acess: proxy
+      editable: true
+      url: http://loki.{{ dojot_monitoring_namespace }}.svc.cluster.local:3100
 
   service:
     portName: http-web
@@ -370,14 +371,6 @@ prometheusOperator:
       repository: quay.io/prometheus-operator/prometheus-config-reloader
       tag: v0.58.0
 
-    resources:
-      limits:
-        cpu: 200m
-        memory: 128Mi
-      requests:
-        cpu: 200m
-        memory: 50Mi
-
   thanosImage:
     repository: quay.io/thanos/thanos
     tag: v0.27.0
@@ -455,13 +448,6 @@ prometheus:
               - "enabled"
     {% endif %}
 
-    resources:
-      limits:
-        cpu: 100m
-        memory: 128Mi
-      requests:
-        cpu: 10m
-        memory: 32Mi
 
     storageSpec:
       volumeClaimTemplate:
@@ -482,39 +468,39 @@ prometheus:
       - job_name: kafka-exporter
         static_configs:
           - targets:
-            - kafka-exporter-prometheus-kafka-exporter.dojot-monitoring.svc.cluster.local:9308
+            - kafka-exporter-prometheus-kafka-exporter.{{ dojot_monitoring_namespace }}.svc.cluster.local:9308
         scrape_interval: 5m
         scrape_timeout: 30s
 
       - job_name: 'vernemq-k8s'
         static_configs:
-          - targets: ['vernemq-k8s-service.dojot.svc.cluster.local:8888']
+          - targets: ['vernemq-k8s-service.{{ dojot_namespace }}.svc.cluster.local:8888']
         scrape_interval: 5s
         scrape_timeout: 5s
 
       - job_name: 'kong'
         static_configs:
-          - targets: ['kong.dojot.svc.cluster.local:8001']
+          - targets: ['kong.{{ dojot_namespace }}.svc.cluster.local:8001']
         scrape_interval: 5s
         scrape_timeout: 5s
 
       - job_name: 'influxdb'
         static_configs:
-          - targets: ['influxdb.dojot.svc.cluster.local:8086']
+          - targets: ['influxdb.{{ dojot_namespace }}.svc.cluster.local:8086']
         scrape_interval: 5s
         scrape_timeout: 5s
 
       - job_name: mongodb-exporter
         static_configs:
           - targets:
-            - mongodb-exporter-prometheus-mongodb-exporter.dojot-monitoring.svc.cluster.local:9216
+            - mongodb-exporter-prometheus-mongodb-exporter.{{ dojot_monitoring_namespace }}.svc.cluster.local:9216
         scrape_interval: 5m
         scrape_timeout: 30s
 
       - job_name: postgres-exporter
         static_configs:
           - targets:
-            - postgres-exporter-prometheus-postgres-exporter.dojot-monitoring.svc.cluster.local:80
+            - postgres-exporter-prometheus-postgres-exporter.{{ dojot_monitoring_namespace }}.svc.cluster.local:80
         scrape_interval: 5m
         scrape_timeout: 30s
 
