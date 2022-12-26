@@ -11,11 +11,7 @@ affinity:
 {% endif %}
 
 extraArgs:
-- --collect.collection
-- --collect.database
-- --collect.indexusage
-- --collect.topmetrics
-- --collect.connpoolstats
+  - --collect-all
 
 image:
   pullPolicy: IfNotPresent
