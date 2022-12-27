@@ -22,6 +22,24 @@ spec:
       containers:
       - image: rabbitmq:{{ dojot_rabbitmq_version }}
         name: rabbitmq
+        readinessProbe:
+          exec:
+            command:
+              - rabbitmq-diagnostics
+              - -q
+              - ping
+          failureThreshold: 30
+          periodSeconds: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          exec:
+            command:
+              - rabbitmq-diagnostics
+              - -q
+              - ping
+          failureThreshold: 30
+          periodSeconds: 1
+          timeoutSeconds: 3
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

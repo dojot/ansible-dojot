@@ -22,6 +22,22 @@ spec:
       containers:
       - image: dojot/redis:6.0.4-alpine3.11
         name: certificate-acl-redis
+        readinessProbe:
+          exec:
+            command:
+              - redis-cli
+              - ping
+          failureThreshold: 30
+          periodSeconds: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          exec:
+            command:
+              - redis-cli
+              - ping
+          failureThreshold: 30
+          periodSeconds: 1
+          timeoutSeconds: 3
 {% if dojot_enable_node_affinity %}
       affinity:
         nodeAffinity:

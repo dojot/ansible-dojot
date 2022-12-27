@@ -22,6 +22,24 @@ spec:
       containers:
       - name: iotagent-mqtt-keycloak-sidecar
         image: dojot/keycloak-microservice-sidecar:{{ dojot_backend_version }}
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9000
+          failureThresold: 1
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 3
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 9000
+          failureThresold: 3
+          initialDelaySeconds: 15
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 3
         env:
         - name: HOSTNAME
           value: iotagent-mqtt-keycloak-sidecar-1
