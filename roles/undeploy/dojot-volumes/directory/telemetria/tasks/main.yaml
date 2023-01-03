@@ -1,4 +1,5 @@
 ---
+
 - name: Remove Telemetria volume directory
   become: yes
   file:
