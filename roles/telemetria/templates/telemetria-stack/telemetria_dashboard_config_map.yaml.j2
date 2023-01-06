@@ -108,6 +108,31 @@ data:
         "panels": [
             {
             "datasource": {
+                "type": "datasource",
+                "uid": "grafana"
+            },
+            "gridPos": {
+                "h": 10,
+                "w": 13,
+                "x": 5,
+                "y": 0
+            },
+            "id": 48,
+            "options": {
+                "code": {
+                "language": "plaintext",
+                "showLineNumbers": false,
+                "showMiniMap": false
+                },
+                "content": "Para que os dados dos painéis deste dashboard tenham uma representação mais próxima do real, é aconselhável que na dojot seja feito o seguinte:\n\nCriar um modelo na dojot com os seguintes atributos, todos do tipo Float: \n - temperatura\n - umidade\n - latitude\n - longitude\n\n Criar 2 dispositivos para esse modelo.\n\n Publicar alguns valores ao longo de alguns minutos / horas / dias para estes dispositivos:\n - temperatura entre 0 e 35 graus;\n - umidade entre 20 e 100 %;\n - latitude / longitude: obter do Google Maps. Sugestão: usar algo no entorno do CPQD, exemplo: -22.81509552172684, -47.04427891668179\n ",
+                "mode": "markdown"
+            },
+            "pluginVersion": "9.2.1",
+            "title": "Orientações gerais",
+            "type": "text"
+            },
+            {
+            "datasource": {
                 "type": "influxdb",
                 "uid": "InfluxDB"
             },
@@ -161,13 +186,38 @@ data:
                     ]
                 }
                 },
-                "overrides": []
+                "overrides": [
+                {
+                    "__systemRef": "hideSeriesFrom",
+                    "matcher": {
+                    "id": "byNames",
+                    "options": {
+                        "mode": "exclude",
+                        "names": [
+                        "dojot.temperatura admin"
+                        ],
+                        "prefix": "All except:",
+                        "readOnly": true
+                    }
+                    },
+                    "properties": [
+                    {
+                        "id": "custom.hideFrom",
+                        "value": {
+                        "legend": false,
+                        "tooltip": false,
+                        "viz": true
+                        }
+                    }
+                    ]
+                }
+                ]
             },
             "gridPos": {
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 0
+                "y": 10
             },
             "id": 17,
             "options": {
@@ -206,7 +256,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 0
+                "y": 10
             },
             "id": 35,
             "options": {
@@ -215,7 +265,7 @@ data:
                 "showLineNumbers": false,
                 "showMiniMap": false
                 },
-                "content": "# Linha com 1 atributo para 1 dispositivo sem uso de variáveis\n\nGráfico simples que exibe o atributo temperatura do dispositivo \"10c325\" ao longo do tempo.\nO range utilizado na query \"aponta\" para o combo de período que está no menu, no topo, onde é possível escolher diversos períodos. Esse range, por sua vez, também é parametrizável, podendo aceitar muitos valores, e não apenas os valores contidos no referido combo.\nA função \"toFloat()\" no final da query é necessária para converter o valor da temperatura de string para float, pois, hoje na Dojot, todos os dados são gravados como string (apesar de recentemente ter sido implementada uma configuração para isso na Dojot, permitindo a gravação e recuperação dos dados do InfluxDB pelos tipos originais).",
+                "content": "# Linha com 1 atributo para 1 dispositivo sem uso de variáveis\n\nGráfico simples que exibe o atributo temperatura de um dispositivo ao longo do tempo.\nO range utilizado na query \"aponta\" para o combo de período que está no menu, no topo, onde é possível escolher diversos períodos. Esse range, por sua vez, também é parametrizável, podendo aceitar muitos valores, e não apenas os valores contidos no referido combo.\nA função \"toFloat()\" no final da query é necessária para converter o valor da temperatura de string para float, pois, hoje na Dojot, todos os dados são gravados como string (apesar de recentemente ter sido implementada uma configuração para isso na Dojot, permitindo a gravação e recuperação dos dados do InfluxDB pelos tipos originais).",
                 "mode": "markdown"
             },
             "pluginVersion": "9.2.1",
@@ -326,7 +376,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 8
+                "y": 18
             },
             "id": 18,
             "options": {
@@ -374,7 +424,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 8
+                "y": 18
             },
             "id": 36,
             "options": {
@@ -431,7 +481,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 16
+                "y": 26
             },
             "id": 20,
             "options": {
@@ -470,7 +520,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 16
+                "y": 26
             },
             "id": 37,
             "options": {
@@ -556,7 +606,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 24
+                "y": 34
             },
             "id": 21,
             "options": {
@@ -595,7 +645,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 24
+                "y": 34
             },
             "id": 38,
             "options": {
@@ -681,7 +731,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 32
+                "y": 42
             },
             "id": 22,
             "options": {
@@ -720,7 +770,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 32
+                "y": 42
             },
             "id": 39,
             "options": {
@@ -806,7 +856,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 40
+                "y": 50
             },
             "id": 23,
             "options": {
@@ -828,7 +878,7 @@ data:
                     "type": "influxdb",
                     "uid": "InfluxDB"
                 },
-                "query": "from(bucket:\"devices\")\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n|> filter(fn: (r) => r._measurement == \"${deviceId}\" and r._field == \"dojot.${field}\")\n|> map(fn: (r) => ({r with Temperatura: float(v: r._value)}))\n|> keep(columns: [\"Temperatura\", \"_time\"])",
+                "query": "from(bucket:\"devices\")\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n|> filter(fn: (r) => r._measurement == \"${deviceId}\" and r._field == \"dojot.${field}\")\n|> map(fn: (r) => ({r with \"${field}\": float(v: r._value)}))\n|> keep(columns: [\"${field}\", \"_time\"])",
                 "refId": "A"
                 }
             ],
@@ -845,7 +895,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 40
+                "y": 50
             },
             "id": 40,
             "options": {
@@ -926,38 +976,13 @@ data:
                     ]
                 }
                 },
-                "overrides": [
-                {
-                    "matcher": {
-                    "id": "byName",
-                    "options": "10c325"
-                    },
-                    "properties": [
-                    {
-                        "id": "unit",
-                        "value": "celsius"
-                    }
-                    ]
-                },
-                {
-                    "matcher": {
-                    "id": "byName",
-                    "options": "9eac60"
-                    },
-                    "properties": [
-                    {
-                        "id": "unit",
-                        "value": "celsius"
-                    }
-                    ]
-                }
-                ]
+                "overrides": []
             },
             "gridPos": {
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 48
+                "y": 58
             },
             "id": 15,
             "options": {
@@ -979,7 +1004,7 @@ data:
                     "type": "influxdb",
                     "uid": "InfluxDB"
                 },
-                "query": "from(bucket:\"devices\")\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n|> filter(fn: (r) => contains(value: r[\"_measurement\"], set: ${devicesIds:json}))\n|> filter(fn: (r) => r[\"_field\"] == \"dojot.${field}\")\n|> toFloat()\n|> drop(columns: [\"_field\"])",
+                "query": "from(bucket:\"devices\")\n|> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n|> filter(fn: (r) => contains(value: r[\"_measurement\"], set: ${devicesIds:json}))\n|> filter(fn: (r) => r[\"_field\"] == \"dojot.${field}\")\n|> map(fn: (r) => ({r with \"${devices}\": float(v: r._value)}))\n|> keep(columns: [\"${devices}\", \"_time\"])\n|> toFloat()\n|> drop(columns: [\"_value\"])\n",
                 "refId": "A"
                 }
             ],
@@ -996,7 +1021,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 48
+                "y": 58
             },
             "id": 41,
             "options": {
@@ -1005,7 +1030,7 @@ data:
                 "showLineNumbers": false,
                 "showMiniMap": false
                 },
-                "content": "# Linha com 1 atributo para 2 dispositivos variáveis\n\nNesse painel, a query utiliza uma variável que contém uma lista de IDs que é carregada através da seleção do combo \"Dispositivos\". Nesse combo é possível selecionar mais de um dispositivo de uma vez. Assim como num painel anterior, aqui também usa-se o nome dos dispositivos no combo, porém, usa-se os IDs na query. Nesse painel selecionamos 2 dispositivos na lista, mas é possível inserir mais, sendo recomendado, nesse caso, atualizar a configuração \"override\", já explicada anteriormente, para que os novos dispositivos exibam a unidade de medida correta. Na query utilizamos a função drop() para ocultar o nome do atributo no gráfico, deixando apenas o ID do dispositivo.",
+                "content": "# Linha com 1 atributo para 2 dispositivos variáveis\n\nNesse painel, a query utiliza uma variável que contém uma lista de IDs que é carregada através da seleção do combo \"Dispositivos\". Nesse combo é possível selecionar mais de um dispositivo de uma vez. Assim como num painel anterior, aqui também usa-se o nome dos dispositivos no combo, porém, usa-se os IDs na query. Nesse painel selecionamos 2 dispositivos na lista, mas é possível inserir mais, sendo recomendado, nesse caso, atualizar a configuração \"override\", já explicada anteriormente, para que os novos dispositivos exibam a unidade de medida correta. Na query utilizamos a função drop() para ocultar o nome do atributo no gráfico, deixando apenas os nomes dos dispositivos selecionados.",
                 "mode": "markdown"
             },
             "pluginVersion": "9.2.1",
@@ -1113,7 +1138,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 56
+                "y": 66
             },
             "id": 28,
             "options": {
@@ -1152,7 +1177,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 56
+                "y": 66
             },
             "id": 42,
             "options": {
@@ -1238,7 +1263,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 64
+                "y": 74
             },
             "id": 29,
             "options": {
@@ -1279,7 +1304,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 64
+                "y": 74
             },
             "id": 43,
             "options": {
@@ -1332,7 +1357,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 72
+                "y": 82
             },
             "id": 30,
             "options": {
@@ -1371,7 +1396,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 72
+                "y": 82
             },
             "id": 44,
             "options": {
@@ -1435,7 +1460,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 80
+                "y": 90
             },
             "id": 31,
             "options": {
@@ -1447,7 +1472,7 @@ data:
                 "fields": "",
                 "values": false
                 },
-                "showThresholdLabels": false,
+                "showThresholdLabels": true,
                 "showThresholdMarkers": true
             },
             "pluginVersion": "9.2.1",
@@ -1474,7 +1499,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 80
+                "y": 90
             },
             "id": 45,
             "options": {
@@ -1537,7 +1562,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 0,
-                "y": 88
+                "y": 98
             },
             "id": 33,
             "options": {
@@ -1560,9 +1585,9 @@ data:
                     "showLegend": true,
                     "style": {
                         "color": {
-                        "fixed": "dark-green"
+                        "fixed": "green"
                         },
-                        "opacity": 0.4,
+                        "opacity": 0.7,
                         "rotation": {
                         "fixed": 0,
                         "max": 360,
@@ -1570,7 +1595,7 @@ data:
                         "mode": "mod"
                         },
                         "size": {
-                        "fixed": 5,
+                        "fixed": 8,
                         "max": 15,
                         "min": 2
                         },
@@ -1631,7 +1656,7 @@ data:
                 "h": 8,
                 "w": 12,
                 "x": 12,
-                "y": 88
+                "y": 98
             },
             "id": 46,
             "options": {
@@ -1657,7 +1682,7 @@ data:
             "type": "text"
             }
         ],
-        "refresh": "",
+        "refresh": false,
         "schemaVersion": 37,
         "style": "dark",
         "tags": [],
@@ -1857,13 +1882,13 @@ data:
             ]
         },
         "time": {
-            "from": "now-30m",
+            "from": "now-2d",
             "to": "now"
         },
         "timepicker": {},
         "timezone": "",
         "title": "Telemetria Dash",
         "uid": "-6fKkWVVz1",
-        "version": 1,
+        "version": 2,
         "weekStart": ""
         }
