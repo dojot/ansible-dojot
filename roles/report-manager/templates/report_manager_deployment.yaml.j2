@@ -45,21 +45,21 @@ spec:
           value: "dojot-report-manager"
         - name: REPORTMANAGER_KEYCLOAK_URL
           value: "http://keycloak:8080"
-        readinessProbe:
-          exec:
-            command:
-              - curl
-              - -f
-              - http://localhost:9000/ready
-        livenessProbe:
-          exec:
-            command:
-              - curl
-              - -f
-              - http://localhost:9000/health
-          failureThreshold: 3
-          periodSeconds: 30
-          timeoutSeconds: 20
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #       - curl
+        #       - -f
+        #       - http://localhost:9000/ready
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #       - curl
+        #       - -f
+        #       - http://localhost:9000/health
+        #   failureThreshold: 3
+        #   periodSeconds: 30
+        #   timeoutSeconds: 20
         volumeMounts:
         - name: dojot-secrets-volume
           mountPath: "/secrets"
