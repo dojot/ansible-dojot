@@ -21,24 +21,24 @@ spec:
       containers:
         - image: dojot/reports-nx:{{ dojot_gui_nx_version }}
           name: reports-nx
-          readinessProbe:
-            exec:
-              command:
-                - service
-                - nginx
-                - status
-            failureThreshold: 30
-            periodSeconds: 1
-            timeoutSeconds: 3
-          livenessProbe:
-            exec:
-              command:
-                - service
-                - nginx
-                - status
-            failureThreshold: 30
-            periodSeconds: 1
-            timeoutSeconds: 3
+          # readinessProbe:
+          #   exec:
+          #     command:
+          #       - service
+          #       - nginx
+          #       - status
+          #   failureThreshold: 30
+          #   periodSeconds: 1
+          #   timeoutSeconds: 3
+          # livenessProbe:
+          #   exec:
+          #     command:
+          #       - service
+          #       - nginx
+          #       - status
+          #   failureThreshold: 30
+          #   periodSeconds: 1
+          #   timeoutSeconds: 3
       restartPolicy: Always
 {% if dojot_enable_node_affinity %}
       affinity:
