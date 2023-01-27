@@ -128,6 +128,7 @@
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/devm user=devm password={{ devm_secret.stdout_lines[0] }} crypto_pass=kamehameHA crypto_iv=1234567890123456 crypto_salt=shuriken"
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/x509-ejbca user=ejbca password={{ x509_ejbca_secret.stdout_lines[0] }}"
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/keycloak user=keycloak password={{ keycloak_secret.stdout_lines[0] }} db=keycloak"
+    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/backstage user=backstage password={{ backstage_password.stdout_lines[0] }} database=backstage BS_SESSION_SECRET={{ backstage_secret.stdout_lines[0] }}"
 
 - name: VAULT | Insert secrets
   ignore_errors: true
@@ -139,7 +140,6 @@
     dojot-certificate-acl={{ dojot_secret.stdout_lines[0] }} \
     dojot-cron={{ dojot_secret.stdout_lines[0] }} \
     dojot-device-manager-sidecar={{ dojot_secret.stdout_lines[0] }} \
-    dojot-device-manager-batch={{ dojot_secret.stdout_lines[0] }} \
     dojot-file-mgmt={{ dojot_secret.stdout_lines[0] }} \
     dojot-http-agent={{ dojot_secret.stdout_lines[0] }} \
     dojot-influxdb-retriever={{ dojot_secret.stdout_lines[0] }} \
@@ -151,7 +151,6 @@
     dojot-flowbroker={{ dojot_secret.stdout_lines[0] }} \
     KEYCLOAK_PROXY={{ dojot_secret.stdout_lines[0] }} \
     KEYCLOAK_PROXY_USER={{ dojot_secret.stdout_lines[0] }}"
-    - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/backstage BS_SESSION_SECRET={{ backstage_secret.stdout_lines[0] }}"
     - "kubectl exec vault-0 -n {{ dojot_namespace }} -- vault kv put -cas=0 secret/kafka-ws KAFKA_WS_TICKET_SECRET={{ kafka_ws_secret.stdout_lines[0] }}"
 
 
