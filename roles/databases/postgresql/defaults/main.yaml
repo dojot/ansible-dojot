@@ -22,6 +22,10 @@ dojot_psql_keycloak_user: keycloak
 dojot_psql_keycloak_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.keycloak_password') }}"
 dojot_psql_keycloak_db: keycloak
 
+dojot_psql_backstage_user: backstage
+dojot_psql_backstage_passwd: "{{ lookup('file', '{{ playbook_dir }}/inventories/secrets/.backstage_password') }}"
+dojot_psql_backstage_db: backstage
+
 # Port to be used with the postgreSQL DB
 dojot_psql_port: 5432
 

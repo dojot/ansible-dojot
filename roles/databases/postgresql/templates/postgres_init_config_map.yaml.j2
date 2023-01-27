@@ -17,3 +17,6 @@ data:
         CREATE DATABASE {{ dojot_psql_keycloak_db }};
         CREATE USER {{ dojot_psql_keycloak_user }} WITH ENCRYPTED PASSWORD '{{ keycloak_secret.stdout_lines[0] }}';
         GRANT ALL PRIVILEGES ON DATABASE {{ dojot_psql_keycloak_db }} TO {{ dojot_psql_keycloak_user }};
+        CREATE DATABASE {{ dojot_psql_backstage_db }};
+        CREATE USER {{ dojot_psql_backstage_user }} WITH ENCRYPTED PASSWORD '{{ backstage_password.stdout_lines[0] }}';
+        GRANT ALL PRIVILEGES ON DATABASE {{ dojot_psql_backstage_db }} TO {{ dojot_psql_backstage_user }};

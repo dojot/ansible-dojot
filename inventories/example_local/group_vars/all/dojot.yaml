@@ -1,8 +1,13 @@
 # Set the dojot deployment namespace
 dojot_namespace: dojot
 dojot_monitoring_namespace: dojot-monitoring
+<<<<<<< HEAD
 dojot_backend_version: development
 dojot_frontend_version: development
+=======
+dojot_backend_version: v1.0.0-rc.3
+dojot_frontend_version: v1.0.0-rc.3
+>>>>>>> dojot/release/v1.0.0
 dojot_domain_name: localhost
 
 # Parameters used when active HTTPS in NGINX

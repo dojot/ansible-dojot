@@ -26,6 +26,7 @@
   local_action: command touch {{ playbook_dir }}/inventories/secrets/{{item.file}}
   loop:
     - { file: '.backstage_secret' }
+    - { file: '.backstage_password' }
     - { file: '.devm_password' }
     - { file: '.dojot_secret' }
     - { file: '.influxdb_password' }
@@ -180,6 +181,19 @@
 - name: Copy backstage_secret to secret file
   local_action: copy content="{{ backstage_secret.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.backstage_secret"
   when: not file_backstage_secret.stdout and not optional['vault']
+
+- name: Generate postgres random secret
+  command: /usr/bin/openssl rand -hex 8
+  register: backstage_password
+
+- name: Checking if secret file exist
+  ignore_errors: true
+  local_action: command find {{ playbook_dir }}/inventories/secrets/.backstage_password -type f -size +0
+  register: file_backstage_password
+
+- name: Copy backstage_secret to secret file
+  local_action: copy content="{{ backstage_password.stdout_lines[0] }}" dest="{{ playbook_dir }}/inventories/secrets/.backstage_password"
+  when: not file_backstage_password.stdout and not optional['vault']
 
 - name: Generate kafka-ws random secret
   command: /usr/bin/openssl rand -base64 45
